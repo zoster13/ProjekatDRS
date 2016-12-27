@@ -5,8 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="625" Width="870">
     <Grid>
-        
+        <TabControl x:Name="tabControl" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
+            <TabItem Height="0">
+                <Grid>
+                    <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="246,263,447,256"/>
+                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="246,221,447,298"/>
+                    <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163"/>
+                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163"/>
+                    <Button x:Name="logInButton" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Height="0">
+                <Grid>
+                    <TabControl x:Name="tabControl1" Margin="21,73,21,20">
+                        <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39">
+                            <Grid Background="#FFE5E5E5" Margin="0,16,0,0"/>
+                        </TabItem>
+                        <TabItem Header="Work" Margin="21,10,-49,-10" Height="39">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        </TabItem>
+                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        </TabItem>
+                        <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        </TabItem>
+                        <TabItem Header="Companies" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        </TabItem>
+                        <TabItem Header="Settings" Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="77" Height="39">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="label1" Content="Outsourcing Company Client" FontWeight="Bold" FontSize="32" HorizontalAlignment="Left" Height="53" Margin="198,21,0,0" VerticalAlignment="Top" Width="444" Foreground="Black"/>
     </Grid>
 </Window>

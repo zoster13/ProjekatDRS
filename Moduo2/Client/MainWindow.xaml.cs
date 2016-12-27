@@ -24,5 +24,10 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void logInButton_Click(object sender, RoutedEventArgs e)
+        {
+            tabControl.SelectedIndex = 1;
+        }
     }
 }
