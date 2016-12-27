@@ -10,5 +10,11 @@ namespace ICommon
     {
 
         void SetName(string name);
+
+        void SetName1(string name);
+        void SetName2(string name);
+        void SetName3(string name);
+
+
     }
 }
