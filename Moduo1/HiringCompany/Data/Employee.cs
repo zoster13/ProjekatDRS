@@ -14,7 +14,7 @@ namespace HiringCompany
         HR
     }
 
-    public class Employee
+    public class Employee 
     {
         private EmployeeType type;
         private string name;
