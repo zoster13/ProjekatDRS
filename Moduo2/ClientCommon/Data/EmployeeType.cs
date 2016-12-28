@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Data
+namespace ClientCommon.Data
 {
     public enum EmployeeType
     {
+        CEO,
+        HR,
+        TEAMLEADER,
+        SCRUMMUSTER
     }
 }
