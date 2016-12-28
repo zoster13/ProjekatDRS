@@ -4,16 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HiringCompany
+namespace EmployeeCommon
 {
-    public enum EmployeeType
-    {
-        CEO = 0,
-        PO,        
-        HR,         
-        SM         
-    }
-
     public class Employee 
     {
         private string username;
