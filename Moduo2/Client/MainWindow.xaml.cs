@@ -31,7 +31,7 @@ namespace Client
 
             DataContext = LocalClientDatabase.Instance;
 
-            LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com"});
+            //LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com"});
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -78,9 +78,16 @@ namespace Client
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TabItem1_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //LocalClientDatabase.Instance.Employees = proxy
+            LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com" });
+
+            dataGridEmployees.Items.Refresh();
+
+            //using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
+            //{
+            //    proxy.LogIn(usernameBox.Text, passwordBox.Password);
+            //}
         }
 
     }

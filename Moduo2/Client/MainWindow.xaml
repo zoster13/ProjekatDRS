@@ -28,9 +28,9 @@
                             <TabControl x:Name="tabControlCEO" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
                             </TabControl>
                         </TabItem>
-                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True">
+                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True" MouseDown="TabItem1_MouseDown" VerticalAlignment="Top">
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
-                                <DataGrid ItemsSource="{Binding Employees, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
+                                <DataGrid x:Name="dataGridEmployees" ItemsSource="{Binding Employees, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                                         <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
@@ -38,7 +38,6 @@
                                         <DataGridTextColumn Header="e-mail" Binding="{Binding Email}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                                <Button Content="GetAllEmployees" HorizontalAlignment="Left" Height="28" Margin="259,17,0,0" VerticalAlignment="Top" Width="112" Click="Button_Click"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
