@@ -29,5 +29,15 @@ namespace Client
         {
             tabControl.SelectedIndex = 1;
         }
+
+        private void editPassword_Click(object sender, RoutedEventArgs e)
+        {
+            oldPasswordLabel.IsEnabled = true;
+            newPasswordLabel.IsEnabled = true;
+            confirmNewPasswordLabel.IsEnabled = true;
+            passBoxOldPass.IsEnabled = true;
+            passBoxNewPass.IsEnabled = true;
+            passBoxConfirmNewPass.IsEnabled = true;
+        }
     }
 }

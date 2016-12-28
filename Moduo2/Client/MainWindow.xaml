@@ -17,28 +17,126 @@
                     <Button x:Name="logInButton" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
                 </Grid>
             </TabItem>
-            <TabItem Height="0">
+            <TabItem Height="0" Focusable="True">
                 <Grid>
-                    <TabControl x:Name="tabControl1" Margin="21,73,21,20">
-                        <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39">
-                            <Grid Background="#FFE5E5E5" Margin="0,16,0,0"/>
+                    <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True">
+                        <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
+                            <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True"/>
                         </TabItem>
-                        <TabItem Header="Work" Margin="21,10,-49,-10" Height="39">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        <TabItem Header="Work" Margin="21,10,-49,-10" Height="39" Focusable="True">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
                         </TabItem>
-                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
                         </TabItem>
-                        <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
                         </TabItem>
-                        <TabItem Header="Companies" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        <TabItem Header="Companies" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39" Focusable="True">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
+                            </Grid>
                         </TabItem>
-                        <TabItem Header="Settings" Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="77" Height="39">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0"/>
+                        <TabItem Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
+                                <Grid Background="White" Margin="32,10,31,222">
+                                    <Label x:Name="editNameLabel" Content="Name: " HorizontalAlignment="Left" Height="28" Margin="10,16,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <Label x:Name="editSurameLabel" Content="Surname: " HorizontalAlignment="Left" Height="28" Margin="10,49,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <Label x:Name="editEmailLabel" Content="E-mail address: " HorizontalAlignment="Left" Height="28" Margin="10,81,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <Label x:Name="editUsernameLabel" Content="Username: " HorizontalAlignment="Left" Height="28" Margin="10,117,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <TextBox x:Name="textBoxEditName" HorizontalAlignment="Left" Height="20" Margin="120,16,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                    <TextBox x:Name="textBoxEditSurname" HorizontalAlignment="Left" Height="20" Margin="120,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                    <TextBox x:Name="textBoxEditEmail" HorizontalAlignment="Left" Height="20" Margin="120,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                    <TextBox x:Name="textBoxEditUsername" HorizontalAlignment="Left" Height="20" Margin="120,117,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                </Grid>
+                                <Grid Background="White" Margin="32,186,31,156">
+                                    <Label x:Name="workingHours1" Content="Working hours:       From: " HorizontalAlignment="Left" Height="28" Margin="10,14,0,0" VerticalAlignment="Top" Width="153"/>
+                                    <Label x:Name="workingHours2" Content="To: " HorizontalAlignment="Left" Height="28" Margin="297,14,0,0" VerticalAlignment="Top" Width="153"/>
+                                    <Label x:Name="format" Content="Format: ..... " HorizontalAlignment="Left" Height="28" Margin="494,14,0,0" VerticalAlignment="Top" Width="153"/>
+                                    <TextBox x:Name="textBoxEditToTime" HorizontalAlignment="Left" Height="20" Margin="330,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="129"/>
+                                    <TextBox x:Name="textBoxEditFromTime" HorizontalAlignment="Left" Height="20" Margin="163,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="129"/>
+                                </Grid>
+                                <Grid Background="White" Margin="32,253,31,99">
+                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="14,10,0,0" VerticalAlignment="Top" Width="132" Click="editPassword_Click"/>
+                                </Grid>
+                                <Grid Background="White" Margin="32,289,393,12">
+                                    <Label x:Name="oldPasswordLabel" IsEnabled="False" Content="Type in current password: " HorizontalAlignment="Left" Height="28" Margin="10,7,0,0" VerticalAlignment="Top" Width="157"/>
+                                    <Label x:Name="newPasswordLabel" IsEnabled="False" Content="Type in new password: " HorizontalAlignment="Left" Height="28" Margin="10,34,0,0" VerticalAlignment="Top" Width="138"/>
+                                    <Label x:Name="confirmNewPasswordLabel" IsEnabled="False" Content="Confirm new password: " HorizontalAlignment="Left" Height="28" Margin="10,61,0,0" VerticalAlignment="Top" Width="138"/>
+                                    <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,10,0,0" VerticalAlignment="Top" Width="159"/>
+                                    <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,37,0,0" VerticalAlignment="Top" Width="159"/>
+                                    <PasswordBox x:Name="passBoxConfirmNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,63,0,0" VerticalAlignment="Top" Width="159"/>
+                                </Grid>
+                                <Grid Background="White" Margin="433,340,31,12">
+                                    <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,10,0,0" VerticalAlignment="Top" Width="100"/>
+                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,10,0,0" VerticalAlignment="Top" Width="100"/>
+                                </Grid>
+                            </Grid>
+                            <TabItem.Header>
+                                <StackPanel>
+                                    <Image Name="img" Height="35" Width="35" Source="images/icon sett.png" />
+                                </StackPanel>
+                            </TabItem.Header>
                         </TabItem>
+                        <!--TabItem Header="Settings" Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="68" Height="39" Focusable="False">
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
+                                <Grid Background="White" Margin="32,10,31,222">
+                                    <Label x:Name="editNameLabel" Content="Name: " HorizontalAlignment="Left" Height="28" Margin="10,16,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <Label x:Name="editSurameLabel" Content="Surname: " HorizontalAlignment="Left" Height="28" Margin="10,49,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <Label x:Name="editEmailLabel" Content="E-mail address: " HorizontalAlignment="Left" Height="28" Margin="10,81,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <Label x:Name="editUsernameLabel" Content="Username: " HorizontalAlignment="Left" Height="28" Margin="10,117,0,0" VerticalAlignment="Top" Width="92"/>
+                                    <TextBox x:Name="textBoxEditName" HorizontalAlignment="Left" Height="20" Margin="120,16,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                    <TextBox x:Name="textBoxEditSurname" HorizontalAlignment="Left" Height="20" Margin="120,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                    <TextBox x:Name="textBoxEditEmail" HorizontalAlignment="Left" Height="20" Margin="120,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                    <TextBox x:Name="textBoxEditUsername" HorizontalAlignment="Left" Height="20" Margin="120,117,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
+                                </Grid>
+                                <Grid Background="White" Margin="32,186,31,156">
+                                    <Label x:Name="workingHours1" Content="Working hours:       From: " HorizontalAlignment="Left" Height="28" Margin="10,14,0,0" VerticalAlignment="Top" Width="153"/>
+                                    <Label x:Name="workingHours2" Content="To: " HorizontalAlignment="Left" Height="28" Margin="297,14,0,0" VerticalAlignment="Top" Width="153"/>
+                                    <Label x:Name="format" Content="Format: ..... " HorizontalAlignment="Left" Height="28" Margin="494,14,0,0" VerticalAlignment="Top" Width="153"/>
+                                    <TextBox x:Name="textBoxEditToTime" HorizontalAlignment="Left" Height="20" Margin="330,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="129"/>
+                                    <TextBox x:Name="textBoxEditFromTime" HorizontalAlignment="Left" Height="20" Margin="163,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="129"/>
+                                </Grid>
+                                <Grid Background="White" Margin="32,253,31,99">
+                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="14,10,0,0" VerticalAlignment="Top" Width="132" Click="editPassword_Click"/>
+                                </Grid>
+                                <Grid Background="White" Margin="32,289,393,12">
+                                    <Label x:Name="oldPasswordLabel" IsEnabled="False" Content="Type in current password: " HorizontalAlignment="Left" Height="28" Margin="10,7,0,0" VerticalAlignment="Top" Width="157"/>
+                                    <Label x:Name="newPasswordLabel" IsEnabled="False" Content="Type in new password: " HorizontalAlignment="Left" Height="28" Margin="10,34,0,0" VerticalAlignment="Top" Width="138"/>
+                                    <Label x:Name="confirmNewPasswordLabel" IsEnabled="False" Content="Confirm new password: " HorizontalAlignment="Left" Height="28" Margin="10,61,0,0" VerticalAlignment="Top" Width="138"/>
+                                    <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,10,0,0" VerticalAlignment="Top" Width="159"/>
+                                    <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,37,0,0" VerticalAlignment="Top" Width="159"/>
+                                    <PasswordBox x:Name="passBoxConfirmNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,63,0,0" VerticalAlignment="Top" Width="159"/>
+                                </Grid>
+                                <Grid Background="White" Margin="433,340,31,12">
+                                    <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,10,0,0" VerticalAlignment="Top" Width="100"/>
+                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,10,0,0" VerticalAlignment="Top" Width="100"/>
+                                </Grid>
+                            </Grid-->
+                        <!-- TabItem.Header>
+                                <StackPanel>
+                                    <Image Name="img" Height="auto" Width="auto" Source="images/icon sett.png" />
+                                </StackPanel>
+                            </TabItem.Header-->
                     </TabControl>
+                    <!--Canvas x:Name="backCanvas" Height="39" Width="39" Margin="763,86,28,430" Background="White"/>
+                    <Canvas x:Name="settingsCanvas" Height="39" Width="39" Margin="763,86,28,430">
+                        <Canvas.Background>
+                            <ImageBrush ImageSource="Images/icon sett.png"/>
+                        </Canvas.Background>
+                    </Canvas-->
+                    <Menu  Name="settingsMenu" BorderThickness="1" BorderBrush="Black"  Visibility="Hidden"  HorizontalAlignment="Left" Margin="665,127,0,0"  VerticalAlignment="Top" Height="100" Width="138">
+                        <MenuItem Height="50" Width="138" BorderThickness="1" BorderBrush="Black">
+                            <MenuItem.Header>
+                                <Button Content="Edit Data" Height="39" BorderThickness="0" HorizontalAlignment="Center" Margin="0,0,0,0" Name="changeDataButton" VerticalAlignment="Center" Width="100"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+
+                        <MenuItem Width="138" Height="50" BorderThickness="1" BorderBrush="Black">
+                            <MenuItem.Header>
+                                <Button Content="Edit Work Hours" Height="39" BorderThickness="0" HorizontalAlignment="Center" Margin="0,3" x:Name="changeHoursButton" VerticalAlignment="Center" Width="100"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </Menu>
                 </Grid>
             </TabItem>
         </TabControl>

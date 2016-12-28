@@ -8,20 +8,20 @@ namespace HiringCompany
 {
     public enum EmployeeType
     {
-        CEO=0,
-        PO,
-        SM,
-        HR
+        CEO = 0,
+        ENG,        //engineer
+        TL,         //team leader
+        SM          // scrum master
     }
 
     public class Employee 
     {
+        private string username;
+        private string password;
         private EmployeeType type;
         private string name;
         private string surname;
         private string email;
-        private string password;
-
 
         private Employee() 
         {
