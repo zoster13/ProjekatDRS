@@ -78,5 +78,10 @@ namespace Client
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //LocalClientDatabase.Instance.Employees = proxy
+        }
+
     }
 }
