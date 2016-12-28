@@ -27,5 +27,45 @@ namespace Client
             string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
         }
+
+        private void logInButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void editPassword_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void editData_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveChanges_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cancel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void showOnlineEmployees_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void showPartnerCompanies_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void projectOverview_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
