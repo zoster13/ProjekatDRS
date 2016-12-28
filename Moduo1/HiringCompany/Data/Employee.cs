@@ -14,7 +14,7 @@ namespace HiringCompany
         SM          // scrum master
     }
 
-    public class Employee
+    public class Employee 
     {
         private string username;
         private string password;

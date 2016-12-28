@@ -23,7 +23,9 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+
         }
     }
 }
