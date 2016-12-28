@@ -22,7 +22,7 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string address = "net.tcp://localhost:9999/EmployeeService";
+        private string address = "net.tcp://147.91.167.237:9999/EmployeeService";
         private NetTcpBinding binding = new NetTcpBinding();
 
         public MainWindow()
@@ -78,16 +78,19 @@ namespace Client
             }
         }
 
-        private void TabItem1_MouseDown(object sender, MouseButtonEventArgs e)
+        private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com" });
+            if (tabControl1.SelectedIndex == 2)
+            {
+                //LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com" });
 
-            dataGridEmployees.Items.Refresh();
+                using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
+                {
+                    LocalClientDatabase.Instance.Employees =  proxy.GetAllEmployees();
+                }
 
-            //using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
-            //{
-            //    proxy.LogIn(usernameBox.Text, passwordBox.Password);
-            //}
+                dataGridEmployees.Items.Refresh();
+            }
         }
 
     }

@@ -19,7 +19,7 @@
             </TabItem>
             <TabItem Height="0" Focusable="True">
                 <Grid>
-                    <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True">
+                    <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True" SelectionChanged="tabControl1_SelectionChanged">
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True"/>
                         </TabItem>
@@ -28,7 +28,7 @@
                             <TabControl x:Name="tabControlCEO" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
                             </TabControl>
                         </TabItem>
-                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True" MouseDown="TabItem1_MouseDown" VerticalAlignment="Top">
+                        <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True"  VerticalAlignment="Top">
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
                                 <DataGrid x:Name="dataGridEmployees" ItemsSource="{Binding Employees, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
                                     <DataGrid.Columns>
