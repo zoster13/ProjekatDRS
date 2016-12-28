@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="850">
     <Grid>
-        <TabControl HorizontalAlignment="Left" Height="569" VerticalAlignment="Top" Width="842" Background="#FFEFFBFB">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="569" VerticalAlignment="Top" Width="842" Background="#FFEFFBFB">
             <TabItem Height="0">
                 <Grid Background="#FFEFFBFB">
-                    <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="246,263,447,256"/>
-                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="246,221,447,298"/>
-                    <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163"/>
-                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163"/>
-                    <Button x:Name="logInButton" Content="Sign In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click" Background="#FFD4DBDE" FontWeight="Bold"/>
+                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="246,263,447,256"/>
+                    <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="246,221,447,298"/>
+                    <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameTextChanged"/>
+                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" GotFocus="passwordGotFocus"/>
+                    <Button x:Name="logInButton" Content="Sign In" Height="37" IsEnabled="False" Width="86" Margin="349,316,395,203" Click="logInButton_Click" Background="#FFD4DBDE" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
             <TabItem Height="0" Focusable="True">
@@ -78,9 +78,9 @@
                                     <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="14,10,0,0" VerticalAlignment="Top" Width="132" Click="editPassword_Click"/>
                                 </Grid>
                                 <Grid Background="White" Margin="32,297,393,4">
-                                    <Label x:Name="oldPasswordLabel" IsEnabled="False" Content="Type in current password: " HorizontalAlignment="Left" Height="28" Margin="10,7,0,0" VerticalAlignment="Top" Width="157"/>
-                                    <Label x:Name="newPasswordLabel" IsEnabled="False" Content="Type in new password: " HorizontalAlignment="Left" Height="28" Margin="10,34,0,0" VerticalAlignment="Top" Width="138"/>
-                                    <Label x:Name="confirmNewPasswordLabel" IsEnabled="False" Content="Confirm new password: " HorizontalAlignment="Left" Height="28" Margin="10,61,0,0" VerticalAlignment="Top" Width="138"/>
+                                    <Label x:Name="oldPasswordLabel" Content="Type in current password: " HorizontalAlignment="Left" Height="28" Margin="10,7,0,0" VerticalAlignment="Top" Width="157"/>
+                                    <Label x:Name="newPasswordLabel" Content="Type in new password: " HorizontalAlignment="Left" Height="28" Margin="10,34,0,0" VerticalAlignment="Top" Width="138"/>
+                                    <Label x:Name="confirmNewPasswordLabel" Content="Confirm new password: " HorizontalAlignment="Left" Height="28" Margin="10,61,0,0" VerticalAlignment="Top" Width="138"/>
                                     <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,10,0,0" VerticalAlignment="Top" Width="159"/>
                                     <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,37,0,0" VerticalAlignment="Top" Width="159"/>
                                     <PasswordBox x:Name="passBoxConfirmNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,63,0,0" VerticalAlignment="Top" Width="159"/>
