@@ -31,7 +31,9 @@ namespace Client
 
         public List<Employee> GetAllEmployees()
         {
-            return factory.GetAllEmployees();
+            var res = factory.GetAllEmployees();
+
+            return res;
         }
     }
 }

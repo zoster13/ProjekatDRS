@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClientCommon.Data;
+using System.Collections.ObjectModel;
 
 namespace Client
 {
@@ -11,11 +12,11 @@ namespace Client
     {
         private static LocalClientDatabase localDB;
 
-        private List<Employee> employees;
+        private ObservableCollection<Employee> employees;
 
         public LocalClientDatabase()
         {
-            employees = new List<Employee>();
+            employees = new ObservableCollection<Employee>();
         }
 
         public static LocalClientDatabase Instance
@@ -34,7 +35,7 @@ namespace Client
             }
         }
 
-        public List<Employee> Employees
+        public ObservableCollection<Employee> Employees
         {
             get
             {

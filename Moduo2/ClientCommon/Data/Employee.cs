@@ -53,8 +53,8 @@ namespace ClientCommon.Data
 
         public string Surname
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.surname; }
+            set { this.surname = value; }
         }
 
         public string Email

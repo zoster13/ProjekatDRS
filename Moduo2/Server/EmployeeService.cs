@@ -10,7 +10,9 @@ namespace Server
     {
         public List<Employee> GetAllEmployees()
         {
-            return EmployeeServiceDatabase.Instance.GetAllEmployees();
+            var result = EmployeeServiceDatabase.Instance.GetAllEmployees();
+
+            return result;
         }
 
         public Employee LogIn(string username, string password)

@@ -22,7 +22,7 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string address = "net.tcp://147.91.167.237:9999/EmployeeService";
+        private string address = "net.tcp://localhost:9999/EmployeeService";
         private NetTcpBinding binding = new NetTcpBinding();
 
         public MainWindow()
@@ -86,12 +86,17 @@ namespace Client
 
                 using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
                 {
-                    LocalClientDatabase.Instance.Employees =  proxy.GetAllEmployees();
+                    var employees = proxy.GetAllEmployees();
+
+                    //LocalClientDatabase.Instance.Employees = employees;
+                    foreach (var employee in employees)
+                    {
+                        LocalClientDatabase.Instance.Employees.Add(employee);
+                    }
                 }
 
-                dataGridEmployees.Items.Refresh();
+                //dataGridEmployees.Items.Refresh();
             }
         }
-
     }
 }
