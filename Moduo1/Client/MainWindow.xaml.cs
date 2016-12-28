@@ -39,6 +39,8 @@ namespace Client
             //homeLabel2.Content=?;
             //homeLabel3.Content=?;
             //homeLabel4.Content=?;
+
+            //clientDatabase instance.Username=usernameBox.Text;
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -50,17 +52,40 @@ namespace Client
 
         private void editData_Click(object sender, RoutedEventArgs e)
         {
+            //pronaci u database.Instance.Employees zaposlenog sa tim username-om
+            //i onda upisati njegove podatke u textBox-ove
 
+            textBoxEditName.IsEnabled = true;
+            //textBoxEditName=?;
+
+            textBoxEditSurname.IsEnabled = true;
+            //textBoxEditSurname=?;
+
+            textBoxEditEmail.IsEnabled = true;
+            //textBoxEditEmail=?;
+
+            textBoxEditUsername.IsEnabled = true;
+            //textBoxEditUsername=?;
+
+            //takodje uraditi to i za radno vreme
         }
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)
         {
-
+            //Napraviti neku proveru koja su polja popunjena/promenjena i sacuvati izmene
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
+            passBoxOldPass.IsEnabled = false;
+            passBoxNewPass.IsEnabled = false;
+            passBoxConfirmNewPass.IsEnabled = false;
+            //textBoxEditName=?;
+            //textBoxEditSurname=?;
+            //textBoxEditEmail=?;
+            //textBoxEditUsername=?;
 
+            //uraditi to i za radno vreme
         }
 
         private void showOnlineEmployees_Click(object sender, RoutedEventArgs e)

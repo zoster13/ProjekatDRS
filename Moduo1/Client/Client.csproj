@@ -65,6 +65,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ClientCallback.cs" />
+    <Compile Include="ClientDatabase.cs" />
     <Compile Include="ClientProxy.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
