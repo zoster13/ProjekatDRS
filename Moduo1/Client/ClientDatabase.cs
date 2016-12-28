@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EmployeeCommon;
+using System.ComponentModel;
 
 namespace Client
 {
@@ -11,32 +12,44 @@ namespace Client
     {
         private static ClientDatabase clientDB;
 
-        private List<Employee> employees;
+        private BindingList<Employee> employees;
+        //dodati BindingList kompanija
+        //dodati BindingList projekata
+
+        private static ClientDatabase instance; //singletone
 
         private string username; //da pamti username ulogovanog radnika
 
         public ClientDatabase() 
         {
-            employees = new List<Employee>();
+            employees = new BindingList<Employee>();
         }
 
-        public static ClientDatabase Instance
+        public static ClientDatabase Instance()
         {
-            get
-            {
-                if (clientDB == null)
-                    clientDB = new ClientDatabase();
+            if (instance == null)
+                instance = new ClientDatabase();
 
-                return clientDB;
-            }
-            set
-            {
-                if (clientDB == null)
-                    clientDB = value;
-            }
+            return instance;
         }
 
-        public List<Employee> Employees 
+        //public static ClientDatabase Instance
+        //{
+        //    get
+        //    {
+        //        if (clientDB == null)
+        //            clientDB = new ClientDatabase();
+
+        //        return clientDB;
+        //    }
+        //    set
+        //    {
+        //        if (clientDB == null)
+        //            clientDB = value;
+        //    }
+        //}
+
+        public BindingList<Employee> Employees 
         {
             get { return employees; }
             set { employees = value; }

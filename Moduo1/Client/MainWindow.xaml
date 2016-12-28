@@ -35,19 +35,77 @@
                         <TabItem Header="Employees" Margin="21,10,-49,-10" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
                                 <Button Content="Show online employees" HorizontalAlignment="Left" Margin="67,32,0,0" VerticalAlignment="Top" Width="140" Height="40" FontWeight="Bold" Click="showOnlineEmployees_Click"/>
-                                <TextBox x:Name="employeeTextBox" HorizontalAlignment="Left" Height="360" Margin="262,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="538" HorizontalScrollBarVisibility="Visible"/>
+                                <DataGrid x:Name="employeesDataGrid" HorizontalAlignment="Left" Margin="246,32,0,0" 
+                                          VerticalAlignment="Top" Height="359" Width="554" Background="#FFDDDDDD"
+                                          IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
+                                          AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
+                                          AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
+                                          VerticalGridLinesBrush="#FF7E97BF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#ffffe6"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                        <DataGridTextColumn Width="*" Header="Surname" Binding="{Binding Surname}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                        <DataGridTextColumn Width="*" Header="Email" Binding="{Binding Email}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                        <DataGridTextColumn Width="*" Header="Position" Binding="{Binding Type}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                    </DataGrid.Columns>
+
+                                </DataGrid>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Companies" Margin="49,10,-72,-10" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
                                 <Button Content="Show partner companies" HorizontalAlignment="Left" Margin="67,32,0,0" VerticalAlignment="Top" Width="147" Height="40" FontWeight="Bold" Click="showPartnerCompanies_Click"/>
-                                <TextBox x:Name="partnerCompaniesTextBox" HorizontalAlignment="Left" Height="360" Margin="262,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="538" HorizontalScrollBarVisibility="Visible"/>
+                                <DataGrid x:Name="companiesDataGrid" HorizontalAlignment="Left" Margin="246,32,0,0" 
+                                          VerticalAlignment="Top" Height="359" Width="554" Background="#FFDDDDDD"
+                                          IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
+                                          AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
+                                          AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
+                                          VerticalGridLinesBrush="#FF7E97BF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#ffffe6"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <!--> Koje atribute treba da ima kompanija??<-->
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Projects" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
                                 <Button Content="Project Overview" HorizontalAlignment="Left" Margin="67,32,0,0" VerticalAlignment="Top" Width="105" Height="40" FontWeight="Bold" Click="projectOverview_Click"/>
-                                <TextBox x:Name="projectOverviewTextBox" HorizontalAlignment="Left" Height="360" Margin="262,32,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="538" HorizontalScrollBarVisibility="Visible"/>
+                                <DataGrid x:Name="projectsDataGrid" HorizontalAlignment="Left" Margin="246,32,0,0" 
+                                          VerticalAlignment="Top" Height="359" Width="554" Background="#FFDDDDDD"
+                                          IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
+                                          AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
+                                          AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
+                                          VerticalGridLinesBrush="#FF7E97BF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="{x:Type DataGridRow}">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#ffffe6"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <!--> Koje atribute treba da ima projekat??<-->
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Work" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39" Focusable="True">

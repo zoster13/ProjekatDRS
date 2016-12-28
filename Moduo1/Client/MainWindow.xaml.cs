@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EmployeeCommon;
 
 namespace Client
 {
@@ -20,9 +21,15 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        ClientDatabase clientDB = ClientDatabase.Instance();
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = clientDB;
+            employeesDataGrid.DataContext = clientDB.Employees;
+            //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
+            //dodati projectsDataGrid.DataContext=clientDB.listaProjekata
 
             //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
@@ -32,15 +39,29 @@ namespace Client
         {
             tabControl.SelectedIndex = 1;
 
-            //pronaci u bazi podataka koji je to user da bi mogli da se ispisu svi podaci u home tab-u,
-            //takodje i zbog provere tipa,ovde verovatno treba da se napravi da su visible objekti koji
+            //smisliti kako da u listu clientDB.Employee na svaki odredjeni vremenski period
+            //smestamo zaposlene koji se nalaze u listi online korisnika na serveru
+            //takodje, ovde verovatno treba da se napravi da su visible objekti koji
             //su vidjivi samo za odredjeni tip
-            //homeLabel1.Content=?;
-            //homeLabel2.Content=?;
-            //homeLabel3.Content=?;
-            //homeLabel4.Content=?;
 
-            //clientDatabase instance.Username=usernameBox.Text;
+            //pozvati serversku metodu za logovanje,f-ja mora da ima povratnu vrednost da bi se znalo da li taj korisnik postoji u database,
+            //ako postoji i loguje se,onda raditi ovo ispod
+
+            clientDB.Username = usernameBox.Text;
+
+            foreach (Employee em in clientDB.Employees)
+            {
+                if (em.Username == clientDB.Username)
+                {
+                    homeLabel1.Content=em.Name;
+                    homeLabel2.Content=em.Surname;
+                    homeLabel3.Content=em.Email;
+                    homeLabel4.Content=em.Type.ToString(); //Ne znam da li mora ovo ToString
+                    break;
+                }
+            }
+
+            //srediti vidljivost objekata na osnovu tipa
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -52,22 +73,26 @@ namespace Client
 
         private void editData_Click(object sender, RoutedEventArgs e)
         {
-            //pronaci u database.Instance.Employees zaposlenog sa tim username-om
-            //i onda upisati njegove podatke u textBox-ove
+            foreach (Employee em in clientDB.Employees)
+            {
+                if (em.Username == clientDB.Username)
+                {
+                    textBoxEditName.IsEnabled = true;
+                    textBoxEditName.Text=em.Name;
 
-            textBoxEditName.IsEnabled = true;
-            //textBoxEditName=?;
+                    textBoxEditSurname.IsEnabled = true;
+                    textBoxEditSurname.Text=em.Surname;
 
-            textBoxEditSurname.IsEnabled = true;
-            //textBoxEditSurname=?;
+                    textBoxEditEmail.IsEnabled = true;
+                    textBoxEditEmail.Text=em.Email;
 
-            textBoxEditEmail.IsEnabled = true;
-            //textBoxEditEmail=?;
+                    textBoxEditUsername.IsEnabled = true;
+                    textBoxEditUsername.Text=em.Username;
 
-            textBoxEditUsername.IsEnabled = true;
-            //textBoxEditUsername=?;
-
-            //takodje uraditi to i za radno vreme
+                    //takodje uraditi to i za radno vreme
+                }
+            }
+            
         }
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)
@@ -80,10 +105,11 @@ namespace Client
             passBoxOldPass.IsEnabled = false;
             passBoxNewPass.IsEnabled = false;
             passBoxConfirmNewPass.IsEnabled = false;
-            //textBoxEditName=?;
-            //textBoxEditSurname=?;
-            //textBoxEditEmail=?;
-            //textBoxEditUsername=?;
+
+            textBoxEditName.IsEnabled = false;
+            textBoxEditSurname.IsEnabled = false;
+            textBoxEditEmail.IsEnabled = false;
+            textBoxEditUsername.IsEnabled = false;
 
             //uraditi to i za radno vreme
         }
