@@ -13,6 +13,7 @@ namespace HiringCompany
     {
         static void Main(string[] args)
         {
+            Console.Title = "Hiring Company";
             // to do: initialization data and background setup...
 
             string addressEmployees = "net.tcp://localhost:9999/EmployeeService";
@@ -24,7 +25,6 @@ namespace HiringCompany
 
             Console.ReadKey(true);
             hostEmployees.Close();
-
         }
     }
 }
