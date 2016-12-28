@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ namespace ClientCommon.Data
 {
     public class Employee
     {
+        private int id;
         private EmployeeType type;
         private string name;
         private string surname;
@@ -17,6 +20,23 @@ namespace ClientCommon.Data
         public Employee()
         {
 
+        }
+
+        public Employee(EmployeeType type, string name, string surname, string email, string password)
+        {
+            this.type = type;
+            this.name = name;
+            this.surname = surname;
+            this.email = email;
+            this.password = password;
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id
+        {
+            get { return this.id; }
+            set { this.id = value; }
         }
 
         public EmployeeType Type
@@ -42,7 +62,7 @@ namespace ClientCommon.Data
             get { return this.email; }
             set { this.email = value; }
         }
-        
+
         public string Password
         {
             get { return this.password; }
