@@ -9,9 +9,9 @@ namespace HiringCompany
     public enum EmployeeType
     {
         CEO = 0,
-        ENG,        //engineer
-        TL,         //team leader
-        SM          // scrum master
+        PO,        
+        HR,         
+        SM         
     }
 
     public class Employee 
@@ -26,6 +26,52 @@ namespace HiringCompany
         private Employee() 
         {
 
+        }
+
+        private Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail) 
+        {
+            name = eUsername;
+            password = ePassword;
+            type = eType;
+            name = eName;
+            surname = eSurname;
+            email = eSurname;
+        }
+
+        public string Username 
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+
+        public EmployeeType Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string Surname
+        {
+            get { return surname; }
+            set { surname = value; }
+        }
+
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
         }
     }
 }
