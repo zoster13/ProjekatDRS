@@ -1,5 +1,6 @@
 ﻿using ClientCommon;
 using ClientCommon.Data;
+using System;
 
 namespace Server
 {
@@ -7,7 +8,7 @@ namespace Server
     {
         public Employee LogIn(string username, string password)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

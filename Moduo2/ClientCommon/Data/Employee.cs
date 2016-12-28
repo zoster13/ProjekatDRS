@@ -14,7 +14,7 @@ namespace ClientCommon.Data
         private string email;
         private string password;
 
-        private Employee()
+        public Employee()
         {
 
         }

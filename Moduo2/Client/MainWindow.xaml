@@ -10,10 +10,10 @@
         <TabControl x:Name="tabControl" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
             <TabItem Height="0">
                 <Grid>
-                    <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="246,263,447,256"/>
-                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="246,221,447,298"/>
-                    <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163"/>
-                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163"/>
+                    <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="251,221,446,303"/>
+                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261"/>
+                    <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged"/>
+                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" GotFocus="passwordBox_GotFocus"/>
                     <Button x:Name="logInButton" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
                 </Grid>
             </TabItem>
@@ -24,10 +24,21 @@
                             <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True"/>
                         </TabItem>
                         <TabItem Header="Work" Margin="21,10,-49,-10" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
+                            <!--Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/-->
+                            <TabControl x:Name="tabControlCEO" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
+                            </TabControl>
                         </TabItem>
                         <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
+                                <DataGrid ItemsSource="{Binding Employees, Mode=TwoWay}" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                        <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
+                                        <DataGridTextColumn Header="Position" Binding="{Binding Type}"/>
+                                        <DataGridTextColumn Header="e-mail" Binding="{Binding Email}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
                         </TabItem>
                         <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
