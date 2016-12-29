@@ -20,7 +20,7 @@ namespace Client
 
         private string username; //da pamti username ulogovanog radnika
 
-        public ClientDatabase() 
+        private ClientDatabase() 
         {
             employees = new BindingList<Employee>();
             projects = new BindingList<Project>();
