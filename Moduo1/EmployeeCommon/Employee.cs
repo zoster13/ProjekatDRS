@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -24,7 +26,7 @@ namespace EmployeeCommon
 
         public Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail) 
         {
-            name = eUsername;
+            username = eUsername;
             password = ePassword;
             type = eType;
             name = eName;
@@ -33,6 +35,9 @@ namespace EmployeeCommon
         }
 
         [DataMember]
+        [Required]
+        [Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Username 
         {
             get { return username; }
