@@ -5,27 +5,34 @@ namespace Server.Database
 {
     public class InternalDatabase
     {
-        private static List<Employee> onlineEmployeesDB;
+        private static InternalDatabase instance;
+        private static List<Employee> onlineEmployees;
 
         private InternalDatabase()
         {
-            onlineEmployeesDB = new List<Employee>();
+            onlineEmployees = new List<Employee>();
         }
 
-        public static List<Employee> Instance
+        public static InternalDatabase Instance
         {
             get
             {
-                if (onlineEmployeesDB == null)
-                    onlineEmployeesDB = new List<Employee>();
+                if (instance == null)
+                    instance = new InternalDatabase();
 
-                return onlineEmployeesDB;
+                return instance;
             }
             set
             {
-                if (onlineEmployeesDB == null)
-                    onlineEmployeesDB = value;
+                if (instance == null)
+                    instance = value;
             }
+        }
+
+        public List<Employee> OnlineEmployees
+        {
+            get { return onlineEmployees; }
+            set { onlineEmployees = value; }
         }
     }
 }

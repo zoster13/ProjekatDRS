@@ -4,6 +4,7 @@ using Server.Access;
 using Server.Database;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Server
 {
@@ -12,7 +13,7 @@ namespace Server
         public List<Employee> GetAllEmployees()
         {
             //var result = EmployeeServiceDatabase.Instance.GetAllEmployees();
-            return InternalDatabase.Instance;
+            return InternalDatabase.Instance.OnlineEmployees;
         }
 
         public Employee LogIn(string email, string password)
@@ -21,7 +22,7 @@ namespace Server
             
             if(employee!=null && password.Equals(employee.Password))
             {
-                InternalDatabase.Instance.Add(employee);
+                InternalDatabase.Instance.OnlineEmployees.Add(employee);
                 return employee;
             }
             else
@@ -32,17 +33,18 @@ namespace Server
 
         public bool LogOut(string email)
         {
-            Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
-            bool removed = InternalDatabase.Instance.Remove(employee);
+            Employee employee = null;
 
-            if (removed)
+            foreach(Employee e in InternalDatabase.Instance.OnlineEmployees)
             {
-                return true;
+                if(e.Email.Equals(email))
+                {
+                    employee = e;
+                }
             }
-            else
-            {
-                return false;
-            }
+
+            bool removed = InternalDatabase.Instance.OnlineEmployees.Remove(employee);
+            return removed;
         }
     }
 }

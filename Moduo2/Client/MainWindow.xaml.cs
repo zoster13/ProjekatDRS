@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ClientCommon.Data;
 
 namespace Client
@@ -28,12 +16,8 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
-
-            DataContext = LocalClientDatabase.Instance;
-
-            tabControl.SelectedIndex = 0;
-
             
+            tabControl.SelectedIndex = 0;
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -47,6 +31,8 @@ namespace Client
 
             if (employee != null)
             {
+                DataContext = LocalClientDatabase.Instance;
+
                 tabControl.SelectedIndex = 1;
                 LocalClientDatabase.Instance.CurrentEmployee = employee;
                 displayName.Text = employee.Name + " " + employee.Surname;
@@ -61,7 +47,7 @@ namespace Client
                 errorLogInBox.Text = "Wrong e-mail or password.";
             }
 
-            logInButton.IsEnabled = false;
+            logInButton.IsEnabled = true;
             emailBox.Text = "";
             passwordBox.Password = "";
         }
@@ -102,11 +88,12 @@ namespace Client
 
         private void OnLoad()
         {
+            LocalClientDatabase.Instance.Employees.Clear();
+
             using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
             {
                 var employees = proxy.GetAllEmployees();
 
-                //LocalClientDatabase.Instance.Employees = employees;
                 foreach (var employee in employees)
                 {
                     LocalClientDatabase.Instance.Employees.Add(employee);
