@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -10,6 +12,7 @@ namespace EmployeeCommon
     [DataContract]
     public class UserStory
     {
+        private int id; //kljuc u bazi
         private string title;
         private string description;
         private string acceptanceCriteria;
@@ -17,6 +20,14 @@ namespace EmployeeCommon
 
         public UserStory() 
         {
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         [DataMember]
