@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Data\Employee.cs" />
     <Compile Include="Data\EmployeeType.cs" />
+    <Compile Include="ICallbackMethods.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

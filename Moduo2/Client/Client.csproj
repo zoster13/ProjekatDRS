@@ -69,11 +69,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Proxy\CallbackMethods.cs" />
     <Compile Include="CEOWork.xaml.cs">
       <DependentUpon>CEOWork.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EmployeeProxy.cs" />
-    <Compile Include="LocalClientDatabase.cs" />
+    <Compile Include="Proxy\EmployeeProxy.cs" />
+    <Compile Include="Database\LocalClientDatabase.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

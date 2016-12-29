@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using ClientCommon.Data;
+using System;
 
 namespace Client
 {
@@ -10,7 +11,8 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string address = "net.tcp://localhost:9999/EmployeeService";
+        private static string address = "net.tcp://localhost:9999/EmployeeService";
+        private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
 
         public MainWindow()
@@ -23,8 +25,8 @@ namespace Client
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
             Employee employee = new Employee();
-
-            using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
+            
+            using (EmployeeProxy proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods()))
             {
                  employee =  proxy.LogIn(emailBox.Text, passwordBox.Password);
             }

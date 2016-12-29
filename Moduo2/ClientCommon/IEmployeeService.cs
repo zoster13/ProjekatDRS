@@ -4,14 +4,14 @@ using System.ServiceModel;
 
 namespace ClientCommon
 {
-    [ServiceContract]
+    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(ICallbackMethods))]
     public interface IEmployeeService
     {
-        [OperationContract]
-        Employee LogIn(string email, string password);
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void LogIn(string email, string password);
 
-        [OperationContract]
-        bool LogOut(string email);
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void LogOut(string email);
 
         [OperationContract]
         List<Employee> GetAllEmployees();
