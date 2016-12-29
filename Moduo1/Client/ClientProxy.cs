@@ -20,17 +20,19 @@ namespace Client
 
 
 
-        public void SignIn()
+        public bool SignIn()
         {
+            bool retval = false;
             try
             {
-                factory.SignIn();
+                retval= factory.SignIn();
             }
             catch (Exception)
             {
                 
                
             }
+            return retval;
         }
 
         public void SignOut()

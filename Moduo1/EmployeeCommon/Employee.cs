@@ -17,12 +17,12 @@ namespace EmployeeCommon
         private string surname;
         private string email;
 
-        private Employee() 
+        public Employee() 
         {
 
         }
 
-        private Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail) 
+        public Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail) 
         {
             name = eUsername;
             password = ePassword;
