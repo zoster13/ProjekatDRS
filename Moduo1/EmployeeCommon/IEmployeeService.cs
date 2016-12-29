@@ -13,40 +13,40 @@ namespace EmployeeCommon
     {
         // All users
         [OperationContract(IsInitiating = true, IsTerminating = false)]
-        bool SignIn(); // da li da se u ovom LogIn-u interno implementira i subscribe? Da korisnik dobija podatke koji su mu od znacaja dok je logovan
+        bool SignIn(string username,string password); // da li da se u ovom LogIn-u interno implementira i subscribe? Da korisnik dobija podatke koji su mu od znacaja dok je logovan
          
         [OperationContract( IsInitiating = false, IsTerminating = true)]
-        void SignOut();   
+        void SignOut();
 
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract] // /*(IsOneWay=true)*/ razmisliti za ostale metode
         void ListOnlineEmployees();
 
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void ListOutsorcingCompanies();
 
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void ChangeEmployeeData();
 
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void SetWorkingHours();
 
         // CEO
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void AskForPartnership();
 
         // CEO, HR
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void AddNewEmployee();
 
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void ChangeEmployeeType();
 
         // CEO, PO, SM
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void ProjectOverview();
 
         //PO
-        [OperationContract/*(IsOneWay=true)*/]
+        [OperationContract]
         void CreateNewProject();
 
         //[OperationContract/*(IsOneWay=true)*/]

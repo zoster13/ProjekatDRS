@@ -12,7 +12,7 @@ namespace HiringCompany.EmployeesMng
         ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
-        public bool SignIn()
+        public bool SignIn(string username,string password)
         {
             Console.WriteLine("EmployeeService.LogIn() called ");
             return true;
