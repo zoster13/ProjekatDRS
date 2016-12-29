@@ -33,6 +33,7 @@ namespace Server
             Console.WriteLine("EmployeeService service is started.");
             Console.WriteLine("Press <enter> to stop service...");
 
+            /*
             //DB Test
             Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123");
             Employee em2 = new Employee(EmployeeType.HR, "ivan", "ivanic", "ivan@gmail.com", "ivan123");
@@ -45,6 +46,7 @@ namespace Server
             EmployeeServiceDatabase.Instance.AddEmployee(em3);
             EmployeeServiceDatabase.Instance.AddEmployee(em4);
             EmployeeServiceDatabase.Instance.AddEmployee(em5);
+            */
 
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");

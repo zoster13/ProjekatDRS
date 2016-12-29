@@ -19,7 +19,7 @@ namespace Server
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
             
-            if(password.Equals(employee.Password))
+            if(employee!=null && password.Equals(employee.Password))
             {
                 InternalDatabase.Instance.Add(employee);
                 return employee;

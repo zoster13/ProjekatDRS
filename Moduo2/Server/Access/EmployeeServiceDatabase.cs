@@ -58,7 +58,7 @@ namespace Server.Access
                                where em.Email.Equals(email)
                                select em;
 
-                return employee as Employee; 
+                return employee.ToList().First();
             }
         }
 

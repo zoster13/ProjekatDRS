@@ -35,5 +35,9 @@ namespace Client
 
             return res;
         }
+        public bool LogOut(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

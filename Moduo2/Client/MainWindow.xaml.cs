@@ -31,12 +31,13 @@ namespace Client
 
             DataContext = LocalClientDatabase.Instance;
 
+            tabControl.SelectedIndex = 0;
+
             OnLoad();
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
-            tabControl.SelectedIndex = 1;
             Employee employee = new Employee();
 
             using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
@@ -48,10 +49,10 @@ namespace Client
             {
                 tabControl.SelectedIndex = 1;
                 LocalClientDatabase.Instance.CurrentEmployee = employee;
-                displayName.Text = employee.Name;
+                displayName.Text = employee.Name + " " + employee.Surname;
                 displayTeam.Text = "not implemented...";
                 displayType.Text = employee.Type.ToString();
-                displayEmail.Text = employee.Type.ToString();
+                displayEmail.Text = employee.Email;
             }
             else
             {
@@ -75,25 +76,25 @@ namespace Client
 
         private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (emailBox.Text != "" && passwordBox.Password != "")
+            if (emailBox.Text != "" || passwordBox.Password != "")
             {
-                logInButton.IsEnabled = true;
+                //logInButton.IsEnabled = false;
             }
             else
             {
-                logInButton.IsEnabled = false;
+                logInButton.IsEnabled = true;
             }
         }
 
         private void passwordBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (emailBox.Text != "" && passwordBox.Password != "")
+            if (emailBox.Text != "" || passwordBox.Password != "")
             {
-                logInButton.IsEnabled = true;
+                //logInButton.IsEnabled = false;
             }
             else
             {
-                logInButton.IsEnabled = false;
+                logInButton.IsEnabled = true;
             }
         }
 
