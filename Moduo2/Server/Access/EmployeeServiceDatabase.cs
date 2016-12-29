@@ -42,11 +42,23 @@ namespace Server.Access
             }
         }
 
-        public List<Employee> GetAllEmployees()
+        //public List<Employee> GetAllEmployees()
+        //{
+        //    using (var access = new AccessDB())
+        //    {
+        //        return access.Employees.ToList();
+        //    }
+        //}
+
+        public Employee GetEmployee(string email)
         {
             using (var access = new AccessDB())
             {
-                return access.Employees.ToList();
+                var employee = from em in access.Employees
+                               where em.Email.Equals(email)
+                               select em;
+
+                return employee as Employee; 
             }
         }
 

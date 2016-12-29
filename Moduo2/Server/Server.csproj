@@ -73,6 +73,7 @@
     <Compile Include="Access\Configuration.cs" />
     <Compile Include="Access\EmployeeServiceDatabase.cs" />
     <Compile Include="Access\IEmployeeServiceDatabase.cs" />
+    <Compile Include="Database\InternalDatabase.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

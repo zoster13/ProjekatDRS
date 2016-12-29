@@ -6,7 +6,8 @@ namespace Server.Access
     public interface IEmployeeServiceDatabase
     {
         bool AddEmployee(Employee employee);
-        List<Employee> GetAllEmployees();
+        //List<Employee> GetAllEmployees();
 
+        Employee GetEmployee(string email);
     }
 }

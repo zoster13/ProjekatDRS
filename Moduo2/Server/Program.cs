@@ -2,13 +2,9 @@
 using ClientCommon.Data;
 using Server.Access;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -22,7 +18,7 @@ namespace Server
             path = path.Substring(0, path.LastIndexOf("bin")) + "Database";
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
             // update database
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccessDB, Configuration>());
+            System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccessDB, Configuration>());
 
             //EmployeeService host
             NetTcpBinding binding = new NetTcpBinding();

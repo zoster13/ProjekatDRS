@@ -8,13 +8,12 @@ namespace ClientCommon
     public interface IEmployeeService
     {
         [OperationContract]
-        Employee LogIn(string username, string password);
+        Employee LogIn(string email, string password);
 
         [OperationContract]
-        bool LogOut(string username, string password);
+        bool LogOut(string email);
 
         [OperationContract]
         List<Employee> GetAllEmployees();
-
     }
 }

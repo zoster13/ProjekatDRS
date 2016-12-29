@@ -29,6 +29,21 @@ namespace ClientCommonTest.DataTest
         }
 
         [Test]
+        public void ConstructorTestWithParameters()
+        {
+            /*
+            Assert.DoesNotThrow(() => new Employee(type, name, surname, email, password));
+            employeeTest = new Employee(type, name, surname, email, password);
+
+            Assert.AreEqual(type, employeeTest.Type);
+            Assert.AreEqual(name, employeeTest.Name);
+            Assert.AreEqual(surname, employeeTest.Surname);
+            Assert.AreEqual(email, employeeTest.Email);
+            Assert.AreEqual(password, employeeTest.Password);
+            */
+        }
+
+        [Test]
         public void IdTest()
         {
             employeeTest.Id = id;

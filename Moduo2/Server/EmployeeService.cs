@@ -1,6 +1,7 @@
 ﻿using ClientCommon;
 using ClientCommon.Data;
 using Server.Access;
+using Server.Database;
 using System;
 using System.Collections.Generic;
 
@@ -10,20 +11,38 @@ namespace Server
     {
         public List<Employee> GetAllEmployees()
         {
-            var result = EmployeeServiceDatabase.Instance.GetAllEmployees();
-
-            return result;
+            //var result = EmployeeServiceDatabase.Instance.GetAllEmployees();
+            return InternalDatabase.Instance;
         }
 
-        public Employee LogIn(string username, string password)
+        public Employee LogIn(string email, string password)
         {
-            throw new NotImplementedException();
+            Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
+            
+            if(password.Equals(employee.Password))
+            {
+                InternalDatabase.Instance.Add(employee);
+                return employee;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public bool LogOut(string username, string password)
+        public bool LogOut(string email)
         {
-            throw new NotImplementedException();
+            Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
+            bool removed = InternalDatabase.Instance.Remove(employee);
+
+            if (removed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        
     }
 }
