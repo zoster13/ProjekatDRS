@@ -24,7 +24,7 @@ namespace Client
         {
             try
             {
-
+                factory.SignIn();
             }
             catch (Exception)
             {
@@ -160,6 +160,23 @@ namespace Client
             {
 
 
+            }
+        }
+
+        public void Dispose()
+        {
+
+            try
+            {
+                this.Close();
+            }
+            catch (CommunicationException)
+            {
+                this.Abort();
+            }
+            catch (TimeoutException)
+            {
+                this.Abort();
             }
         }
     }
