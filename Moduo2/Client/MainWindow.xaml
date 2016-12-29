@@ -15,7 +15,7 @@
                     <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261"/>
                     <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" GotFocus="passwordBox_GotFocus"/>
-                    <Button x:Name="logInButton" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
+                    <Button x:Name="logInButton" IsEnabled="True" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Height="0" Focusable="True">
