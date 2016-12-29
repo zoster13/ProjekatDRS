@@ -18,9 +18,9 @@ namespace Client
             factory = this.CreateChannel();
         }
 
-        public Employee LogIn(string username, string password)
+        public Employee LogIn(string email, string password)
         {
-            return factory.LogIn(username, password);
+            return factory.LogIn(email, password);
         }
 
 

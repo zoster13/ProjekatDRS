@@ -31,17 +31,36 @@ namespace Client
 
             DataContext = LocalClientDatabase.Instance;
 
-            //LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com"});
+            OnLoad();
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
             tabControl.SelectedIndex = 1;
+            Employee employee = new Employee();
 
             using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
             {
-                proxy.LogIn(usernameBox.Text, passwordBox.Password);
+                 employee =  proxy.LogIn(emailBox.Text, passwordBox.Password);
             }
+
+            if (employee != null)
+            {
+                tabControl.SelectedIndex = 1;
+                LocalClientDatabase.Instance.CurrentEmployee = employee;
+                displayName.Text = employee.Name;
+                displayTeam.Text = "not implemented...";
+                displayType.Text = employee.Type.ToString();
+                displayEmail.Text = employee.Type.ToString();
+            }
+            else
+            {
+                errorLogInBox.Text = "Wrong e-mail or password.";
+            }
+
+            logInButton.IsEnabled = false;
+            emailBox.Text = "";
+            passwordBox.Password = "";
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -56,7 +75,7 @@ namespace Client
 
         private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (usernameBox.Text != "" && passwordBox.Password != "")
+            if (emailBox.Text != "" && passwordBox.Password != "")
             {
                 logInButton.IsEnabled = true;
             }
@@ -68,7 +87,7 @@ namespace Client
 
         private void passwordBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (usernameBox.Text != "" && passwordBox.Password != "")
+            if (emailBox.Text != "" && passwordBox.Password != "")
             {
                 logInButton.IsEnabled = true;
             }
@@ -78,24 +97,17 @@ namespace Client
             }
         }
 
-        private void tabControl1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnLoad()
         {
-            if (tabControl1.SelectedIndex == 2)
+            using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
             {
-                //LocalClientDatabase.Instance.Employees.Add(new Employee() { Name = "aleksandra", Surname = "misic", Type = EmployeeType.TEAMLEADER, Email = "...@...com" });
+                var employees = proxy.GetAllEmployees();
 
-                using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
+                //LocalClientDatabase.Instance.Employees = employees;
+                foreach (var employee in employees)
                 {
-                    var employees = proxy.GetAllEmployees();
-
-                    //LocalClientDatabase.Instance.Employees = employees;
-                    foreach (var employee in employees)
-                    {
-                        LocalClientDatabase.Instance.Employees.Add(employee);
-                    }
+                    LocalClientDatabase.Instance.Employees.Add(employee);
                 }
-
-                //dataGridEmployees.Items.Refresh();
             }
         }
     }

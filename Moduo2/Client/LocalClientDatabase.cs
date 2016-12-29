@@ -9,9 +9,12 @@ namespace Client
 
         private ObservableCollection<Employee> employees;
 
-        public LocalClientDatabase()
+        private Employee currentEmployee;
+
+        private LocalClientDatabase()
         {
             employees = new ObservableCollection<Employee>();
+            currentEmployee = new Employee();
         }
 
         public static LocalClientDatabase Instance
@@ -39,6 +42,18 @@ namespace Client
             set
             {
                 employees = value;
+            }
+        }
+
+        public Employee CurrentEmployee
+        {
+            get
+            {
+                return currentEmployee;
+            }
+            set
+            {
+                currentEmployee = value;
             }
         }
     }

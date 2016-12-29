@@ -10,18 +10,26 @@
         <TabControl x:Name="tabControl" SelectedIndex="1" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
             <TabItem Height="0">
                 <Grid>
-                    <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="251,221,446,303"/>
+                    <TextBox x:Name="errorLogInBox" Margin="489,322,202,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>
+                    <Label x:Name="emailLabel" Content="E-mail address:" Height="37" Width="137" Margin="251,221,446,303"/>
                     <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261"/>
-                    <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged"/>
+                    <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" GotFocus="passwordBox_GotFocus"/>
                     <Button x:Name="logInButton" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Height="0" Focusable="True">
                 <Grid>
-                    <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True" SelectionChanged="tabControl1_SelectionChanged">
+                    <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True">
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True"/>
+                            <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True">
+                                <Grid Background="White" Margin="54,33,411,140">
+                                    <TextBox x:Name="displayName" IsReadOnly="True" FontSize="20" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="39" Margin="25,20,0,0" TextWrapping="Wrap" Text="Name..." VerticalAlignment="Top" Width="261" RenderTransformOrigin="0.382,0.292"/>
+                                    <TextBox x:Name="displayTeam" IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,72,0,0" TextWrapping="Wrap" Text="Team..." VerticalAlignment="Top" Width="140"/>
+                                    <TextBox x:Name="displayType" IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,109,0,0" TextWrapping="Wrap" Text="Position..." VerticalAlignment="Top" Width="140"/>
+                                    <TextBox x:Name="displayEmail" IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,172,0,0" TextWrapping="Wrap" Text="e-mail..." VerticalAlignment="Top" Width="140"/>
+                                </Grid>
+                            </Grid>
                         </TabItem>
                         <TabItem Header="Work" Margin="21,10,-49,-10" Height="39" Focusable="True">
                             <!--Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/-->
@@ -41,7 +49,16 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True"/>
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
+                                <DataGrid x:Name="dataGridTeams" ItemsSource="{Binding Employees, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                        <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
+                                        <DataGridTextColumn Header="Position" Binding="{Binding Type}"/>
+                                        <DataGridTextColumn Header="e-mail" Binding="{Binding Email}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
                         </TabItem>
                         <TabItem Header="Companies" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
