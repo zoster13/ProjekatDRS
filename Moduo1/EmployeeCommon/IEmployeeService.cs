@@ -49,7 +49,7 @@ namespace EmployeeCommon
         [OperationContract]
         void CreateNewProject();
 
-        //[OperationContract/*(IsOneWay=true)*/]
+        //[OperationContract]
         //void DefineUserStories(); // ?
     }
 }

@@ -13,5 +13,8 @@ namespace HiringCompany.DatabaseAccess
         public AccessDB() : base("hiringCompanyDB") { } // hiringCompanyDB -> Database name
 
         public DbSet<Employee> employees { get; set; }
+        public DbSet<Project> projects { get; set; }
+        
+        // dodati companies
     }
 }

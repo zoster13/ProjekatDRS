@@ -12,5 +12,11 @@ namespace Client
         {
            
         }
+
+
+        public void SyncData(EmployeeCommon.CurrentData data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

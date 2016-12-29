@@ -11,5 +11,8 @@ namespace EmployeeCommon
     {
         [OperationContract]
         void Notify();
+
+        [OperationContract]
+        void SyncData(CurrentData data);
     }
 }

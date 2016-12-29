@@ -1,4 +1,5 @@
 ﻿using EmployeeCommon;
+using HiringCompany.DatabaseAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,41 @@ using System.Threading.Tasks;
 
 namespace HiringCompany.EmployeesMng
 {
+  
       [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
         ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
+          HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
+   
+
         public bool SignIn(string username,string password)
         {
             Console.WriteLine("EmployeeService.LogIn() called ");
+
+            Employee employee = hiringCompanyDB.GetEmployee(username);
+
+            if (employee != null && password.Equals(employee.Password))
+            {
+                IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
+                hiringCompanyDB.ConnectionChannels.Add(username, callback);
+
+                hiringCompanyDB.OnlineEmployees.Add(employee);
+
+                // pokuasj update-a...
+                CurrentData cData = new CurrentData();
+                cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+
+                // pozivanje synca na callback objectu...
+                callback.SyncData(cData);
+
+               // return employee;
+            }
+            else
+            {
+                return false;
+            }
+
             return true;
         }
 

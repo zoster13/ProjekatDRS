@@ -32,6 +32,5 @@ namespace EmployeeCommon
             get { return notifType; }
             set { notifType=value;  }  
         }
-
     }
 }

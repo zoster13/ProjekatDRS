@@ -8,5 +8,6 @@ namespace EmployeeCommon
 {
     public enum NotificationType
     {
+        ONLINE_EMPLOYEES=0
     }
 }
