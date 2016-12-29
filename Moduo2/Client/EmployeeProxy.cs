@@ -33,7 +33,7 @@ namespace Client
 
         public bool LogOut(string email)
         {
-            throw new NotImplementedException();
+             return factory.LogOut(email);
         }
     }
 }

@@ -20,6 +20,7 @@
             </TabItem>
             <TabItem Height="0" Focusable="True">
                 <Grid>
+                    <Button x:Name="logOutButton" Content="Log Out" Margin="713,26,58,500" Click="logOutButton_Click"/>
                     <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True">
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True">

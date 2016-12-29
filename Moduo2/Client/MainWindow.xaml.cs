@@ -33,7 +33,7 @@ namespace Client
 
             tabControl.SelectedIndex = 0;
 
-            OnLoad();
+            
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -53,6 +53,8 @@ namespace Client
                 displayTeam.Text = "not implemented...";
                 displayType.Text = employee.Type.ToString();
                 displayEmail.Text = employee.Email;
+
+                OnLoad();
             }
             else
             {
@@ -110,6 +112,15 @@ namespace Client
                     LocalClientDatabase.Instance.Employees.Add(employee);
                 }
             }
+        }
+
+        private void logOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
+            {
+                proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
+            }
+            tabControl.SelectedIndex = 0;
         }
     }
 }
