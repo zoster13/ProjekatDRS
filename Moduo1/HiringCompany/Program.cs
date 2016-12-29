@@ -18,7 +18,13 @@ namespace HiringCompany
 
             string addressEmployees = "net.tcp://localhost:9999/EmployeeService";
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
-            hostEmployees.AddServiceEndpoint(typeof(IEmployeeService), new NetTcpBinding(),addressEmployees);
+            NetTcpBinding bindingEmployees = new NetTcpBinding();
+
+            bindingEmployees.OpenTimeout = new TimeSpan(1, 0, 0);
+            bindingEmployees.CloseTimeout = new TimeSpan(1, 0, 0);
+            bindingEmployees.SendTimeout = new TimeSpan(1, 0, 0);
+            bindingEmployees.ReceiveTimeout = new TimeSpan(1, 0, 0);
+            hostEmployees.AddServiceEndpoint(typeof(IEmployeeService), bindingEmployees, addressEmployees);
             hostEmployees.Open();
 
             Console.WriteLine("<EmployeesService> service started.");

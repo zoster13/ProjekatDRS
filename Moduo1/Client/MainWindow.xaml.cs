@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EmployeeCommon;
+using System.ServiceModel;
 
 namespace Client
 {
@@ -28,10 +29,32 @@ namespace Client
             InitializeComponent();
             DataContext = clientDB;
             employeesDataGrid.DataContext = clientDB.Employees;
+
             //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
             //dodati projectsDataGrid.DataContext=clientDB.listaProjekata
 
-            //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+
+            NetTcpBinding binding = new NetTcpBinding();           
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
+            IEmployeeServiceCallback callback = new ClientCallback();
+
+            InstanceContext instanceContext = new InstanceContext(callback);
+
+            using (ClientProxy proxy = new ClientProxy(instanceContext, binding, endpointAddress))
+            {
+                proxy.SignIn();
+
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey(true);
+
+                proxy.SignOut();
+            };
 
         }
 

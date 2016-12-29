@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class ClientCallback
+    public class ClientCallback : EmployeeCommon.IEmployeeServiceCallback
     {
+        public void Notify()
+        {
+           
+        }
     }
 }
