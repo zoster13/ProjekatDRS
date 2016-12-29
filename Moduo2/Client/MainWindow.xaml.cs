@@ -14,22 +14,22 @@ namespace Client
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
+        EmployeeProxy proxy;
 
         public MainWindow()
         {
             InitializeComponent();
             
             tabControl.SelectedIndex = 0;
+
+            proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
             Employee employee = new Employee();
-            
-            using (EmployeeProxy proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods()))
-            {
-                 employee =  proxy.LogIn(emailBox.Text, passwordBox.Password);
-            }
+           
+            proxy.LogIn(emailBox.Text, passwordBox.Password);
 
             if (employee != null)
             {
@@ -92,23 +92,19 @@ namespace Client
         {
             LocalClientDatabase.Instance.Employees.Clear();
 
-            using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
-            {
-                var employees = proxy.GetAllEmployees();
+            var employees = proxy.GetAllEmployees();
 
-                foreach (var employee in employees)
-                {
-                    LocalClientDatabase.Instance.Employees.Add(employee);
-                }
+            foreach (var employee in employees)
+            {
+                LocalClientDatabase.Instance.Employees.Add(employee);
             }
+
         }
 
         private void logOutButton_Click(object sender, RoutedEventArgs e)
         {
-            using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
-            {
-                proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
-            }
+            proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
+            
             tabControl.SelectedIndex = 0;
         }
     }
