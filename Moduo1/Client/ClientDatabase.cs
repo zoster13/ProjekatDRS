@@ -13,8 +13,8 @@ namespace Client
         private static ClientDatabase clientDB;
 
         private BindingList<Employee> employees;
+        private BindingList<Project> projects;
         //dodati BindingList kompanija
-        //dodati BindingList projekata
 
         private static ClientDatabase instance; //singletone
 
@@ -23,6 +23,7 @@ namespace Client
         public ClientDatabase() 
         {
             employees = new BindingList<Employee>();
+            projects = new BindingList<Project>();
         }
 
         public static ClientDatabase Instance()
@@ -33,26 +34,16 @@ namespace Client
             return instance;
         }
 
-        //public static ClientDatabase Instance
-        //{
-        //    get
-        //    {
-        //        if (clientDB == null)
-        //            clientDB = new ClientDatabase();
-
-        //        return clientDB;
-        //    }
-        //    set
-        //    {
-        //        if (clientDB == null)
-        //            clientDB = value;
-        //    }
-        //}
-
         public BindingList<Employee> Employees 
         {
             get { return employees; }
             set { employees = value; }
+        }
+
+        public BindingList<Project> Projects 
+        {
+            get { return projects; }
+            set { projects = value; }
         }
 
         public string Username 

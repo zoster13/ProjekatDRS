@@ -33,7 +33,7 @@ namespace Client
             //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
             //dodati projectsDataGrid.DataContext=clientDB.listaProjekata
 
-            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();           
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
