@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EmployeeCommon;
 using System.ServiceModel;
+using System.ComponentModel;
 
 namespace Client
 {
@@ -23,15 +24,17 @@ namespace Client
     public partial class MainWindow : Window
     {
         ClientDatabase clientDB = ClientDatabase.Instance();
+        ClientProxy proxy;
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = clientDB;
+            comboBoxProjects.DataContext = clientDB.Projects;
+           
             employeesDataGrid.DataContext = clientDB.Employees;
 
             //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
-            //dodati projectsDataGrid.DataContext=clientDB.listaProjekata
 
             string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
 
@@ -46,45 +49,55 @@ namespace Client
 
             InstanceContext instanceContext = new InstanceContext(callback);
 
-            using (ClientProxy proxy = new ClientProxy(instanceContext, binding, endpointAddress))
-            {
-                proxy.SignIn();
+            proxy = new ClientProxy(instanceContext, binding, endpointAddress);
 
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey(true);
 
-                proxy.SignOut();
-            };
+                
+                //Console.WriteLine("Press any key to exit...");
+               // Console.ReadKey(true);
+
+                //proxy.SignOut();
+
 
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
-            tabControl.SelectedIndex = 1;
-
-            //smisliti kako da u listu clientDB.Employee na svaki odredjeni vremenski period
-            //smestamo zaposlene koji se nalaze u listi online korisnika na serveru
-            //takodje, ovde verovatno treba da se napravi da su visible objekti koji
-            //su vidjivi samo za odredjeni tip
-
             //pozvati serversku metodu za logovanje,f-ja mora da ima povratnu vrednost da bi se znalo da li taj korisnik postoji u database,
             //ako postoji i loguje se,onda raditi ovo ispod
-
-            clientDB.Username = usernameBox.Text;
-
-            foreach (Employee em in clientDB.Employees)
+            bool success=proxy.SignIn(usernameBox.Text,passwordBox.Password);
+            if (success) 
             {
-                if (em.Username == clientDB.Username)
-                {
-                    homeLabel1.Content=em.Name;
-                    homeLabel2.Content=em.Surname;
-                    homeLabel3.Content=em.Email;
-                    homeLabel4.Content=em.Type.ToString(); //Ne znam da li mora ovo ToString
-                    break;
-                }
-            }
+                logInWarningLabel.Content = "";
+                tabControl.SelectedIndex = 1;
 
-            //srediti vidljivost objekata na osnovu tipa
+                //smisliti kako da u listu clientDB.Employee na svaki odredjeni vremenski period
+                //smestamo zaposlene koji se nalaze u listi online korisnika na serveru
+                //takodje, ovde verovatno treba da se napravi da su visible objekti koji
+                //su vidjivi samo za odredjeni tip
+
+                clientDB.Username = usernameBox.Text;
+
+                foreach (Employee em in clientDB.Employees)
+                {
+                    if (em.Username == clientDB.Username)
+                    {
+                        homeLabelName.Content = em.Name;
+                        homeLabelSurname.Content = em.Surname;
+                        homeLabelEmail.Content = em.Email;
+                        homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
+                        break;
+                    }
+                }
+
+                //srediti vidljivost objekata na osnovu tipa
+            }
+            else
+            {
+                usernameBox.Text = "";
+                passwordBox.Password = "";
+                logInWarningLabel.Content = "Employee with that username doesn't exist!";
+            }          
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -137,17 +150,12 @@ namespace Client
             //uraditi to i za radno vreme
         }
 
-        private void showOnlineEmployees_Click(object sender, RoutedEventArgs e)
+        private void showOnlineEmployees_Click(object sender, RoutedEventArgs e) //verovatno nece trebati ovo dugme,izbrisati
         {
 
         }
 
-        private void showPartnerCompanies_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void projectOverview_Click(object sender, RoutedEventArgs e)
+        private void showPartnerCompanies_Click(object sender, RoutedEventArgs e) //verovatno nece trebati ovo dugme,izbrisati
         {
 
         }
@@ -174,6 +182,16 @@ namespace Client
             {
                 logInButton.IsEnabled = false;
             }
+        }
+
+        private void comboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Project p = (Project)comboBoxProjects.SelectedItem;
+            BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
+            DataGridUserStories.DataContext = userStories;
+
+            string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate + "\nDeadline: " + p.Deadline + "\nOutsourcingCompany: " + p.OutsourcingCompany;
+            textBoxProjects.Text = str;
         }
     }
 }
