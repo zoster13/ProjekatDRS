@@ -25,7 +25,7 @@ namespace Client
             bool retval = false;
             try
             {
-                retval= factory.SignIn(username,password);
+                retval= factory.SignIn(username,password);  //Ne moze se pozvati SyncData jer je zapucao ovde i ceka odgovor!
             }
             catch (Exception)
             {

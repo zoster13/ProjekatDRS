@@ -168,7 +168,7 @@ namespace Client
             }
             else
             {
-                logInButton.IsEnabled = false;
+                logInButton.IsEnabled = true; //treba false,nesto ne radi
             }
         }
 
@@ -180,7 +180,7 @@ namespace Client
             }
             else
             {
-                logInButton.IsEnabled = false;
+                logInButton.IsEnabled = true; //treba false,nesto ne radi
             }
         }
 

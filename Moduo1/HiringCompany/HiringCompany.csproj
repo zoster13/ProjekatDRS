@@ -71,7 +71,6 @@
     <Compile Include="DatabaseAccess\AccessDB.cs" />
     <Compile Include="DatabaseAccess\DBConfiguration.cs" />
     <Compile Include="DatabaseAccess\HiringCompanyDB.cs" />
-    <Compile Include="DatabaseAccess\IHiringCompanyDB.cs" />
     <Compile Include="EmployeesMng\EmployeeService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

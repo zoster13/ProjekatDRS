@@ -14,7 +14,7 @@
                     <Label x:Name="usernameLabel" Content="Username:" Height="37" Width="137" Margin="246,221,447,298" Background="#FF18A6A6"/>
                     <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameTextChanged"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" GotFocus="passwordGotFocus"/>
-                    <Button x:Name="logInButton" Content="Sign In" Height="37" IsEnabled="False" Width="86" Margin="349,316,395,203" Click="logInButton_Click" Background="#FFD4DBDE" FontWeight="Bold"/>
+                    <Button x:Name="logInButton" Content="Sign In" Height="37" IsEnabled="True" Width="86" Margin="349,316,395,203" Click="logInButton_Click" Background="#FFD4DBDE" FontWeight="Bold"/>
                     <Label x:Name="logInWarningLabel" Content="" HorizontalAlignment="Left" Margin="220,403,0,0" VerticalAlignment="Top" Width="399" FontSize="14"/>
                 </Grid>
             </TabItem>
