@@ -18,13 +18,17 @@ namespace EmployeeCommon
         private string name;
         private string surname;
         private string email;
+        private int startHour;
+        private int startMinute;
+        private int endHour;
+        private int endMinute;
 
         public Employee() 
         {
 
         }
 
-        public Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail) 
+        public Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail,int eStartHour,int eStartMinute,int eEndHour,int eEndMinute) 
         {
             username = eUsername;
             password = ePassword;
@@ -32,6 +36,10 @@ namespace EmployeeCommon
             name = eName;
             surname = eSurname;
             email = eSurname;
+            startHour = eStartHour; //napraviti proveru opsega 0-24h,0-59min
+            startMinute = eStartMinute;
+            endHour = eEndHour;
+            endMinute = eEndMinute;
         }
 
         [DataMember]
@@ -77,6 +85,34 @@ namespace EmployeeCommon
         {
             get { return email; }
             set { email = value; }
+        }
+
+        [DataMember]
+        public int StartHour 
+        {
+            get { return startHour; }
+            set { startHour = value; }
+        }
+
+        [DataMember]
+        public int StartMinute
+        {
+            get { return startMinute; }
+            set { startMinute = value; }
+        }
+
+        [DataMember]
+        public int EndHour
+        {
+            get { return endHour; }
+            set { endHour = value; }
+        }
+
+        [DataMember]
+        public int EndMinute
+        {
+            get { return endMinute; }
+            set { endMinute = value; }
         }
     }
 }

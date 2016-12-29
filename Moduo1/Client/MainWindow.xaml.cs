@@ -190,7 +190,7 @@ namespace Client
             BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
             DataGridUserStories.DataContext = userStories;
 
-            string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate + "\nDeadline: " + p.Deadline + "\nOutsourcingCompany: " + p.OutsourcingCompany;
+            string str ="Id: " + p.Id + "\nName: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany+"\nProductOwner: "+p.ProductOwner;
             textBoxProjects.Text = str;
         }
     }

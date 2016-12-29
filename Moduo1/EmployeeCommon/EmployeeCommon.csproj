@@ -49,6 +49,7 @@
     <Compile Include="IEmployeeServiceCallback.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationType.cs" />
+    <Compile Include="PartnerCompany.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserStory.cs" />

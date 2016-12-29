@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -10,16 +12,26 @@ namespace EmployeeCommon
     [DataContract]
     public class Project
     {
+        private int id; //kljuc u bazi
         private string name;
         private string description;
         private DateTime startDate;
         private DateTime deadline;
         private List<UserStory> userStories;
         private string outsourcingCompany;
+        private string productOwner;
 
         public Project() 
         {
             userStories=new List<UserStory>();
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id 
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         [DataMember]
@@ -64,5 +76,11 @@ namespace EmployeeCommon
             set { outsourcingCompany = value; }
         }
 
+        [DataMember]
+        public string ProductOwner
+        {
+            get { return productOwner; }
+            set { productOwner = value; }
+        }
     }
 }
