@@ -35,7 +35,7 @@ namespace EmployeeCommon
             type = eType;
             name = eName;
             surname = eSurname;
-            email = eSurname;
+            email = eEmail;
             startHour = eStartHour; //napraviti proveru opsega 0-24h,0-59min
             startMinute = eStartMinute;
             endHour = eEndHour;

@@ -36,7 +36,7 @@ namespace Client
 
             //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
 
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();           
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -78,18 +78,22 @@ namespace Client
 
                 clientDB.Username = usernameBox.Text;
 
-                foreach (Employee em in clientDB.Employees)
+                lock (clientDB.Employees_lock)
                 {
-                    if (em.Username == clientDB.Username)
+                    foreach (Employee em in clientDB.Employees)
                     {
-                        homeLabelName.Content = em.Name;
-                        homeLabelSurname.Content = em.Surname;
-                        homeLabelEmail.Content = em.Email;
-                        homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
-                        break;
+                        if (em.Username == clientDB.Username)
+                        {
+                            homeLabelName.Content = em.Name;
+                            homeLabelSurname.Content = em.Surname;
+                            homeLabelEmail.Content = em.Email;
+                            homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
+                            break;
+                        }
                     }
                 }
 
+                employeesDataGrid.DataContext = clientDB.Employees;
                 //srediti vidljivost objekata na osnovu tipa
             }
             else
@@ -109,23 +113,26 @@ namespace Client
 
         private void editData_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Employee em in clientDB.Employees)
+            lock (clientDB.Employees_lock)
             {
-                if (em.Username == clientDB.Username)
+                foreach (Employee em in clientDB.Employees)
                 {
-                    textBoxEditName.IsEnabled = true;
-                    textBoxEditName.Text=em.Name;
+                    if (em.Username == clientDB.Username)
+                    {
+                        textBoxEditName.IsEnabled = true;
+                        textBoxEditName.Text = em.Name;
 
-                    textBoxEditSurname.IsEnabled = true;
-                    textBoxEditSurname.Text=em.Surname;
+                        textBoxEditSurname.IsEnabled = true;
+                        textBoxEditSurname.Text = em.Surname;
 
-                    textBoxEditEmail.IsEnabled = true;
-                    textBoxEditEmail.Text=em.Email;
+                        textBoxEditEmail.IsEnabled = true;
+                        textBoxEditEmail.Text = em.Email;
 
-                    textBoxEditUsername.IsEnabled = true;
-                    textBoxEditUsername.Text=em.Username;
+                        textBoxEditUsername.IsEnabled = true;
+                        textBoxEditUsername.Text = em.Username;
 
-                    //takodje uraditi to i za radno vreme
+                        //takodje uraditi to i za radno vreme
+                    }
                 }
             }
             

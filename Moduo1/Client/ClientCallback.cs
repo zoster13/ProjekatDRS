@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using EmployeeCommon;
+using System.ServiceModel;
 
 namespace Client
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class ClientCallback : EmployeeCommon.IEmployeeServiceCallback
     {
         ClientDatabase clientDB = ClientDatabase.Instance();
@@ -20,8 +22,15 @@ namespace Client
 
         public void SyncData(EmployeeCommon.CurrentData data)
         {
-            clientDB.Employees.Clear();
-            clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
+            lock (clientDB.Employees_lock)
+            {
+                if (clientDB.Employees.Count != 0)
+                {
+                    clientDB.Employees.Clear();
+                }
+                
+                clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Client
 {
     public class ClientDatabase
     {
-        private static ClientDatabase clientDB;
+        public object Employees_lock = new object();
 
         private BindingList<Employee> employees;
         private BindingList<Project> projects;
