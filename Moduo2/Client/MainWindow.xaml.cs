@@ -36,7 +36,6 @@ namespace Client
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
-            tabControl.SelectedIndex = 1;
             Employee employee = new Employee();
 
             using (EmployeeProxy proxy = new EmployeeProxy(binding, address))
@@ -48,10 +47,10 @@ namespace Client
             {
                 tabControl.SelectedIndex = 1;
                 LocalClientDatabase.Instance.CurrentEmployee = employee;
-                displayName.Text = employee.Name;
+                displayName.Text = employee.Name + " " + employee.Surname;
                 displayTeam.Text = "not implemented...";
                 displayType.Text = employee.Type.ToString();
-                displayEmail.Text = employee.Type.ToString();
+                displayEmail.Text = employee.Email;
             }
             else
             {
