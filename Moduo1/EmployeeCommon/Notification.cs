@@ -26,6 +26,7 @@ namespace EmployeeCommon
             set { destination = Destination; }
         }
 
+        [DataMember]
         public NotificationType NotifType
         {
             get { return notifType; }
