@@ -22,13 +22,7 @@ namespace Client
         {
             return factory.LogIn(email, password);
         }
-
-
-        public bool LogOut(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public List<Employee> GetAllEmployees()
         {
             var res = factory.GetAllEmployees();
