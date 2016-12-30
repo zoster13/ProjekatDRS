@@ -28,13 +28,19 @@ namespace Client
             {
                 System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
 
-                App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Input,
-                    new ThreadStart(() => 
+                var disp=App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new ThreadStart(() =>
                     {
                         clientDB.Main.nekaMetoda(data);
                     }
                     )
                         );
+
+                //while (disp.Status != DispatcherOperationStatus.Completed) 
+                //{
+                //    Thread.Sleep(10);
+                //    System.Diagnostics.Debug.WriteLine("Ceka da se zavrsi disp thread");
+                //}
 
                 //App.Current.Dispatcher.Invoke((Action)delegate
                 //{

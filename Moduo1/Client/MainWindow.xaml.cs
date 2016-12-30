@@ -81,20 +81,20 @@ namespace Client
 
                 clientDB.Username = usernameBox.Text;
 
-                lock (clientDB.Employees_lock)
-                {
-                    foreach (Employee em in clientDB.Employees)
-                    {
-                        if (em.Username == clientDB.Username)
-                        {
-                            homeLabelName.Content = em.Name;
-                            homeLabelSurname.Content = em.Surname;
-                            homeLabelEmail.Content = em.Email;
-                            homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
-                            break;
-                        }
-                    }
-                }
+                //lock (clientDB.Employees_lock)
+                //{
+                //    foreach (Employee em in clientDB.Employees)
+                //    {
+                //        if (em.Username == clientDB.Username)
+                //        {
+                //            homeLabelName.Content = em.Name;
+                //            homeLabelSurname.Content = em.Surname;
+                //            homeLabelEmail.Content = em.Email;
+                //            homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
+                //            break;
+                //        }
+                //    }
+                //}
 
                 //employeesDataGrid.DataContext = clientDB.Employees;
                 //srediti vidljivost objekata na osnovu tipa
@@ -214,7 +214,27 @@ namespace Client
             clientDB.Employees.Clear();
             clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
             System.Diagnostics.Debug.WriteLine("Neka metoda kraj");
-            //employeesDataGrid.DataContext = clientDB.Employees;
+            employeesDataGrid.DataContext = clientDB.Employees;
+
+            FillHomeLabels();
+        }
+
+        public void FillHomeLabels() 
+        {
+            lock (clientDB.Employees_lock)
+            {
+                foreach (Employee em in clientDB.Employees)
+                {
+                    if (em.Username == clientDB.Username)
+                    {
+                        homeLabelName.Content = em.Name;
+                        homeLabelSurname.Content = em.Surname;
+                        homeLabelEmail.Content = em.Email;
+                        homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
+                        break;
+                    }
+                }
+            }
         }
     }
 }

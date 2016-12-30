@@ -35,7 +35,11 @@ namespace HiringCompany.EmployeesMng
                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
 
                 // pozivanje synca na callback objectu..
-                callback.SyncData(cData);
+                foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values) 
+                {
+                    call.SyncData(cData);
+                }
+                //callback.SyncData(cData);
 
                // return employee;
             }
