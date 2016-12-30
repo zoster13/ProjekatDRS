@@ -14,12 +14,14 @@ namespace Client
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
+        LocalClientDatabase database = null;
         EmployeeProxy proxy;
 
         public MainWindow()
         {
             InitializeComponent();
-            
+            database = new LocalClientDatabase();
+
             tabControl.SelectedIndex = 0;
 
             proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
@@ -27,31 +29,12 @@ namespace Client
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
-            Employee employee = new Employee();
-           
             proxy.LogIn(emailBox.Text, passwordBox.Password);
+        }
 
-            if (employee != null)
-            {
-                DataContext = LocalClientDatabase.Instance;
-
-                tabControl.SelectedIndex = 1;
-                LocalClientDatabase.Instance.CurrentEmployee = employee;
-                displayName.Text = employee.Name + " " + employee.Surname;
-                displayTeam.Text = "not implemented...";
-                displayType.Text = employee.Type.ToString();
-                displayEmail.Text = employee.Email;
-
-                OnLoad();
-            }
-            else
-            {
-                errorLogInBox.Text = "Wrong e-mail or password.";
-            }
-
-            logInButton.IsEnabled = true;
-            emailBox.Text = "";
-            passwordBox.Password = "";
+        private void logOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            proxy.LogOut(database.CurrentEmployee.Email);
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -88,24 +71,69 @@ namespace Client
             }
         }
 
-        private void OnLoad()
+        public void OnLoad()
         {
-            LocalClientDatabase.Instance.Employees.Clear();
+            database.Employees.Clear();
 
             var employees = proxy.GetAllEmployees();
 
             foreach (var employee in employees)
             {
-                LocalClientDatabase.Instance.Employees.Add(employee);
+                database.Employees.Add(employee);
             }
 
         }
 
-        private void logOutButton_Click(object sender, RoutedEventArgs e)
+
+        public void LogInCallbackResult(Employee employee)
         {
-            proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
-            
-            tabControl.SelectedIndex = 0;
+            if (employee != null)
+            {
+                
+                lock (database.Locker)
+                {
+                    database.Employees.Add(employee);
+                }
+
+                DataContext = database;
+
+                tabControl.SelectedIndex = 1;
+                database.CurrentEmployee = employee;
+                displayName.Text = employee.Name + " " + employee.Surname;
+                displayTeam.Text = "not implemented...";
+                displayType.Text = employee.Type.ToString();
+                displayEmail.Text = employee.Email;
+
+                OnLoad();
+            }
+            else
+            {
+                errorLogInBox.Text = "Wrong e-mail or password.";
+            }
+
+            logInButton.IsEnabled = true;
+            emailBox.Text = "";
+            passwordBox.Password = "";
+        }
+
+        public void LogOutCallbackResult(Employee employee)
+        {
+            foreach (Employee e in database.Employees)
+            {
+                if (e.Email.Equals(employee.Email))
+                {
+                    lock (database.Locker)
+                    {
+                        database.Employees.Remove(e);
+                        break;
+                    }
+                }
+            }
+
+            if (employee.Email.Equals(database.CurrentEmployee.Email))
+            {
+                tabControl.SelectedIndex = 0;
+            }
         }
     }
 }

@@ -1,25 +1,29 @@
 ﻿using ClientCommon;
 using System;
 using ClientCommon.Data;
+using System.ServiceModel;
 
 namespace Client
 {
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class CallbackMethods : ICallbackMethods
     {
+        MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+
         public void LogInCallback(Employee employee)
         {
-            LocalClientDatabase.Instance.Employees.Add(employee);
+            App.Current.Dispatcher.Invoke((Action)delegate
+             {
+                 mainWindow.LogInCallbackResult(employee);
+             });
         }
 
         public void LogOutCallback(Employee employee)
         {
-            foreach(var em in LocalClientDatabase.Instance.Employees)
+            App.Current.Dispatcher.Invoke((Action)delegate
             {
-                if(em.Email == employee.Email)
-                {
-                    LocalClientDatabase.Instance.Employees.Remove(employee);
-                }
-            }
+                mainWindow.LogOutCallbackResult(employee);
+            });
         }
     }
 }

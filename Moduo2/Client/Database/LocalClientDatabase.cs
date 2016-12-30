@@ -1,39 +1,40 @@
 ﻿using ClientCommon.Data;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Client
 {
     public class LocalClientDatabase
     {
-        private static LocalClientDatabase localDB;
-
-        private ObservableCollection<Employee> employees;
-
+        //private static LocalClientDatabase localDB;
+        private BindingList<Employee> employees;
         private Employee currentEmployee;
+        private object locker;
 
-        private LocalClientDatabase()
+        public LocalClientDatabase()
         {
-            employees = new ObservableCollection<Employee>();
+            employees = new BindingList<Employee>();
             currentEmployee = new Employee();
+            locker = new object();
         }
 
-        public static LocalClientDatabase Instance
-        {
-            get
-            {
-                if (localDB == null)
-                    localDB = new LocalClientDatabase();
+        //public static LocalClientDatabase Instance
+        //{
+        //    get
+        //    {
+        //        if (localDB == null)
+        //            localDB = new LocalClientDatabase();
 
-                return localDB;
-            }
-            set
-            {
-                if (localDB == null)
-                    localDB = value;
-            }
-        }
+        //        return localDB;
+        //    }
+        //    set
+        //    {
+        //        if (localDB == null)
+        //            localDB = value;
+        //    }
+        //}
 
-        public ObservableCollection<Employee> Employees
+        public BindingList<Employee> Employees
         {
             get
             {
@@ -56,5 +57,12 @@ namespace Client
                 currentEmployee = value;
             }
         }
+
+        public object Locker
+        {
+            get { return this.locker; }
+            set { this.locker = value; }
+        }
+
     }
 }
