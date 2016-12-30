@@ -203,5 +203,16 @@ namespace Client
             string str ="Id: " + p.Id + "\nName: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany+"\nProductOwner: "+p.ProductOwner;
             textBoxProjects.Text = str;
         }
+
+        public void nekaMetoda(EmployeeCommon.CurrentData data) 
+        {
+            if (clientDB.Employees.Count != 0)
+            {
+                clientDB.Employees.Clear();
+            }
+            clientDB.Employees.Clear();
+            clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
+            //employeesDataGrid.DataContext = clientDB.Employees;
+        }
     }
 }

@@ -24,13 +24,18 @@ namespace Client
         {
             lock (clientDB.Employees_lock)
             {
-                if (clientDB.Employees.Count != 0)
+
+
+                App.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    clientDB.Employees.Clear();
-                }
+                    clientDB.Main.nekaMetoda(data);
+                });
+                //BindingList<Employee> bTemp = new BindingList<Employee>(data.EmployeesData);
+                //clientDB.Employees = bTemp;
+                //clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
+                //clientDB.Main.nekaMetoda();
                 
-                clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
-                clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
+                //clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
             }
         }
     }
