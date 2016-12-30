@@ -20,6 +20,8 @@ namespace Client
 
         private string username; //da pamti username ulogovanog radnika
 
+        private MainWindow main;
+
         private ClientDatabase() 
         {
             employees = new BindingList<Employee>();
@@ -50,6 +52,12 @@ namespace Client
         {
             get { return username; }
             set { username = value; }
+        }
+
+        public MainWindow Main 
+        {
+            get { return main; }
+            set { main = value; }
         }
     }
 }

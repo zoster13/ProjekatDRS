@@ -28,7 +28,7 @@ namespace HiringCompany
 
 
 
-            string addressEmployees = "net.tcp://localhost:9999/EmployeeService";
+            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService";
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 

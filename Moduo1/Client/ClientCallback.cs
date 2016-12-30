@@ -30,6 +30,7 @@ namespace Client
                 }
                 
                 clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
+                clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
             }
         }
     }

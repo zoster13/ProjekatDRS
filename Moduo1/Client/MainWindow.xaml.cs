@@ -30,13 +30,16 @@ namespace Client
         {
             InitializeComponent();
             DataContext = clientDB;
+
+            clientDB.Main = this;//proba
+
             comboBoxProjects.DataContext = clientDB.Projects;
            
             employeesDataGrid.DataContext = clientDB.Employees;
 
             //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
 
-            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();           
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -93,7 +96,7 @@ namespace Client
                     }
                 }
 
-                employeesDataGrid.DataContext = clientDB.Employees;
+                //employeesDataGrid.DataContext = clientDB.Employees;
                 //srediti vidljivost objekata na osnovu tipa
             }
             else
