@@ -35,11 +35,11 @@ namespace Client
             return retval;
         }
 
-        public void SignOut()
+        public void SignOut(string username)
         {
             try
             {
-
+                factory.SignOut(username);
             }
             catch (Exception)
             {

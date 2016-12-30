@@ -39,25 +39,23 @@ namespace Client
 
             //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
 
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
 
-            NetTcpBinding binding = new NetTcpBinding();           
-            binding.OpenTimeout = new TimeSpan(1, 0, 0);
-            binding.CloseTimeout = new TimeSpan(1, 0, 0);
-            binding.SendTimeout = new TimeSpan(1, 0, 0);
-            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+            //NetTcpBinding binding = new NetTcpBinding();           
+            //binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            //binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            //binding.SendTimeout = new TimeSpan(1, 0, 0);
+            //binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
 
-            EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
-            IEmployeeServiceCallback callback = new ClientCallback();
+            //EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
+            //IEmployeeServiceCallback callback = new ClientCallback();
 
-            InstanceContext instanceContext = new InstanceContext(callback);
+            //InstanceContext instanceContext = new InstanceContext(callback);
 
-            proxy = new ClientProxy(instanceContext, binding, endpointAddress);
+            //proxy = new ClientProxy(instanceContext, binding, endpointAddress);
 
 
-                
-                //Console.WriteLine("Press any key to exit...");
-               // Console.ReadKey(true);
+ 
 
                 //proxy.SignOut();
 
@@ -66,8 +64,10 @@ namespace Client
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
+            setUpConnection();
             //pozvati serversku metodu za logovanje,f-ja mora da ima povratnu vrednost da bi se znalo da li taj korisnik postoji u database,
             //ako postoji i loguje se,onda raditi ovo ispod
+            signOutButton.Visibility = System.Windows.Visibility.Visible;
             bool success=proxy.SignIn(usernameBox.Text,passwordBox.Password);
             if (success) 
             {
@@ -105,6 +105,16 @@ namespace Client
                 passwordBox.Password = "";
                 logInWarningLabel.Content = "Employee with that username doesn't exist!";
             }          
+        }
+
+        private void signOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            proxy.SignOut(clientDB.Username);
+            usernameBox.Text = "";
+            passwordBox.Password = "";
+            signOutButton.Visibility = System.Windows.Visibility.Hidden;
+            tabControl.SelectedIndex = 0;
+
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -231,10 +241,29 @@ namespace Client
                         homeLabelSurname.Content = em.Surname;
                         homeLabelEmail.Content = em.Email;
                         homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
+                        nameSurnameLabel.Content = em.Name + " " + em.Surname;
                         break;
                     }
                 }
             }
+        }
+
+        private void setUpConnection() 
+        {
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
+            IEmployeeServiceCallback callback = new ClientCallback();
+
+            InstanceContext instanceContext = new InstanceContext(callback);
+
+            proxy = new ClientProxy(instanceContext, binding, endpointAddress);
         }
     }
 }

@@ -35,9 +35,8 @@
                         </TabItem>
                         <TabItem Header="Employees" Margin="21,10,-49,-10" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
-                                <Button Content="Show online employees" HorizontalAlignment="Left" Margin="67,32,0,0" VerticalAlignment="Top" Width="140" Height="40" FontWeight="Bold" Click="showOnlineEmployees_Click"/>
-                                <DataGrid x:Name="employeesDataGrid" HorizontalAlignment="Left" Margin="246,32,0,0" 
-                                          VerticalAlignment="Top" Height="359" Width="554" Background="#FFDDDDDD"
+                                <DataGrid x:Name="employeesDataGrid" HorizontalAlignment="Left" Margin="10,32,0,0" 
+                                          VerticalAlignment="Top" Height="359" Width="790" Background="#FFDDDDDD"
                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -206,6 +205,8 @@
         </TabControl>
         <Label x:Name="label1" Content="Hiring Company Employee" FontWeight="Bold" FontSize="32" HorizontalAlignment="Left" Height="53" Margin="198,21,0,0" VerticalAlignment="Top" Width="444" Foreground="#FF1F3270" Background="#FF18A6A6"/>
         <Label Content="© Miljana e333/ Zvezdana e335" HorizontalAlignment="Left" Margin="652,542,0,0" VerticalAlignment="Top" Width="180"/>
+        <Button x:Name="signOutButton" Content="SignOut" HorizontalAlignment="Left" Margin="770,21,0,0" VerticalAlignment="Top" Width="62" Height="26" Visibility="Hidden" Click="signOutButton_Click"/>
+        <Label x:Name="nameSurnameLabel" Content="" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,21,77,0" VerticalAlignment="Top" Width="140"/>
 
     </Grid>
 </Window>
