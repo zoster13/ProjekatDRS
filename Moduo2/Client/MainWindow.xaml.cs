@@ -82,7 +82,6 @@ namespace Client
             {
                 database.Employees.Add(employee);
             }
-
         }
 
 
@@ -136,7 +135,11 @@ namespace Client
             if (employee.Email.Equals(database.CurrentEmployee.Email))
             {
                 tabControl.SelectedIndex = 0;
-                this.Close();
+                database = new LocalClientDatabase();
+                DataContext = database;
+                proxy.Abort();
+                proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
+                //this.Close();
             }
         }
     }
