@@ -17,7 +17,7 @@ namespace HiringCompany.EmployeesMng
           HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
    
 
-        public bool SignIn(string username,string password)
+        public void SignIn(string username,string password)
         {
             Console.WriteLine("EmployeeService.LogIn() called ");
 
@@ -34,17 +34,17 @@ namespace HiringCompany.EmployeesMng
                 CurrentData cData = new CurrentData();
                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
 
-                // pozivanje synca na callback objectu...
+                // pozivanje synca na callback objectu..
                 callback.SyncData(cData);
 
                // return employee;
             }
             else
             {
-                return false;
+                //return false;
             }
 
-            return true;
+            //return true;
         }
 
         public void SignOut()

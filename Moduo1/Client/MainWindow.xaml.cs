@@ -68,9 +68,9 @@ namespace Client
         {
             //pozvati serversku metodu za logovanje,f-ja mora da ima povratnu vrednost da bi se znalo da li taj korisnik postoji u database,
             //ako postoji i loguje se,onda raditi ovo ispod
-            bool success=proxy.SignIn(usernameBox.Text,passwordBox.Password);
-            if (success) 
-            {
+            proxy.SignIn(usernameBox.Text,passwordBox.Password);
+           // if (success) 
+           // {
                 logInWarningLabel.Content = "";
                 tabControl.SelectedIndex = 1;
 
@@ -98,13 +98,13 @@ namespace Client
 
                 //employeesDataGrid.DataContext = clientDB.Employees;
                 //srediti vidljivost objekata na osnovu tipa
-            }
-            else
-            {
-                usernameBox.Text = "";
-                passwordBox.Password = "";
-                logInWarningLabel.Content = "Employee with that username doesn't exist!";
-            }          
+            //}
+            //else
+            //{
+            //    usernameBox.Text = "";
+            //    passwordBox.Password = "";
+            //    logInWarningLabel.Content = "Employee with that username doesn't exist!";
+            //}          
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
