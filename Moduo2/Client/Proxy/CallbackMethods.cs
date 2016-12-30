@@ -2,6 +2,7 @@
 using System;
 using ClientCommon.Data;
 using System.ServiceModel;
+using System.Threading;
 
 namespace Client
 {
@@ -12,7 +13,7 @@ namespace Client
 
         public void LogInCallback(Employee employee)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate
+             App.Current.Dispatcher.Invoke((Action)delegate
              {
                  mainWindow.LogInCallbackResult(employee);
              });

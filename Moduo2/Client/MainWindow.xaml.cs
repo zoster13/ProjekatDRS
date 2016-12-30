@@ -14,13 +14,14 @@ namespace Client
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
-        LocalClientDatabase database = null;
+        public LocalClientDatabase database = null;
         EmployeeProxy proxy;
 
         public MainWindow()
         {
             InitializeComponent();
             database = new LocalClientDatabase();
+            DataContext = database;
 
             tabControl.SelectedIndex = 0;
 
@@ -89,22 +90,24 @@ namespace Client
         {
             if (employee != null)
             {
-                
                 lock (database.Locker)
                 {
                     database.Employees.Add(employee);
                 }
 
-                DataContext = database;
-
                 tabControl.SelectedIndex = 1;
-                database.CurrentEmployee = employee;
-                displayName.Text = employee.Name + " " + employee.Surname;
-                displayTeam.Text = "not implemented...";
-                displayType.Text = employee.Type.ToString();
-                displayEmail.Text = employee.Email;
 
-                OnLoad();
+                if (database.CurrentEmployee.Email == null)
+                {
+                    database.CurrentEmployee = employee;
+
+                    displayName.Text = employee.Name + " " + employee.Surname;
+                    displayTeam.Text = "not implemented...";
+                    displayType.Text = employee.Type.ToString();
+                    displayEmail.Text = employee.Email;
+
+                    OnLoad();
+                }
             }
             else
             {
@@ -133,6 +136,7 @@ namespace Client
             if (employee.Email.Equals(database.CurrentEmployee.Email))
             {
                 tabControl.SelectedIndex = 0;
+                this.Close();
             }
         }
     }

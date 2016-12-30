@@ -51,8 +51,8 @@ namespace Server
 
         public  void LogOutCallback(Employee employee)
         {
-            callbackMethod = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-            subscribers.Add(callbackMethod);
+            //callbackMethod = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
+            //subscribers.Add(callbackMethod);
 
             PublishLogOutChanges(employee);
         }
@@ -69,7 +69,8 @@ namespace Server
                     }
                     else
                     {
-                        subscribers.Remove(sub);
+                        //subscribers.Remove(sub);
+                        continue;
                     }
                 }
                 catch (Exception e)
@@ -91,7 +92,8 @@ namespace Server
                     }
                     else
                     {
-                        subscribers.Remove(sub);
+                        //subscribers.Remove(sub);
+                        continue;
                     }
                 }
                 catch (Exception e)

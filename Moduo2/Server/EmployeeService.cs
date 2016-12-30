@@ -23,20 +23,18 @@ namespace Server
         public void LogOut(string email)
         {
             Employee employee = null;
-            Employee employeeCopy = null;
             
             foreach (Employee e in InternalDatabase.Instance.OnlineEmployees)
             {
                 if(e.Email.Equals(email))
                 {
                     employee = e;
-                    employeeCopy = e;
+                    InternalDatabase.Instance.OnlineEmployees.Remove(e);
+                    break;
                 }
             }
-
-            InternalDatabase.Instance.OnlineEmployees.Remove(employee);
-
-            Publisher.Instance.LogOutCallback(employeeCopy);
+            
+            Publisher.Instance.LogOutCallback(employee);
         }
 
         public List<Employee> GetAllEmployees()
