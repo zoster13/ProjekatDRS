@@ -13,7 +13,7 @@ namespace EmployeeCommon
     {
         // All users
         [OperationContract(IsInitiating = true, IsTerminating = false)]
-        void SignIn(string username,string password); // da li da se u ovom LogIn-u interno implementira i subscribe? Da korisnik dobija podatke koji su mu od znacaja dok je logovan
+        bool SignIn(string username,string password); // da li da se u ovom LogIn-u interno implementira i subscribe? Da korisnik dobija podatke koji su mu od znacaja dok je logovan
          
         [OperationContract( IsInitiating = false, IsTerminating = true)]
         void SignOut();

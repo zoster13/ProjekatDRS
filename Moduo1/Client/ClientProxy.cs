@@ -20,19 +20,19 @@ namespace Client
 
 
 
-        public void SignIn(string username,string password)
+        public bool SignIn(string username,string password)
         {
-            //bool retval = false;
+            bool retval = false;
             try
             {
-                factory.SignIn(username,password);  //Ne moze se pozvati SyncData jer je zapucao ovde i ceka odgovor!
+                retval=factory.SignIn(username,password);  //Ne moze se pozvati SyncData jer je zapucao ovde i ceka odgovor!
             }
             catch (Exception)
             {
                 
                
             }
-            //return retval;
+            return retval;
         }
 
         public void SignOut()

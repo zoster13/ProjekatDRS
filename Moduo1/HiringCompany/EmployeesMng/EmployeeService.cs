@@ -17,7 +17,7 @@ namespace HiringCompany.EmployeesMng
           HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
    
 
-        public void SignIn(string username,string password)
+        public bool SignIn(string username,string password)
         {
             Console.WriteLine("EmployeeService.LogIn() called ");
 
@@ -41,10 +41,10 @@ namespace HiringCompany.EmployeesMng
             }
             else
             {
-                //return false;
+                return false;
             }
 
-            //return true;
+            return true;
         }
 
         public void SignOut()

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using EmployeeCommon;
 using System.ServiceModel;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Client
 {
@@ -24,12 +26,23 @@ namespace Client
         {
             lock (clientDB.Employees_lock)
             {
+                System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
 
+                App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Input,
+                    new ThreadStart(() => 
+                    {
+                        clientDB.Main.nekaMetoda(data);
+                    }
+                    )
+                        );
 
-                App.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    clientDB.Main.nekaMetoda(data);
-                });
+                //App.Current.Dispatcher.Invoke((Action)delegate
+                //{
+                //    System.Diagnostics.Debug.WriteLine("Uslo u invokeDispatcher");
+                //    clientDB.Main.nekaMetoda(data);
+                //    System.Diagnostics.Debug.WriteLine("Vratilo se iz main-a");
+                //});  
+
                 //BindingList<Employee> bTemp = new BindingList<Employee>(data.EmployeesData);
                 //clientDB.Employees = bTemp;
                 //clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
