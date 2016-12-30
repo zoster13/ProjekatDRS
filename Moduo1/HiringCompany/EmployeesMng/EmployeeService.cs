@@ -29,18 +29,14 @@ namespace HiringCompany.EmployeesMng
                 hiringCompanyDB.ConnectionChannels.Add(username, callback);
 
                 hiringCompanyDB.OnlineEmployees.Add(employee);
-
-                // pokuasj update-a...
                 CurrentData cData = new CurrentData();
                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
 
-                // pozivanje synca na callback objectu..
                 foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values) 
                 {
                     call.SyncData(cData);
                 }
-                //callback.SyncData(cData);
-
+               
                // return employee;
             }
             else
@@ -51,9 +47,23 @@ namespace HiringCompany.EmployeesMng
             return true;
         }
 
-        public void SignOut()
+        public void SignOut(string username)
         {
-            throw new NotImplementedException();
+             Employee employee = hiringCompanyDB.GetEmployee(username);
+
+             if (employee != null)
+             {
+                 // sacuvati podatke tog korisnika u bazi
+                 hiringCompanyDB.OnlineEmployees.Remove(employee);
+                 hiringCompanyDB.ConnectionChannels.Remove(username);
+
+                 CurrentData cData = new CurrentData();
+                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                 foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
+                 {
+                     call.SyncData(cData);
+                 }
+             }
         }
 
         public void ListOnlineEmployees()
