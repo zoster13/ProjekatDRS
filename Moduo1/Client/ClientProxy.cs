@@ -165,7 +165,7 @@ namespace Client
             }
         }
 
-        public void Dispose()
+        public void Dispose() // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
         {
 
             try

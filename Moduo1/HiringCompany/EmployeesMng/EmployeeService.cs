@@ -49,11 +49,19 @@ namespace HiringCompany.EmployeesMng
 
         public void SignOut(string username)
         {
-             Employee employee = hiringCompanyDB.GetEmployee(username);
+             Employee employee=null; // namestiti...
 
-             if (employee != null)
-             {
+         
                  // sacuvati podatke tog korisnika u bazi
+                 foreach (Employee e in hiringCompanyDB.OnlineEmployees)
+                 {
+                     if (e.Username.Equals(username))
+                     {
+                         employee = e;
+                         break;
+                     }
+                 }
+
                  hiringCompanyDB.OnlineEmployees.Remove(employee);
                  hiringCompanyDB.ConnectionChannels.Remove(username);
 
@@ -63,7 +71,7 @@ namespace HiringCompany.EmployeesMng
                  {
                      call.SyncData(cData);
                  }
-             }
+             
         }
 
         public void ListOnlineEmployees()
