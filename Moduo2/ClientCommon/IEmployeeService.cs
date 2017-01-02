@@ -15,5 +15,11 @@ namespace ClientCommon
 
         [OperationContract]
         List<Employee> GetAllEmployees();
+
+        [OperationContract]
+        List<Team> GetAllTeams();
+
+        [OperationContract]
+        List<HiringCompany> GetAllHiringCompanies();
     }
 }

@@ -12,17 +12,32 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClientCommon.Data;
 
-namespace Client
+namespace Client.Views
 {
     /// <summary>
     /// Interaction logic for CEOWork.xaml
     /// </summary>
     public partial class CEOWork : UserControl
     {
+
+        public LocalClientDatabase database = null;
+
         public CEOWork()
         {
             InitializeComponent();
+
+            database = new LocalClientDatabase();
+            DataContext = database;
+
+            foreach(var type in Enum.GetValues(typeof(EmployeeType)))
+            {
+                comboBoxNewType.Items.Add(type);
+                comboBoxNewType.SelectedIndex = 0;
+                comboBoxType.Items.Add(type);
+                comboBoxType.SelectedIndex = 0;
+            }
         }
     }
 }

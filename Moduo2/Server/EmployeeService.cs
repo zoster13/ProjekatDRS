@@ -3,6 +3,7 @@ using ClientCommon.Data;
 using Server.Access;
 using Server.Database;
 using System.Collections.Generic;
+using System;
 
 namespace Server
 {
@@ -40,6 +41,16 @@ namespace Server
         public List<Employee> GetAllEmployees()
         {
             return InternalDatabase.Instance.OnlineEmployees;
+        }
+
+        public List<Team> GetAllTeams()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<HiringCompany> GetAllHiringCompanies()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -53,5 +53,31 @@ namespace Client
                 return null;
             }
         }
+
+        public List<Team> GetAllTeams()
+        {
+            try
+            {
+                return factory.GetAllTeams();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to GetAllTeams: {0}", e.Message);
+                return null;
+            }
+        }
+
+        public List<HiringCompany> GetAllHiringCompanies()
+        {
+            try
+            {
+                return factory.GetAllHiringCompanies();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to GetAllHiringCompanies: {0}", e.Message);
+                return null;
+            }
+        }
     }
 }

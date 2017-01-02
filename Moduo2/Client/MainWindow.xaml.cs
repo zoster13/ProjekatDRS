@@ -23,9 +23,9 @@ namespace Client
             database = new LocalClientDatabase();
             DataContext = database;
 
-            tabControl.SelectedIndex = 0;
-
             proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
+
+            //workCeo.Visibility = Visibility.Hidden;
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -50,9 +50,9 @@ namespace Client
 
         private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (emailBox.Text != "" || passwordBox.Password != "")
+            if (emailBox.Text == "" || passwordBox.Password == "")
             {
-                //logInButton.IsEnabled = false;
+                logInButton.IsEnabled = false;
             }
             else
             {
@@ -60,11 +60,11 @@ namespace Client
             }
         }
 
-        private void passwordBox_GotFocus(object sender, RoutedEventArgs e)
+        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (emailBox.Text != "" || passwordBox.Password != "")
+            if (emailBox.Text == "" || passwordBox.Password == "")
             {
-                //logInButton.IsEnabled = false;
+                logInButton.IsEnabled = false;
             }
             else
             {
@@ -75,12 +75,28 @@ namespace Client
         public void OnLoad()
         {
             database.Employees.Clear();
+            database.Teams.Clear();
+            database.HiringCompanies.Clear();
 
             var employees = proxy.GetAllEmployees();
 
             foreach (var employee in employees)
             {
                 database.Employees.Add(employee);
+            }
+
+            var teams = proxy.GetAllTeams();
+
+            foreach (var team in teams)
+            {
+                database.Teams.Add(team);
+            }
+
+            var hiringCompanies = proxy.GetAllHiringCompanies();
+
+            foreach (var hiringCompany in hiringCompanies)
+            {
+                database.HiringCompanies.Add(hiringCompany);
             }
         }
 
@@ -105,6 +121,13 @@ namespace Client
                     displayType.Text = employee.Type.ToString();
                     displayEmail.Text = employee.Email;
 
+                    switch (database.CurrentEmployee.Type)
+                    {
+                        case EmployeeType.CEO:
+                            workCeo.Visibility = Visibility.Visible;
+                            break;
+                    }
+
                     OnLoad();
                 }
             }
@@ -113,7 +136,7 @@ namespace Client
                 errorLogInBox.Text = "Wrong e-mail or password.";
             }
 
-            logInButton.IsEnabled = true;
+            logInButton.IsEnabled = false;
             emailBox.Text = "";
             passwordBox.Password = "";
         }
@@ -139,7 +162,6 @@ namespace Client
                 DataContext = database;
                 proxy.Abort();
                 proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
-                //this.Close();
             }
         }
     }
