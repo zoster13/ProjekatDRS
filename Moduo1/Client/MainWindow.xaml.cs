@@ -31,42 +31,27 @@ namespace Client
             InitializeComponent();
             DataContext = clientDB;
 
-            clientDB.Main = this;//proba
+            clientDB.Main = this;
 
             comboBoxProjects.DataContext = clientDB.Projects;
            
             employeesDataGrid.DataContext = clientDB.Employees;
+            companiesDataGrid.DataContext = clientDB.Companies; //verovatno ce i ovo morati opet da se nakuca u SyncClientDB metodi-ako budemo slali celu listu,isto kao za Employees
+            dataGridCEO.DataContext = clientDB.Employees;
 
-            //dodati companiesDataGrid.DataContext= clientDB.listaKompanija
-
-            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-
-            //NetTcpBinding binding = new NetTcpBinding();           
-            //binding.OpenTimeout = new TimeSpan(1, 0, 0);
-            //binding.CloseTimeout = new TimeSpan(1, 0, 0);
-            //binding.SendTimeout = new TimeSpan(1, 0, 0);
-            //binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
-
-            //EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
-            //IEmployeeServiceCallback callback = new ClientCallback();
-
-            //InstanceContext instanceContext = new InstanceContext(callback);
-
-            //proxy = new ClientProxy(instanceContext, binding, endpointAddress);
-
-
- 
-
-                //proxy.SignOut();
-
-
+            foreach (var type in Enum.GetValues(typeof(EmployeeType)))
+            {
+                comboBoxNewPositionCEO.Items.Add(type);
+                comboBoxNewPositionCEO.SelectedIndex = 0;
+                comboBoxPositionCEO.Items.Add(type);
+                comboBoxPositionCEO.SelectedIndex = 0;
+            }
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
-            setUpConnection();
-            //pozvati serversku metodu za logovanje,f-ja mora da ima povratnu vrednost da bi se znalo da li taj korisnik postoji u database,
-            //ako postoji i loguje se,onda raditi ovo ispod
+            SetUpConnection();
+
             signOutButton.Visibility = System.Windows.Visibility.Visible;
             bool success=proxy.SignIn(usernameBox.Text,passwordBox.Password);
             if (success) 
@@ -74,30 +59,10 @@ namespace Client
                 logInWarningLabel.Content = "";
                 tabControl.SelectedIndex = 1;
 
-                //smisliti kako da u listu clientDB.Employee na svaki odredjeni vremenski period
-                //smestamo zaposlene koji se nalaze u listi online korisnika na serveru
-                //takodje, ovde verovatno treba da se napravi da su visible objekti koji
+                //ovde treba da se napravi da su visible objekti koji
                 //su vidjivi samo za odredjeni tip
 
                 clientDB.Username = usernameBox.Text;
-
-                //lock (clientDB.Employees_lock)
-                //{
-                //    foreach (Employee em in clientDB.Employees)
-                //    {
-                //        if (em.Username == clientDB.Username)
-                //        {
-                //            homeLabelName.Content = em.Name;
-                //            homeLabelSurname.Content = em.Surname;
-                //            homeLabelEmail.Content = em.Email;
-                //            homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
-                //            break;
-                //        }
-                //    }
-                //}
-
-                //employeesDataGrid.DataContext = clientDB.Employees;
-                //srediti vidljivost objekata na osnovu tipa
             }
             else
             {
@@ -112,6 +77,7 @@ namespace Client
             proxy.SignOut(clientDB.Username);
             usernameBox.Text = "";
             passwordBox.Password = "";
+            nameSurnameLabel.Content = "";
             signOutButton.Visibility = System.Windows.Visibility.Hidden;
             tabControl.SelectedIndex = 0;
 
@@ -170,16 +136,6 @@ namespace Client
             //uraditi to i za radno vreme
         }
 
-        private void showOnlineEmployees_Click(object sender, RoutedEventArgs e) //verovatno nece trebati ovo dugme,izbrisati
-        {
-
-        }
-
-        private void showPartnerCompanies_Click(object sender, RoutedEventArgs e) //verovatno nece trebati ovo dugme,izbrisati
-        {
-
-        }
-
         private void usernameTextChanged(object sender, TextChangedEventArgs e)
         {
             if (usernameBox.Text != "" && passwordBox.Password != "")
@@ -188,11 +144,11 @@ namespace Client
             }
             else
             {
-                logInButton.IsEnabled = true; //treba false,nesto ne radi
+                logInButton.IsEnabled = false;
             }
         }
 
-        private void passwordGotFocus(object sender, RoutedEventArgs e)
+        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (usernameBox.Text != "" && passwordBox.Password != "")
             {
@@ -200,7 +156,7 @@ namespace Client
             }
             else
             {
-                logInButton.IsEnabled = true; //treba false,nesto ne radi
+                logInButton.IsEnabled = false;
             }
         }
 
@@ -214,17 +170,18 @@ namespace Client
             textBoxProjects.Text = str;
         }
 
-        public void nekaMetoda(EmployeeCommon.CurrentData data) 
+        public void syncClientDB(EmployeeCommon.CurrentData data) 
         {
-            System.Diagnostics.Debug.WriteLine("Neka metoda pocetak");
+            //System.Diagnostics.Debug.WriteLine("Neka metoda pocetak");
             if (clientDB.Employees.Count != 0)
             {
                 clientDB.Employees.Clear();
             }
             clientDB.Employees.Clear();
             clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
-            System.Diagnostics.Debug.WriteLine("Neka metoda kraj");
+            //System.Diagnostics.Debug.WriteLine("Neka metoda kraj");
             employeesDataGrid.DataContext = clientDB.Employees;
+            dataGridCEO.DataContext = clientDB.Employees;
 
             FillHomeLabels();
         }
@@ -240,17 +197,34 @@ namespace Client
                         homeLabelName.Content = em.Name;
                         homeLabelSurname.Content = em.Surname;
                         homeLabelEmail.Content = em.Email;
-                        homeLabelPosition.Content = em.Type.ToString(); //Ne znam da li mora ovo ToString
+                        homeLabelPosition.Content = em.Type.ToString();
                         nameSurnameLabel.Content = em.Name + " " + em.Surname;
+
+                        if (em.Type.Equals(EmployeeType.CEO))
+                        {
+                            workTabItem.Visibility = Visibility.Visible;
+                            tabItemCompanies.Visibility = Visibility.Visible;
+                        }
+                        else if (em.Type.Equals(EmployeeType.HR))
+                        {
+                            workTabItem.Visibility = Visibility.Visible;
+                            tabItemCompanies.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            workTabItem.Visibility = Visibility.Hidden;
+                            tabItemCompanies.Visibility = Visibility.Hidden;
+                        }
+
                         break;
                     }
                 }
             }
         }
 
-        private void setUpConnection() 
+        private void SetUpConnection() 
         {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService"; //10.1.212.113
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -264,6 +238,41 @@ namespace Client
             InstanceContext instanceContext = new InstanceContext(callback);
 
             proxy = new ClientProxy(instanceContext, binding, endpointAddress);
+        }
+
+        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) //menja podatke u listi(u klijentskoj DB,serversku stranu i pravu bazu nisam dirala),ali ne menja podatke u tabelama koje su bindovane sa tom listom,
+        {                                                                           //valjda treba da se upotrebljava IObserver ili sta vec,moram toga da se podsetim,kasnije cu da pogledam to
+            string usName = ((Employee)dataGridCEO.SelectedItem).Username;          //treba ovde da se doda i poziv za servera da izmeni podatke u bazi,
+                                                                                    //ovako sam radila samo za probu
+            lock (clientDB.Employees_lock)
+            {
+                foreach (Employee em in clientDB.Employees)
+                {
+                    if (em.Username.Equals(usName))
+                    {
+                        em.Type = (EmployeeType)comboBoxNewPositionCEO.SelectedItem;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Employee newEmployee;
+            if ((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
+            {
+                newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, (EmployeeType)comboBoxPositionCEO.SelectedItem, textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
+                clientDB.Employees.Add(newEmployee); //ne treba ovako,radjeno samo za proveru,
+                //treba se pozvati serverska metoda da se doda u pravu bazu,da se sync sa klijentskom bazom,i na serverskoj strani se radi provera
+                //postoji li vec zaposleni sa tim username-om.
+                textBoxNameCEO.Text = "";
+                textBoxSurnameCEO.Text = "";
+                textBoxEmailCEO.Text = "";
+                usernameTextBoxCEO.Text = "";
+                passwordBoxCEO.Password = "";
+                comboBoxPositionCEO.SelectedIndex = 0;
+            }
         }
     }
 }

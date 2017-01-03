@@ -14,7 +14,7 @@ namespace Client
 
         private BindingList<Employee> employees;
         private BindingList<Project> projects;
-        //dodati BindingList kompanija
+        private BindingList<PartnerCompany> companies;
 
         private static ClientDatabase instance; //singletone
 
@@ -26,6 +26,7 @@ namespace Client
         {
             employees = new BindingList<Employee>();
             projects = new BindingList<Project>();
+            companies = new BindingList<PartnerCompany>();
         }
 
         public static ClientDatabase Instance()
@@ -46,6 +47,12 @@ namespace Client
         {
             get { return projects; }
             set { projects = value; }
+        }
+
+        public BindingList<PartnerCompany> Companies
+        {
+            get { return companies; }
+            set { companies = value; }
         }
 
         public string Username 

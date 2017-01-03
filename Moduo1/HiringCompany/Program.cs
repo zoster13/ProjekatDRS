@@ -28,7 +28,7 @@ namespace HiringCompany
 
 
 
-            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; //10.1.212.113
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 
@@ -43,13 +43,13 @@ namespace HiringCompany
 
 
             //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana@mail.com",1,2,2,3);
-            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zvezdana@mail.com");
+            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zvezdana@mail.com",1,2,2,3);
             //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "aleksandra@mail.com");
             //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "radislav@mail.com");
             //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "pera@mail.com");
 
             //HiringCompanyDB.Instance().AddNewEmployee(em1);
-            //HiringCompanyDB.DBInstance.AddNewEmployee(em2);
+            //HiringCompanyDB.Instance().AddNewEmployee(em2);
             //HiringCompanyDB.DBInstance.AddNewEmployee(em3);
             //HiringCompanyDB.DBInstance.AddNewEmployee(em4);
             //HiringCompanyDB.DBInstance.AddNewEmployee(em5);

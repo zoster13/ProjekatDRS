@@ -26,12 +26,12 @@ namespace Client
         {
             lock (clientDB.Employees_lock)
             {
-                System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
+                //System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
 
                 var disp=App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {
-                        clientDB.Main.nekaMetoda(data);
+                        clientDB.Main.syncClientDB(data);
                     }
                     )
                         );

@@ -18,6 +18,7 @@ namespace EmployeeCommon
         }
 
         [Key]
+        [DataMember]
         public string Name
         {
             get { return name; }
