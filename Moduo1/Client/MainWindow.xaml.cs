@@ -240,8 +240,8 @@ namespace Client
             proxy = new ClientProxy(instanceContext, binding, endpointAddress);
         }
 
-        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) //menja podatke u listi(u klijentskoj DB,serversku stranu i pravu bazu nisam dirala),ali ne menja podatke u tabelama koje su bindovane sa tom listom,
-        {                                                                           //valjda treba da se upotrebljava IObserver ili sta vec,moram toga da se podsetim,kasnije cu da pogledam to
+        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) //menja podatke u listi(u klijentskoj DB,serversku stranu i pravu bazu nisam dirala) i u tabelama
+        {                                                                           //mozda treba da se upotrebljava IObserver ili sta vec,ali ovako radi i bez toga
             string usName = ((Employee)dataGridCEO.SelectedItem).Username;          //treba ovde da se doda i poziv za servera da izmeni podatke u bazi,
                                                                                     //ovako sam radila samo za probu
             lock (clientDB.Employees_lock)
@@ -251,6 +251,8 @@ namespace Client
                     if (em.Username.Equals(usName))
                     {
                         em.Type = (EmployeeType)comboBoxNewPositionCEO.SelectedItem;
+                        employeesDataGrid.Items.Refresh();
+                        dataGridCEO.Items.Refresh();
                         break;
                     }
                 }
