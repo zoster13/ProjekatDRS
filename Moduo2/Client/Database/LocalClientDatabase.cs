@@ -1,6 +1,8 @@
 ﻿using ClientCommon.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Client
 {
@@ -14,6 +16,8 @@ namespace Client
         private Employee currentEmployee;
         private object locker;
 
+        private Canvas notificationCanvas;
+
         public LocalClientDatabase()
         {
             employees = new BindingList<Employee>();
@@ -21,6 +25,13 @@ namespace Client
             hiringCompanies = new BindingList<HiringCompany>();
             currentEmployee = new Employee();
             locker = new object();
+
+            notificationCanvas = new Canvas();
+            notificationCanvas.Background = new SolidColorBrush(Colors.DarkOrange);
+
+            TextBox notificationNumTB = new TextBox();
+            notificationNumTB.Text = "1";
+            notificationCanvas.Children.Add(notificationNumTB);
         }
 
         //public static LocalClientDatabase Instance

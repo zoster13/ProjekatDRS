@@ -63,5 +63,10 @@ namespace ClientCommon.Data
             get { return this.password; }
             set { this.password = value; }
         }
+
+        public override string ToString()
+        {
+            return Name + Surname + ", " + Type;
+        }
     }
 }

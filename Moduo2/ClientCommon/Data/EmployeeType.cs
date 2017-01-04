@@ -11,6 +11,7 @@ namespace ClientCommon.Data
         CEO,
         HR,
         TEAMLEADER,
-        SCRUMMASTER
+        SCRUMMASTER,
+        DEVELOPER
     }
 }

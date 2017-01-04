@@ -12,6 +12,7 @@ namespace ClientCommon.Data
     {
         private int id;
         private string name;
+        private Employee teamLeader;
         //List<Employee> employees;
 
         public Team()
@@ -37,6 +38,17 @@ namespace ClientCommon.Data
         {
             get { return this.name; }
             set { this.name = value; }
+        }
+
+        public Employee TeamLeader
+        {
+            get { return teamLeader; }
+            set { teamLeader = value; }
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

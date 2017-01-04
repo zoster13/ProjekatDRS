@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="625" Width="870">
     <Grid>
-        <TabControl x:Name="tabControl" SelectedIndex="0" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
+        <TabControl x:Name="tabControl" SelectedIndex="1" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
             <TabItem Height="0">
                 <Grid>
                     <TextBox x:Name="errorLogInBox" Margin="489,322,202,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>
@@ -108,6 +108,18 @@
                                     <Image Name="img" Height="35" Width="35" Source="images/icon sett.png" />
                                 </StackPanel>
                             </TabItem.Header>
+                        </TabItem>
+                        <TabItem x:Name="notificationsTab" Margin="113,10,-115,-10" Height="39" Focusable="True">
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Canvas Width="35" Height="33" Background="Transparent">
+                                        <Image Source="Images/notification.png" Height="35" Width="35"/>
+                                    </Canvas>
+                                    <TextBox x:Name="textBoxNotifNum"  IsHitTestVisible="False" Focusable="False" Background="Transparent" Text="0" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" IsReadOnly="True" Foreground="Black" Height="22" />
+                                </StackPanel>
+                            </TabItem.Header>
+                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
+                            </Grid>
                         </TabItem>
                         <!--TabItem Header="Settings" Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="68" Height="39" Focusable="False">
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">

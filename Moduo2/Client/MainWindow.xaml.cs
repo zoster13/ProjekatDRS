@@ -72,7 +72,7 @@ namespace Client
             }
         }
 
-        public void OnLoad()
+        public void LoadCommonData()
         {
             database.Employees.Clear();
             database.Teams.Clear();
@@ -124,11 +124,11 @@ namespace Client
                     switch (database.CurrentEmployee.Type)
                     {
                         case EmployeeType.CEO:
-                            workCeo.Visibility = Visibility.Visible;
+                            CEOWorkspace();
                             break;
                     }
 
-                    OnLoad();
+                    LoadCommonData();
                 }
             }
             else
@@ -139,6 +139,12 @@ namespace Client
             logInButton.IsEnabled = false;
             emailBox.Text = "";
             passwordBox.Password = "";
+        }
+
+        private void CEOWorkspace()
+        {
+            workCeo.Visibility = Visibility.Visible;
+            LoadCommonData();
         }
 
         public void LogOutCallbackResult(Employee employee)
