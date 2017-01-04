@@ -36,10 +36,10 @@ namespace EmployeeCommon
 
         // CEO, HR
         [OperationContract]
-        void AddNewEmployee();
+        void AddNewEmployee(Employee e);
 
         [OperationContract]
-        void ChangeEmployeeType();
+        void ChangeEmployeeType(string username,EmployeeType type);
 
         // CEO, PO, SM
         [OperationContract]

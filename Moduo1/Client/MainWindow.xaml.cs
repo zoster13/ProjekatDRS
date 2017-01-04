@@ -172,14 +172,15 @@ namespace Client
 
         public void syncClientDB(EmployeeCommon.CurrentData data) 
         {
-            //System.Diagnostics.Debug.WriteLine("Neka metoda pocetak");
-            if (clientDB.Employees.Count != 0)
+            lock (clientDB.Employees_lock)
             {
+                if (clientDB.Employees.Count != 0)
+                {
+                    clientDB.Employees.Clear();
+                }
                 clientDB.Employees.Clear();
+                clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
             }
-            clientDB.Employees.Clear();
-            clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
-            //System.Diagnostics.Debug.WriteLine("Neka metoda kraj");
             employeesDataGrid.DataContext = clientDB.Employees;
             dataGridCEO.DataContext = clientDB.Employees;
 
@@ -224,7 +225,7 @@ namespace Client
 
         private void SetUpConnection() 
         {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService"; //10.1.212.113
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -240,23 +241,11 @@ namespace Client
             proxy = new ClientProxy(instanceContext, binding, endpointAddress);
         }
 
-        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) //menja podatke u listi(u klijentskoj DB,serversku stranu i pravu bazu nisam dirala) i u tabelama
-        {                                                                           //mozda treba da se upotrebljava IObserver ili sta vec,ali ovako radi i bez toga
-            string usName = ((Employee)dataGridCEO.SelectedItem).Username;          //treba ovde da se doda i poziv za servera da izmeni podatke u bazi,
-                                                                                    //ovako sam radila samo za probu
-            lock (clientDB.Employees_lock)
-            {
-                foreach (Employee em in clientDB.Employees)
-                {
-                    if (em.Username.Equals(usName))
-                    {
-                        em.Type = (EmployeeType)comboBoxNewPositionCEO.SelectedItem;
-                        employeesDataGrid.Items.Refresh();
-                        dataGridCEO.Items.Refresh();
-                        break;
-                    }
-                }
-            }
+        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) 
+        {                                                                           
+            string usName = ((Employee)dataGridCEO.SelectedItem).Username;
+
+            proxy.ChangeEmployeeType(usName, (EmployeeType)comboBoxNewPositionCEO.SelectedItem);
         }
 
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
@@ -265,9 +254,10 @@ namespace Client
             if ((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
             {
                 newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, (EmployeeType)comboBoxPositionCEO.SelectedItem, textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
-                clientDB.Employees.Add(newEmployee); //ne treba ovako,radjeno samo za proveru,
-                //treba se pozvati serverska metoda da se doda u pravu bazu,da se sync sa klijentskom bazom,i na serverskoj strani se radi provera
+                //Na serverskoj strani uraditi proveru
                 //postoji li vec zaposleni sa tim username-om.
+                proxy.AddNewEmployee(newEmployee);
+
                 textBoxNameCEO.Text = "";
                 textBoxSurnameCEO.Text = "";
                 textBoxEmailCEO.Text = "";

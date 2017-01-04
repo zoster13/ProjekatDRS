@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using EmployeeCommon;
 
 namespace Client
 {
@@ -113,11 +114,11 @@ namespace Client
             }
         }
 
-        public void AddNewEmployee()
+        public void AddNewEmployee(Employee e)
         {
             try
             {
-
+                factory.AddNewEmployee(e);
             }
             catch (Exception)
             {
@@ -126,11 +127,11 @@ namespace Client
             }
         }
 
-        public void ChangeEmployeeType()
+        public void ChangeEmployeeType(string username,EmployeeType type)
         {
             try
             {
-
+                factory.ChangeEmployeeType(username, type);
             }
             catch (Exception)
             {
