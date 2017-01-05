@@ -11,28 +11,22 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string address = "net.tcp://localhost:9999/EmployeeService";
-        private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
-        private NetTcpBinding binding = new NetTcpBinding();
-        EmployeeProxy proxy;
 
         public MainWindow()
         {
             InitializeComponent();
             //database = new LocalClientDatabase();
             DataContext = LocalClientDatabase.Instance;
-
-            proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
-            proxy.LogIn(emailBox.Text, passwordBox.Password);
+            LocalClientDatabase.Instance.proxy.LogIn(emailBox.Text, passwordBox.Password);
         }
 
         private void logOutButton_Click(object sender, RoutedEventArgs e)
         {
-            proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
+            LocalClientDatabase.Instance.proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -75,7 +69,7 @@ namespace Client
             LocalClientDatabase.Instance.Teams.Clear();
             LocalClientDatabase.Instance.HiringCompanies.Clear();
 
-            var employees = proxy.GetAllEmployees();
+            var employees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
 
             foreach (var employee in employees)
             {
@@ -87,7 +81,7 @@ namespace Client
                 LocalClientDatabase.Instance.Employees.Add(employee);
             }
 
-            var teams = proxy.GetAllTeams();
+            var teams = LocalClientDatabase.Instance.proxy.GetAllTeams();
 
             foreach (var team in teams)
             {
@@ -193,10 +187,9 @@ namespace Client
             if (employee.Email.Equals(LocalClientDatabase.Instance.CurrentEmployee.Email))
             {
                 tabControl.SelectedIndex = 0;
-                proxy.Abort();
+                LocalClientDatabase.Instance.proxy.Abort();
                 LocalClientDatabase.Instance = null;
                 DataContext = LocalClientDatabase.Instance;
-                proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
             }
         }
     }

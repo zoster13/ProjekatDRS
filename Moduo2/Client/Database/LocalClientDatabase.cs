@@ -41,6 +41,8 @@ namespace Client
             TextBox notificationNumTB = new TextBox();
             notificationNumTB.Text = "1";
             notificationCanvas.Children.Add(notificationNumTB);
+
+            proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
         }
 
         public static LocalClientDatabase Instance
