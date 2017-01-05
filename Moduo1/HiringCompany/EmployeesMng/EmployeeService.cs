@@ -85,14 +85,140 @@ namespace HiringCompany.EmployeesMng
             throw new NotImplementedException();
         }
 
-        public void ChangeEmployeeData()
+        public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var access = new AccessDB();
+                foreach (Employee em in access.employees)
+                {
+                    if (em.Username == username)
+                    {
+                        if (name != "")
+                        {
+                            em.Name = name;
+                        }
+                        if (surname != "")
+                        {
+                            em.Surname = surname;
+                        }
+                        if (email != "")
+                        {
+                            em.Email = email;
+                        }
+                        if (password != "")
+                        {
+                            em.Password = password;
+                        }
+
+                        break;
+                    }
+                }
+                access.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
+
+            foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+            {
+                if (em.Username == username)
+                {
+                    if (name != "")
+                    {
+                        em.Name = name;
+                    }
+                    if (surname != "")
+                    {
+                        em.Surname = surname;
+                    }
+                    if (email != "")
+                    {
+                        em.Email = email;
+                    }
+                    if (password != "")
+                    {
+                        em.Password = password;
+                    }
+                    break;
+                }
+            }
+
+            CurrentData cData = new CurrentData();
+            cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+
+            foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
+            {
+                call.SyncData(cData);
+            }
         }
 
-        public void SetWorkingHours()
+        public void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var access = new AccessDB();
+                foreach (Employee em in access.employees)
+                {
+                    if (em.Username == username)
+                    {
+                        em.StartHour = beginH;
+                        em.StartMinute = beginM;
+                        em.EndHour = endH;
+                        em.EndMinute = endM;
+
+                        break;
+                    }
+                }
+                access.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
+
+            foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+            {
+                if (em.Username == username)
+                {
+                    em.StartHour = beginH;
+                    em.StartMinute = beginM;
+                    em.EndHour = endH;
+                    em.EndMinute = endM;
+                    break;
+                }
+            }
+
+            CurrentData cData = new CurrentData();
+            cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+
+            foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
+            {
+                call.SyncData(cData);
+            }
         }
 
         public void AskForPartnership()

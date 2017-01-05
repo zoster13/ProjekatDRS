@@ -75,11 +75,11 @@ namespace Client
             }
         }
 
-        public void ChangeEmployeeData()
+        public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
         {
             try
             {
-
+                factory.ChangeEmployeeData(username, name, surname, email, password);
             }
             catch (Exception)
             {
@@ -88,11 +88,11 @@ namespace Client
             }
         }
 
-        public void SetWorkingHours()
+        public void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM)
         {
             try
             {
-
+                factory.SetWorkingHours(username, beginH, beginM, endH, endM);
             }
             catch (Exception)
             {

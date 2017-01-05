@@ -86,8 +86,8 @@ namespace Client
         private void editPassword_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = true;
-            passBoxNewPass.IsEnabled = true;
-            passBoxConfirmNewPass.IsEnabled = true;
+            //passBoxNewPass.IsEnabled = true;
+            //passBoxConfirmNewPass.IsEnabled = true;
         }
 
         private void editData_Click(object sender, RoutedEventArgs e)
@@ -107,10 +107,14 @@ namespace Client
                         textBoxEditEmail.IsEnabled = true;
                         textBoxEditEmail.Text = em.Email;
 
-                        textBoxEditUsername.IsEnabled = true;
-                        textBoxEditUsername.Text = em.Username;
-
-                        //takodje uraditi to i za radno vreme
+                        workBeginHour.IsEnabled = true;
+                        workBeginHour.Text = em.StartHour.ToString();
+                        workBeginMinute.IsEnabled = true;
+                        workBeginMinute.Text = em.StartMinute.ToString();
+                        workEndHour.IsEnabled = true;
+                        workEndHour.Text = em.EndHour.ToString();
+                        workEndMinute.IsEnabled = true;
+                        workEndMinute.Text = em.EndMinute.ToString();
                     }
                 }
             }
@@ -119,21 +123,63 @@ namespace Client
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)
         {
-            //Napraviti neku proveru koja su polja popunjena/promenjena i sacuvati izmene
+            proxy.ChangeEmployeeData(clientDB.Username, textBoxEditName.Text, textBoxEditSurname.Text, textBoxEditEmail.Text, passBoxNewPass.Password);
+            FillHomeLabels();
+
+            if (workBeginHour.Text != "" && workBeginMinute.Text != "" && workEndHour.Text != "" && workEndMinute.Text != "")
+            {
+                proxy.SetWorkingHours(clientDB.Username, Int32.Parse(workBeginHour.Text), Int32.Parse(workBeginMinute.Text), Int32.Parse(workEndHour.Text), Int32.Parse(workEndMinute.Text));
+            }
+
+
+            passBoxOldPass.IsEnabled = false;
+            passBoxOldPass.Password = "";
+            passBoxNewPass.IsEnabled = false;
+            passBoxNewPass.Password = "";
+            //passBoxConfirmNewPass.IsEnabled = false;
+            //passBoxConfirmNewPass.Password = "";
+
+            textBoxEditName.IsEnabled = false;
+            textBoxEditName.Text = "";
+            textBoxEditSurname.IsEnabled = false;
+            textBoxEditSurname.Text = "";
+            textBoxEditEmail.IsEnabled = false;
+            textBoxEditEmail.Text = "";
+
+            workBeginHour.IsEnabled = false;
+            workBeginHour.Text = "";
+            workBeginMinute.IsEnabled = false;
+            workBeginMinute.Text = "";
+            workEndHour.IsEnabled = false;
+            workEndHour.Text = "";
+            workEndMinute.IsEnabled = false;
+            workEndMinute.Text = "";
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = false;
+            passBoxOldPass.Password = "";
             passBoxNewPass.IsEnabled = false;
-            passBoxConfirmNewPass.IsEnabled = false;
+            passBoxNewPass.Password = "";
+            //passBoxConfirmNewPass.IsEnabled = false;
+            //passBoxConfirmNewPass.Password = "";
 
             textBoxEditName.IsEnabled = false;
+            textBoxEditName.Text = "";
             textBoxEditSurname.IsEnabled = false;
+            textBoxEditSurname.Text = "";
             textBoxEditEmail.IsEnabled = false;
-            textBoxEditUsername.IsEnabled = false;
+            textBoxEditEmail.Text = "";
 
-            //uraditi to i za radno vreme
+            workBeginHour.IsEnabled = false;
+            workBeginHour.Text = "";
+            workBeginMinute.IsEnabled = false;
+            workBeginMinute.Text = "";
+            workEndHour.IsEnabled = false;
+            workEndHour.Text = "";
+            workEndMinute.IsEnabled = false;
+            workEndMinute.Text = "";
         }
 
         private void usernameTextChanged(object sender, TextChangedEventArgs e)
@@ -158,6 +204,11 @@ namespace Client
             {
                 logInButton.IsEnabled = false;
             }
+        }
+
+        private void passBoxOldPass_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            passBoxNewPass.IsEnabled = true;
         }
 
         private void comboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -265,6 +316,6 @@ namespace Client
                 passwordBoxCEO.Password = "";
                 comboBoxPositionCEO.SelectedIndex = 0;
             }
-        }
+        }        
     }
 }

@@ -25,10 +25,10 @@ namespace EmployeeCommon
         void ListOutsorcingCompanies();
 
         [OperationContract]
-        void ChangeEmployeeData();
+        void ChangeEmployeeData(string username, string name, string surname, string email, string password);
 
         [OperationContract]
-        void SetWorkingHours();
+        void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM);
 
         // CEO
         [OperationContract]
