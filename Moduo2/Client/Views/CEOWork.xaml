@@ -83,12 +83,14 @@
                                 <TextBox x:Name="textBoxLeaderName" HorizontalAlignment="Left" Height="21" Margin="130,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxLeaderName_TextChanged"/>
                                 <TextBox x:Name="textBoxLeaderEmail" HorizontalAlignment="Left" Height="21" Margin="130,149,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxLeaderEmail_TextChanged"/>
                                 <TextBox x:Name="textBoxLeaderSurname" HorizontalAlignment="Left" Height="21" Margin="149,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="textBoxLeaderSurname_TextChanged"/>
+                                <Label x:Name="labelLeaderPassword" Content="Password:" HorizontalAlignment="Left" Height="26" Margin="46,177,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.468,4.769"/>
                                 <Label x:Name="labelLeaderName" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="46,76,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelLeaderSurame" Content="Surname:" HorizontalAlignment="Left" Height="26" Margin="46,111,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelLeaderEmail" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="46,146,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Button x:Name="buttonTeamNext2" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65"/>
                                 <Button x:Name="buttonTeamBack2" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonTeamBack2_Click"/>
                                 <Button x:Name="buttonAddTeam2" Content="Add" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="223,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddTeam2_Click"/>
+                                <PasswordBox x:Name="passwordBoxLeader" HorizontalAlignment="Left" Height="21" Margin="130,177,0,0" VerticalAlignment="Top" Width="153" PasswordChanged="passwordBoxLeader_PasswordChanged"/>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="16,5,-390,-6" RenderTransformOrigin="0.5,0.5" Height="0">

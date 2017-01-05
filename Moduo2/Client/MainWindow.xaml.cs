@@ -128,6 +128,18 @@ namespace Client
                         case EmployeeType.CEO:
                             CEOWorkspace();
                             break;
+                        case EmployeeType.DEVELOPER:
+                            DeveloperWorkspace();
+                            break;
+                        case EmployeeType.TEAMLEADER:
+                            TeamLeaderWorkspace();
+                            break;
+                        case EmployeeType.SCRUMMASTER:
+                            ScrumMasterWorkspace();
+                            break;
+                        case EmployeeType.HR:
+                            HRWorkspace();
+                            break;
                     }
                 }
             }
@@ -144,6 +156,23 @@ namespace Client
         private void CEOWorkspace()
         {
             workCeo.Visibility = Visibility.Visible;
+            LoadCommonData();
+        }
+
+        private void DeveloperWorkspace()
+        {
+            LoadCommonData();
+        }
+        private void TeamLeaderWorkspace()
+        {
+            LoadCommonData();
+        }
+        private void ScrumMasterWorkspace()
+        {
+            LoadCommonData();
+        }
+        private void HRWorkspace()
+        {
             LoadCommonData();
         }
 
