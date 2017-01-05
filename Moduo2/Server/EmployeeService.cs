@@ -38,7 +38,6 @@ namespace Server
             Publisher.Instance.LogOutCallback(employee);
         }
         
-
         public List<Employee> GetAllEmployees()
         {
             return InternalDatabase.Instance.OnlineEmployees;
@@ -46,7 +45,7 @@ namespace Server
 
         public List<Team> GetAllTeams()
         {
-            throw new NotImplementedException();
+            return InternalDatabase.Instance.Teams;
         }
 
         public List<HiringCompany> GetAllHiringCompanies()
@@ -59,6 +58,7 @@ namespace Server
 
             if (EmployeeServiceDatabase.Instance.AddTeam(team))
             {
+                InternalDatabase.Instance.Teams.Add(team);
                 Publisher.Instance.TeamAddedCallback(team, true);
             }
             else

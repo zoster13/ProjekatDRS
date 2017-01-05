@@ -84,8 +84,8 @@ namespace ClientCommon.Data
             set { this.teamName = value; }
         }
         
-        [IgnoreDataMember]
-        public virtual ICollection<Team> Team { get; set; }
+        [DataMember]
+        public ICollection<Team> Team { get; set; }
 
         public override string ToString()
         {

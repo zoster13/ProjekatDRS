@@ -133,7 +133,7 @@ namespace Client
                             break;
                     }
 
-                    LoadCommonData();
+                    LoadCommonData();       //mislim da ovo ne treba :)
                 }
             }
             else
