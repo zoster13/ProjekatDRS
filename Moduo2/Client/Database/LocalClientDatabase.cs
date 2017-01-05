@@ -1,6 +1,8 @@
 ﻿using ClientCommon.Data;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ServiceModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -8,7 +10,12 @@ namespace Client
 {
     public class LocalClientDatabase
     {
-        //private static LocalClientDatabase localDB;
+        private static string address = "net.tcp://localhost:9999/EmployeeService";
+        private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
+        private NetTcpBinding binding = new NetTcpBinding();
+        public EmployeeProxy proxy;
+
+        private static LocalClientDatabase localDB;
         private BindingList<Employee> employees;
         private BindingList<Employee> developers;
         private BindingList<Team> teams;
@@ -19,7 +26,7 @@ namespace Client
 
         private Canvas notificationCanvas;
 
-        public LocalClientDatabase()
+        private LocalClientDatabase()
         {
             employees = new BindingList<Employee>();
             developers = new BindingList<Employee>();
@@ -36,21 +43,21 @@ namespace Client
             notificationCanvas.Children.Add(notificationNumTB);
         }
 
-        //public static LocalClientDatabase Instance
-        //{
-        //    get
-        //    {
-        //        if (localDB == null)
-        //            localDB = new LocalClientDatabase();
+        public static LocalClientDatabase Instance
+        {
+            get
+            {
+                if (localDB == null)
+                    localDB = new LocalClientDatabase();
 
-        //        return localDB;
-        //    }
-        //    set
-        //    {
-        //        if (localDB == null)
-        //            localDB = value;
-        //    }
-        //}
+                return localDB;
+            }
+            set
+            {
+                if (localDB == null)
+                    localDB = value;
+            }
+        }
 
         public BindingList<Employee> Employees
         {

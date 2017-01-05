@@ -14,18 +14,15 @@ namespace Client
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
-        public LocalClientDatabase database = null;
         EmployeeProxy proxy;
 
         public MainWindow()
         {
             InitializeComponent();
-            database = new LocalClientDatabase();
-            DataContext = database;
+            //database = new LocalClientDatabase();
+            DataContext = LocalClientDatabase.Instance;
 
             proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
-
-            //workCeo.Visibility = Visibility.Hidden;
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -35,7 +32,7 @@ namespace Client
 
         private void logOutButton_Click(object sender, RoutedEventArgs e)
         {
-            proxy.LogOut(database.CurrentEmployee.Email);
+            proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -74,9 +71,9 @@ namespace Client
 
         public void LoadCommonData()
         {
-            database.Employees.Clear();
-            database.Teams.Clear();
-            database.HiringCompanies.Clear();
+            LocalClientDatabase.Instance.Employees.Clear();
+            LocalClientDatabase.Instance.Teams.Clear();
+            LocalClientDatabase.Instance.HiringCompanies.Clear();
 
             var employees = proxy.GetAllEmployees();
 
@@ -84,25 +81,25 @@ namespace Client
             {
                 if(employee.Type == EmployeeType.DEVELOPER)
                 {
-                    database.Developers.Add(employee);
+                    LocalClientDatabase.Instance.Developers.Add(employee);
                 }
 
-                database.Employees.Add(employee);
+                LocalClientDatabase.Instance.Employees.Add(employee);
             }
 
             var teams = proxy.GetAllTeams();
 
             foreach (var team in teams)
             {
-                database.Teams.Add(team);
+                LocalClientDatabase.Instance.Teams.Add(team);
             }
 
-            var hiringCompanies = proxy.GetAllHiringCompanies();
+            //var hiringCompanies = proxy.GetAllHiringCompanies();
 
-            foreach (var hiringCompany in hiringCompanies)
-            {
-                database.HiringCompanies.Add(hiringCompany);
-            }
+            //foreach (var hiringCompany in hiringCompanies)
+            //{
+            //    LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+            //}
         }
 
 
@@ -110,30 +107,28 @@ namespace Client
         {
             if (employee != null)
             {
-                lock (database.Locker)
+                lock (LocalClientDatabase.Instance.Locker)
                 {
-                    database.Employees.Add(employee);
+                    LocalClientDatabase.Instance.Employees.Add(employee);
                 }
 
                 tabControl.SelectedIndex = 1;
 
-                if (database.CurrentEmployee.Email == null)
+                if (LocalClientDatabase.Instance.CurrentEmployee.Email == null)
                 {
-                    database.CurrentEmployee = employee;
+                    LocalClientDatabase.Instance.CurrentEmployee = employee;
 
                     displayName.Text = employee.Name + " " + employee.Surname;
                     displayTeam.Text = "not implemented...";
                     displayType.Text = employee.Type.ToString();
                     displayEmail.Text = employee.Email;
 
-                    switch (database.CurrentEmployee.Type)
+                    switch (LocalClientDatabase.Instance.CurrentEmployee.Type)
                     {
                         case EmployeeType.CEO:
                             CEOWorkspace();
                             break;
                     }
-
-                    LoadCommonData();       //mislim da ovo ne treba :)
                 }
             }
             else
@@ -154,24 +149,24 @@ namespace Client
 
         public void LogOutCallbackResult(Employee employee)
         {
-            foreach (Employee e in database.Employees)
+            foreach (Employee e in LocalClientDatabase.Instance.Employees)
             {
                 if (e.Email.Equals(employee.Email))
                 {
-                    lock (database.Locker)
+                    lock (LocalClientDatabase.Instance.Locker)
                     {
-                        database.Employees.Remove(e);
+                        LocalClientDatabase.Instance.Employees.Remove(e);
                         break;
                     }
                 }
             }
 
-            if (employee.Email.Equals(database.CurrentEmployee.Email))
+            if (employee.Email.Equals(LocalClientDatabase.Instance.CurrentEmployee.Email))
             {
                 tabControl.SelectedIndex = 0;
-                database = new LocalClientDatabase();
-                DataContext = database;
                 proxy.Abort();
+                LocalClientDatabase.Instance = null;
+                DataContext = LocalClientDatabase.Instance;
                 proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
             }
         }
