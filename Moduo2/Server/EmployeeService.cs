@@ -55,6 +55,16 @@ namespace Server
 
         public void AddTeam(Team team)
         {
+            Employee teamLeader = EmployeeServiceDatabase.Instance.GetEmployee(team.TeamLeader.Email);
+            
+            if(teamLeader == null)
+            {
+                EmployeeServiceDatabase.Instance.AddEmployee(team.TeamLeader);
+            }
+            else
+            {
+                teamLeader.Type = EmployeeType.TEAMLEADER;
+            }
 
             if (EmployeeServiceDatabase.Instance.AddTeam(team))
             {
