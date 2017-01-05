@@ -63,7 +63,7 @@ namespace Server
             }
             else
             {
-                teamLeader.Type = EmployeeType.TEAMLEADER;
+                EmployeeServiceDatabase.Instance.UpdateEmployee(teamLeader.Email, (short)EmployeeType.TEAMLEADER);
             }
 
             if (EmployeeServiceDatabase.Instance.AddTeam(team))

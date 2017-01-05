@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using System.Data.SqlClient;
 
 namespace Server.Access
 {
@@ -43,13 +44,20 @@ namespace Server.Access
             }
         }
 
-        //public List<Employee> GetAllEmployees()
-        //{
-        //    using (var access = new AccessDB())
-        //    {
-        //        return access.Employees.ToList();
-        //    }
-        //}
+        public void UpdateEmployee(string email, short type)
+        {
+            string commandText = "UPDATE Employees SET Type = @type Where Email=@email";
+
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+            SqlConnection con = new SqlConnection(constr);
+            SqlCommand updateCommand = new SqlCommand(commandText, con);
+            updateCommand.Parameters.AddWithValue("@type", type.ToString());
+            updateCommand.Parameters.AddWithValue("@email", email);
+
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+        }
 
         public Employee GetEmployee(string email)
         {

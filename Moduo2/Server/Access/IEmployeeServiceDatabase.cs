@@ -14,5 +14,6 @@ namespace Server.Access
 
         Team GetTeam(string email);
 
+        void UpdateEmployee(string email, short type);
     }
 }
