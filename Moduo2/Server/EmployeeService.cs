@@ -37,6 +37,7 @@ namespace Server
             
             Publisher.Instance.LogOutCallback(employee);
         }
+        
 
         public List<Employee> GetAllEmployees()
         {
@@ -52,5 +53,18 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public void AddTeam(Team team)
+        {
+
+            if (EmployeeServiceDatabase.Instance.AddTeam(team))
+            {
+                Publisher.Instance.TeamAddedCallback(team, true);
+            }
+            else
+            {
+                Publisher.Instance.TeamAddedCallback(team, false);
+            }
+        }  
     }
 }

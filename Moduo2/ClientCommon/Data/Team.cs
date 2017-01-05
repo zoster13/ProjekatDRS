@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClientCommon.Data
 {
+    [DataContract]
     public class Team
     {
         private int id;
         private string name;
+        private int teamLeaderId;
         private Employee teamLeader;
         //List<Employee> employees;
 
@@ -34,12 +37,22 @@ namespace ClientCommon.Data
             set { this.id = value; }
         }
 
+        [DataMember]
         public string Name
         {
             get { return this.name; }
             set { this.name = value; }
         }
 
+        [DataMember]
+        public int TeamLeaderId
+        {
+            get { return teamLeaderId; }
+            set { teamLeaderId = value; }
+        }
+
+        [ForeignKey("TeamLeaderId")]
+        [DataMember]
         public Employee TeamLeader
         {
             get { return teamLeader; }

@@ -9,5 +9,10 @@ namespace Server.Access
         //List<Employee> GetAllEmployees();
 
         Employee GetEmployee(string email);
+
+        bool AddTeam(Team team);
+
+        Team GetTeam(string email);
+
     }
 }

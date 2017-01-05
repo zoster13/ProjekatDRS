@@ -75,8 +75,20 @@ namespace Client
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error while trying to GetAllHiringCompanies: {0}", e.Message);
+                Console.WriteLine("Error while trying to AddTeam: {0}", e.Message);
                 return null;
+            }
+        }
+
+        public void AddTeam(Team team)
+        {
+            try
+            {
+                factory.AddTeam(team);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddTeam: {0}", e.Message);
             }
         }
     }

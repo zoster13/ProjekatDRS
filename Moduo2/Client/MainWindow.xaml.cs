@@ -82,6 +82,11 @@ namespace Client
 
             foreach (var employee in employees)
             {
+                if(employee.Type == EmployeeType.DEVELOPER)
+                {
+                    database.Developers.Add(employee);
+                }
+
                 database.Employees.Add(employee);
             }
 

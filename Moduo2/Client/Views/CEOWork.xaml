@@ -88,7 +88,7 @@
                                 <Label x:Name="labelLeaderEmail" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="46,146,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Button x:Name="buttonTeamNext2" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65"/>
                                 <Button x:Name="buttonTeamBack2" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonTeamBack2_Click"/>
-                                <Button x:Name="buttonAddTeam2" Content="Add" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="223,228,0,0" VerticalAlignment="Top" Width="65"/>
+                                <Button x:Name="buttonAddTeam2" Content="Add" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="223,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddTeam2_Click"/>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="16,5,-390,-6" RenderTransformOrigin="0.5,0.5" Height="0">
@@ -97,7 +97,7 @@
                                 <Label x:Name="labelLeaderNameExist" Content="Choose leader:" HorizontalAlignment="Left" Height="26" Margin="45,76,0,0" VerticalAlignment="Top" Width="120"/>
                                 <Button x:Name="buttonTeamNext3" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65"/>
                                 <Button x:Name="buttonTeamBack3" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonTeamBack3_Click"/>
-                                <Button x:Name="buttonAddTeam3" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65"/>
+                                <Button x:Name="buttonAddTeam3" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddTeam3_Click"/>
                             </Grid>
                         </TabItem>
                     </TabControl>

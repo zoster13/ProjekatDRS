@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="625" Width="870">
     <Grid>
-        <TabControl x:Name="tabControl" SelectedIndex="1" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
+        <TabControl x:Name="tabControl" SelectedIndex="0" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
             <TabItem Height="0">
                 <Grid>
                     <TextBox x:Name="errorLogInBox" Margin="489,322,202,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>

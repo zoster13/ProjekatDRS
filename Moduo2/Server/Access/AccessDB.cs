@@ -8,6 +8,8 @@ namespace Server.Access
         public AccessDB() : base("EmployeeServiceDB") { }
 
         public DbSet<Employee> Employees { get; set; }
+
+        public DbSet<Team> Teams { get; set; }
     }
 
 }

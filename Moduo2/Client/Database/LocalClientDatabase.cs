@@ -10,6 +10,7 @@ namespace Client
     {
         //private static LocalClientDatabase localDB;
         private BindingList<Employee> employees;
+        private BindingList<Employee> developers;
         private BindingList<Team> teams;
         private BindingList<HiringCompany> hiringCompanies;
 
@@ -21,6 +22,7 @@ namespace Client
         public LocalClientDatabase()
         {
             employees = new BindingList<Employee>();
+            developers = new BindingList<Employee>();
             teams = new BindingList<Team>();
             hiringCompanies = new BindingList<HiringCompany>();
             currentEmployee = new Employee();
@@ -83,6 +85,18 @@ namespace Client
             set
             {
                 hiringCompanies = value;
+            }
+        }
+
+        public BindingList<Employee> Developers
+        {
+            get
+            {
+                return developers;
+            }
+            set
+            {
+                developers = value;
             }
         }
 

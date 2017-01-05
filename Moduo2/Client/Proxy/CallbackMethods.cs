@@ -26,5 +26,10 @@ namespace Client
                 mainWindow.LogOutCallbackResult(employee);
             });
         }
+
+        public void TeamAddedCallback(Team team, bool flag)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

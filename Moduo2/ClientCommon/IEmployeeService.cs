@@ -13,6 +13,9 @@ namespace ClientCommon
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         void LogOut(string email);
 
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void AddTeam(Team team);
+
         [OperationContract]
         List<Employee> GetAllEmployees();
 

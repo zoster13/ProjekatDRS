@@ -155,5 +155,18 @@ namespace Client.Views
 
             }
         }
+
+        private void buttonAddTeam2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonAddTeam3_Click(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxTeamLeader.SelectedItem != null)
+            {
+                Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeader = (Employee)comboBoxTeamLeader.SelectedItem };
+            }
+        }
     }
 }

@@ -103,5 +103,27 @@ namespace Server
             }
         }
 
+        public void TeamAddedCallback(Team team, bool flag)
+        {
+            foreach (ICallbackMethods sub in subscribers)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.TeamAddedCallback(team, flag);
+                    }
+                    else
+                    {
+                        //subscribers.Remove(sub);
+                        continue;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
     }
 }
