@@ -188,9 +188,14 @@ namespace Client
             {
                 tabControl.SelectedIndex = 0;
                 LocalClientDatabase.Instance.proxy.Abort();
-                LocalClientDatabase.Instance = null;
+                LocalClientDatabase.NullifyInstance();
                 DataContext = LocalClientDatabase.Instance;
             }
+        }
+
+        public void TeamAddedCallbackResult(Team team)
+        {
+            LocalClientDatabase.Instance.Teams.Add(team);
         }
     }
 }

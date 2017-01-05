@@ -61,6 +61,11 @@ namespace Client
             }
         }
 
+        public static void NullifyInstance()
+        {
+            localDB = null;
+        }
+
         public BindingList<Employee> Employees
         {
             get

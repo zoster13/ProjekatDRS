@@ -29,7 +29,10 @@ namespace Client
 
         public void TeamAddedCallback(Team team, bool flag)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.TeamAddedCallbackResult(team);
+            });
         }
     }
 }

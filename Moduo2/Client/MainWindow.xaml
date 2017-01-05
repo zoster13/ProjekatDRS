@@ -55,6 +55,7 @@
                                 <DataGrid x:Name="dataGridTeams" ItemsSource="{Binding Teams, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                        <DataGridTextColumn Header="Team Leader" Binding="{Binding TeamLeader.Name}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>

@@ -89,7 +89,7 @@ namespace ClientCommon.Data
 
         public override string ToString()
         {
-            return Name + Surname + ", " + Type;
+            return Name + " " + Surname;
         }
     }
 }
