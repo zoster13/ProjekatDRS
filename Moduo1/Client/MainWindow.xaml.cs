@@ -31,10 +31,10 @@ namespace Client
             InitializeComponent();
             DataContext = clientDB;
 
-            clientDB.Main = this;
+            clientDB.Main = this; 
 
             comboBoxProjects.DataContext = clientDB.Projects;
-           
+         
             employeesDataGrid.DataContext = clientDB.Employees;
             companiesDataGrid.DataContext = clientDB.Companies; //verovatno ce i ovo morati opet da se nakuca u SyncClientDB metodi-ako budemo slali celu listu,isto kao za Employees
             dataGridCEO.DataContext = clientDB.Employees;
@@ -46,12 +46,12 @@ namespace Client
                 comboBoxPositionCEO.Items.Add(type);
                 comboBoxPositionCEO.SelectedIndex = 0;
             }
+
+            SetUpConnection(); // izmestila da se poveze sa serverom cim se podigne aplikacija, a ne na log - in....da bi mogao da se ugasi regularno u close metodi
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
-        {
-            SetUpConnection();
-
+        {           
             signOutButton.Visibility = System.Windows.Visibility.Visible;
             bool success=proxy.SignIn(usernameBox.Text,passwordBox.Password);
             if (success) 
@@ -65,10 +65,10 @@ namespace Client
                 clientDB.Username = usernameBox.Text;
             }
             else
-            {
+            {           
+                logInWarningLabel.Content = "Employee with username <" + usernameBox.Text.Trim()+ "> doesn't exist!";
                 usernameBox.Text = "";
                 passwordBox.Password = "";
-                logInWarningLabel.Content = "Employee with that username doesn't exist!";
             }          
         }
 
@@ -292,6 +292,8 @@ namespace Client
             proxy = new ClientProxy(instanceContext, binding, endpointAddress);
         }
 
+
+
         private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) 
         {                                                                           
             string usName = ((Employee)dataGridCEO.SelectedItem).Username;
@@ -316,6 +318,20 @@ namespace Client
                 passwordBoxCEO.Password = "";
                 comboBoxPositionCEO.SelectedIndex = 0;
             }
-        }        
+        }
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // uraditi close proxy-ija i sve to...ako treba pocistiti bazu i sta vec
+            if(!clientDB.Username.Equals(string.Empty))
+                proxy.SignOut(clientDB.Username);
+            proxy.Dispose();
+            this.Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }

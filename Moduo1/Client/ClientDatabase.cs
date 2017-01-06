@@ -18,7 +18,7 @@ namespace Client
 
         private static ClientDatabase instance; //singletone
 
-        private string username; //da pamti username ulogovanog radnika
+        private string username=string.Empty; //da pamti username ulogovanog radnika
 
         private MainWindow main;
 

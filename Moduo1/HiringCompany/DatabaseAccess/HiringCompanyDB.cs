@@ -46,7 +46,7 @@ namespace HiringCompany.DatabaseAccess
             {
                 var access = new AccessDB();
                 access.employees.Add(employee);
-                int i = access.SaveChanges();
+                int i = access.SaveChanges(); // srediti ovo, da ne moze u bazu da se doda ono sto vec psotoji
 
                 if (i > 0)
                     return true;
@@ -87,7 +87,7 @@ namespace HiringCompany.DatabaseAccess
                                where em.Username.Equals(username)
                                select em;
 
-                return employee.ToList().First();
+                return employee.ToList().FirstOrDefault();
             }
         }
     }
