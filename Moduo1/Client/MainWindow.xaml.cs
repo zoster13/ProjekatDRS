@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EmployeeCommon;
 using System.ServiceModel;
+using System.Reflection;
 using System.ComponentModel;
 
 namespace Client
@@ -31,30 +32,35 @@ namespace Client
             InitializeComponent();
             DataContext = clientDB;
 
-            clientDB.Main = this; 
+            clientDB.Main = this;
 
             comboBoxProjects.DataContext = clientDB.Projects;
-         
+
             employeesDataGrid.DataContext = clientDB.Employees;
             companiesDataGrid.DataContext = clientDB.Companies; //verovatno ce i ovo morati opet da se nakuca u SyncClientDB metodi-ako budemo slali celu listu,isto kao za Employees
             dataGridCEO.DataContext = clientDB.Employees;
 
-            foreach (var type in Enum.GetValues(typeof(EmployeeType)))
+            foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
-                comboBoxNewPositionCEO.Items.Add(type);
+
+                comboBoxNewPositionCEO.Items.Add(Extensions.TypeToString(type));
                 comboBoxNewPositionCEO.SelectedIndex = 0;
-                comboBoxPositionCEO.Items.Add(type);
+
+                comboBoxPositionCEO.Items.Add(Extensions.TypeToString(type));
                 comboBoxPositionCEO.SelectedIndex = 0;
             }
 
-            SetUpConnection(); // izmestila da se poveze sa serverom cim se podigne aplikacija, a ne na log - in....da bi mogao da se ugasi regularno u close metodi
+
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
-        {           
+        {
+            SetUpConnection();
+
             signOutButton.Visibility = System.Windows.Visibility.Visible;
-            bool success=proxy.SignIn(usernameBox.Text,passwordBox.Password);
-            if (success) 
+            bool success = proxy.SignIn(usernameBox.Text, passwordBox.Password);
+
+            if(success)
             {
                 logInWarningLabel.Content = "";
                 tabControl.SelectedIndex = 1;
@@ -65,22 +71,22 @@ namespace Client
                 clientDB.Username = usernameBox.Text;
             }
             else
-            {           
-                logInWarningLabel.Content = "Employee with username <" + usernameBox.Text.Trim()+ "> doesn't exist!";
+            {
+                logInWarningLabel.Content = "Employee with username <" + usernameBox.Text.Trim() + "> doesn't exist!";
                 usernameBox.Text = "";
                 passwordBox.Password = "";
-            }          
+            }
         }
 
         private void signOutButton_Click(object sender, RoutedEventArgs e)
         {
             proxy.SignOut(clientDB.Username);
+
             usernameBox.Text = "";
             passwordBox.Password = "";
             nameSurnameLabel.Content = "";
             signOutButton.Visibility = System.Windows.Visibility.Hidden;
             tabControl.SelectedIndex = 0;
-
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)
@@ -92,11 +98,11 @@ namespace Client
 
         private void editData_Click(object sender, RoutedEventArgs e)
         {
-            lock (clientDB.Employees_lock)
+            lock(clientDB.Employees_lock)
             {
-                foreach (Employee em in clientDB.Employees)
+                foreach(Employee em in clientDB.Employees)
                 {
-                    if (em.Username == clientDB.Username)
+                    if(em.Username == clientDB.Username)
                     {
                         textBoxEditName.IsEnabled = true;
                         textBoxEditName.Text = em.Name;
@@ -118,7 +124,7 @@ namespace Client
                     }
                 }
             }
-            
+
         }
 
         private void saveChanges_Click(object sender, RoutedEventArgs e)
@@ -126,7 +132,7 @@ namespace Client
             proxy.ChangeEmployeeData(clientDB.Username, textBoxEditName.Text, textBoxEditSurname.Text, textBoxEditEmail.Text, passBoxNewPass.Password);
             FillHomeLabels();
 
-            if (workBeginHour.Text != "" && workBeginMinute.Text != "" && workEndHour.Text != "" && workEndMinute.Text != "")
+            if(workBeginHour.Text != "" && workBeginMinute.Text != "" && workEndHour.Text != "" && workEndMinute.Text != "")
             {
                 proxy.SetWorkingHours(clientDB.Username, Int32.Parse(workBeginHour.Text), Int32.Parse(workBeginMinute.Text), Int32.Parse(workEndHour.Text), Int32.Parse(workEndMinute.Text));
             }
@@ -184,7 +190,8 @@ namespace Client
 
         private void usernameTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (usernameBox.Text != "" && passwordBox.Password != "")
+            logInWarningLabel.Visibility = Visibility.Hidden;
+            if(usernameBox.Text != "" && passwordBox.Password != "")
             {
                 logInButton.IsEnabled = true;
             }
@@ -196,7 +203,7 @@ namespace Client
 
         private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (usernameBox.Text != "" && passwordBox.Password != "")
+            if(usernameBox.Text != "" && passwordBox.Password != "")
             {
                 logInButton.IsEnabled = true;
             }
@@ -217,15 +224,15 @@ namespace Client
             BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
             DataGridUserStories.DataContext = userStories;
 
-            string str ="Id: " + p.Id + "\nName: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany+"\nProductOwner: "+p.ProductOwner;
+            string str = "Id: " + p.Id + "\nName: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany + "\nProductOwner: " + p.ProductOwner;
             textBoxProjects.Text = str;
         }
 
-        public void syncClientDB(EmployeeCommon.CurrentData data) 
+        public void syncClientDB(EmployeeCommon.CurrentData data)
         {
-            lock (clientDB.Employees_lock)
+            lock(clientDB.Employees_lock)
             {
-                if (clientDB.Employees.Count != 0)
+                if(clientDB.Employees.Count != 0)
                 {
                     clientDB.Employees.Clear();
                 }
@@ -238,26 +245,44 @@ namespace Client
             FillHomeLabels();
         }
 
-        public void FillHomeLabels() 
+        public void FillHomeLabels()
         {
-            lock (clientDB.Employees_lock)
+            lock(clientDB.Employees_lock)
             {
-                foreach (Employee em in clientDB.Employees)
+                foreach(Employee em in clientDB.Employees)
                 {
-                    if (em.Username == clientDB.Username)
+                    if(em.Username == clientDB.Username)
                     {
                         homeLabelName.Content = em.Name;
                         homeLabelSurname.Content = em.Surname;
                         homeLabelEmail.Content = em.Email;
                         homeLabelPosition.Content = em.Type.ToString();
+                        // lepsi ispis...mozda to da dodamo vez sa serverske strane negde, videti da sredimo kod, organizujemo
+
+                        switch(em.Type)
+                        {
+                            case EmployeeType.CEO:
+                                homeLabelPosition.Content = "Chief Executive Officer";
+                                break;
+                            case EmployeeType.HR:
+                                homeLabelPosition.Content = "Human Resources";
+                                break;
+                            case EmployeeType.PO:
+                                homeLabelPosition.Content = "Product Owner";
+                                break;
+                            case EmployeeType.SM:
+                                homeLabelPosition.Content = "Scrum Master";
+                                break;
+                        }
+
                         nameSurnameLabel.Content = em.Name + " " + em.Surname;
 
-                        if (em.Type.Equals(EmployeeType.CEO))
+                        if(em.Type.Equals(EmployeeType.CEO))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Visible;
                         }
-                        else if (em.Type.Equals(EmployeeType.HR))
+                        else if(em.Type.Equals(EmployeeType.HR))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Hidden;
@@ -274,7 +299,7 @@ namespace Client
             }
         }
 
-        private void SetUpConnection() 
+        private void SetUpConnection()
         {
             string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
 
@@ -294,17 +319,18 @@ namespace Client
 
 
 
-        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e) 
-        {                                                                           
+        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e)
+        {
             string usName = ((Employee)dataGridCEO.SelectedItem).Username;
 
-            proxy.ChangeEmployeeType(usName, (EmployeeType)comboBoxNewPositionCEO.SelectedItem);
+            //proxy.ChangeEmployeeType(usName,(EmployeeType)comboBoxNewPositionCEO.SelectedItem);
+            proxy.ChangeEmployeeType(usName, Extensions.StringToType((string)comboBoxNewPositionCEO.SelectedItem));
         }
 
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             Employee newEmployee;
-            if ((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
+            if((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
             {
                 newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, (EmployeeType)comboBoxPositionCEO.SelectedItem, textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
                 //Na serverskoj strani uraditi proveru
@@ -324,8 +350,11 @@ namespace Client
         {
             // uraditi close proxy-ija i sve to...ako treba pocistiti bazu i sta vec
             if(!clientDB.Username.Equals(string.Empty))
+            {
                 proxy.SignOut(clientDB.Username);
-            proxy.Dispose();
+                proxy.Dispose();
+            }
+
             this.Close();
         }
 

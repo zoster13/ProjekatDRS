@@ -44,15 +44,15 @@ namespace HiringCompany
 
             //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana@mail.com",1,2,2,3);
             //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zvezdana@mail.com",1,2,2,3);
-            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "aleksandra@mail.com");
-            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "radislav@mail.com");
-            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "pera@mail.com");
+            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "aleksandra@mail.com",1,2,3,4);
+            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "radislav@mail.com",5,1,4,2);
+            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "pera@mail.com",1,5,4,3);
 
             //HiringCompanyDB.Instance().AddNewEmployee(em1);
             //HiringCompanyDB.Instance().AddNewEmployee(em2);
-            //HiringCompanyDB.DBInstance.AddNewEmployee(em3);
-            //HiringCompanyDB.DBInstance.AddNewEmployee(em4);
-            //HiringCompanyDB.DBInstance.AddNewEmployee(em5);
+            //HiringCompanyDB.Instance().AddNewEmployee(em3);
+            //HiringCompanyDB.Instance().AddNewEmployee(em4);
+            //HiringCompanyDB.Instance().AddNewEmployee(em5);
 
 
             Console.ReadKey(true);

@@ -131,6 +131,7 @@ namespace Client
         {
             try
             {
+
                 factory.ChangeEmployeeType(username, type);
             }
             catch (Exception)
