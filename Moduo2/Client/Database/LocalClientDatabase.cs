@@ -20,8 +20,10 @@ namespace Client
         private BindingList<Employee> developers;
         private BindingList<Team> teams;
         private BindingList<HiringCompany> hiringCompanies;
+        private BindingList<Notification> notifications;
 
         private Employee currentEmployee;
+        private Notification currentNotification;
         private object locker;
 
         private Canvas notificationCanvas;
@@ -32,7 +34,9 @@ namespace Client
             developers = new BindingList<Employee>();
             teams = new BindingList<Team>();
             hiringCompanies = new BindingList<HiringCompany>();
+            notifications = new BindingList<Notification>();
             currentEmployee = new Employee();
+            currentNotification = new Notification();
             locker = new object();
 
             notificationCanvas = new Canvas();
@@ -114,6 +118,18 @@ namespace Client
             }
         }
 
+        public BindingList<Notification> DevNotificationselopers
+        {
+            get
+            {
+                return notifications;
+            }
+            set
+            {
+                notifications = value;
+            }
+        }
+
         public Employee CurrentEmployee
         {
             get
@@ -123,6 +139,18 @@ namespace Client
             set
             {
                 currentEmployee = value;
+            }
+        }
+
+        public Notification CurrentNotification
+        {
+            get
+            {
+                return currentNotification;
+            }
+            set
+            {
+                currentNotification = value;
             }
         }
 

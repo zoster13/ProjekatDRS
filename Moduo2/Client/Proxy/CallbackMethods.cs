@@ -34,5 +34,13 @@ namespace Client
                 mainWindow.TeamAddedCallbackResult(team);
             });
         }
+
+        public void TypeChangeCallback(Team team, EmployeeType newType)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.TypeChangeCallbackResult(team, newType);
+            });
+        }
     }
 }

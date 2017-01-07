@@ -91,5 +91,17 @@ namespace Client
                 Console.WriteLine("Error while trying to AddTeam: {0}", e.Message);
             }
         }
+
+        public void EditEmployeeData(Employee employee)
+        {
+            try
+            {
+                factory.EditEmployeeData(employee);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to EditEmployeeData: {0}", e.Message);
+            }
+        }
     }
 }

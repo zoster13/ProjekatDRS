@@ -75,6 +75,11 @@ namespace Server
             {
                 Publisher.Instance.TeamAddedCallback(team, false);
             }
-        }  
+        }
+
+        public void EditEmployeeData(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

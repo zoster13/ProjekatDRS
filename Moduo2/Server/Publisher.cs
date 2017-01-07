@@ -125,5 +125,10 @@ namespace Server
                 }
             }
         }
+
+        public void TypeChangeCallback(Team team, EmployeeType newType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

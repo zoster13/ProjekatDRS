@@ -16,6 +16,9 @@ namespace ClientCommon
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         void AddTeam(Team team);
 
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void EditEmployeeData(Employee employee);
+
         [OperationContract]
         List<Employee> GetAllEmployees();
 

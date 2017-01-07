@@ -110,42 +110,6 @@ namespace Client.Views
             }
         }
 
-        private void textBoxName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
-            {
-                buttonAddTeam2.IsEnabled = false;
-            }
-            else
-            {
-                buttonAddTeam2.IsEnabled = true;
-            }
-        }
-
-        private void textBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
-            {
-                buttonAddTeam2.IsEnabled = false;
-            }
-            else
-            {
-                buttonAddTeam2.IsEnabled = true;
-            }
-        }
-
-        private void textBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
-            {
-                buttonAddTeam2.IsEnabled = false;
-            }
-            else
-            {
-                buttonAddTeam2.IsEnabled = true;
-            }
-        }
-
         private void passwordBoxLeader_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
@@ -157,6 +121,43 @@ namespace Client.Views
                 buttonAddTeam2.IsEnabled = true;
             }
         }
+
+        private void textBoxName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            {
+                buttonNext1.IsEnabled = false;
+            }
+            else
+            {
+                buttonNext1.IsEnabled = true;
+            }
+        }
+
+        private void textBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            {
+                buttonNext1.IsEnabled = false;
+            }
+            else
+            {
+                buttonNext1.IsEnabled = true;
+            }
+        }
+
+        private void textBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            {
+                buttonNext1.IsEnabled = false;
+            }
+            else
+            {
+                buttonNext1.IsEnabled = true;
+            }
+        }
+
 
         private void buttonNext1_Click(object sender, RoutedEventArgs e)
         {
@@ -174,6 +175,14 @@ namespace Client.Views
             Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeader = em };
 
             LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
+
+            textBoxTeamName.Text = "";
+
+            textBoxLeaderName.Text = "";
+            textBoxLeaderSurname.Text = "";
+            textBoxLeaderEmail.Text = "";
+            textBoxTeamName.Text = "";
+            passwordBoxLeader.Password = "";
         }
 
         private void buttonAddTeam3_Click(object sender, RoutedEventArgs e)
@@ -184,6 +193,8 @@ namespace Client.Views
 
                 LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
             }
+
+            textBoxTeamName.Text = "";
         }
 
     }

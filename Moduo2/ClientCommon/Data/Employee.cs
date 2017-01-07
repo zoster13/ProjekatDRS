@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -16,12 +17,21 @@ namespace ClientCommon.Data
         private string email;
         private string password;
         private string teamName;
+        private DateTime passwordTimeStamp;
+        private DateTime workingHoursStart;
+        private DateTime workingHoursEnd;
+
+        private List<Notification> notifications;
 
         private ICollection<Team> team;
 
         public Employee()
         {
             team = new List<Team>();
+            passwordTimeStamp = new DateTime();
+            workingHoursStart = new DateTime();
+            workingHoursEnd = new DateTime();
+            notifications = new List<Notification>();
         }
 
         public Employee(EmployeeType type, string name, string surname, string email, string password, string teamName)
@@ -83,7 +93,35 @@ namespace ClientCommon.Data
             get { return this.teamName; }
             set { this.teamName = value; }
         }
-        
+
+        [DataMember]
+        public DateTime PasswordTimeStamp
+        {
+            get { return passwordTimeStamp; }
+            set { passwordTimeStamp = value; }
+        }
+
+        [DataMember]
+        public DateTime WorkingHoursStart
+        {
+            get { return workingHoursStart; }
+            set { workingHoursStart = value; }
+        }
+
+        [DataMember]
+        public DateTime WorkingHoursEnd
+        {
+            get { return workingHoursEnd; }
+            set { workingHoursEnd = value; }
+        }
+
+        [DataMember]
+        public List<Notification> Notifications
+        {
+            get { return notifications; }
+            set { notifications = value; }
+        }
+
         [DataMember]
         public ICollection<Team> Team { get; set; }
 

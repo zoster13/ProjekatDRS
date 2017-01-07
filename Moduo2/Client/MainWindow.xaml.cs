@@ -33,10 +33,8 @@ namespace Client
         {
             oldPasswordLabel.IsEnabled = true;
             newPasswordLabel.IsEnabled = true;
-            confirmNewPasswordLabel.IsEnabled = true;
             passBoxOldPass.IsEnabled = true;
             passBoxNewPass.IsEnabled = true;
-            passBoxConfirmNewPass.IsEnabled = true;
         }
 
         private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -113,7 +111,7 @@ namespace Client
                     LocalClientDatabase.Instance.CurrentEmployee = employee;
 
                     displayName.Text = employee.Name + " " + employee.Surname;
-                    displayTeam.Text = "not implemented...";
+                    displayTeam.Text = employee.TeamName;
                     displayType.Text = employee.Type.ToString();
                     displayEmail.Text = employee.Email;
 
@@ -147,27 +145,74 @@ namespace Client
             passwordBox.Password = "";
         }
 
-        private void CEOWorkspace()
+        public void CEOWorkspace()
         {
             workCeo.Visibility = Visibility.Visible;
+            tabControl1.SelectedIndex = 0;
             LoadCommonData();
+            SetSettings();
+            ResetWork();
         }
 
-        private void DeveloperWorkspace()
+        public void DeveloperWorkspace()
         {
+            tabControl1.SelectedIndex = 0;
             LoadCommonData();
+            SetSettings();
+            ResetWork();
         }
-        private void TeamLeaderWorkspace()
+        public void TeamLeaderWorkspace()
         {
+            tabControl1.SelectedIndex = 0;
             LoadCommonData();
+            SetSettings();
+            ResetWork();
         }
-        private void ScrumMasterWorkspace()
+        public void ScrumMasterWorkspace()
         {
+            tabControl1.SelectedIndex = 0;
             LoadCommonData();
+            SetSettings();
+            ResetWork();
         }
-        private void HRWorkspace()
+        public void HRWorkspace()
         {
+            tabControl1.SelectedIndex = 0;
             LoadCommonData();
+            SetSettings();
+            ResetWork();
+        }
+
+        private void SetSettings()
+        {
+            textBoxEditName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name;
+            textBoxEditSurname.Text = LocalClientDatabase.Instance.CurrentEmployee.Surname;
+            textBoxEditFromTimeHours.Text = LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart.Hour.ToString();
+            textBoxEditFromTimeMinutes.Text = LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart.Minute.ToString();
+            textBoxEditToTimeHours.Text = LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd.Hour.ToString();
+            textBoxEditToTimeMinutes.Text = LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd.Minute.ToString();
+
+            passBoxOldPass.Password = "";
+            passBoxNewPass.Password = "";
+            passBoxOldPass.IsEnabled = false;
+            passBoxNewPass.IsEnabled = false;
+        }
+
+        private void ResetWork()
+        {
+            //Add team
+            workCeo.textBoxTeamName.Text = "";
+
+            workCeo.textBoxLeaderName.Text = "";
+            workCeo.textBoxLeaderSurname.Text = "";
+            workCeo.textBoxLeaderEmail.Text = "";
+            workCeo.textBoxTeamName.Text = "";
+            workCeo.passwordBoxLeader.Password = "";
+
+            //Add employee
+
+
+            //Other Employee work
         }
 
         public void LogOutCallbackResult(Employee employee)
@@ -190,12 +235,89 @@ namespace Client
                 LocalClientDatabase.Instance.proxy.Abort();
                 LocalClientDatabase.NullifyInstance();
                 DataContext = LocalClientDatabase.Instance;
+
+                workCeo.Visibility = Visibility.Visible; // kao i svi ostali
             }
         }
 
         public void TeamAddedCallbackResult(Team team)
         {
             LocalClientDatabase.Instance.Teams.Add(team);
+        }
+
+        private void cancelChanges_Click(object sender, RoutedEventArgs e)
+        {
+            SetSettings();
+        }
+
+        private void saveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            LocalClientDatabase.Instance.CurrentEmployee.Name = textBoxEditName.Text;
+            LocalClientDatabase.Instance.CurrentEmployee.Surname = textBoxEditSurname.Text;
+
+            LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart = new DateTime(0, 0, 0, int.Parse(textBoxEditFromTimeHours.Text), int.Parse(textBoxEditFromTimeMinutes.Text), 0);
+            LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd = new DateTime(0, 0, 0, int.Parse(textBoxEditToTimeHours.Text), int.Parse(textBoxEditToTimeMinutes.Text), 0);
+
+            if(passBoxNewPass.Password != "")
+            {
+                LocalClientDatabase.Instance.CurrentEmployee.Password = passBoxNewPass.Password;
+                LocalClientDatabase.Instance.CurrentEmployee.PasswordTimeStamp = DateTime.Now;
+            }
+
+            SetSettings();
+
+            LocalClientDatabase.Instance.proxy.EditEmployeeData(LocalClientDatabase.Instance.CurrentEmployee);
+        }
+
+        private void buttonNotifDetail_Click(object sender, RoutedEventArgs e)
+        {
+            if(dataGridNotifications.SelectedItem != null)
+            {
+                MakeNotifInvisible();
+
+                Notification notification = (Notification)dataGridNotifications.SelectedItem;
+                LocalClientDatabase.Instance.CurrentNotification = notification;
+
+                switch(notification.Type)
+                {
+                    
+                }
+            }
+        }
+
+        private void MakeNotifInvisible()
+        {
+            acceptCanvas.Visibility = Visibility.Hidden;
+        }
+
+        public void TypeChangeCallbackResult(Team team, EmployeeType newType)
+        {
+            string message = string.Format("Your superior has changed your position from {0} to {1}. Your team is {2}.", LocalClientDatabase.Instance.CurrentEmployee.Type, newType, team.Name);
+
+            LocalClientDatabase.Instance.Teams.Clear();
+            LocalClientDatabase.Instance.Teams.Add(team);
+            LocalClientDatabase.Instance.CurrentEmployee.TeamName = team.Name;
+
+            MessageBox.Show(message, "Type Change", MessageBoxButton.OK);
+
+            switch (newType)
+            {
+                case EmployeeType.DEVELOPER:
+                    DeveloperWorkspace();
+                    break;
+                case EmployeeType.TEAMLEADER:
+                    TeamLeaderWorkspace();
+                    break;
+                case EmployeeType.HR:
+                    HRWorkspace();
+                    break;
+                case EmployeeType.CEO:
+                    CEOWorkspace();
+                    break;
+                case EmployeeType.SCRUMMASTER:
+                    ScrumMasterWorkspace();
+                    break;
+            }
         }
     }
 }
