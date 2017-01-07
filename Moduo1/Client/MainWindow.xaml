@@ -157,7 +157,6 @@
                                             </Grid>
                                             <Grid HorizontalAlignment="Left" Height="101" Margin="10,200,0,0" VerticalAlignment="Top" Width="470" Background="White">
                                                 <Label x:Name="labelTitle1CEO" Content="Change Employee Position" FontSize="16" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="221" Margin="6,0,0,0"/>
-                                                <TextBox x:Name="textBoxInfoCEO" IsReadOnly="True" HorizontalAlignment="Left" Height="21" Margin="232,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="228" RenderTransformOrigin="0.51,-0.091"/>
                                                 <ComboBox x:Name="comboBoxNewPositionCEO" HorizontalAlignment="Left" Height="24" Margin="155,60,0,0" VerticalAlignment="Top" Width="134"/>
                                                 <Label x:Name="labelInfoCEO" Content="New type:" HorizontalAlignment="Left" Height="26" Margin="33,59,0,0" VerticalAlignment="Top" Width="117"/>
                                                 <Button x:Name="buttonApplyTypeChangeCEO" Content="Apply " HorizontalAlignment="Left" Height="25" Margin="395,59,0,0" VerticalAlignment="Top" Width="65" Click="ApplyTypeChangeButton_Click" Background="#FFEEEEEE"/>
