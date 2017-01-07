@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F52C7068-8A38-4D65-A13C-4FF1453F6B83}</ProjectGuid>
+    <ProjectGuid>{ED56C539-A8D8-413F-9A89-C3D2D2F1ABDC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EmployeeCommon</RootNamespace>
-    <AssemblyName>EmployeeCommon</AssemblyName>
+    <RootNamespace>EmployeeCommonTest</RootNamespace>
+    <AssemblyName>EmployeeCommonTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,11 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,17 +45,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\CurrentData.cs" />
-    <Compile Include="Data\Employee.cs" />
-    <Compile Include="Data\EmployeeType.cs" />
-    <Compile Include="IEmployeeService.cs" />
-    <Compile Include="IEmployeeServiceCallback.cs" />
-    <Compile Include="Data\Notification.cs" />
-    <Compile Include="Data\NotificationType.cs" />
-    <Compile Include="Data\PartnerCompany.cs" />
-    <Compile Include="Data\Project.cs" />
+    <Compile Include="DataTest\CurrentDataTest.cs" />
+    <Compile Include="DataTest\EmployeeTest.cs" />
+    <Compile Include="DataTest\NotificationTest.cs" />
+    <Compile Include="DataTest\PartnerCompanyTest.cs" />
+    <Compile Include="DataTest\ProjectTest.cs" />
+    <Compile Include="DataTest\UserStoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\UserStory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EmployeeCommon\EmployeeCommon.csproj">
+      <Project>{f52c7068-8a38-4d65-a13c-4ff1453f6b83}</Project>
+      <Name>EmployeeCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
