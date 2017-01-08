@@ -291,24 +291,28 @@ namespace Client
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Visible;
+                            tabItemProjects.Visibility = Visibility.Visible;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
                         else if (em.Type.Equals(EmployeeType.HR))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Hidden;
+                            tabItemProjects.Visibility = Visibility.Hidden;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
                         else if (em.Type.Equals(EmployeeType.PO))
                         {
                             workTabItem.Visibility = Visibility.Hidden;
                             tabItemCompanies.Visibility = Visibility.Hidden;
+                            tabItemProjects.Visibility = Visibility.Hidden;
                             PO_Work_TabItem.Visibility = Visibility.Visible;
                         }
                         else
                         {
                             workTabItem.Visibility = Visibility.Hidden;
                             tabItemCompanies.Visibility = Visibility.Hidden;
+                            tabItemProjects.Visibility = Visibility.Hidden;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
 
@@ -406,6 +410,11 @@ namespace Client
             ProjectDescriptionTextBox.Text = "";
             ProjectStartDateTextBox.Text = "";
             ProjectDeadlineTextBox.Text = "";
+        }
+
+        private void ApproveProjectButton_CLick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

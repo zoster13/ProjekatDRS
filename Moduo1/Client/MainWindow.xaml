@@ -185,8 +185,34 @@
                                             </DataGrid>
                                             <Label Content="Select company and send partnership request:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="337"/>
                                             <Button x:Name="PartnershipRequestCEO_button" Content="Send partnership request" HorizontalAlignment="Left" Margin="60,274,0,0" VerticalAlignment="Top" Width="147" Height="27" Click="PartnershipRequestCEOButton_Click"/>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem x:Name="tabItemProjects" Header="Projects" Height="39">
+                                        <Grid Background="#FFF7F7F7">
+                                            <DataGrid x:Name="projectsForApprovalDataGrid" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Height="230" Width="249" Background="#FFDDDDDD"
+                                                      IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
+                                                          AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
+                                                          AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
+                                                          VerticalGridLinesBrush="#FF7E97BF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                                <DataGrid.RowStyle>
+                                                    <Style TargetType="{x:Type DataGridRow}">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#ffffe6"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.RowStyle>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                                    <DataGridTextColumn Width="*" Header="StartDate" Binding="{Binding StartDate}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                                    <DataGridTextColumn Width="*" Header="Deadline" Binding="{Binding Deadline}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <Label Content="Select project for approval:" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="262"/>
+                                            <Button x:Name="ApproveProjectButton" Content="Approve project" HorizontalAlignment="Left" Margin="150,279,0,0" VerticalAlignment="Top" Width="109" Height="22" Click="ApproveProjectButton_CLick"/>
                                             <Grid HorizontalAlignment="Left" Height="291" Margin="285,10,0,0" VerticalAlignment="Top" Width="490" Background="White">
-                                                <DataGrid x:Name="projectsForApprovalDataGrid" HorizontalAlignment="Left" Margin="260,31,0,0" VerticalAlignment="Top" Height="227" Width="220" Background="#FFDDDDDD"
+                                                <DataGrid x:Name="approvedProjectsDataGrid" HorizontalAlignment="Left" Margin="253,31,0,0" VerticalAlignment="Top" Height="227" Width="227" Background="#FFDDDDDD"
                                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -207,8 +233,8 @@
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                                 <Label Content="Select project and company which will develope that project:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="386"/>
-                                                <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="197,263,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick"/>
-                                                <DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="227" Width="209" Background="#FFDDDDDD"
+                                                <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="197,263,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28"/>
+                                                <DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="227" Width="219" Background="#FFDDDDDD"
                                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
