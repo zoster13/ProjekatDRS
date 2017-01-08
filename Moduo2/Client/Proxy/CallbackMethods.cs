@@ -13,7 +13,10 @@ namespace Client
 
         public void EditEmployeeCallback(Employee employee)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.EditEmployeeDataCalbackResult(employee);
+            });
         }
 
         public void LogInCallback(Employee employee)
