@@ -29,7 +29,10 @@ namespace HiringCompany.EmployeesMng
                 IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
                 hiringCompanyDB.ConnectionChannels.Add(username, callback);
 
-                hiringCompanyDB.OnlineEmployees.Add(employee);
+                lock (hiringCompanyDB.Employees_lock)
+                {
+                    hiringCompanyDB.OnlineEmployees.Add(employee);
+                }
                 CurrentData cData = new CurrentData();
                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
 
@@ -52,20 +55,21 @@ namespace HiringCompany.EmployeesMng
         {
              Employee employee=null; // namestiti...
 
-         
-                 // sacuvati podatke tog korisnika u bazi
-                 foreach (Employee e in hiringCompanyDB.OnlineEmployees)
-                 {
-                     if (e.Username.Equals(username))
-                     {
-                         employee = e;
-                         break;
-                     }
-                 }
+            lock (hiringCompanyDB.Employees_lock)
+            {
+                // sacuvati podatke tog korisnika u bazi
+                foreach (Employee e in hiringCompanyDB.OnlineEmployees)
+                {
+                    if (e.Username.Equals(username))
+                    {
+                        employee = e;
+                        break;
+                    }
+                }
 
-                 hiringCompanyDB.OnlineEmployees.Remove(employee);
-                 hiringCompanyDB.ConnectionChannels.Remove(username);
-
+                hiringCompanyDB.OnlineEmployees.Remove(employee);
+                hiringCompanyDB.ConnectionChannels.Remove(username);
+            }
                  CurrentData cData = new CurrentData();
                  cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                  foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
@@ -73,16 +77,6 @@ namespace HiringCompany.EmployeesMng
                      call.SyncData(cData);
                  }
              
-        }
-
-        public void ListOnlineEmployees()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ListOutsorcingCompanies()
-        {
-            throw new NotImplementedException();
         }
 
         public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
@@ -132,27 +126,30 @@ namespace HiringCompany.EmployeesMng
                 }
             }
 
-            foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+            lock (hiringCompanyDB.Employees_lock)
             {
-                if (em.Username == username)
+                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
                 {
-                    if (name != "")
+                    if (em.Username == username)
                     {
-                        em.Name = name;
+                        if (name != "")
+                        {
+                            em.Name = name;
+                        }
+                        if (surname != "")
+                        {
+                            em.Surname = surname;
+                        }
+                        if (email != "")
+                        {
+                            em.Email = email;
+                        }
+                        if (password != "")
+                        {
+                            em.Password = password;
+                        }
+                        break;
                     }
-                    if (surname != "")
-                    {
-                        em.Surname = surname;
-                    }
-                    if (email != "")
-                    {
-                        em.Email = email;
-                    }
-                    if (password != "")
-                    {
-                        em.Password = password;
-                    }
-                    break;
                 }
             }
 
@@ -200,15 +197,18 @@ namespace HiringCompany.EmployeesMng
                 }
             }
 
-            foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+            lock (hiringCompanyDB.Employees_lock)
             {
-                if (em.Username == username)
+                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
                 {
-                    em.StartHour = beginH;
-                    em.StartMinute = beginM;
-                    em.EndHour = endH;
-                    em.EndMinute = endM;
-                    break;
+                    if (em.Username == username)
+                    {
+                        em.StartHour = beginH;
+                        em.StartMinute = beginM;
+                        em.EndHour = endH;
+                        em.EndMinute = endM;
+                        break;
+                    }
                 }
             }
 
@@ -283,12 +283,15 @@ namespace HiringCompany.EmployeesMng
                 }
             }
 
-            foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+            lock (hiringCompanyDB.Employees_lock)
             {
-                if (em.Username == username)
+                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
                 {
-                    em.Type = type;
-                    break;
+                    if (em.Username == username)
+                    {
+                        em.Type = type;
+                        break;
+                    }
                 }
             }
 
@@ -306,9 +309,43 @@ namespace HiringCompany.EmployeesMng
             throw new NotImplementedException();
         }
 
-        public void CreateNewProject()
+        public void CreateNewProject(Project p)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var access = new AccessDB();
+                foreach (Employee em in access.employees)
+                {
+                    if (em.Type == EmployeeType.CEO)
+                    {
+                        foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannels)
+                        {
+                            if (pair.Key.Equals(em.Username))
+                            {
+                                CurrentData cData = new CurrentData();                                
+                                pair.Value.SyncDataCEO(p);
+                                //treba napraviti metodu koja notifikuje CEO da treba da potvrdi projekat
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
         }
     }
 }

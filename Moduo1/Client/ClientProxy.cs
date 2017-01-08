@@ -49,32 +49,6 @@ namespace Client
             }
         }
 
-        public void ListOnlineEmployees()
-        {
-            try
-            {
-
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
-
-        public void ListOutsorcingCompanies()
-        {
-            try
-            {
-
-            }
-            catch (Exception)
-            {
-
-
-            }
-        }
-
         public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
         {
             try
@@ -154,11 +128,11 @@ namespace Client
             }
         }
 
-        public void CreateNewProject()
+        public void CreateNewProject(Project p)
         {
             try
             {
-
+                factory.CreateNewProject(p);
             }
             catch (Exception)
             {

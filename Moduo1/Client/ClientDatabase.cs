@@ -11,10 +11,15 @@ namespace Client
     public class ClientDatabase
     {
         public object Employees_lock = new object();
+        public object Projects_lock = new object();
+        public object ProjectsForApproval_lock = new object();
 
         private BindingList<Employee> employees;
         private BindingList<Project> projects;
-        private BindingList<PartnerCompany> companies;
+        private BindingList<PartnerCompany> companies; //ovo je lista partneskih kompanija
+        //trebace i da se napravi lista kompanija koje jos uvak nisu partnerske,vec su samo konektovane sa nasim serverom
+
+        private BindingList<Project> projectsForApproval;
 
         private static ClientDatabase instance; //singletone
 
@@ -27,6 +32,8 @@ namespace Client
             employees = new BindingList<Employee>();
             projects = new BindingList<Project>();
             companies = new BindingList<PartnerCompany>();
+
+            projectsForApproval = new BindingList<Project>();
         }
 
         public static ClientDatabase Instance()
@@ -53,6 +60,12 @@ namespace Client
         {
             get { return companies; }
             set { companies = value; }
+        }
+
+        public BindingList<Project> ProjectsForApproval
+        {
+            get { return projectsForApproval; }
+            set { projectsForApproval = value; }
         }
 
         public string Username 

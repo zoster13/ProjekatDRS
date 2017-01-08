@@ -39,8 +39,10 @@ namespace Client
             employeesDataGrid.DataContext = clientDB.Employees;
             companiesDataGrid.DataContext = clientDB.Companies; //verovatno ce i ovo morati opet da se nakuca u SyncClientDB metodi-ako budemo slali celu listu,isto kao za Employees
             dataGridCEO.DataContext = clientDB.Employees;
+            projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
+            WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
 
-            foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
+            foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
 
                 comboBoxNewPositionCEO.Items.Add(Extensions.TypeToString(type));
@@ -236,13 +238,21 @@ namespace Client
                 {
                     clientDB.Employees.Clear();
                 }
-                clientDB.Employees.Clear();
+                //clientDB.Employees.Clear();
                 clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
             }
             employeesDataGrid.DataContext = clientDB.Employees;
             dataGridCEO.DataContext = clientDB.Employees;
 
             FillHomeLabels();
+        }
+
+        public void syncClientDbCEO(Project p)
+        {
+            lock (clientDB.ProjectsForApproval_lock)
+            {
+                clientDB.ProjectsForApproval.Add(p);
+            }
         }
 
         public void FillHomeLabels()
@@ -277,20 +287,29 @@ namespace Client
 
                         nameSurnameLabel.Content = em.Name + " " + em.Surname;
 
-                        if(em.Type.Equals(EmployeeType.CEO))
+                        if (em.Type.Equals(EmployeeType.CEO))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Visible;
+                            PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
-                        else if(em.Type.Equals(EmployeeType.HR))
+                        else if (em.Type.Equals(EmployeeType.HR))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Hidden;
+                            PO_Work_TabItem.Visibility = Visibility.Hidden;
+                        }
+                        else if (em.Type.Equals(EmployeeType.PO))
+                        {
+                            workTabItem.Visibility = Visibility.Hidden;
+                            tabItemCompanies.Visibility = Visibility.Hidden;
+                            PO_Work_TabItem.Visibility = Visibility.Visible;
                         }
                         else
                         {
                             workTabItem.Visibility = Visibility.Hidden;
                             tabItemCompanies.Visibility = Visibility.Hidden;
+                            PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
 
                         break;
@@ -361,6 +380,32 @@ namespace Client
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void PartnershipRequestCEOButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Project p = new Project();
+            p.Name = ProjectNameTextBox.Text;
+            p.Description = ProjectDescriptionTextBox.Text;
+            p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
+            p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
+
+            proxy.CreateNewProject(p);
+
+            ProjectNameTextBox.Text = "";
+            ProjectDescriptionTextBox.Text = "";
+            ProjectStartDateTextBox.Text = "";
+            ProjectDeadlineTextBox.Text = "";
         }
     }
 }

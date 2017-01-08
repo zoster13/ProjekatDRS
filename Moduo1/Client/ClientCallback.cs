@@ -24,11 +24,11 @@ namespace Client
 
         public void SyncData(EmployeeCommon.CurrentData data)
         {
-            lock (clientDB.Employees_lock)
-            {
-                //System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
+            //lock (clientDB.Employees_lock) //mislim da nam ovde ne treba lock jer se u Main.syncClientDB(data) metodi svakako koristi lock
+            //{
+            //System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
 
-                var disp=App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            var disp =App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {
                         clientDB.Main.syncClientDB(data);
@@ -55,7 +55,18 @@ namespace Client
                 //clientDB.Main.nekaMetoda();
                 
                 //clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
-            }
+            //}
+        }
+
+        public void SyncDataCEO(Project p)
+        {
+            var disp = App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                new ThreadStart(() =>
+                {
+                    clientDB.Main.syncClientDbCEO(p);
+                }
+                )
+                    );
         }
     }
 }

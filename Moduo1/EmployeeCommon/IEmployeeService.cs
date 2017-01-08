@@ -18,12 +18,6 @@ namespace EmployeeCommon
         [OperationContract( IsInitiating = false, IsTerminating = true)] 
         void SignOut(string username);
 
-        [OperationContract] // /*(IsOneWay=true)*/ razmisliti za ostale metode
-        void ListOnlineEmployees();
-
-        [OperationContract]
-        void ListOutsorcingCompanies();
-
         [OperationContract]
         void ChangeEmployeeData(string username, string name, string surname, string email, string password);
 
@@ -47,7 +41,7 @@ namespace EmployeeCommon
 
         //PO
         [OperationContract]
-        void CreateNewProject();
+        void CreateNewProject(Project p);
 
         //[OperationContract]
         //void DefineUserStories(); // ?
