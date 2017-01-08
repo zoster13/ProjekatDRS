@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Client.Views.DevAndLeaderWork"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="370" d:DesignWidth="750">
+    <Grid Background="White">
+        <TabControl >
+            <TabItem Header="Tasks" Margin="0,1,-4,-1" Height="39">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding Team.Projects.UserStories.Tasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
+                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding ProgressStatus}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridClaimTask" Background="White" Margin="461,10,10,10">
+                        <Label x:Name="labelTitle3" Content="Claim task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="90,10,-20,0" VerticalAlignment="Top" Width="199"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="User Stories" Height="39" Margin="7,1,-23,-1">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridUserStories" ItemsSource="{Binding Team.Projects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" Project" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header=" Difficulty" Binding="{Binding Difficulty}"/>
+                            <DataGridTextColumn Header=" Deadline" Binding="{Binding Deadline}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridAddTask" Background="White" Margin="376,10,10,10">
+                        <Label x:Name="labelTitle2" Content="Make task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="122,10,0,0" VerticalAlignment="Top" Width="199"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Projects" Height="39" Margin="25,1,-41,-1">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridProjects" ItemsSource="{Binding Team.Projects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridAddUserStory" Background="White" Margin="376,10,10,10">
+                        <Label x:Name="labelTitle1" Content="Make userstory" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,10,0,0" VerticalAlignment="Top" Width="123"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

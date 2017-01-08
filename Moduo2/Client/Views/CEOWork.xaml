@@ -106,6 +106,24 @@
                     <Label x:Name="labelTitleTeam" Content="Add New Team" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="301,46,0,0" VerticalAlignment="Top" Width="157"/>
                 </Grid>
             </TabItem>
+            <TabItem x:Name="tabItemProjects" Header="Projects" Margin="44,0,-48,0" Height="39">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridTeams" ItemsSource="{Binding AllProjects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Team" Binding="{Binding TeamName}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Background="White" Margin="387,10,10,10">
+                        <Label x:Name="labelTitle2" Content="Assign Project to Team" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="68,10,0,0" VerticalAlignment="Top" Width="199"/>
+                        <Label x:Name="labelProjectTeam" Content="Team: (must have a scrum master)" HorizontalAlignment="Left" Height="26" Margin="10,165,0,0" VerticalAlignment="Top" Width="199"/>
+                        <ComboBox x:Name="comboBoxTeams" HorizontalAlignment="Left" Height="24" Margin="10,196,0,0" VerticalAlignment="Top" Width="323"/>
+                        <Label x:Name="labelProject" Content="Project: (must be unassigned)" HorizontalAlignment="Left" Height="26" Margin="10,80,0,0" VerticalAlignment="Top" Width="199"/>
+                        <ComboBox x:Name="comboBoxProjects" HorizontalAlignment="Left" Height="24" Margin="10,111,0,0" VerticalAlignment="Top" Width="323"/>
+                        <Button x:Name="buttonProjectAssign" IsEnabled="True" Content="Assign" HorizontalAlignment="Left" Height="31" Margin="268,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonProjectAssign_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

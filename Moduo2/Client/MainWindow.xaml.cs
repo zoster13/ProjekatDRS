@@ -154,9 +154,23 @@ namespace Client
             ResetWork();
         }
 
+        public void HRWorkspace()
+        {
+            tabControl1.SelectedIndex = 0;
+            workCeo.Visibility = Visibility.Visible;
+            workCeo.tabItemProjects.Visibility = Visibility.Hidden;
+            LoadCommonData();
+            SetSettings();
+            ResetWork();
+        }
+
+
         public void DeveloperWorkspace()
         {
             tabControl1.SelectedIndex = 0;
+            workDevLeader.Visibility = Visibility.Visible;
+            workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
+            workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
             LoadCommonData();
             SetSettings();
             ResetWork();
@@ -164,10 +178,14 @@ namespace Client
         public void TeamLeaderWorkspace()
         {
             tabControl1.SelectedIndex = 0;
+            workDevLeader.Visibility = Visibility.Visible;
+            workDevLeader.gridAddUserStory.Visibility = Visibility.Visible;
+            workDevLeader.gridAddTask.Visibility = Visibility.Visible;
             LoadCommonData();
             SetSettings();
             ResetWork();
         }
+
         public void ScrumMasterWorkspace()
         {
             tabControl1.SelectedIndex = 0;
@@ -175,14 +193,7 @@ namespace Client
             SetSettings();
             ResetWork();
         }
-        public void HRWorkspace()
-        {
-            tabControl1.SelectedIndex = 0;
-            LoadCommonData();
-            SetSettings();
-            ResetWork();
-        }
-
+        
         private void SetSettings()
         {
             textBoxEditName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name;
@@ -236,7 +247,11 @@ namespace Client
                 LocalClientDatabase.NullifyInstance();
                 DataContext = LocalClientDatabase.Instance;
 
+                // sve se postavlja da bude nevidljivo
                 workCeo.Visibility = Visibility.Visible; // kao i svi ostali
+                workDevLeader.Visibility = Visibility.Hidden;
+                workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
+                workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
             }
         }
 

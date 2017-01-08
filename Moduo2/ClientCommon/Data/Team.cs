@@ -15,18 +15,20 @@ namespace ClientCommon.Data
         private int id;
         private string name;
         private int teamLeaderId;
+        private int scrumMasterId;
         private Employee teamLeader;
-        //List<Employee> employees;
+        private Employee scrumMaster;
+
+        private List<Project> projects;
 
         public Team()
         {
-
+            projects = new List<Project>();
         }
 
         public Team(string name)
         {
             this.name = name;
-            //this.employees = new List<Data.Employee>();
         }
 
         [Key]
@@ -59,9 +61,41 @@ namespace ClientCommon.Data
             set { teamLeader = value; }
         }
 
+        [DataMember]
+        public int ScrumMasterId
+        {
+            get { return scrumMasterId; }
+            set { scrumMasterId = value; }
+        }
+
+        [DataMember]
+        public Employee ScrumMaster
+        {
+            get { return scrumMaster; }
+            set { scrumMaster = value; }
+        }
+
+        [DataMember]
+        public List<Project> Projects
+        {
+            get { return projects; }
+            set { projects = value; }
+        }
+
         public override string ToString()
         {
-            return Name;
+            if(teamLeader.Name != "" && scrumMaster.Name != "")
+            {
+                return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", " + scrumMaster.Name + " " + scrumMaster.Surname;
+            }
+            else if(teamLeader.Name == "")
+            {
+                return Name + ", no team leader , " + scrumMaster.Name + " " + scrumMaster.Surname;
+            }
+            else 
+            {
+                return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", no scrum master";
+            }
         }
     }
 }

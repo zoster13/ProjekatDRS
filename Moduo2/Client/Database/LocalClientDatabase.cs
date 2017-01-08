@@ -21,6 +21,8 @@ namespace Client
         private BindingList<Team> teams;
         private BindingList<HiringCompany> hiringCompanies;
         private BindingList<Notification> notifications;
+        private BindingList<Project> allProjects;
+        private BindingList<Project> myTeamProjects;
 
         private Employee currentEmployee;
         private Notification currentNotification;
@@ -35,6 +37,9 @@ namespace Client
             teams = new BindingList<Team>();
             hiringCompanies = new BindingList<HiringCompany>();
             notifications = new BindingList<Notification>();
+            allProjects = new BindingList<Project>();
+            myTeamProjects = new BindingList<Project>();
+
             currentEmployee = new Employee();
             currentNotification = new Notification();
             locker = new object();
@@ -127,6 +132,30 @@ namespace Client
             set
             {
                 notifications = value;
+            }
+        }
+
+        public BindingList<Project> AllProjects
+        {
+            get
+            {
+                return allProjects;
+            }
+            set
+            {
+                allProjects = value;
+            }
+        }
+
+        public BindingList<Project> MyTeamProjects
+        {
+            get
+            {
+                return myTeamProjects;
+            }
+            set
+            {
+                myTeamProjects = value;
             }
         }
 

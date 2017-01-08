@@ -103,5 +103,17 @@ namespace Client
                 Console.WriteLine("Error while trying to EditEmployeeData: {0}", e.Message);
             }
         }
+
+        public void ProjectTeamAssign(string projName, string teamName)
+        {
+            try
+            {
+                factory.ProjectTeamAssign(projName, teamName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to ProjectTeamAssign: {0}", e.Message);
+            }
+        }
     }
 }

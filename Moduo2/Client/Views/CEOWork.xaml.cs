@@ -197,5 +197,27 @@ namespace Client.Views
             textBoxTeamName.Text = "";
         }
 
+        private void buttonProjectAssign_Click(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
+            {
+                Project project = comboBoxProjects.SelectedItem as Project;
+                Team team = comboBoxTeam.SelectedItem as Team;
+
+                if(project.AssignStatus == AssignStatus.UNASSIGNED && team.ScrumMaster.Email != "")
+                {
+                    foreach(var proj in LocalClientDatabase.Instance.AllProjects)
+                    {
+                        if(proj.Name == project.Name)
+                        {
+                            proj.TeamName = team.Name;
+                            proj.AssignStatus = AssignStatus.ASSIGNED;
+                        }
+                    }
+
+                    LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
+                }
+            }
+        }
     }
 }

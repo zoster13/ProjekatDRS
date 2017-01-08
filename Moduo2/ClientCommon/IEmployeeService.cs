@@ -19,6 +19,11 @@ namespace ClientCommon
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         void EditEmployeeData(Employee employee);
 
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void ProjectTeamAssign(string projName, string teamName);   // tim treba da ima listu projekata koji su mu dodeljeni
+                                                                    // treba izvaditi iz baze projekat i staviti ga u tim
+                                                                    // onda poslati svim online clanovima tog tima taj projekat
+
         [OperationContract]
         List<Employee> GetAllEmployees();
 

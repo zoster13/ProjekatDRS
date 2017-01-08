@@ -37,6 +37,7 @@
                         <TabItem Header="Work" Margin="21,10,-49,-10" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
                                 <view:CEOWork x:Name="workCeo"/>
+                                <view:DevAndLeaderWork x:Name="workDevLeader"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True"  VerticalAlignment="Top">

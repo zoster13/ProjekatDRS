@@ -44,13 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AcceptStatus.cs" />
     <Compile Include="Data\Employee.cs" />
     <Compile Include="Data\EmployeeType.cs" />
     <Compile Include="Data\HiringCompany.cs" />
     <Compile Include="Data\Notification.cs" />
     <Compile Include="Data\NotificationType.cs" />
     <Compile Include="Data\NotificationStatus.cs" />
+    <Compile Include="Data\ProgressStatus.cs" />
+    <Compile Include="Data\Project.cs" />
+    <Compile Include="Data\AssignStatus.cs" />
+    <Compile Include="Data\Task.cs" />
     <Compile Include="Data\Team.cs" />
+    <Compile Include="Data\UserStory.cs" />
     <Compile Include="ICallbackMethods.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
