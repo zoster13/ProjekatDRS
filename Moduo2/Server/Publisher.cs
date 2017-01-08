@@ -43,18 +43,10 @@ namespace Server
         //Methods
         public void LogInCallback(Employee employee)
         {
-            callbackMethod = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-            subscribers.Add(callbackMethod);
+            employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
+            subscribers.Add(employee.Channel);
 
             PublishLogInChanges(employee);
-        }
-
-        public  void LogOutCallback(Employee employee)
-        {
-            //callbackMethod = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-            //subscribers.Add(callbackMethod);
-
-            PublishLogOutChanges(employee);
         }
 
         public void PublishLogInChanges(Employee employee)
@@ -67,11 +59,6 @@ namespace Server
                     {
                         sub.LogInCallback(employee);
                     }
-                    else
-                    {
-                        //subscribers.Remove(sub);
-                        continue;
-                    }
                 }
                 catch (Exception e)
                 {
@@ -80,6 +67,14 @@ namespace Server
             }
         }
 
+        public void LogOutCallback(Employee employee)
+        {
+            subscribers.Remove(employee.Channel);
+            employee.Channel = null;
+            
+            PublishLogOutChanges(employee);
+        }
+        
         public void PublishLogOutChanges(Employee employee)
         {
             foreach (ICallbackMethods sub in subscribers)
@@ -89,11 +84,6 @@ namespace Server
                     if (((IClientChannel)sub).State == CommunicationState.Opened)
                     {
                         sub.LogOutCallback(employee);
-                    }
-                    else
-                    {
-                        //subscribers.Remove(sub);
-                        continue;
                     }
                 }
                 catch (Exception e)
@@ -113,11 +103,6 @@ namespace Server
                     {
                         sub.TeamAddedCallback(team, flag);
                     }
-                    else
-                    {
-                        //subscribers.Remove(sub);
-                        continue;
-                    }
                 }
                 catch (Exception e)
                 {
@@ -128,7 +113,17 @@ namespace Server
 
         public void TypeChangeCallback(Team team, EmployeeType newType)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (((IClientChannel)team.TeamLeader.Channel).State == CommunicationState.Opened)
+                {
+                    team.TeamLeader.Channel.TypeChangeCallback(team,newType);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+            }
         }
 
         public void EditEmployeeCallback(Employee employee)
@@ -140,11 +135,6 @@ namespace Server
                     if (((IClientChannel)sub).State == CommunicationState.Opened)
                     {
                         sub.EditEmployeeCallback(employee);
-                    }
-                    else
-                    {
-                        //subscribers.Remove(sub);
-                        continue;
                     }
                 }
                 catch (Exception e)

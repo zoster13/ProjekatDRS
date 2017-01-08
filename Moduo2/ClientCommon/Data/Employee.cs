@@ -20,6 +20,7 @@ namespace ClientCommon.Data
         private DateTime passwordTimeStamp;
         private DateTime workingHoursStart;
         private DateTime workingHoursEnd;
+        private ICallbackMethods channel;
 
         private List<Notification> notifications;
 
@@ -42,6 +43,7 @@ namespace ClientCommon.Data
             this.email = email;
             this.password = password;
             this.teamName = teamName;
+            this.channel = null;
         }
 
         [Key]
@@ -125,6 +127,13 @@ namespace ClientCommon.Data
         [DataMember]
         public ICollection<Team> Team { get; set; }
 
+        [DataMember]
+        public ICallbackMethods Channel
+        {
+            get { return this.channel; }
+            set { this.channel = value; }
+        }
+        
         public override string ToString()
         {
             return Name + " " + Surname;

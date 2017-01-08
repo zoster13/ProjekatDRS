@@ -12,7 +12,7 @@ namespace Server
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
-            
+
             if(employee!=null && password.Equals(employee.Password))
             {
                 InternalDatabase.Instance.OnlineEmployees.Add(employee);
@@ -69,6 +69,7 @@ namespace Server
             if (EmployeeServiceDatabase.Instance.AddTeam(team))
             {
                 InternalDatabase.Instance.Teams.Add(team);
+
                 Publisher.Instance.TeamAddedCallback(team, true);
             }
             else
