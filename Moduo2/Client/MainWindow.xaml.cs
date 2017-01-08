@@ -334,5 +334,19 @@ namespace Client
                     break;
             }
         }
+
+        public void EditEmployeeDataCalbackResult(Employee employee)
+        {
+            foreach (var emp in LocalClientDatabase.Instance.Employees)
+            {
+                if(emp.Email == employee.Email)
+                {
+                    LocalClientDatabase.Instance.Employees.Remove(emp);
+                    break;
+                }
+            }
+
+            LocalClientDatabase.Instance.Employees.Add(employee);
+        }
     }
 }
