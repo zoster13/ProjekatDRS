@@ -1,6 +1,6 @@
 ﻿using EmployeeCommon;
 using HiringCompany.DatabaseAccess;
-using HiringCompany.EmployeesMng;
+using HiringCompany.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -42,11 +42,11 @@ namespace HiringCompany
             Console.WriteLine("<EmployeesService> service started.");
 
 
-            //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana@mail.com",1,2,2,3);
-            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zvezdana@mail.com",1,2,2,3);
-            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "aleksandra@mail.com",1,2,3,4);
-            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "radislav@mail.com",5,1,4,2);
-            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "pera@mail.com",1,5,4,3);
+            //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana@mail.com", 1, 2, 2, 3);
+            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zvezdana@mail.com", 1, 2, 2, 3);
+            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "aleksandra@mail.com", 1, 2, 3, 4);
+            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "radislav@mail.com", 5, 1, 4, 2);
+            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "pera@mail.com", 1, 5, 4, 3);
 
             //HiringCompanyDB.Instance().AddNewEmployee(em1);
             //HiringCompanyDB.Instance().AddNewEmployee(em2);

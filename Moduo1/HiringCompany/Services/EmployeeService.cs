@@ -4,11 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
-namespace HiringCompany.EmployeesMng
+namespace HiringCompany.Services
 {
   
       [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
@@ -16,7 +19,49 @@ namespace HiringCompany.EmployeesMng
     public class EmployeeService : IEmployeeService
     {
           HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
-   
+
+        System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
+
+        public EmployeeService()
+        {
+            lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
+            lateOnJobTimer.Interval = 5000; // every five seconds
+            lateOnJobTimer.Enabled = true;
+        }
+
+        private void NotifyOnLate(object sender, ElapsedEventArgs e)
+        {
+            Console.WriteLine("alarm...");
+            foreach (Employee em in hiringCompanyDB.AllEmployees) // slanje maila onima koji nisu online
+            {
+                if (!hiringCompanyDB.OnlineEmployees.Contains(em))
+                {
+                    DateTime current= DateTime.UtcNow;
+                    DateTime workTimeEmployee=new DateTime(current.Year,current.Month,current.Day,em.StartHour,em.StartMinute,0);
+                    TimeSpan timeDiff = current - workTimeEmployee;
+                    if (timeDiff.Minutes > 15)
+                    {
+                        string _senderEmailAddress = "sendermailadress";
+                        string _senderPassword = "senderpassword";
+
+                        try
+                        {
+                            var client = new SmtpClient("smtp.gmail.com", 587) {
+                                Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                                EnableSsl = true
+                            };
+                            client.Send(_senderEmailAddress, em.Email, "Warning!", "You are late!");
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine("Exception sending email." + Environment.NewLine + ex);
+                        }
+
+                    }
+                }
+            }
+
+        }
 
         public bool SignIn(string username,string password)
         {
@@ -272,33 +317,8 @@ namespace HiringCompany.EmployeesMng
         }
 
         public void AddNewEmployee(Employee em)
-        {
-            try
-            {
-                var access = new AccessDB();
-                access.employees.Add(em); //dodati proveru postoji li vec korisnik sa tim username-om
-                access.SaveChanges();
-
-                lock (hiringCompanyDB.AllEmployees_lock)
-                {
-                    hiringCompanyDB.AllEmployees.Add(em);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                    }
-                }
-            }
+        {          
+            hiringCompanyDB.AddNewEmployee(em);
 
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;

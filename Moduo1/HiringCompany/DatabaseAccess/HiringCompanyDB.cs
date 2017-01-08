@@ -15,7 +15,6 @@ namespace HiringCompany.DatabaseAccess
         public object Employees_lock = new object();
         public object AllEmployees_lock = new object();
 
-        // razmisliti da li da pravite novu klasu za ove in-memory podatke...
         private List<Employee> onlineEmployees;
         private List<Employee> allEmployees;
         Dictionary<string, IEmployeeServiceCallback> connectionChannels;
@@ -36,7 +35,17 @@ namespace HiringCompany.DatabaseAccess
 
         public List<Employee> AllEmployees
         {
-            get { return allEmployees; }
+            get
+            {
+                using(var access = new AccessDB())
+                {
+                    var employees = from em in access.employees
+                                   
+                                   select em;
+
+                    return employees.ToList();
+                }
+            }
             set { allEmployees = value; }
         }
 
@@ -53,32 +62,27 @@ namespace HiringCompany.DatabaseAccess
             return myDB;
         }
 
-        public Employee GetEmployee(string username)
-        {
-            lock (AllEmployees_lock)
-            {
-                allEmployees.Clear();
-            }
+        // valjda treba da ima neka metoda za brisanje employee-a? 
 
+        public bool AddNewEmployee(EmployeeCommon.Employee employee)
+        {
             try
             {
                 var access = new AccessDB();
-                foreach (Employee em in access.employees)
-                {
-                    lock (AllEmployees_lock)
-                    {
-                        allEmployees.Add(em);
-                    }
-                }
-                
+                access.employees.Add(employee);
+                int i = access.SaveChanges(); // srediti ovo, da ne moze u bazu da se doda ono sto vec psotoji  
+
+                if(i > 0)
+                    return true;
+                return false;
             }
-            catch (DbEntityValidationException e)
+            catch(DbEntityValidationException e)
             {
-                foreach (var eve in e.EntityValidationErrors)
+                foreach(var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
+                    foreach(var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -87,7 +91,12 @@ namespace HiringCompany.DatabaseAccess
                     }
                 }
             }
+            return false;
+        }
 
+      
+        public Employee GetEmployee(string username)
+        {
             using (var access = new AccessDB())
             {
                 var employee = from em in access.employees
