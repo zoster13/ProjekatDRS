@@ -35,6 +35,7 @@ namespace HiringCompany.EmployeesMng
                 }
                 CurrentData cData = new CurrentData();
                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
 
                 foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values) 
                 {
@@ -126,6 +127,33 @@ namespace HiringCompany.EmployeesMng
                 }
             }
 
+            lock (hiringCompanyDB.AllEmployees_lock)
+            {
+                foreach (Employee em in hiringCompanyDB.AllEmployees)
+                {
+                    if (em.Username == username)
+                    {
+                        if (name != "")
+                        {
+                            em.Name = name;
+                        }
+                        if (surname != "")
+                        {
+                            em.Surname = surname;
+                        }
+                        if (email != "")
+                        {
+                            em.Email = email;
+                        }
+                        if (password != "")
+                        {
+                            em.Password = password;
+                        }
+                        break;
+                    }
+                }
+            }
+
             lock (hiringCompanyDB.Employees_lock)
             {
                 foreach (Employee em in hiringCompanyDB.OnlineEmployees)
@@ -155,6 +183,7 @@ namespace HiringCompany.EmployeesMng
 
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
@@ -212,8 +241,24 @@ namespace HiringCompany.EmployeesMng
                 }
             }
 
+            lock (hiringCompanyDB.AllEmployees_lock)
+            {
+                foreach (Employee em in hiringCompanyDB.AllEmployees)
+                {
+                    if (em.Username == username)
+                    {
+                        em.StartHour = beginH;
+                        em.StartMinute = beginM;
+                        em.EndHour = endH;
+                        em.EndMinute = endM;
+                        break;
+                    }
+                }
+            }
+
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
@@ -233,7 +278,11 @@ namespace HiringCompany.EmployeesMng
                 var access = new AccessDB();
                 access.employees.Add(em); //dodati proveru postoji li vec korisnik sa tim username-om
                 access.SaveChanges();
-                //ne mora se raditi sync jer se u klijentskojDB ne cuvaju svi korisnici,vec samo online
+
+                lock (hiringCompanyDB.AllEmployees_lock)
+                {
+                    hiringCompanyDB.AllEmployees.Add(em);
+                }
             }
             catch (DbEntityValidationException e)
             {
@@ -249,6 +298,15 @@ namespace HiringCompany.EmployeesMng
                             ve.ErrorMessage);
                     }
                 }
+            }
+
+            CurrentData cData = new CurrentData();
+            cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+
+            foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
+            {
+                call.SyncData(cData);
             }
         }
 
@@ -295,8 +353,21 @@ namespace HiringCompany.EmployeesMng
                 }
             }
 
+            lock (hiringCompanyDB.AllEmployees_lock)
+            {
+                foreach (Employee em in hiringCompanyDB.AllEmployees)
+                {
+                    if (em.Username == username)
+                    {
+                        em.Type = type;
+                        break;
+                    }
+                }
+            }
+
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {

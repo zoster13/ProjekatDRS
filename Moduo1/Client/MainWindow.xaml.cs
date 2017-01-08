@@ -38,7 +38,7 @@ namespace Client
 
             employeesDataGrid.DataContext = clientDB.Employees;
             companiesDataGrid.DataContext = clientDB.Companies; //verovatno ce i ovo morati opet da se nakuca u SyncClientDB metodi-ako budemo slali celu listu,isto kao za Employees
-            dataGridCEO.DataContext = clientDB.Employees;
+            dataGridCEO.DataContext = clientDB.AllEmployees;
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
             WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
 
@@ -242,7 +242,16 @@ namespace Client
                 clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
             }
             employeesDataGrid.DataContext = clientDB.Employees;
-            dataGridCEO.DataContext = clientDB.Employees;
+
+            lock (clientDB.AllEmployees_lock)
+            {
+                if (clientDB.AllEmployees.Count != 0)
+                {
+                    clientDB.AllEmployees.Clear();
+                }
+                clientDB.AllEmployees = new BindingList<Employee>(data.AllEmployeesData);
+            }
+            dataGridCEO.DataContext = clientDB.AllEmployees;
 
             FillHomeLabels();
         }
@@ -403,6 +412,7 @@ namespace Client
             p.Description = ProjectDescriptionTextBox.Text;
             p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
             p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
+            p.ProductOwner = clientDB.Username;
 
             proxy.CreateNewProject(p);
 
