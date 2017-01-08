@@ -124,7 +124,7 @@ namespace Client.Views
 
         private void textBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -136,7 +136,7 @@ namespace Client.Views
 
         private void textBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -148,7 +148,20 @@ namespace Client.Views
 
         private void textBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
+            {
+                buttonNext1.IsEnabled = false;
+            }
+            else
+            {
+                buttonNext1.IsEnabled = true;
+            }
+        }
+
+
+        private void passwordBoxNew_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -161,11 +174,45 @@ namespace Client.Views
 
         private void buttonNext1_Click(object sender, RoutedEventArgs e)
         {
-            EmployeeType emt = (EmployeeType)comboBoxType.SelectedItem;
-
-            if (emt == EmployeeType.DEVELOPER)
+            if (comboBoxType.SelectedItem != null)
             {
+                EmployeeType emt = (EmployeeType)comboBoxType.SelectedItem;
 
+                if (emt == EmployeeType.DEVELOPER)
+                {
+                    addEmployeeTabControl.SelectedIndex = 1;
+                }
+                else if (emt == EmployeeType.SCRUMMASTER)
+                {
+                    addEmployeeTabControl.SelectedIndex = 2;
+                }
+                else if (emt == EmployeeType.TEAMLEADER)
+                {
+                    addEmployeeTabControl.SelectedIndex = 3;
+                }
+                else if (emt == EmployeeType.HR)
+                {
+                    addEmployeeTabControl.SelectedIndex = 0;
+                    Employee employee = new Employee();
+                    Team team = new Team();
+
+                    if (comboBoxTeamDeveloper.SelectedItem != null)
+                    {
+                        team = comboBoxTeamDeveloper.SelectedItem as Team;
+
+                        employee.Team.Add(team);
+
+                        employee.Name = textBoxName.Text;
+                        employee.Surname = textBoxSurname.Text;
+                        employee.Email = textBoxEmail.Text;
+                        employee.Password = passwordBoxNew.Password;
+                        employee.Type = EmployeeType.HR;
+                        employee.TeamName = team.Name;
+                        employee.PasswordTimeStamp = DateTime.Now;
+
+                        NewEmployeeMessage();
+                    }
+                }
             }
         }
 
@@ -218,6 +265,106 @@ namespace Client.Views
                     LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
                 }
             }
+        }
+
+        private void buttonBack2_Click(object sender, RoutedEventArgs e)
+        {
+            addEmployeeTabControl.SelectedIndex = 0;
+        }
+
+        private void buttonBack3_Click(object sender, RoutedEventArgs e)
+        {
+            addEmployeeTabControl.SelectedIndex = 0;
+        }
+
+        private void buttonBack4_Click(object sender, RoutedEventArgs e)
+        {
+            addEmployeeTabControl.SelectedIndex = 0;
+        }
+
+        private void buttonAddEmployee2_Click(object sender, RoutedEventArgs e)
+        {
+            Employee employee = new Employee();
+            Team team = new Team();
+
+            if(comboBoxTeamDeveloper.SelectedItem != null)
+            {
+                team = comboBoxTeamDeveloper.SelectedItem as Team;
+
+                employee.Team.Add(team);
+
+                employee.Name = textBoxName.Text;
+                employee.Surname = textBoxSurname.Text;
+                employee.Email = textBoxEmail.Text;
+                employee.Password = passwordBoxNew.Password;
+                employee.Type = EmployeeType.DEVELOPER;
+                employee.TeamName = team.Name;
+                employee.PasswordTimeStamp = DateTime.Now;
+
+                NewEmployeeMessage();
+            }
+        }
+
+        private void buttonAddEmployee3_Click(object sender, RoutedEventArgs e)
+        {
+            Employee employee = new Employee();
+            Team team = new Team();
+
+            if (comboBoxTeamScrum.SelectedItem != null)
+            {
+                team = comboBoxTeamScrum.SelectedItem as Team;
+
+                if (team.ScrumMaster.Email == "")
+                {
+                    employee.Team.Add(team);
+
+                    employee.Name = textBoxName.Text;
+                    employee.Surname = textBoxSurname.Text;
+                    employee.Email = textBoxEmail.Text;
+                    employee.Password = passwordBoxNew.Password;
+                    employee.Type = EmployeeType.SCRUMMASTER;
+                    employee.TeamName = team.Name;
+                    employee.PasswordTimeStamp = DateTime.Now;
+
+                    NewEmployeeMessage();
+                }
+            }  
+        }
+
+        private void buttonAddEmployee4_Click(object sender, RoutedEventArgs e)
+        {
+            Employee employee = new Employee();
+            Team team = new Team();
+
+            if (comboBoxTeamLeader.SelectedItem != null)
+            {
+                team = comboBoxTeamLeader.SelectedItem as Team;
+
+                if (team.ScrumMaster.Email == "")
+                {
+                    employee.Team.Add(team);
+
+                    employee.Name = textBoxName.Text;
+                    employee.Surname = textBoxSurname.Text;
+                    employee.Email = textBoxEmail.Text;
+                    employee.Password = passwordBoxNew.Password;
+                    employee.Type = EmployeeType.SCRUMMASTER;
+                    employee.TeamName = team.Name;
+                    employee.PasswordTimeStamp = DateTime.Now;
+
+                    NewEmployeeMessage();
+                }
+            }
+        }
+
+        private void NewEmployeeMessage()
+        {
+            textBoxName.Text = "";
+            textBoxSurname.Text = "";
+            textBoxEmail.Text = "";
+            passwordBoxNew.Password = "";
+
+            MessageBox.Show("A new employee has been added!", "New employee added", MessageBoxButton.OK);
         }
     }
 }
