@@ -130,5 +130,28 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public void EditEmployeeCallback(Employee employee)
+        {
+            foreach (ICallbackMethods sub in subscribers)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.EditEmployeeCallback(employee);
+                    }
+                    else
+                    {
+                        //subscribers.Remove(sub);
+                        continue;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
     }
 }

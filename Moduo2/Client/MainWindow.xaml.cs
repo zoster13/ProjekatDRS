@@ -71,7 +71,7 @@ namespace Client
 
             foreach (var employee in employees)
             {
-                if(employee.Type == EmployeeType.DEVELOPER)
+                if (employee.Type == EmployeeType.DEVELOPER)
                 {
                     LocalClientDatabase.Instance.Developers.Add(employee);
                 }
@@ -193,7 +193,7 @@ namespace Client
             SetSettings();
             ResetWork();
         }
-        
+
         private void SetSettings()
         {
             textBoxEditName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name;
@@ -270,10 +270,10 @@ namespace Client
             LocalClientDatabase.Instance.CurrentEmployee.Name = textBoxEditName.Text;
             LocalClientDatabase.Instance.CurrentEmployee.Surname = textBoxEditSurname.Text;
 
-            LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart = new DateTime(0, 0, 0, int.Parse(textBoxEditFromTimeHours.Text), int.Parse(textBoxEditFromTimeMinutes.Text), 0);
-            LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd = new DateTime(0, 0, 0, int.Parse(textBoxEditToTimeHours.Text), int.Parse(textBoxEditToTimeMinutes.Text), 0);
+            LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(textBoxEditFromTimeHours.Text), int.Parse(textBoxEditFromTimeMinutes.Text), DateTime.Now.Second);
+            LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(textBoxEditToTimeHours.Text), int.Parse(textBoxEditToTimeMinutes.Text), DateTime.Now.Second);
 
-            if(passBoxNewPass.Password != "")
+            if (passBoxNewPass.Password != "" && passBoxOldPass.Password != "")       //mora se i stari unijeti
             {
                 LocalClientDatabase.Instance.CurrentEmployee.Password = passBoxNewPass.Password;
                 LocalClientDatabase.Instance.CurrentEmployee.PasswordTimeStamp = DateTime.Now;

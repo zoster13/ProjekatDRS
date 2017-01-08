@@ -11,6 +11,11 @@ namespace Client
     {
         MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
 
+        public void EditEmployeeCallback(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
+
         public void LogInCallback(Employee employee)
         {
              App.Current.Dispatcher.Invoke((Action)delegate

@@ -18,5 +18,9 @@ namespace ClientCommon
 
         [OperationContract(IsOneWay = true)]
         void TypeChangeCallback(Team team, EmployeeType newType);
+
+        [OperationContract(IsOneWay = true)]
+        void EditEmployeeCallback(Employee employee);
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System;
 
 namespace Server.Access
 {
@@ -44,7 +45,7 @@ namespace Server.Access
             }
         }
 
-        public void UpdateEmployee(string email, short type)
+        public void UpdateEmployeeFunction(string email, short type)
         {
             string commandText = "UPDATE Employees SET Type = @type Where Email=@email";
 
@@ -107,5 +108,23 @@ namespace Server.Access
             }
         }
 
+        public void UpdateEmployee(Employee employee)
+        {
+            string commandText = "UPDATE Employees SET Name = @name, Surname = @surname, WorkingHoursStart = @workingHoursStart, WorkingHoursEnd = @workingHoursEnd, Password = @password Where Email=@email";
+
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+            SqlConnection con = new SqlConnection(constr);
+            SqlCommand updateCommand = new SqlCommand(commandText, con);
+            updateCommand.Parameters.AddWithValue("@email", employee.Email);
+            updateCommand.Parameters.AddWithValue("@name", employee.Name);
+            updateCommand.Parameters.AddWithValue("@surname", employee.Surname);
+            updateCommand.Parameters.AddWithValue("@password", employee.Password);
+            updateCommand.Parameters.AddWithValue("@workingHoursStart", employee.WorkingHoursStart.ToString());
+            updateCommand.Parameters.AddWithValue("@workingHoursEnd", employee.WorkingHoursEnd.ToString());
+            
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+        }
     }
 }

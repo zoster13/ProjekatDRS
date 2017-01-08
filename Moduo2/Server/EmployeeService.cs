@@ -63,7 +63,7 @@ namespace Server
             }
             else
             {
-                EmployeeServiceDatabase.Instance.UpdateEmployee(teamLeader.Email, (short)EmployeeType.TEAMLEADER);
+                EmployeeServiceDatabase.Instance.UpdateEmployeeFunction(teamLeader.Email, (short)EmployeeType.TEAMLEADER);
             }
 
             if (EmployeeServiceDatabase.Instance.AddTeam(team))
@@ -79,7 +79,9 @@ namespace Server
 
         public void EditEmployeeData(Employee employee)
         {
-            throw new NotImplementedException();
+            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
+
+            Publisher.Instance.EditEmployeeCallback(employee);
         }
 
         public void ProjectTeamAssign(string projName, string teamName)
