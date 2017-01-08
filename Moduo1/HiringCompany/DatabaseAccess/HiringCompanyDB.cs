@@ -14,9 +14,11 @@ namespace HiringCompany.DatabaseAccess
 
         public object Employees_lock = new object();
         public object AllEmployees_lock = new object();
+        public object ProjectsForApproval_lock = new object();
 
         private List<Employee> onlineEmployees;
         private List<Employee> allEmployees;
+        private List<Project> projectsForApproval;
         Dictionary<string, IEmployeeServiceCallback> connectionChannels;
         //morace biti ovakav dictionary i za konekcije sa drugim serverom
 
@@ -24,6 +26,7 @@ namespace HiringCompany.DatabaseAccess
         {
             onlineEmployees=new List<Employee>();
             allEmployees = new List<Employee>();
+            projectsForApproval = new List<Project>();
             connectionChannels = new Dictionary<string, IEmployeeServiceCallback>();
         }
 
@@ -47,6 +50,12 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
             set { allEmployees = value; }
+        }
+
+        public List<Project> ProjectsForApproval
+        {
+            get { return projectsForApproval; }
+            set { projectsForApproval = value; }
         }
 
         public Dictionary<string,IEmployeeServiceCallback> ConnectionChannels

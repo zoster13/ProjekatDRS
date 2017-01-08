@@ -146,8 +146,8 @@
                                                 <Label x:Name="labelTypeCEO" Content="Position:" HorizontalAlignment="Left" Height="26" Margin="5,205,0,0" VerticalAlignment="Top" Width="79"/>
                                                 <Label x:Name="labelTitleCEO" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="67,10,0,0" VerticalAlignment="Top" Width="157"/>
                                                 <TextBox x:Name="textBoxNameCEO" HorizontalAlignment="Left" Height="21" Margin="56,61,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
-                                                <TextBox x:Name="textBoxSurnameCEO" HorizontalAlignment="Left" Height="21" Margin="56,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
-                                                <TextBox x:Name="textBoxEmailCEO" HorizontalAlignment="Left" Height="21" Margin="75,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="textBoxEmailCEO" HorizontalAlignment="Left" Height="21" Margin="56,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
+                                                <TextBox x:Name="textBoxSurnameCEO" HorizontalAlignment="Left" Height="21" Margin="75,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
                                                 <ComboBox x:Name="comboBoxPositionCEO" HorizontalAlignment="Left" Height="24" Margin="75,207,0,0" VerticalAlignment="Top" Width="134"/>
                                                 <Button x:Name="buttonAddEmployeeCEO" Content="Add" HorizontalAlignment="Left" Height="31" Margin="210,250,0,0" VerticalAlignment="Top" Width="61" Click="AddEmployeeButton_Click" Background="#FFEAEAEA"/>
                                                 <Label x:Name="labelPasswordCEO" Content="Password:" HorizontalAlignment="Left" Margin="5,166,0,0" VerticalAlignment="Top" Width="79" Height="26"/>

@@ -81,6 +81,7 @@ namespace HiringCompany.Services
                 CurrentData cData = new CurrentData();
                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+                cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
 
                 foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values) 
                 {
@@ -118,6 +119,8 @@ namespace HiringCompany.Services
             }
                  CurrentData cData = new CurrentData();
                  cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+                 cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
                  foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
                  {
                      call.SyncData(cData);
@@ -229,6 +232,7 @@ namespace HiringCompany.Services
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
@@ -304,6 +308,7 @@ namespace HiringCompany.Services
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
@@ -323,6 +328,7 @@ namespace HiringCompany.Services
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
@@ -388,6 +394,7 @@ namespace HiringCompany.Services
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
 
             foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
@@ -413,8 +420,16 @@ namespace HiringCompany.Services
                         {
                             if (pair.Key.Equals(em.Username))
                             {
-                                CurrentData cData = new CurrentData();                                
-                                pair.Value.SyncDataCEO(p);
+                                lock (hiringCompanyDB.ProjectsForApproval_lock)
+                                {
+                                    hiringCompanyDB.ProjectsForApproval.Add(p);
+                                }
+                                
+                                CurrentData cData = new CurrentData();
+                                cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+                                cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+                                cData.EmployeesData = hiringCompanyDB.OnlineEmployees;                   
+                                pair.Value.SyncData(cData);
                                 //treba napraviti metodu koja notifikuje CEO da treba da potvrdi projekat
                             }
                         }

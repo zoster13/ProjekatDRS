@@ -253,15 +253,17 @@ namespace Client
             }
             dataGridCEO.DataContext = clientDB.AllEmployees;
 
-            FillHomeLabels();
-        }
-
-        public void syncClientDbCEO(Project p)
-        {
             lock (clientDB.ProjectsForApproval_lock)
             {
-                clientDB.ProjectsForApproval.Add(p);
+                if (clientDB.ProjectsForApproval.Count != 0)
+                {
+                    clientDB.ProjectsForApproval.Clear();
+                }
+                clientDB.ProjectsForApproval = new BindingList<Project>(data.ProjectsForApprovalData);
             }
+            projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
+
+            FillHomeLabels();
         }
 
         public void FillHomeLabels()
@@ -424,7 +426,23 @@ namespace Client
 
         private void ApproveProjectButton_CLick(object sender, RoutedEventArgs e)
         {
+            Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
 
+            lock (clientDB.ProjectsForApproval_lock)
+            {
+                foreach (Project p in clientDB.ProjectsForApproval)
+                {
+                    if (p.Name.Equals(proj.Name))
+                    {
+                        clientDB.ProjectsForApproval.Remove(p);
+                        break;
+                    }
+                }
+            }
+
+            //dodati proj u listu odobrenih projekata
+            //(odluciti da li je to lista projects koja vec postoji ili treba napraviti listu odobrenih,pa kad outsComp prihvati,onda se projekat smesta u listu projects)
+            //Poslati notification PO da je projekat odobren                     
         }
     }
 }

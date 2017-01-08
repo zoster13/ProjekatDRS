@@ -14,11 +14,13 @@ namespace EmployeeCommon
         // fakticki znaci da cemo svim klijentima slati sve podatke sa svakim notify-emm O.o
         private List<Employee> employeesData;
         private List<Employee> allEmployeesData;
+        private List<Project> projectsForApprovalData;
         
         public CurrentData()
         {
             employeesData = new List<Employee>();
             allEmployeesData = new List<Employee>();
+            projectsForApprovalData = new List<Project>();
         }
 
        
@@ -46,6 +48,13 @@ namespace EmployeeCommon
             {
                 allEmployeesData = value;
             }
+        }
+
+        [DataMember]
+        public List<Project> ProjectsForApprovalData
+        {
+            get { return projectsForApprovalData; }
+            set { projectsForApprovalData = value; }
         }
 
     }

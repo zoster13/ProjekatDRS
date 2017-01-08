@@ -15,7 +15,5 @@ namespace EmployeeCommon
         [OperationContract]
         void SyncData(CurrentData data);
 
-        [OperationContract]
-        void SyncDataCEO(Project p);
     }
 }

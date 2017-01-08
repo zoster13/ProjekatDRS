@@ -57,16 +57,5 @@ namespace Client
                 //clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
             //}
         }
-
-        public void SyncDataCEO(Project p)
-        {
-            var disp = App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
-                new ThreadStart(() =>
-                {
-                    clientDB.Main.syncClientDbCEO(p);
-                }
-                )
-                    );
-        }
     }
 }
