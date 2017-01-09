@@ -140,5 +140,17 @@ namespace Client
                 Console.WriteLine("Error while trying to AddEmployee: {0}", e.Message);
             }
         }
+
+        public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
+        {
+            try
+            {
+                factory.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to UpdateEmployeeFunctionAndTeam: {0}", e.Message);
+            }
+        }
     }
 }

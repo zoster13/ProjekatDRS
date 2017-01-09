@@ -14,7 +14,7 @@ namespace Server.Access
 
         Team GetTeam(string email);
 
-        void UpdateEmployeeFunction(string email, short type);
+        void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
 
         void UpdateEmployee(Employee employee);
     }

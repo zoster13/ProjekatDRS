@@ -107,5 +107,12 @@ namespace Server
 
             Publisher.Instance.AddEmployeeCallback(employee);
         }
+
+        public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
+        {
+            EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
+
+            //Publisher...
+        }
     }
 }

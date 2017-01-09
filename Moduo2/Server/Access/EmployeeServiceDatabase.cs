@@ -51,19 +51,27 @@ namespace Server.Access
             }
         }
 
-        public void UpdateEmployeeFunction(string email, short type)
+        public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
         {
-            string commandText = "UPDATE Employees SET Type = @type Where Email=@email";
+            using (var access = new AccessDB())
+            {
+                //Team oldTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));   
+                Team newTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(newTeamName));            
+                
+                //Update
+                string commandText = "UPDATE Employees SET Type = @type, Team_Id = @team Where Email=@email";
 
-            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
-            SqlConnection con = new SqlConnection(constr);
-            SqlCommand updateCommand = new SqlCommand(commandText, con);
-            updateCommand.Parameters.AddWithValue("@type", type.ToString());
-            updateCommand.Parameters.AddWithValue("@email", email);
+                string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+                SqlConnection con = new SqlConnection(constr);
+                SqlCommand updateCommand = new SqlCommand(commandText, con);
+                updateCommand.Parameters.AddWithValue("@type", EmployeeType.TEAMLEADER);
+                updateCommand.Parameters.AddWithValue("@email", employee.Email);
+                updateCommand.Parameters.AddWithValue("@team", newTeam.Id);
 
-            con.Open();
-            updateCommand.ExecuteNonQuery();
-            con.Close();
+                con.Open();
+                updateCommand.ExecuteNonQuery();
+                con.Close();
+            }
         }
 
         public Employee GetEmployee(string email)

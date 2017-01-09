@@ -38,5 +38,8 @@ namespace ClientCommon
 
         [OperationContract]
         void AddEmployee(Employee employee);
+
+        [OperationContract]
+        void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
     }
 }
