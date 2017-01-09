@@ -119,11 +119,6 @@ namespace Client
                 {
                     LocalClientDatabase.Instance.CurrentEmployee = employee;
 
-                    displayName.Text = employee.Name + " " + employee.Surname;
-                    //displayTeam.Text = employee.Team.Name;
-                    displayType.Text = employee.Type.ToString();
-                    displayEmail.Text = employee.Email;
-
                     switch (LocalClientDatabase.Instance.CurrentEmployee.Type)
                     {
                         case EmployeeType.CEO:
@@ -161,6 +156,7 @@ namespace Client
             LoadCommonData();
             SetSettings();
             ResetWork();
+            SetHome();
         }
 
         public void HRWorkspace()
@@ -171,6 +167,7 @@ namespace Client
             LoadCommonData();
             SetSettings();
             ResetWork();
+            SetHome();
         }
 
 
@@ -183,6 +180,7 @@ namespace Client
             LoadCommonData();
             SetSettings();
             ResetWork();
+            SetHome();
         }
         public void TeamLeaderWorkspace()
         {
@@ -193,6 +191,7 @@ namespace Client
             LoadCommonData();
             SetSettings();
             ResetWork();
+            SetHome();
         }
 
         public void ScrumMasterWorkspace()
@@ -201,6 +200,16 @@ namespace Client
             LoadCommonData();
             SetSettings();
             ResetWork();
+            SetHome();
+        }
+
+        public void SetHome()
+        {
+            displayName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name + " " + LocalClientDatabase.Instance.CurrentEmployee.Surname;
+            if (LocalClientDatabase.Instance.CurrentEmployee.Team != null)
+                displayTeam.Text = LocalClientDatabase.Instance.CurrentEmployee.Team.Name;
+            displayType.Text = LocalClientDatabase.Instance.CurrentEmployee.Type.ToString();
+            displayEmail.Text = LocalClientDatabase.Instance.CurrentEmployee.Email;
         }
 
         private void SetSettings()
@@ -395,7 +404,15 @@ namespace Client
             {
                 LocalClientDatabase.Instance.Employees.Add(employee);
             }
-            
+
+            foreach (var emp in LocalClientDatabase.Instance.Developers)
+            {
+                if (emp.Email == employee.Email)
+                {
+                    LocalClientDatabase.Instance.Developers.Remove(emp);
+                    break;
+                }
+            }
         }
     }
 }
