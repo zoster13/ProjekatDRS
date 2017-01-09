@@ -10,7 +10,7 @@ namespace EmployeeCommon
     public interface IEmployeeServiceCallback
     {
         [OperationContract]
-        void NotifyPO(string message);
+        void Notify(string message);
 
         [OperationContract]
         void SyncData(CurrentData data);

@@ -493,7 +493,7 @@ namespace Client
             }
         }
 
-        public void PO(string message) 
+        public void NotifyEmployee(string message) 
         {
             TextBlock tb = new TextBlock();
             tb.Text = message;

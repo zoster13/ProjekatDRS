@@ -438,6 +438,7 @@ namespace HiringCompany.Services
                                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                                 pair.Value.SyncData(cData);
+                                pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
                                 //treba napraviti metodu koja notifikuje CEO da treba da potvrdi projekat
                             }
                         }
@@ -501,7 +502,7 @@ namespace HiringCompany.Services
                                     try
                                     {
 
-                                        pair.Value.NotifyPO(string.Format("Project {0} is approved.", p.Name));
+                                        pair.Value.Notify(string.Format("Project {0} is approved.", p.Name));
                                         isNotificationSent = true;
                                     }
                                     catch (Exception)

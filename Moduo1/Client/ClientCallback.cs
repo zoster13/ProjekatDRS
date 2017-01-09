@@ -19,12 +19,12 @@ namespace Client
     {
         ClientDatabase clientDB = ClientDatabase.Instance();
 
-        public void NotifyPO(string message)
+        public void Notify(string message)
         {
             var disp = App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {
-                        clientDB.Main.PO(message);
+                        clientDB.Main.NotifyEmployee(message);
                     }
                     )
                         );
