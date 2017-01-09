@@ -243,7 +243,7 @@ namespace Client.Views
                 Employee emp = comboBoxTeamLeader.SelectedItem as Employee;
                 Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = emp.Email };
                 emp.Team = newTeam;
-                emp.Type = EmployeeType.TEAMLEADER;
+                //emp.Type = EmployeeType.TEAMLEADER;
 
                 LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
                 LocalClientDatabase.Instance.proxy.UpdateEmployeeFunctionAndTeam(emp, newTeam.Name);

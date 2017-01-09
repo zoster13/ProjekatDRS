@@ -324,10 +324,9 @@ namespace Client
 
         public void TypeChangeCallbackResult(Employee employee)
         {
-            string message = string.Format("Your superior has changed your position to {0}. Your team is {1}.", LocalClientDatabase.Instance.CurrentEmployee.Type, employee.Team.Name);
-
             LocalClientDatabase.Instance.CurrentEmployee = employee;
 
+            string message = string.Format("Your superior has changed your position to {0}. Your team is {1}.", LocalClientDatabase.Instance.CurrentEmployee.Type, employee.Team.Name);            
             MessageBox.Show(message, "Type Change", MessageBoxButton.OK);
 
             switch (employee.Type)
