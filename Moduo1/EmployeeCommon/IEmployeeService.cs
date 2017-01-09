@@ -39,11 +39,16 @@ namespace EmployeeCommon
         [OperationContract]
         void ProjectOverview();
 
-        //PO
+        // PO
         [OperationContract]
         void CreateNewProject(Project p);
 
         //[OperationContract]
         //void DefineUserStories(); // ?
+
+        // Notification methods
+        [OperationContract]
+        void ProjectApproved(Project p);
+
     }
 }

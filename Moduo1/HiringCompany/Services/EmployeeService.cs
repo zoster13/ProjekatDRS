@@ -25,8 +25,8 @@ namespace HiringCompany.Services
         public EmployeeService()
         {
             lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
-            lateOnJobTimer.Interval = 15000; // every five seconds
-            lateOnJobTimer.Enabled = true;
+            lateOnJobTimer.Interval = 15000; 
+            //lateOnJobTimer.Enabled = true;
         }
 
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
@@ -51,6 +51,18 @@ namespace HiringCompany.Services
                             EnableSsl = true
                         };
                         client.Send(_senderEmailAddress, em.Email, "Obavestenje", "Zakasnili ste na posao!");
+                        /*{System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 64.233.184.109:587
+   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
+   at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
+   at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
+   at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
+   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)}*/
                     }
                 }
             }
@@ -67,7 +79,8 @@ namespace HiringCompany.Services
             if (employee != null && password.Equals(employee.Password))
             {
                 IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-                hiringCompanyDB.ConnectionChannels.Add(username, callback);
+                hiringCompanyDB.ConnectionChannels.Add(username, callback); // kad ne ugasis server, a klijent se ponovo poveze, puca posto taj username postoji
+                // nesto se desi, kad apredugo ceka na klijenta i klijent se ugasi ne izbrise ga...
 
                 lock (hiringCompanyDB.Employees_lock)
                 {
@@ -447,6 +460,22 @@ namespace HiringCompany.Services
                     }
                 }
             }
+        }
+
+
+        public void ProjectApproved(Project p) // treba pozvati NotifyPO
+        {
+            var callback = hiringCompanyDB.ConnectionChannels[p.ProductOwner];
+            try
+            {
+                callback.NotifyPO();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
     }
 }
