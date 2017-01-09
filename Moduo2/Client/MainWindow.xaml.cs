@@ -229,8 +229,16 @@ namespace Client
             workCeo.textBoxTeamName.Text = "";
             workCeo.passwordBoxLeader.Password = "";
 
+            workCeo.tabControlNewTeam.SelectedIndex = 0;
+
             //Add employee
 
+            workCeo.textBoxName.Text = "";
+            workCeo.textBoxSurname.Text = "";
+            workCeo.textBoxEmail.Text = "";
+            workCeo.passwordBoxNew.Password = "";
+
+            workCeo.addEmployeeTabControl.SelectedIndex = 0;
 
             //Other Employee work
         }

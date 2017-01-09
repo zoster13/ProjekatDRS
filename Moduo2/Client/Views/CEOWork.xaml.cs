@@ -204,6 +204,13 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.proxy.AddEmployee(employee);
 
+                    textBoxName.Text = "";
+                    textBoxSurname.Text = "";
+                    textBoxEmail.Text = "";
+                    passwordBoxNew.Password = "";
+
+                    addEmployeeTabControl.SelectedIndex = 0;
+
                     NewEmployeeMessage();
                 }
             }
@@ -235,6 +242,8 @@ namespace Client.Views
             {
                 Employee emp = comboBoxTeamLeader.SelectedItem as Employee;
                 Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = emp.Email };
+                emp.Team = newTeam;
+                emp.Type = EmployeeType.TEAMLEADER;
 
                 LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
             }
@@ -246,25 +255,25 @@ namespace Client.Views
 
         private void buttonProjectAssign_Click(object sender, RoutedEventArgs e)
         {
-            //if(comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
-            //{
-            //    Project project = comboBoxProjects.SelectedItem as Project;
-            //    Team team = comboBoxTeam.SelectedItem as Team;
+            if (comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
+            {
+                Project project = comboBoxProjects.SelectedItem as Project;
+                Team team = comboBoxTeam.SelectedItem as Team;
 
-            //    if(project.AssignStatus == AssignStatus.UNASSIGNED && team.ScrumMasterEmail.Equals "")
-            //    {
-            //        foreach(var proj in LocalClientDatabase.Instance.AllProjects)
-            //        {
-            //            if(proj.Name == project.Name)
-            //            {
-            //                proj.TeamName = team.Name;
-            //                proj.AssignStatus = AssignStatus.ASSIGNED;
-            //            }
-            //        }
+                if (project.AssignStatus == AssignStatus.UNASSIGNED && team.ScrumMasterEmail != "")
+                {
+                    foreach (var proj in LocalClientDatabase.Instance.AllProjects)
+                    {
+                        if (proj.Name == project.Name)
+                        {
+                            proj.TeamName = team.Name;
+                            proj.AssignStatus = AssignStatus.ASSIGNED;
+                        }
+                    }
 
-            //        LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
-            //    }
-            //}
+                    LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
+                }
+            }
         }
 
         private void buttonBack2_Click(object sender, RoutedEventArgs e)
@@ -303,6 +312,13 @@ namespace Client.Views
 
                 LocalClientDatabase.Instance.proxy.AddEmployee(employee);
 
+                textBoxName.Text = "";
+                textBoxSurname.Text = "";
+                textBoxEmail.Text = "";
+                passwordBoxNew.Password = "";
+
+                addEmployeeTabControl.SelectedIndex = 0;
+
                 NewEmployeeMessage();
             }
         }
@@ -331,6 +347,13 @@ namespace Client.Views
                         employee.PasswordTimeStamp = DateTime.Now;
 
                         LocalClientDatabase.Instance.proxy.AddEmployee(employee);
+
+                        textBoxName.Text = "";
+                        textBoxSurname.Text = "";
+                        textBoxEmail.Text = "";
+                        passwordBoxNew.Password = "";
+
+                        addEmployeeTabControl.SelectedIndex = 0;
 
                         NewEmployeeMessage();
 
