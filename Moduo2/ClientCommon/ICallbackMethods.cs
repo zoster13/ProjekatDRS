@@ -24,5 +24,8 @@ namespace ClientCommon
 
         [OperationContract(IsOneWay = true)]
         void AddEmployeeCallback(Employee employee);
+
+        [OperationContract(IsOneWay = true)]
+        void UpdateEmployeeFunctionAndTeamCallback(Employee employee);
     }
 }

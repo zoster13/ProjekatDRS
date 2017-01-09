@@ -58,5 +58,10 @@ namespace Client
                 mainWindow.AddEmployeeCallbackResult(employee);
             });
         }
+
+        public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

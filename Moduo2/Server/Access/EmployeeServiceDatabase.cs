@@ -56,9 +56,11 @@ namespace Server.Access
             using (var access = new AccessDB())
             {
                 //Team oldTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));   
-                Team newTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(newTeamName));            
-                
-                //Update
+                Team newTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(newTeamName));
+                employee.Team = newTeam;
+                employee.Type = EmployeeType.TEAMLEADER;
+
+                //Update in Database
                 string commandText = "UPDATE Employees SET Type = @type, Team_Id = @team Where Email=@email";
 
                 string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";

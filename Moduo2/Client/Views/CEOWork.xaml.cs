@@ -246,6 +246,7 @@ namespace Client.Views
                 emp.Type = EmployeeType.TEAMLEADER;
 
                 LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
+                LocalClientDatabase.Instance.proxy.UpdateEmployeeFunctionAndTeam(emp, newTeam.Name);
             }
 
             textBoxTeamName.Text = "";

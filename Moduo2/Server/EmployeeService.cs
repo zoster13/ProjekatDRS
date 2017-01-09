@@ -112,7 +112,7 @@ namespace Server
         {
             EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
 
-            //Publisher...
+            Publisher.Instance.UpdateEmployeeFunctionAndTeamCallback(employee);
         }
     }
 }
