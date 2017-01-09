@@ -45,10 +45,7 @@ namespace Client
 
         public void TypeChangeCallback(Team team, EmployeeType newType)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate
-            {
-                mainWindow.TypeChangeCallbackResult(team, newType);
-            });
+            
         }
 
         public void AddEmployeeCallback(Employee employee)
@@ -61,12 +58,18 @@ namespace Client
 
         public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.UpdateEmployeeFunctionAndTeamCallbackResult(employee);
+            });
         }
 
         public void NotifyJustMe(Employee employee)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.TypeChangeCallbackResult(employee);
+            });
         }
     }
 }

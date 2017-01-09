@@ -322,15 +322,15 @@ namespace Client
             acceptCanvas.Visibility = Visibility.Hidden;
         }
 
-        public void TypeChangeCallbackResult(Team team, EmployeeType newType)
+        public void TypeChangeCallbackResult(Employee employee)
         {
-            string message = string.Format("Your superior has changed your position from {0} to {1}. Your team is {2}.", LocalClientDatabase.Instance.CurrentEmployee.Type, newType, team.Name);
-            
-            LocalClientDatabase.Instance.CurrentEmployee.Team = team;
+            string message = string.Format("Your superior has changed your position to {0}. Your team is {1}.", LocalClientDatabase.Instance.CurrentEmployee.Type, employee.Team.Name);
+
+            LocalClientDatabase.Instance.CurrentEmployee = employee;
 
             MessageBox.Show(message, "Type Change", MessageBoxButton.OK);
 
-            switch (newType)
+            switch (employee.Type)
             {
                 case EmployeeType.DEVELOPER:
                     DeveloperWorkspace();
@@ -378,7 +378,7 @@ namespace Client
             }
         }
 
-        public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
+        public void UpdateEmployeeFunctionAndTeamCallbackResult(Employee employee)
         {
             bool flag = false;
 
