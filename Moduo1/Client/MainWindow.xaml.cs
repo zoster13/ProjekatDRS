@@ -276,7 +276,9 @@ namespace Client
                     {
                         homeLabelName.Content = em.Name;
                         homeLabelSurname.Content = em.Surname;
-                        homeLabelEmail.Content = em.Email;
+                        TextBlock tb = new TextBlock();
+                        tb.Text = em.Email;
+                        homeLabelEmail.Content = tb;
                         homeLabelPosition.Content = em.Type.ToString();
                         // lepsi ispis...mozda to da dodamo vez sa serverske strane negde, videti da sredimo kod, organizujemo
 

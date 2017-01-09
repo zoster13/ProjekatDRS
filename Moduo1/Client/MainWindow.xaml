@@ -28,10 +28,10 @@
                                 <Label Content="Surname:" HorizontalAlignment="Left" Margin="10,137,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
                                 <Label Content="Email:" HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
                                 <Label Content="Position in company:" HorizontalAlignment="Left" Margin="10,288,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
-                                <Label x:Name="homeLabelName" Content="" HorizontalAlignment="Left" Margin="170,64,0,0" VerticalAlignment="Top" Width="142" FontSize="14" HorizontalContentAlignment="Right"/>
-                                <Label x:Name="homeLabelSurname" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="170,137,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
-                                <Label x:Name="homeLabelEmail" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="170,212,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
-                                <Label x:Name="homeLabelPosition" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="170,290,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
+                                <Label x:Name="homeLabelName" Content="" HorizontalAlignment="Left" Margin="171,65,0,0" VerticalAlignment="Top" Width="185" FontSize="14" HorizontalContentAlignment="Right"/>
+                                <Label x:Name="homeLabelSurname" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="170,137,0,0" VerticalAlignment="Top" Width="185" FontSize="14"/>
+                                <Label x:Name="homeLabelEmail"  Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="170,212,0,0" VerticalAlignment="Top" Width="185" FontSize="14"/>
+                                <Label x:Name="homeLabelPosition" Content="" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="170,290,0,0" VerticalAlignment="Top" Width="185" FontSize="14"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Employees" Margin="21,10,-49,-10" Height="39" Focusable="True">
