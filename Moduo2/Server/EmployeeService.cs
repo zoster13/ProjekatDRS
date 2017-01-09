@@ -6,11 +6,56 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Data.SqlClient;
+using System.Timers;
+using System.Net.Mail;
+using System.Net;
+using System.ServiceModel;
 
 namespace Server
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
+        Timer lateOnJobTimer = new Timer();
+
+        public EmployeeService()
+        {
+            lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
+            lateOnJobTimer.Interval = 15000;
+            lateOnJobTimer.Enabled = true;        
+        }
+
+        private void NotifyOnLate(object sender, ElapsedEventArgs e)
+        {
+            string _senderEmailAddress = "blok4.moduo2@gmail.com";
+            string _senderPassword = "ftnnovisad";
+            Console.WriteLine("alarm...");
+            foreach (Employee em in InternalDatabase.Instance.AllEmployees) // slanje maila onima koji nisu online
+            {
+                if (!InternalDatabase.Instance.OnlineEmployees.Contains(em))
+                {
+                    DateTime current = DateTime.Now;
+                    DateTime workTimeEmployee = em.WorkingHoursStart;
+                    TimeSpan timeDiff = current - workTimeEmployee;
+                    TimeSpan allowed = new TimeSpan(0, 15, 0);
+
+                    if (timeDiff > allowed)
+                    {
+                        var client = new SmtpClient("smtp.gmail.com", 587)
+                        {
+                            Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                            EnableSsl = true
+                        };
+                        client.Send(_senderEmailAddress, em.Email, "Obavjestenje", "Zakasnili ste na posao!");
+                    }
+                }
+                else
+                {
+                    //posalji mu obavjestenje!
+                }
+            }
+        }
+
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);

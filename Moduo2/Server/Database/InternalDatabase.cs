@@ -9,6 +9,7 @@ namespace Server.Database
     {
         private static InternalDatabase instance;
         private static List<Employee> onlineEmployees;
+        private static List<Employee> allEmployees;
         private static List<Team> teams;
 
         private InternalDatabase()
@@ -47,6 +48,22 @@ namespace Server.Database
         {
             get { return teams; }
             set { teams = value; }
+        }
+
+        public List<Employee> AllEmployees
+        {
+            get
+            {
+                using (var access = new AccessDB())
+                {
+                    var employees = from em in access.Employees
+
+                                    select em;
+
+                    return employees.ToList();
+                }
+            }
+            set { allEmployees = value; }
         }
     }
 }
