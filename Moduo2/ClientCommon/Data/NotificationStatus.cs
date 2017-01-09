@@ -10,6 +10,8 @@ namespace ClientCommon.Data
     {
         UNREAD,
         READ,
-        ACCEPTED
+        ACCEPTED,
+        DECLINED,
+        PENDING
     }
 }

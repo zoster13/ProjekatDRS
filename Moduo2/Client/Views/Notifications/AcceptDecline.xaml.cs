@@ -19,11 +19,11 @@ namespace Client.Views.Notifications
     /// <summary>
     /// Interaction logic for ChangeType.xaml
     /// </summary>
-    public partial class Accept : UserControl
+    public partial class AcceptDecline : UserControl
     {
         MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
 
-        public Accept()
+        public AcceptDecline()
         {
             InitializeComponent();
             mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
@@ -32,6 +32,11 @@ namespace Client.Views.Notifications
         private void buttonAccept_Click(object sender, RoutedEventArgs e)
         {
            
+        }
+
+        private void buttonDecline_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

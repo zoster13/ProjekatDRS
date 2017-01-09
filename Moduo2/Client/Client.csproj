@@ -63,8 +63,8 @@
     <Compile Include="Views\DevAndLeaderWork.xaml.cs">
       <DependentUpon>DevAndLeaderWork.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Notifications\Accept.xaml.cs">
-      <DependentUpon>Accept.xaml</DependentUpon>
+    <Compile Include="Views\Notifications\AcceptDecline.xaml.cs">
+      <DependentUpon>AcceptDecline.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -89,7 +89,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Notifications\Accept.xaml">
+    <Page Include="Views\Notifications\AcceptDecline.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

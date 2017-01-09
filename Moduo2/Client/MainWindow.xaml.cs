@@ -157,6 +157,7 @@ namespace Client
             SetSettings();
             ResetWork();
             SetHome();
+            MakeNotifInvisible();
         }
 
         public void HRWorkspace()
@@ -168,6 +169,7 @@ namespace Client
             SetSettings();
             ResetWork();
             SetHome();
+            MakeNotifInvisible();
         }
 
 
@@ -181,6 +183,7 @@ namespace Client
             SetSettings();
             ResetWork();
             SetHome();
+            MakeNotifInvisible();
         }
         public void TeamLeaderWorkspace()
         {
@@ -192,6 +195,7 @@ namespace Client
             SetSettings();
             ResetWork();
             SetHome();
+            MakeNotifInvisible();
         }
 
         public void ScrumMasterWorkspace()
@@ -201,6 +205,7 @@ namespace Client
             SetSettings();
             ResetWork();
             SetHome();
+            MakeNotifInvisible();
         }
 
         public void SetHome()
@@ -319,16 +324,13 @@ namespace Client
                 Notification notification = (Notification)dataGridNotifications.SelectedItem;
                 LocalClientDatabase.Instance.CurrentNotification = notification;
 
-                switch (notification.Type)
-                {
-
-                }
+                acceptDeclineCanvas.notificationText.Text = notification.Message;
             }
         }
 
         private void MakeNotifInvisible()
         {
-            acceptCanvas.Visibility = Visibility.Hidden;
+            acceptDeclineCanvas.Visibility = Visibility.Hidden;
         }
 
         public void TypeChangeCallbackResult(Employee employee)

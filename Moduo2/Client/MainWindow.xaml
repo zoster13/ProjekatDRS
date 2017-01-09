@@ -134,9 +134,9 @@
                                         <RowDefinition Height="117*"/>
                                         <RowDefinition Height="16*"/>
                                     </Grid.RowDefinitions>
-                                    <viewNotif:Accept x:Name="acceptCanvas" Margin="10" Grid.RowSpan="3"/>
+                                    <viewNotif:AcceptDecline x:Name="acceptDeclineCanvas" Margin="10" Grid.RowSpan="3"/>
                                 </Grid>
-                                <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Height="27" Margin="237,358,0,0" VerticalAlignment="Top" Width="75" Click="buttonNotifDetail_Click"/>
+                                <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Margin="237,358,0,10" Width="75" Click="buttonNotifDetail_Click"/>
                             </Grid>
                         </TabItem>
                     </TabControl>
