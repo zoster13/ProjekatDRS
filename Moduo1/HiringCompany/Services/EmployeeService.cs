@@ -468,7 +468,8 @@ namespace HiringCompany.Services
             var callback = hiringCompanyDB.ConnectionChannels[p.ProductOwner];
             try
             {
-                callback.NotifyPO();
+                
+                callback.NotifyPO(string.Format("Project {0} is approved.",p.Name));
             }
             catch (Exception)
             {

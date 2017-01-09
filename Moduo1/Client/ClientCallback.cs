@@ -8,6 +8,9 @@ using EmployeeCommon;
 using System.ServiceModel;
 using System.Windows.Threading;
 using System.Threading;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows;
 
 namespace Client
 {
@@ -16,9 +19,15 @@ namespace Client
     {
         ClientDatabase clientDB = ClientDatabase.Instance();
 
-        public void Notify()
+        public void NotifyPO(string message)
         {
-           
+            var disp = App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    new ThreadStart(() =>
+                    {
+                        clientDB.Main.PO(message);
+                    }
+                    )
+                        );
         }
 
 

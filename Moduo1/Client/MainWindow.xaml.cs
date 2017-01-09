@@ -437,14 +437,73 @@ namespace Client
                     if (p.Name.Equals(proj.Name))
                     {
                         clientDB.ProjectsForApproval.Remove(p);
+                        proxy.ProjectApproved(p);
+                        
                         break;
                     }
                 }
             }
-
+            //dodati liste projekata(verovatno ih ima vise) i u pravu serversku bazu,ne samo u memoriju
             //dodati proj u listu odobrenih projekata
             //(odluciti da li je to lista projects koja vec postoji ili treba napraviti listu odobrenih,pa kad outsComp prihvati,onda se projekat smesta u listu projects)
             //Poslati notification PO da je projekat odobren                     
+        }
+
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+            //TextBlock tb1=new TextBlock();
+            //tb1.Text="blaaaa";
+            
+            //TextBlock tb2 = new TextBlock();
+            //tb2.Text = "blaaaa2";
+            //BindingList<TextBlock> tbList = new BindingList<TextBlock>();
+
+            //Border myBorder = new Border();
+            //myBorder.Background = Brushes.SkyBlue;
+            //myBorder.BorderBrush = Brushes.Black;
+            //myBorder.BorderThickness = new Thickness(1);
+            //myBorder.Child = tb1;
+
+            //Border myBorder2 = new Border();
+            //myBorder2.Background = Brushes.SkyBlue;
+            //myBorder2.BorderBrush = Brushes.Black;
+            //myBorder2.BorderThickness = new Thickness(1);
+            //myBorder2.Child = tb2;
+
+            //notificationsStackPanel.Children.Add(myBorder);
+            //notificationsStackPanel.Children.Add(myBorder2);
+
+            //tbList.Add(tb1);
+            //tbList.Add(tb2);
+            //notificationsStackPanel.Children.Add(tb1);
+            //notificationsStackPanel.Children.Add(tb2);
+            //notificationsStackPanel.DataContext = tbList;
+            //notificationsStackPanel.DataContext = clientDB.AllEmployees;
+            if (scrollViewerNotifications.Visibility == Visibility.Collapsed)
+            {
+                scrollViewerNotifications.Visibility = Visibility.Visible;
+                //notificationsStackPanel.Visibility = Visibility.Visible;
+            }
+            else 
+            {
+                scrollViewerNotifications.Visibility = Visibility.Collapsed;
+                //notificationsStackPanel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void PO(string message) 
+        {
+            TextBlock tb = new TextBlock();
+            tb.Text = message;
+
+            Border myBorder = new Border();
+            myBorder.Background = Brushes.SkyBlue;
+            myBorder.BorderBrush = Brushes.Black;
+            myBorder.BorderThickness = new Thickness(1);
+            myBorder.Child = tb;
+
+            notificationsStackPanel.Children.Add(myBorder);
         }
     }
 }

@@ -113,7 +113,7 @@
                                 <ComboBox x:Name="comboBoxProjects" HorizontalAlignment="Left" Margin="37,32,0,0" VerticalAlignment="Top" Width="299" Height="43" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="comboBoxProjects_SelectionChanged"/>
                             </Grid>
                         </TabItem>
-                        <TabItem x:Name="workTabItem" Header="Work" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39" Focusable="True">
+                        <TabItem x:Name="workTabItem" Header="Work" Margin="68,10,-68,-10" HorizontalAlignment="Left" Width="77" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,1" Focusable="True">
                                 <TabControl x:Name="tabControlCEO" HorizontalAlignment="Left" Height="359" VerticalAlignment="Top" Width="790" Margin="39,38,0,0">
                                     <TabItem x:Name="tabItemEmployees" Header="Employees" Height="39">
@@ -187,7 +187,7 @@
                                             <Button x:Name="PartnershipRequestCEO_button" Content="Send partnership request" HorizontalAlignment="Left" Margin="60,274,0,0" VerticalAlignment="Top" Width="147" Height="27" Click="PartnershipRequestCEOButton_Click"/>
                                         </Grid>
                                     </TabItem>
-                                    <TabItem x:Name="tabItemProjects" Header="Projects" Height="39">
+                                    <TabItem x:Name="tabItemProjects" Header="Projects" Height="39" Margin="-1,-1,-3,1">
                                         <Grid Background="#FFF7F7F7">
                                             <DataGrid x:Name="projectsForApprovalDataGrid" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Height="230" Width="249" Background="#FFDDDDDD"
                                                       IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
@@ -272,7 +272,7 @@
                                 <Label x:Name="DateTimeFormatLabel" Content="dd/mm/yyyy" HorizontalAlignment="Left" Margin="259,210,0,0" VerticalAlignment="Top" Width="77"/>
                             </Grid>
                         </TabItem>
-                        <TabItem Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">
+                        <TabItem Margin="0,10,-228,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,-19" Focusable="True">
                                 <Grid Background="White" Margin="32,10,31.4,160.4">
                                     <Label x:Name="editNameLabel" Content="Name: " HorizontalAlignment="Left" Height="28" Margin="10,37,0,0" VerticalAlignment="Top" Width="92"/>
@@ -355,6 +355,15 @@
                                 </StackPanel>
                             </TabItem.Header-->
                     </TabControl>
+                    <Button x:Name="NotificationsButton" Content="Notifications" HorizontalAlignment="Left" Margin="690,97,0,0" VerticalAlignment="Top" Width="82" Height="33" Click="NotificationsButton_Click"/>
+                    <ScrollViewer x:Name="scrollViewerNotifications" CanContentScroll="True" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Visibility="Collapsed" Height="248" Width="185" Margin="575,135,39,212">
+                    <StackPanel x:Name="notificationsStackPanel"   Visibility="Visible"  HorizontalAlignment="Left" Height="242" VerticalAlignment="Top" Width="179" Background="#FFFDF8F8">
+                        <!--<ItemsControl ItemsSource="{Binding}">
+
+                        </ItemsControl>-->
+                        
+                    </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
         </TabControl>

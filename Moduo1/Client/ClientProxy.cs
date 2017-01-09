@@ -141,6 +141,18 @@ namespace Client
             }
         }
 
+        public void ProjectApproved(Project p) 
+        {
+            try
+            {
+                factory.ProjectApproved(p);
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
         public void Dispose() // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
         {
 
