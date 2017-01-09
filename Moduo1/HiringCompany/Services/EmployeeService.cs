@@ -39,10 +39,11 @@ namespace HiringCompany.Services
                     DateTime current= DateTime.UtcNow;
                     DateTime workTimeEmployee=new DateTime(current.Year,current.Month,current.Day,em.StartHour,em.StartMinute,0);
                     TimeSpan timeDiff = current - workTimeEmployee;
-                    if (timeDiff.Minutes > 15)
+                    TimeSpan allowed = new TimeSpan(0, 15, 0);
+                    if (timeDiff > allowed)
                     {
-                        string _senderEmailAddress = "sendermailadress";
-                        string _senderPassword = "senderpassword";
+                        string _senderEmailAddress = "mzftn123fakultet@gmail.com";
+                        string _senderPassword = "miljanazvezdana123";
 
                         try
                         {
