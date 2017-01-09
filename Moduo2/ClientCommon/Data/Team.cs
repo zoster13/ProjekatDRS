@@ -10,8 +10,8 @@ namespace ClientCommon.Data
     {
         private int id;
         private string name;
-        private Employee teamLeader;
-        private Employee scrumMaster;
+        private string teamLeaderEmail;
+        private string scrumMasterEmail;
 
         private List<Project> projects;
 
@@ -41,17 +41,17 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public Employee TeamLeader
+        public string TeamLeaderEmail
         {
-            get { return teamLeader; }
-            set { teamLeader = value; }
+            get { return teamLeaderEmail; }
+            set { teamLeaderEmail = value; }
         }
         
         [DataMember]
-        public Employee ScrumMaster
+        public string ScrumMasterEmail
         {
-            get { return scrumMaster; }
-            set { scrumMaster = value; }
+            get { return scrumMasterEmail; }
+            set { scrumMasterEmail = value; }
         }
 
         [DataMember]
@@ -63,22 +63,24 @@ namespace ClientCommon.Data
 
         public override string ToString()
         {
-            if(teamLeader != null && scrumMaster != null)
-            {
-                return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", " + scrumMaster.Name + " " + scrumMaster.Surname;
-            }
-            else if (teamLeader == null && scrumMaster == null)
-            {
-                return Name + ", no team leader and no scrum master";
-            }
-            else if(teamLeader == null && scrumMaster != null)
-            {
-                return Name + ", no team leader , " + scrumMaster.Name + " " + scrumMaster.Surname;
-            }
-            else
-            {
-                return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", no scrum master";
-            }
+            return Name;
+
+            //if(teamLeaderEmail.Equals(string.Empty) && scrumMasterEmail.Equals(string.Empty))
+            //{
+            //    return Name + ", TL: " + TeamLeaderEmail + ", SM: " + scrumMasterEmail;
+            //}
+            //else if (teamLeaderEmail == null && scrumMaster == null)
+            //{
+            //    return Name + ", no team leader and no scrum master";
+            //}
+            //else if(teamLeader == null && scrumMaster != null)
+            //{
+            //    return Name + ", no team leader , " + scrumMaster.Name + " " + scrumMaster.Surname;
+            //}
+            //else
+            //{
+            //    return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", no scrum master";
+            //}
         }
     }
 }

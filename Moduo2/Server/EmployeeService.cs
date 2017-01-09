@@ -64,17 +64,19 @@ namespace Server
 
         public void AddTeam(Team team)
         {
-            Employee teamLeader = EmployeeServiceDatabase.Instance.GetEmployee(team.TeamLeader.Email);
+            //Employee teamLeader = EmployeeServiceDatabase.Instance.GetEmployee(team.TeamLeaderEmail);
             
-            if(teamLeader == null)
-            {
-                EmployeeServiceDatabase.Instance.AddEmployee(team.TeamLeader);
-            }
-            else
-            {
-                EmployeeServiceDatabase.Instance.UpdateEmployeeFunction(teamLeader.Email, (short)EmployeeType.TEAMLEADER);
-            }
-
+            //if(teamLeader == null)
+            //{
+            //    //team.TeamLeader.Team = team;
+            //    EmployeeServiceDatabase.Instance.AddEmployee(team.TeamLeader);
+            //}
+            //else
+            //{
+            //    EmployeeServiceDatabase.Instance.UpdateEmployeeFunction(teamLeader.Email, (short)EmployeeType.TEAMLEADER);
+            //    team.TeamLeader = teamLeader;
+            //}
+            
             if (EmployeeServiceDatabase.Instance.AddTeam(team))
             {
                 InternalDatabase.Instance.Teams.Add(team);

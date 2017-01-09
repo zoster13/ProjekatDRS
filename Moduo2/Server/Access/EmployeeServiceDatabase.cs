@@ -36,6 +36,12 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
+                if (employee.Team != null)
+                {
+                    Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
+                    employee.Team = team;
+                }
+
                 access.Employees.Add(employee);
                 int i = access.SaveChanges();
 
@@ -67,8 +73,14 @@ namespace Server.Access
                 var employee = from em in access.Employees
                                where em.Email.Equals(email)
                                select em;
-
-                return employee.ToList().First();
+                try
+                {
+                    return employee.ToList().First();
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 
@@ -82,6 +94,9 @@ namespace Server.Access
 
                 if (team1.ToList().FirstOrDefault() == null)
                 {
+                    //Employee teamLead = access.Employees.FirstOrDefault(e => e.Email.Equals(team.TeamLeaderEmail));
+                    //team.
+
                     access.Teams.Add(team);
                     int i = access.SaveChanges();
 

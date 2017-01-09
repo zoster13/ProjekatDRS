@@ -113,17 +113,17 @@ namespace Server
 
         public void TypeChangeCallback(Team team, EmployeeType newType)
         {
-            try
-            {
-                if (((IClientChannel)team.TeamLeader.Channel).State == CommunicationState.Opened)
-                {
-                    team.TeamLeader.Channel.TypeChangeCallback(team,newType);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e.Message);
-            }
+            //try
+            //{
+            //    if (((IClientChannel)team.TeamLeader.Channel).State == CommunicationState.Opened)
+            //    {
+            //        team.TeamLeader.Channel.TypeChangeCallback(team,newType);
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Error: {0}", e.Message);
+            //}
         }
 
         public void EditEmployeeCallback(Employee employee)

@@ -211,12 +211,13 @@ namespace Client.Views
 
         private void buttonAddTeam2_Click(object sender, RoutedEventArgs e)
         {
-            Employee em = new Employee() { Name = textBoxLeaderName.Text, Surname = textBoxLeaderSurname.Text, Email = textBoxLeaderEmail.Text, Password = passwordBoxLeader.Password };
-            Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeader = em };
+            Employee em = new Employee() { Name = textBoxLeaderName.Text, Surname = textBoxLeaderSurname.Text, Email = textBoxLeaderEmail.Text, Password = passwordBoxLeader.Password , Type = EmployeeType.TEAMLEADER };
+            Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = em.Email };
             em.Team = newTeam;
 
             LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
-
+            LocalClientDatabase.Instance.proxy.AddEmployee(em);
+            
             textBoxTeamName.Text = "";
 
             textBoxLeaderName.Text = "";
@@ -232,7 +233,8 @@ namespace Client.Views
         {
             if(comboBoxTeamLeader.SelectedItem != null)
             {
-                Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeader = (Employee)comboBoxTeamLeader.SelectedItem, };
+                Employee emp = comboBoxTeamLeader.SelectedItem as Employee;
+                Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = emp.Email };
 
                 LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
             }
@@ -244,25 +246,25 @@ namespace Client.Views
 
         private void buttonProjectAssign_Click(object sender, RoutedEventArgs e)
         {
-            if(comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
-            {
-                Project project = comboBoxProjects.SelectedItem as Project;
-                Team team = comboBoxTeam.SelectedItem as Team;
+            //if(comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
+            //{
+            //    Project project = comboBoxProjects.SelectedItem as Project;
+            //    Team team = comboBoxTeam.SelectedItem as Team;
 
-                if(project.AssignStatus == AssignStatus.UNASSIGNED && team.ScrumMaster.Email != "")
-                {
-                    foreach(var proj in LocalClientDatabase.Instance.AllProjects)
-                    {
-                        if(proj.Name == project.Name)
-                        {
-                            proj.TeamName = team.Name;
-                            proj.AssignStatus = AssignStatus.ASSIGNED;
-                        }
-                    }
+            //    if(project.AssignStatus == AssignStatus.UNASSIGNED && team.ScrumMasterEmail.Equals "")
+            //    {
+            //        foreach(var proj in LocalClientDatabase.Instance.AllProjects)
+            //        {
+            //            if(proj.Name == project.Name)
+            //            {
+            //                proj.TeamName = team.Name;
+            //                proj.AssignStatus = AssignStatus.ASSIGNED;
+            //            }
+            //        }
 
-                    LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
-                }
-            }
+            //        LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
+            //    }
+            //}
         }
 
         private void buttonBack2_Click(object sender, RoutedEventArgs e)
@@ -317,7 +319,7 @@ namespace Client.Views
 
                 foreach (var team1 in LocalClientDatabase.Instance.Teams)
                 {
-                    if (team1.Name == team.Name && team1.ScrumMaster.Email == null)
+                    if (team1.Name == team.Name && !team1.ScrumMasterEmail.Equals(string.Empty))
                     {
 
                         employee.Name = textBoxName.Text;
