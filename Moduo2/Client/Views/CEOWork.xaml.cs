@@ -335,14 +335,12 @@ namespace Client.Views
 
             if (comboBoxTeamScrum.SelectedItem != null)
             {
-
-                team = comboBoxTeamDeveloper.SelectedItem as Team;
+                team = comboBoxTeamScrum.SelectedItem as Team;
 
                 foreach (var team1 in LocalClientDatabase.Instance.Teams)
                 {
-                    if (team1.Name == team.Name && !team1.ScrumMasterEmail.Equals(string.Empty))
+                    if (team1.Name == team.Name && team1.ScrumMasterEmail==null)
                     {
-
                         employee.Name = textBoxName.Text;
                         employee.Surname = textBoxSurname.Text;
                         employee.Email = textBoxEmail.Text;

@@ -208,5 +208,23 @@ namespace Server
                 }
             }
         }
+
+        public void ScrumMasterUpdatedCallback(Team team)
+        {
+            foreach (ICallbackMethods sub in employeeChannels.Values)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.ScrumMasterUpdatedCallback(team);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
     }
 }

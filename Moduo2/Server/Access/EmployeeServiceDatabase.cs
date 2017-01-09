@@ -104,9 +104,6 @@ namespace Server.Access
 
                 if (team1.ToList().FirstOrDefault() == null)
                 {
-                    //Employee teamLead = access.Employees.FirstOrDefault(e => e.Email.Equals(team.TeamLeaderEmail));
-                    //team.
-
                     access.Teams.Add(team);
                     int i = access.SaveChanges();
 

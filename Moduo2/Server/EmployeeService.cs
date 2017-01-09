@@ -5,6 +5,7 @@ using Server.Database;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Data.SqlClient;
 
 namespace Server
 {
@@ -91,8 +92,27 @@ namespace Server
         public void AddEmployee(Employee employee)
         {
             EmployeeServiceDatabase.Instance.AddEmployee(employee);
-
             Publisher.Instance.AddEmployeeCallback(employee);
+
+            if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
+            {
+                employee.Team.ScrumMasterEmail = employee.Email;
+                
+                //Update in Database
+                string commandText = "UPDATE Teams SET ScrumMasterEmail = @email Where Name=@teamName";
+
+                string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+                SqlConnection con = new SqlConnection(constr);
+                SqlCommand updateCommand = new SqlCommand(commandText, con);
+                updateCommand.Parameters.AddWithValue("@email", employee.Email);
+                updateCommand.Parameters.AddWithValue("@teamName", employee.Team.Name);
+
+                con.Open();
+                updateCommand.ExecuteNonQuery();
+                con.Close();
+
+                Publisher.Instance.ScrumMasterUpdatedCallback(employee.Team);
+            }
         }
 
         public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)

@@ -71,5 +71,10 @@ namespace Client
                 mainWindow.TypeChangeCallbackResult(employee);
             });
         }
+
+        public void ScrumMasterUpdatedCallback(Team team)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

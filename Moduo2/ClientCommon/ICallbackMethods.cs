@@ -31,5 +31,7 @@ namespace ClientCommon
         [OperationContract(IsOneWay = true)]
         void NotifyJustMe(Employee employee);
 
+        [OperationContract(IsOneWay = true)]
+        void ScrumMasterUpdatedCallback(Team team);
     }
 }
