@@ -24,6 +24,9 @@ namespace Client
         private BindingList<Project> allProjects;
         private BindingList<Project> myTeamProjects;
 
+        private BindingList<Task> allTasks;
+        private BindingList<Task> myTasks;
+
         private Employee currentEmployee;
         private Notification currentNotification;
         private object locker;
@@ -39,6 +42,9 @@ namespace Client
             notifications = new BindingList<Notification>();
             allProjects = new BindingList<Project>();
             myTeamProjects = new BindingList<Project>();
+
+            allTasks = new BindingList<Task>();
+            myTasks = new BindingList<Task>();
 
             currentEmployee = new Employee();
             currentNotification = new Notification();

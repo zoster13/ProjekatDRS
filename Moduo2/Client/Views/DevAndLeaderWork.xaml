@@ -18,8 +18,11 @@
                             <DataGridTextColumn Header="Status" Binding="{Binding ProgressStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid x:Name="gridClaimTask" Background="White" Margin="461,10,10,10">
+                    <Grid x:Name="gridClaimTask" Background="White" Margin="461,10,10,168">
                         <Label x:Name="labelTitle3" Content="Claim task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="90,10,-20,0" VerticalAlignment="Top" Width="199"/>
+                    </Grid>
+                    <Grid x:Name="gridMarkAsCompleted" Background="White" Margin="461,168,10,10">
+                        <Label x:Name="labelTitle4" Content="Mark task as completed" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="42,10,0,0" VerticalAlignment="Top" Width="199"/>
                     </Grid>
                 </Grid>
             </TabItem>
