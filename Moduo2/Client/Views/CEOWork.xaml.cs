@@ -211,7 +211,7 @@ namespace Client.Views
 
                     addEmployeeTabControl.SelectedIndex = 0;
 
-                    NewEmployeeMessage();
+                    OkMessageBox("A new employee has been added!");
                 }
             }
         }
@@ -233,6 +233,8 @@ namespace Client.Views
             textBoxTeamName.Text = "";
             passwordBoxLeader.Password = "";
 
+            OkMessageBox("A new team has been added!");
+
             tabControlNewTeam.SelectedIndex = 0;
         }
 
@@ -250,6 +252,8 @@ namespace Client.Views
             }
 
             textBoxTeamName.Text = "";
+
+            OkMessageBox("A new team has been added!");
 
             tabControlNewTeam.SelectedIndex = 0;
         }
@@ -320,7 +324,7 @@ namespace Client.Views
 
                 addEmployeeTabControl.SelectedIndex = 0;
 
-                NewEmployeeMessage();
+                OkMessageBox("A new employee has been added!");
             }
         }
 
@@ -356,21 +360,16 @@ namespace Client.Views
 
                         addEmployeeTabControl.SelectedIndex = 0;
 
-                        NewEmployeeMessage();
+                        OkMessageBox("A new employee has been added!");
 
                     }
                 }
             }  
         }
 
-        private void NewEmployeeMessage()
+        private void OkMessageBox(string message)
         {
-            textBoxName.Text = "";
-            textBoxSurname.Text = "";
-            textBoxEmail.Text = "";
-            passwordBoxNew.Password = "";
-
-            MessageBox.Show("A new employee has been added!", "New employee added", MessageBoxButton.OK);
+            MessageBox.Show(message, "Activity", MessageBoxButton.OK);
         }
     }
 }
