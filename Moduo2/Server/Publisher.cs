@@ -3,6 +3,8 @@ using System;
 using System.ServiceModel;
 using ClientCommon.Data;
 using System.Collections.Generic;
+using Server.Database;
+using System.Linq;
 
 namespace Server
 {
@@ -10,14 +12,13 @@ namespace Server
     public class Publisher : ICallbackMethods
     {
         private static Publisher instance;
-        private static List<ICallbackMethods> subscribers;
-        private static ICallbackMethods callbackMethod;
-
+        private static Dictionary<string, ICallbackMethods> employeeChannels;
+        
         public Publisher()
         {
             if (instance == null)
             {
-                subscribers = new List<ICallbackMethods>();
+                employeeChannels = new Dictionary<string, ICallbackMethods>();
                 instance = this;
             }
         }
@@ -44,14 +45,14 @@ namespace Server
         public void LogInCallback(Employee employee)
         {
             employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-            subscribers.Add(employee.Channel);
-            
+            employeeChannels.Add(employee.Email, employee.Channel);
+
             PublishLogInChanges(employee);
         }
 
         public void PublishLogInChanges(Employee employee)
         {
-            foreach (ICallbackMethods sub in subscribers)
+            foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
                 {
@@ -69,15 +70,14 @@ namespace Server
 
         public void LogOutCallback(Employee employee)
         {
-            subscribers.Remove(employee.Channel);
-            employee.Channel = null;
+            employeeChannels.Remove(employee.Email);
             
             PublishLogOutChanges(employee);
         }
         
         public void PublishLogOutChanges(Employee employee)
         {
-            foreach (ICallbackMethods sub in subscribers)
+            foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
                 {
@@ -95,7 +95,7 @@ namespace Server
 
         public void TeamAddedCallback(Team team, bool flag)
         {
-            foreach (ICallbackMethods sub in subscribers)
+            foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
                 {
@@ -128,7 +128,7 @@ namespace Server
 
         public void EditEmployeeCallback(Employee employee)
         {
-            foreach (ICallbackMethods sub in subscribers)
+            foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
                 {
@@ -146,7 +146,7 @@ namespace Server
 
         public void AddEmployeeCallback(Employee employee)
         {
-            foreach (ICallbackMethods sub in subscribers)
+            foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
                 {
@@ -164,7 +164,7 @@ namespace Server
 
         public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
         {
-            foreach (ICallbackMethods sub in subscribers)
+            foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
                 {
@@ -182,16 +182,30 @@ namespace Server
 
         public void NotifyJustMe(Employee employee)
         {
-            try
+            Employee selectedEmployee = null;
+
+            foreach(Employee emp in InternalDatabase.Instance.OnlineEmployees)
             {
-                if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                if(emp.Email.Equals(employee.Email))
                 {
-                    employee.Channel.NotifyJustMe(employee);
+                    selectedEmployee = emp;
+                    break;
                 }
             }
-            catch (Exception e)
+
+            if (selectedEmployee != null)        //obavjesti ga samo ako je online
             {
-                Console.WriteLine("Error: {0}", e.Message);
+                try
+                {
+                    if (((IClientChannel)selectedEmployee.Channel).State == CommunicationState.Opened)
+                    {
+                        selectedEmployee.Channel.NotifyJustMe(employee);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
             }
         }
     }
