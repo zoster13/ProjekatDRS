@@ -364,7 +364,7 @@ namespace Client.Views
                         }
                         else
                         {
-                            //Dodaj neki message box koji obavjestava da tim vec ima SM
+                            OkMessageBox("This team already has a scrum master! Choose another one.");
                         }
                     }
                 }
