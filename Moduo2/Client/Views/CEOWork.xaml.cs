@@ -194,23 +194,16 @@ namespace Client.Views
                 {
                     addEmployeeTabControl.SelectedIndex = 0;
                     Employee employee = new Employee();
-                    Team team = new Team();
+                    
+                    employee.Name = textBoxName.Text;
+                    employee.Surname = textBoxSurname.Text;
+                    employee.Email = textBoxEmail.Text;
+                    employee.Password = passwordBoxNew.Password;
+                    employee.Type = EmployeeType.HR;
+                    employee.PasswordTimeStamp = DateTime.Now;
 
-                    if (comboBoxTeamDeveloper.SelectedItem != null)
-                    {
-                        team = comboBoxTeamDeveloper.SelectedItem as Team;
+                    NewEmployeeMessage();
 
-                        employee.Team = team;
-
-                        employee.Name = textBoxName.Text;
-                        employee.Surname = textBoxSurname.Text;
-                        employee.Email = textBoxEmail.Text;
-                        employee.Password = passwordBoxNew.Password;
-                        employee.Type = EmployeeType.HR;
-                        employee.PasswordTimeStamp = DateTime.Now;
-
-                        NewEmployeeMessage();
-                    }
                 }
             }
         }
@@ -230,6 +223,8 @@ namespace Client.Views
             textBoxLeaderEmail.Text = "";
             textBoxTeamName.Text = "";
             passwordBoxLeader.Password = "";
+
+            tabControlNewTeam.SelectedIndex = 0;
         }
 
         private void buttonAddTeam3_Click(object sender, RoutedEventArgs e)
@@ -242,6 +237,8 @@ namespace Client.Views
             }
 
             textBoxTeamName.Text = "";
+
+            tabControlNewTeam.SelectedIndex = 0;
         }
 
         private void buttonProjectAssign_Click(object sender, RoutedEventArgs e)
@@ -312,49 +309,27 @@ namespace Client.Views
 
             if (comboBoxTeamScrum.SelectedItem != null)
             {
-                team = comboBoxTeamScrum.SelectedItem as Team;
 
-                if (team.ScrumMaster.Email == "")
+                team = comboBoxTeamDeveloper.SelectedItem as Team;
+
+                foreach (var team1 in LocalClientDatabase.Instance.Teams)
                 {
-                    //employee.Team.Add(team);
+                    if (team1.Name == team.Name && team1.ScrumMaster.Email == null)
+                    {
 
-                    employee.Name = textBoxName.Text;
-                    employee.Surname = textBoxSurname.Text;
-                    employee.Email = textBoxEmail.Text;
-                    employee.Password = passwordBoxNew.Password;
-                    employee.Type = EmployeeType.SCRUMMASTER;
-                    employee.Team = team;
-                    employee.PasswordTimeStamp = DateTime.Now;
+                        employee.Name = textBoxName.Text;
+                        employee.Surname = textBoxSurname.Text;
+                        employee.Email = textBoxEmail.Text;
+                        employee.Password = passwordBoxNew.Password;
+                        employee.Type = EmployeeType.SCRUMMASTER;
+                        employee.Team = team;
+                        employee.PasswordTimeStamp = DateTime.Now;
 
-                    NewEmployeeMessage();
+                        NewEmployeeMessage();
+
+                    }
                 }
             }  
-        }
-
-        private void buttonAddEmployee4_Click(object sender, RoutedEventArgs e)
-        {
-            Employee employee = new Employee();
-            Team team = new Team();
-
-            if (comboBoxTeamLeader.SelectedItem != null)
-            {
-                team = comboBoxTeamLeader.SelectedItem as Team;
-
-                if (team.ScrumMaster.Email == "")
-                {
-                    //employee.Team.Add(team);
-
-                    employee.Name = textBoxName.Text;
-                    employee.Surname = textBoxSurname.Text;
-                    employee.Email = textBoxEmail.Text;
-                    employee.Password = passwordBoxNew.Password;
-                    employee.Type = EmployeeType.SCRUMMASTER;
-                    employee.Team = team;
-                    employee.PasswordTimeStamp = DateTime.Now;
-
-                    NewEmployeeMessage();
-                }
-            }
         }
 
         private void NewEmployeeMessage()

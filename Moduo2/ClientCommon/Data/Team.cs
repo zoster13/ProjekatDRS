@@ -63,11 +63,11 @@ namespace ClientCommon.Data
 
         public override string ToString()
         {
-            if(teamLeader.Name != "" && scrumMaster.Name != "")
+            if(teamLeader.Name != null && scrumMaster.Name != null)
             {
                 return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", " + scrumMaster.Name + " " + scrumMaster.Surname;
             }
-            else if(teamLeader.Name == "")
+            else if(teamLeader.Name == null)
             {
                 return Name + ", no team leader , " + scrumMaster.Name + " " + scrumMaster.Surname;
             }
