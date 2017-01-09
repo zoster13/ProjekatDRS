@@ -339,27 +339,33 @@ namespace Client.Views
 
                 foreach (var team1 in LocalClientDatabase.Instance.Teams)
                 {
-                    if (team1.Name == team.Name && team1.ScrumMasterEmail==null)
+                    if (team1.Name == team.Name)
                     {
-                        employee.Name = textBoxName.Text;
-                        employee.Surname = textBoxSurname.Text;
-                        employee.Email = textBoxEmail.Text;
-                        employee.Password = passwordBoxNew.Password;
-                        employee.Type = EmployeeType.SCRUMMASTER;
-                        employee.Team = team;
-                        employee.PasswordTimeStamp = DateTime.Now;
+                        if (team1.ScrumMasterEmail == null)
+                        {
+                            employee.Name = textBoxName.Text;
+                            employee.Surname = textBoxSurname.Text;
+                            employee.Email = textBoxEmail.Text;
+                            employee.Password = passwordBoxNew.Password;
+                            employee.Type = EmployeeType.SCRUMMASTER;
+                            employee.Team = team;
+                            employee.PasswordTimeStamp = DateTime.Now;
 
-                        LocalClientDatabase.Instance.proxy.AddEmployee(employee);
+                            LocalClientDatabase.Instance.proxy.AddEmployee(employee);
 
-                        textBoxName.Text = "";
-                        textBoxSurname.Text = "";
-                        textBoxEmail.Text = "";
-                        passwordBoxNew.Password = "";
+                            textBoxName.Text = "";
+                            textBoxSurname.Text = "";
+                            textBoxEmail.Text = "";
+                            passwordBoxNew.Password = "";
 
-                        addEmployeeTabControl.SelectedIndex = 0;
+                            addEmployeeTabControl.SelectedIndex = 0;
 
-                        OkMessageBox("A new employee has been added!");
-
+                            OkMessageBox("A new employee has been added!");
+                        }
+                        else
+                        {
+                            //Dodaj neki message box koji obavjestava da tim vec ima SM
+                        }
                     }
                 }
             }  
