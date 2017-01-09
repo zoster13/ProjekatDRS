@@ -73,15 +73,19 @@ namespace Client
             LocalClientDatabase.Instance.Teams.Clear();
             LocalClientDatabase.Instance.HiringCompanies.Clear();
 
-            var employees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
+            var onlineEmployees = LocalClientDatabase.Instance.proxy.GetAllOnlineEmployees();
+            var allEmployees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
 
-            foreach (var employee in employees)
+            foreach (var employee in allEmployees)
             {
                 if (employee.Type == EmployeeType.DEVELOPER)
                 {
                     LocalClientDatabase.Instance.Developers.Add(employee);
                 }
+            }
 
+            foreach(var employee in onlineEmployees)
+            {
                 LocalClientDatabase.Instance.Employees.Add(employee);
             }
 
@@ -99,8 +103,7 @@ namespace Client
             //    LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
             //}
         }
-
-
+        
         public void LogInCallbackResult(Employee employee)
         {
             if (employee != null)

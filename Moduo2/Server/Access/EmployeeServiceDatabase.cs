@@ -80,7 +80,7 @@ namespace Server.Access
                            where t.Name.Equals(team.Name)
                            select t;
 
-                if (team1 == null)
+                if (team1.ToList().FirstOrDefault() == null)
                 {
                     access.Teams.Add(team);
                     int i = access.SaveChanges();

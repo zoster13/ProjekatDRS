@@ -25,6 +25,9 @@ namespace ClientCommon
                                                                     // onda poslati svim online clanovima tog tima taj projekat
 
         [OperationContract]
+        List<Employee> GetAllOnlineEmployees();
+
+        [OperationContract]
         List<Employee> GetAllEmployees();
 
         [OperationContract]

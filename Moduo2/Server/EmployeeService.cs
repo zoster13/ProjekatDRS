@@ -4,6 +4,7 @@ using Server.Access;
 using Server.Database;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Server
 {
@@ -38,9 +39,17 @@ namespace Server
             Publisher.Instance.LogOutCallback(employee);
         }
         
-        public List<Employee> GetAllEmployees()
+        public List<Employee> GetAllOnlineEmployees()
         {
             return InternalDatabase.Instance.OnlineEmployees;
+        }
+
+        public List<Employee> GetAllEmployees()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Employees.ToList();
+            }
         }
 
         public List<Team> GetAllTeams()

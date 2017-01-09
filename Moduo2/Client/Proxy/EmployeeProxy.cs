@@ -41,6 +41,19 @@ namespace Client
             }
         }
 
+        public List<Employee> GetAllOnlineEmployees()
+        {
+            try
+            {
+                return factory.GetAllOnlineEmployees();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to GetAllEmployees: {0}", e.Message);
+                return null;
+            }
+        }
+
         public List<Employee> GetAllEmployees()
         {
             try
