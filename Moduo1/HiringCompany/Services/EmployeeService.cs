@@ -31,126 +31,128 @@ namespace HiringCompany.Services
 
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
-            string _senderEmailAddress = "mzftn123fakultet@gmail.com";
-                        string _senderPassword = "miljanazvezdana123";
+             string _senderEmailAddress = "mzftn123fakultet@gmail.com";
+                string _senderPassword = "miljanazvezdana123";
             Console.WriteLine("alarm...");
             foreach (Employee em in hiringCompanyDB.AllEmployees) // slanje maila onima koji nisu online
             {
                 if (!hiringCompanyDB.OnlineEmployees.Contains(em))
                 {
 
-                     var client = new SmtpClient("smtp.gmail.com", 587)
-                {
-                    Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
-                    EnableSsl = true
-                };
-                client.Send(_senderEmailAddress, em.Email, "Obavestenje", "Zakasnili ste na posao!");
-
-                    /*
-                    MailAddress fromAddress = new MailAddress("mzftn123fakultet@gmail.com");
-                    MailAddress toAddress = new MailAddress(em.Email.Trim());
-                    const string subject = "test";
-                    const string body = "HEY, LISTEN!";
-
-                    DateTime current = DateTime.Now;
-                    DateTime workTimeEmployee = new DateTime(current.Year, current.Month, current.Day, em.StartHour, em.StartMinute, 0);
-                    TimeSpan timeDiff = current - workTimeEmployee;
-                    TimeSpan allowed = new TimeSpan(0, 15, 0);
-
-                    if (timeDiff > allowed)
+                    var client = new SmtpClient("smtp.gmail.com", 587)
                     {
-                        Console.WriteLine("slanje e maila...");
-                        string _senderEmailAddress = "mzftn123fakultet@gmail.com";
-                        string _senderPassword = "miljanazvezdana123";
-                        MailMessage message = new MailMessage(_senderEmailAddress, em.Email, "proba", "kasnis");
+                        Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                        EnableSsl = true
+                    };
+                    client.Send(_senderEmailAddress, em.Email, "Obavestenje", "Zakasnili ste na posao!");
 
 
-                        try
-                        {
-                            //Create the msg object to be sent
-                            MailMessage msg = new MailMessage();
-                            //Add your email address to the recipients
-                            msg.To.Add(em.Email);
-                            //Configure the address we are sending the mail from
-                            MailAddress address = new MailAddress(_senderEmailAddress);
-                            msg.From = address;
-                            msg.Subject = "anything";
-                            msg.Body = "anything";
+                    //MailAddress fromAddress = new MailAddress("mzftn123fakultet@gmail.com");
+                    //MailAddress toAddress = new MailAddress(em.Email.Trim());
+                    //const string subject = "test";
+                    //const string body = "HEY, LISTEN!";
 
-                            //Configure an SmtpClient to send the mail.            
-                            SmtpClient client = new SmtpClient();
-                            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                            client.EnableSsl = false;
-                            client.Host = "relay-hosting.secureserver.net";
-                            client.Port = 25;
+                    //DateTime current = DateTime.Now;
+                    //DateTime workTimeEmployee = new DateTime(current.Year, current.Month, current.Day, em.StartHour, em.StartMinute, 0);
+                    //TimeSpan timeDiff = current - workTimeEmployee;
+                    //TimeSpan allowed = new TimeSpan(0, 15, 0);
 
-                            //Setup credentials to login to our sender email address ("UserName", "Password")
-                            NetworkCredential credentials = new NetworkCredential(_senderEmailAddress, _senderPassword);
-                            client.UseDefaultCredentials = true;
-                            client.Credentials = credentials;
-
-                            //Send the msg
-                            client.Send(msg);
-
-                            //Display some feedback to the user to let them know it was sent
-                            // Label1.Text = "Your message was sent!";
-                        }
-                        catch (Exception ex)
-                        {
-                            //If the message failed at some point, let the user know
-                            // Label1.Text = ex.ToString();
-                            //"Your message failed to send, please try again."
-                        }
+                    //if (timeDiff > allowed)
+                    //{
+                    //    Console.WriteLine("slanje e maila...");
+                    //    string _senderEmailAddress = "mzftn123fakultet@gmail.com";
+                    //    string _senderPassword = "miljanazvezdana123";
+                    //    MailMessage message = new MailMessage(_senderEmailAddress, em.Email, "proba", "kasnis");
 
 
-                    */
-                        //var client = new SmtpClient
-                        //{
-                        //    Host = "smtp.gmail.com",
-                        //    Port = 587,
-                        //    EnableSsl = true,
-                        //    DeliveryMethod = SmtpDeliveryMethod.Network,
-                        //    UseDefaultCredentials = false,
-                        //    Credentials = new NetworkCredential(fromAddress.Address, _senderPassword),
-                        //    //Timeout = 20000
-                        //};
+                    //    try
+                    //    {
+                    //        //Create the msg object to be sent
+                    //        MailMessage msg = new MailMessage();
+                    //        //Add your email address to the recipients
+                    //        msg.To.Add(em.Email);
+                    //        //Configure the address we are sending the mail from
+                    //        MailAddress address = new MailAddress(_senderEmailAddress);
+                    //        msg.From = address;
+                    //        msg.Subject = "anything";
+                    //        msg.Body = "anything";
 
-                        //using (var m = new MailMessage(fromAddress, toAddress)
-                        //{
-                        //    Subject = subject,
-                        //    Body = body
-                        //})
-                        //{
-                        //    client.Send(m);
-                        //}
+                    //        //Configure an SmtpClient to send the mail.            
+                    //        SmtpClient client = new SmtpClient();
+                    //        client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    //        client.EnableSsl = false;
+                    //        client.Host = "relay-hosting.secureserver.net";
+                    //        client.Port = 25;
 
-                        //client.Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword);
-                        //try
-                        //{
-                        //    client.Send(message);
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    Console.WriteLine("Exception caught in CreateTestMessage1(): {0}",
-                        //                ex.ToString());
-                        //}  
+                    //        //Setup credentials to login to our sender email address ("UserName", "Password")
+                    //        NetworkCredential credentials = new NetworkCredential(_senderEmailAddress, _senderPassword);
+                    //        client.UseDefaultCredentials = true;
+                    //        client.Credentials = credentials;
 
-                        //try
-                        //{
-                        //    var client = new SmtpClient("smtp.gmail.com", 587) {
-                        //        Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
-                        //        EnableSsl = true
-                        //    };
-                        //    client.Send(_senderEmailAddress, em.Email, "Warning!", "You are late!");
-                        //}
-                        //catch(Exception ex)
-                        //{
-                        //    Console.WriteLine("Exception sending email." + Environment.NewLine + ex);
-                        //}
+                    //        //Send the msg
+                    //        client.Send(msg);
 
-                    }
+                    //        //Display some feedback to the user to let them know it was sent
+                    //        // Label1.Text = "Your message was sent!";
+                    //    }
+                    //    catch (Exception ex)
+                    //    {
+                    //        //If the message failed at some point, let the user know
+                    //        // Label1.Text = ex.ToString();
+                    //        //"Your message failed to send, please try again."
+                    //    }
+
+
+
+                    //    //var client = new SmtpClient
+                    //    //{
+                    //    //    Host = "smtp.gmail.com",
+                    //    //    Port = 587,
+                    //    //    EnableSsl = true,
+                    //    //    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    //    //    UseDefaultCredentials = false,
+                    //    //    Credentials = new NetworkCredential(fromAddress.Address, _senderPassword),
+                    //    //    //Timeout = 20000
+                    //    //};
+
+                    //    //using (var m = new MailMessage(fromAddress, toAddress)
+                    //    //{
+                    //    //    Subject = subject,
+                    //    //    Body = body
+                    //    //})
+                    //    //{
+                    //    //    client.Send(m);
+                    //    //}
+
+                    //    //client.Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword);
+                    //    //try
+                    //    //{
+                    //    //    client.Send(message);
+                    //    //}
+                    //    //catch (Exception ex)
+                    //    //{
+                    //    //    Console.WriteLine("Exception caught in CreateTestMessage1(): {0}",
+                    //    //                ex.ToString());
+                    //    //}
+
+                    //    //try
+                    //    //{
+                    //    //    var client = new SmtpClient("smtp.gmail.com", 587)
+                    //    //    {
+                    //    //        Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                    //    //        EnableSsl = true
+                    //    //    };
+                    //    //    client.Send(_senderEmailAddress, em.Email, "Warning!", "You are late!");
+                    //    //}
+                    //    //catch (Exception ex)
+                    //    //{
+                    //    //    Console.WriteLine("Exception sending email." + Environment.NewLine + ex);
+                    //    //}
+
+                    
                 }
             }
+        }
 
         
 
