@@ -452,35 +452,13 @@ namespace Client
 
         private void NotificationsButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            //TextBlock tb1=new TextBlock();
-            //tb1.Text="blaaaa";
-            
-            //TextBlock tb2 = new TextBlock();
-            //tb2.Text = "blaaaa2";
-            //BindingList<TextBlock> tbList = new BindingList<TextBlock>();
+            NotificationsButton.Background = Brushes.LightGray;
+            notificationCounter.Content = "0";
+            if (notificationCounter.Visibility == Visibility.Visible)
+            {
+                notificationCounter.Visibility = Visibility.Hidden;
+            }
 
-            //Border myBorder = new Border();
-            //myBorder.Background = Brushes.SkyBlue;
-            //myBorder.BorderBrush = Brushes.Black;
-            //myBorder.BorderThickness = new Thickness(1);
-            //myBorder.Child = tb1;
-
-            //Border myBorder2 = new Border();
-            //myBorder2.Background = Brushes.SkyBlue;
-            //myBorder2.BorderBrush = Brushes.Black;
-            //myBorder2.BorderThickness = new Thickness(1);
-            //myBorder2.Child = tb2;
-
-            //notificationsStackPanel.Children.Add(myBorder);
-            //notificationsStackPanel.Children.Add(myBorder2);
-
-            //tbList.Add(tb1);
-            //tbList.Add(tb2);
-            //notificationsStackPanel.Children.Add(tb1);
-            //notificationsStackPanel.Children.Add(tb2);
-            //notificationsStackPanel.DataContext = tbList;
-            //notificationsStackPanel.DataContext = clientDB.AllEmployees;
             if (scrollViewerNotifications.Visibility == Visibility.Collapsed)
             {
                 scrollViewerNotifications.Visibility = Visibility.Visible;
@@ -505,6 +483,14 @@ namespace Client
             myBorder.Child = tb;
 
             notificationsStackPanel.Children.Add(myBorder);
+            int notifNum = Int32.Parse((string)notificationCounter.Content);
+            notifNum++;
+            notificationCounter.Content = notifNum.ToString();
+            if (notificationCounter.Visibility == Visibility.Hidden)
+            {
+                notificationCounter.Visibility = Visibility.Visible;
+            }
+            NotificationsButton.Background = Brushes.Red;
         }
     }
 }

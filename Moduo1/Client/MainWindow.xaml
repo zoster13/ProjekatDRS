@@ -364,6 +364,7 @@
                         
                     </StackPanel>
                     </ScrollViewer>
+                    <Label x:Name="notificationCounter" Content="0" Visibility="Hidden" HorizontalAlignment="Left" Margin="745,75,0,0" VerticalAlignment="Top" Width="27" Background="#FFFCFAFA"/>
                 </Grid>
             </TabItem>
         </TabControl>
