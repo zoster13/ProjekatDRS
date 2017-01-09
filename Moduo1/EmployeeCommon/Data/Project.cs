@@ -20,6 +20,7 @@ namespace EmployeeCommon
         private List<UserStory> userStories;
         private string outsourcingCompany;
         private string productOwner;
+        private string scrumMaster;
 
         public Project() 
         {
@@ -81,6 +82,13 @@ namespace EmployeeCommon
         {
             get { return productOwner; }
             set { productOwner = value; }
+        }
+
+        [DataMember]
+        public string ScrumMaster
+        {
+            get { return scrumMaster; }
+            set { scrumMaster = value; }
         }
     }
 }

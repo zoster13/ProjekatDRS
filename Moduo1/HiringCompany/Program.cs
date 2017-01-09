@@ -13,6 +13,9 @@ namespace HiringCompany
 {
     //mzftn123fakultet@gmail.com
     //miljanazvezdana123
+
+    // u readme: da se promeni konekcioni string, i dodaju ljudi rucno :D kad god pokrenes na novom kompu
+    // i ip adrese
     class Program
     {
         static void Main(string[] args)
