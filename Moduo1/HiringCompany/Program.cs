@@ -14,15 +14,11 @@ namespace HiringCompany
     //mzftn123fakultet@gmail.com
     //miljanazvezdana123
 
-    // u readme: da se promeni konekcioni string, i dodaju ljudi rucno :D kad god pokrenes na novom kompu
-    // i ip adrese
     class Program
     {
         static void Main(string[] args)
         {
             Console.Title = "Hiring Company";
-            // to do: initialization data and background setup...
-
             // set |DataDirectory|
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string path = System.IO.Path.GetDirectoryName(executable);
@@ -32,7 +28,9 @@ namespace HiringCompany
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccessDB, DBConfiguration>());
 
 
+            // --------------------- service for clients--------------------------------
 
+            //string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
             string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
@@ -48,10 +46,10 @@ namespace HiringCompany
 
 
             //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana_lo@hotmail.com", 9, 0, 17, 0);
-            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.PO, "Zvezdana", "Klasnic", "zklasnic94@gmail.com", 9, 0, 17, 0);
-            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "zklasnic94@gmail.com", 9, 20, 18, 40);
-            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "zklasnic94@gmail.com", 9, 20, 18, 40);
-            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "zklasnic94@gmail.com", 9, 20, 18, 40);
+            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zklasnic94@gmail.com", 9, 0, 17, 0);
+            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "aleksandra@mail.com", 1, 2, 3, 4);
+            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "radislav@mail.com", 5, 1, 4, 2);
+            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "pera@mail.com", 1, 5, 4, 3);
 
             //HiringCompanyDB.Instance().AddNewEmployee(em1);
             //HiringCompanyDB.Instance().AddNewEmployee(em2);
@@ -60,6 +58,11 @@ namespace HiringCompany
             //HiringCompanyDB.Instance().AddNewEmployee(em5);
 
 
+            // --------------------- service for outsorcing companies-------------------------
+            // outsorcing company exposes it
+
+
+            Console.WriteLine("Press any key to exit...");
             Console.ReadKey(true);
             hostEmployees.Close();
         }

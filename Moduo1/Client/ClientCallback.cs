@@ -37,7 +37,7 @@ namespace Client
             //{
             //System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
 
-            var disp =App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+            var disp = App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {
                         clientDB.Main.syncClientDB(data);
@@ -45,25 +45,25 @@ namespace Client
                     )
                         );
 
-                //while (disp.Status != DispatcherOperationStatus.Completed) 
-                //{
-                //    Thread.Sleep(10);
-                //    System.Diagnostics.Debug.WriteLine("Ceka da se zavrsi disp thread");
-                //}
+            //while (disp.Status != DispatcherOperationStatus.Completed) 
+            //{
+            //    Thread.Sleep(10);
+            //    System.Diagnostics.Debug.WriteLine("Ceka da se zavrsi disp thread");
+            //}
 
-                //App.Current.Dispatcher.Invoke((Action)delegate
-                //{
-                //    System.Diagnostics.Debug.WriteLine("Uslo u invokeDispatcher");
-                //    clientDB.Main.nekaMetoda(data);
-                //    System.Diagnostics.Debug.WriteLine("Vratilo se iz main-a");
-                //});  
+            //App.Current.Dispatcher.Invoke((Action)delegate
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Uslo u invokeDispatcher");
+            //    clientDB.Main.nekaMetoda(data);
+            //    System.Diagnostics.Debug.WriteLine("Vratilo se iz main-a");
+            //});  
 
-                //BindingList<Employee> bTemp = new BindingList<Employee>(data.EmployeesData);
-                //clientDB.Employees = bTemp;
-                //clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
-                //clientDB.Main.nekaMetoda();
-                
-                //clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
+            //BindingList<Employee> bTemp = new BindingList<Employee>(data.EmployeesData);
+            //clientDB.Employees = bTemp;
+            //clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
+            //clientDB.Main.nekaMetoda();
+
+            //clientDB.Main.employeesDataGrid.DataContext = clientDB.Employees;
             //}
         }
     }

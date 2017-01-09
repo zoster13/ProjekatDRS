@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HiringCompany.DatabaseAccess
 {
-    public class HiringCompanyDB 
+    public class HiringCompanyDB
     {
         private static HiringCompanyDB myDB;
 
@@ -24,27 +24,26 @@ namespace HiringCompany.DatabaseAccess
 
         private HiringCompanyDB()
         {
-            onlineEmployees=new List<Employee>();
+            onlineEmployees = new List<Employee>();
             allEmployees = new List<Employee>();
             projectsForApproval = new List<Project>();
             connectionChannels = new Dictionary<string, IEmployeeServiceCallback>();
         }
 
         public List<Employee> OnlineEmployees
-        { 
-            get { return onlineEmployees; } 
-            set { onlineEmployees = value; } 
+        {
+            get { return onlineEmployees; }
+            set { onlineEmployees = value; }
         }
 
         public List<Employee> AllEmployees
         {
-            get
-            {
+            get {
                 using(var access = new AccessDB())
                 {
                     var employees = from em in access.employees
-                                   
-                                   select em;
+
+                                    select em;
 
                     return employees.ToList();
                 }
@@ -58,7 +57,7 @@ namespace HiringCompany.DatabaseAccess
             set { projectsForApproval = value; }
         }
 
-        public Dictionary<string,IEmployeeServiceCallback> ConnectionChannels
+        public Dictionary<string, IEmployeeServiceCallback> ConnectionChannels
         {
             get { return connectionChannels; }
             set { connectionChannels = value; }
@@ -66,7 +65,7 @@ namespace HiringCompany.DatabaseAccess
 
         public static HiringCompanyDB Instance()
         {
-            if (myDB == null)
+            if(myDB == null)
                 myDB = new HiringCompanyDB();
             return myDB;
         }
@@ -103,10 +102,10 @@ namespace HiringCompany.DatabaseAccess
             return false;
         }
 
-      
+
         public Employee GetEmployee(string username)
         {
-            using (var access = new AccessDB())
+            using(var access = new AccessDB())
             {
                 var employee = from em in access.employees
                                where em.Username.Equals(username)

@@ -42,7 +42,7 @@ namespace Client
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
             WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
 
-            foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
+            foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
 
                 comboBoxNewPositionCEO.Items.Add(Extensions.TypeToString(type));
@@ -243,9 +243,9 @@ namespace Client
             }
             employeesDataGrid.DataContext = clientDB.Employees;
 
-            lock (clientDB.AllEmployees_lock)
+            lock(clientDB.AllEmployees_lock)
             {
-                if (clientDB.AllEmployees.Count != 0)
+                if(clientDB.AllEmployees.Count != 0)
                 {
                     clientDB.AllEmployees.Clear();
                 }
@@ -253,9 +253,9 @@ namespace Client
             }
             dataGridCEO.DataContext = clientDB.AllEmployees;
 
-            lock (clientDB.ProjectsForApproval_lock)
+            lock(clientDB.ProjectsForApproval_lock)
             {
-                if (clientDB.ProjectsForApproval.Count != 0)
+                if(clientDB.ProjectsForApproval.Count != 0)
                 {
                     clientDB.ProjectsForApproval.Clear();
                 }
@@ -279,42 +279,25 @@ namespace Client
                         TextBlock tb = new TextBlock();
                         tb.Text = em.Email;
                         homeLabelEmail.Content = tb;
-                        homeLabelPosition.Content = em.Type.ToString();
-                        // lepsi ispis...mozda to da dodamo vez sa serverske strane negde, videti da sredimo kod, organizujemo
-
-                        switch(em.Type)
-                        {
-                            case EmployeeType.CEO:
-                                homeLabelPosition.Content = "Chief Executive Officer";
-                                break;
-                            case EmployeeType.HR:
-                                homeLabelPosition.Content = "Human Resources";
-                                break;
-                            case EmployeeType.PO:
-                                homeLabelPosition.Content = "Product Owner";
-                                break;
-                            case EmployeeType.SM:
-                                homeLabelPosition.Content = "Scrum Master";
-                                break;
-                        }
+                        homeLabelPosition.Content = Extensions.TypeToString(em.Type);
 
                         nameSurnameLabel.Content = em.Name + " " + em.Surname;
 
-                        if (em.Type.Equals(EmployeeType.CEO))
+                        if(em.Type.Equals(EmployeeType.CEO))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Visible;
                             tabItemProjects.Visibility = Visibility.Visible;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
-                        else if (em.Type.Equals(EmployeeType.HR))
+                        else if(em.Type.Equals(EmployeeType.HR))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Hidden;
                             tabItemProjects.Visibility = Visibility.Hidden;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
-                        else if (em.Type.Equals(EmployeeType.PO))
+                        else if(em.Type.Equals(EmployeeType.PO))
                         {
                             workTabItem.Visibility = Visibility.Hidden;
                             tabItemCompanies.Visibility = Visibility.Hidden;
@@ -337,7 +320,7 @@ namespace Client
 
         private void SetUpConnection()
         {
-            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; // 10.1.212.113
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -358,8 +341,6 @@ namespace Client
         private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e)
         {
             string usName = ((Employee)dataGridCEO.SelectedItem).Username;
-
-            //proxy.ChangeEmployeeType(usName,(EmployeeType)comboBoxNewPositionCEO.SelectedItem);
             proxy.ChangeEmployeeType(usName, Extensions.StringToType((string)comboBoxNewPositionCEO.SelectedItem));
         }
 
@@ -368,7 +349,8 @@ namespace Client
             Employee newEmployee;
             if((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
             {
-                newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, Extensions.StringToType((string)comboBoxPositionCEO.SelectedItem), textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
+                newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, Extensions.StringToType((string)comboBoxPositionCEO.SelectedItem),
+                    textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
                 //Na serverskoj strani uraditi proveru
                 //postoji li vec zaposleni sa tim username-om.
                 proxy.AddNewEmployee(newEmployee);
@@ -415,7 +397,7 @@ namespace Client
             p.Name = ProjectNameTextBox.Text;
             p.Description = ProjectDescriptionTextBox.Text;
             p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
-            p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
+            p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text); // namestiti da se vrse provere da li je datum validan i da bude vizuelni feedback ako klijent ne ukuca kako treba
             p.ProductOwner = clientDB.Username;
 
             proxy.CreateNewProject(p);
@@ -430,7 +412,7 @@ namespace Client
         {
             Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
 
-            lock (clientDB.ProjectsForApproval_lock)
+            lock(clientDB.ProjectsForApproval_lock)
             {
                 proxy.ProjectApproved(proj);
                 //foreach (Project p in clientDB.ProjectsForApproval)
@@ -438,9 +420,9 @@ namespace Client
                 //    if (p.Name.Equals(proj.Name))
                 //    {
                 //        //clientDB.ProjectsForApproval.Remove(p);
-                        //proxy.ProjectApproved(p);
-                        
-                        //break;
+                //proxy.ProjectApproved(p);
+
+                //break;
                 //    }
                 //}
             }
@@ -450,47 +432,52 @@ namespace Client
             //Poslati notification PO da je projekat odobren                     
         }
 
+        // da li da cuvamo notifikacije u bazi?
         private void NotificationsButton_Click(object sender, RoutedEventArgs e)
         {
-            NotificationsButton.Background = Brushes.LightGray;
+            BrushConverter bc = new BrushConverter();
+            NotificationsButton.Background = (Brush)bc.ConvertFrom("#FFFAFBFE");
             notificationCounter.Content = "0";
-            if (notificationCounter.Visibility == Visibility.Visible)
-            {
-                notificationCounter.Visibility = Visibility.Hidden;
-            }
 
-            if (scrollViewerNotifications.Visibility == Visibility.Collapsed)
-            {
-                scrollViewerNotifications.Visibility = Visibility.Visible;
-                //notificationsStackPanel.Visibility = Visibility.Visible;
-            }
-            else 
-            {
-                scrollViewerNotifications.Visibility = Visibility.Collapsed;
-                //notificationsStackPanel.Visibility = Visibility.Collapsed;
-            }
+            //if (notificationCounter.Visibility == Visibility.Visible)
+            //{
+            //    notificationCounter.Visibility = Visibility.Hidden;
+            //}
+
+            scrollViewerNotifications.Visibility = scrollViewerNotifications.Visibility == Visibility.Collapsed
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
-        public void NotifyEmployee(string message) 
+        public void NotifyEmployee(string message)
         {
             TextBlock tb = new TextBlock();
             tb.Text = message;
+            tb.TextWrapping = TextWrapping.Wrap;
+
+            tb.Height = 45;
+            tb.Width = 128;
 
             Border myBorder = new Border();
-            myBorder.Background = Brushes.SkyBlue;
-            myBorder.BorderBrush = Brushes.Black;
+            // myBorder.Background = Brushes.SkyBlue;
+            BrushConverter bc = new BrushConverter();
+            myBorder.Background = (Brush)bc.ConvertFrom("#FFFAFBFE");
+            //myBorder.BorderBrush = Brushes.Black;  
+            myBorder.BorderBrush = (Brush)bc.ConvertFrom("#FFACACAC");
             myBorder.BorderThickness = new Thickness(1);
             myBorder.Child = tb;
 
-            notificationsStackPanel.Children.Add(myBorder);
+            notificationsStackPanel.Children.Insert(0, myBorder);
+            //notificationsStackPanel.Children.Add(myBorder);
             int notifNum = Int32.Parse((string)notificationCounter.Content);
             notifNum++;
             notificationCounter.Content = notifNum.ToString();
-            if (notificationCounter.Visibility == Visibility.Hidden)
-            {
-                notificationCounter.Visibility = Visibility.Visible;
-            }
-            NotificationsButton.Background = Brushes.Red;
+
+            //if (notificationCounter.Visibility == Visibility.Hidden)
+            //{
+            //    notificationCounter.Visibility = Visibility.Visible;
+            //}
+            notificationCounter.Background = Brushes.Red;
         }
     }
 }

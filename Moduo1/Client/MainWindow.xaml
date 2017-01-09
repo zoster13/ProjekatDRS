@@ -7,6 +7,20 @@
         mc:Ignorable="d"
         WindowStyle="None" AllowsTransparency="True"
         Title="EEP" Height="600" Width="900" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AllowDrop="True" MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                      HorizontalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="603" VerticalAlignment="Top" Width="900" Background="#FFEFFBFB" Margin="0,-3,0,0" BorderThickness="1">
             <TabItem Height="0" Margin="0,0,0,0" >
@@ -21,6 +35,7 @@
             </TabItem>
             <TabItem Height="0" Focusable="True">
                 <Grid  Background="#FFBFE9F0" Margin="0,-2,-2,0">
+                    <Label x:Name="nameSurnameLabel" Content="" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,94,79,482" VerticalAlignment="Center" Width="109" Height="24" Foreground="#FF1F3270"/>
                     <TabControl x:Name="tabControl1" Margin="10,75,10,25" Focusable="True" BorderBrush="#FFBFE9F0">
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,16,0,0" Focusable="True">
@@ -84,7 +99,7 @@
                                 </DataGrid>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Projects" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
+                        <TabItem Header="Projects" Margin="0,10,-71,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
                                 <DataGrid x:Name="DataGridUserStories" HorizontalAlignment="Left" Margin="365,32,0,0" 
                                           VerticalAlignment="Top" Height="359" Width="468" Background="#FFDDDDDD"
@@ -113,7 +128,7 @@
                                 <ComboBox x:Name="comboBoxProjects" HorizontalAlignment="Left" Margin="37,32,0,0" VerticalAlignment="Top" Width="299" Height="43" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="comboBoxProjects_SelectionChanged"/>
                             </Grid>
                         </TabItem>
-                        <TabItem x:Name="workTabItem" Header="Work" Margin="68,10,-68,-10" HorizontalAlignment="Left" Width="77" Height="39" Focusable="True">
+                        <TabItem x:Name="workTabItem" Header="Work" Margin="71,10,-71,-10" HorizontalAlignment="Left" Width="77" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,1" Focusable="True">
                                 <TabControl x:Name="tabControlCEO" HorizontalAlignment="Left" Height="359" VerticalAlignment="Top" Width="790" Margin="39,38,0,0">
                                     <TabItem x:Name="tabItemEmployees" Header="Employees" Height="39">
@@ -140,26 +155,34 @@
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                             <Grid HorizontalAlignment="Left" Height="291" Margin="494,10,0,0" VerticalAlignment="Top" Width="281" Background="White" RenderTransformOrigin="0.505,0.519">
-                                                <Label x:Name="labelNameCEO" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="5,57,0,0" VerticalAlignment="Top" Width="79"/>
-                                                <Label x:Name="labelSurameCEO" Content="Surname:" HorizontalAlignment="Left" Height="26" Margin="5,85,0,0" VerticalAlignment="Top" Width="79"/>
-                                                <Label x:Name="labelEmailCEO" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="5,109,0,0" VerticalAlignment="Top" Width="79"/>
-                                                <Label x:Name="labelTypeCEO" Content="Position:" HorizontalAlignment="Left" Height="26" Margin="5,205,0,0" VerticalAlignment="Top" Width="79"/>
-                                                <Label x:Name="labelTitleCEO" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="67,10,0,0" VerticalAlignment="Top" Width="157"/>
-                                                <TextBox x:Name="textBoxNameCEO" HorizontalAlignment="Left" Height="21" Margin="56,61,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
-                                                <TextBox x:Name="textBoxEmailCEO" HorizontalAlignment="Left" Height="21" Margin="56,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153"/>
-                                                <TextBox x:Name="textBoxSurnameCEO" HorizontalAlignment="Left" Height="21" Margin="75,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
-                                                <ComboBox x:Name="comboBoxPositionCEO" HorizontalAlignment="Left" Height="24" Margin="75,207,0,0" VerticalAlignment="Top" Width="134"/>
-                                                <Button x:Name="buttonAddEmployeeCEO" Content="Add" HorizontalAlignment="Left" Height="31" Margin="210,250,0,0" VerticalAlignment="Top" Width="61" Click="AddEmployeeButton_Click" Background="#FFEAEAEA"/>
-                                                <Label x:Name="labelPasswordCEO" Content="Password:" HorizontalAlignment="Left" Margin="5,166,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
-                                                <PasswordBox x:Name="passwordBoxCEO" HorizontalAlignment="Left" Margin="75,171,0,0" VerticalAlignment="Top" Height="21" Width="134"/>
-                                                <Label Content="Username:" HorizontalAlignment="Left" Margin="5,135,0,0" VerticalAlignment="Top" Width="65"/>
-                                                <TextBox x:Name="usernameTextBoxCEO" HorizontalAlignment="Left" Height="21" Margin="75,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <Label x:Name="labelNameCEO" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="10,47,0,0" VerticalAlignment="Top" Width="79"/>
+                                                <Label x:Name="labelSurameCEO" Content="Surname:" HorizontalAlignment="Left" Height="26" Margin="10,77,0,0" VerticalAlignment="Top" Width="79"/>
+                                                <Label x:Name="labelEmailCEO" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="10,104,0,0" VerticalAlignment="Top" Width="79"/>
+                                                <Label x:Name="labelTypeCEO" Content="Position:" HorizontalAlignment="Left" Height="26" Margin="10,205,0,0" VerticalAlignment="Top" Width="80"/>
+                                                <Label x:Name="labelTitleCEO" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="67,0,0,0" VerticalAlignment="Top" Width="157"/>
+                                                <TextBox x:Name="textBoxNameCEO" HorizontalAlignment="Left" Height="21" Margin="128,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="textBoxEmailCEO" HorizontalAlignment="Left" Height="21" Margin="128,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="textBoxSurnameCEO" HorizontalAlignment="Left" Height="21" Margin="128,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <ComboBox x:Name="comboBoxPositionCEO" HorizontalAlignment="Left" Height="24" Margin="128,207,0,0" VerticalAlignment="Top" Width="134"/>
+                                                <Button x:Name="buttonAddEmployeeCEO" Content="Add" HorizontalAlignment="Left" Height="25" Margin="201,256,0,0" VerticalAlignment="Top" Width="61" Click="AddEmployeeButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
+                                                <Label x:Name="labelPasswordCEO" Content="Password:" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
+                                                <PasswordBox x:Name="passwordBoxCEO" HorizontalAlignment="Left" Margin="128,171,0,0" VerticalAlignment="Top" Height="21" Width="134"/>
+                                                <Label Content="Username:" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="65"/>
+                                                <TextBox x:Name="usernameTextBoxCEO" HorizontalAlignment="Left" Height="21" Margin="128,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
                                             </Grid>
                                             <Grid HorizontalAlignment="Left" Height="101" Margin="10,200,0,0" VerticalAlignment="Top" Width="470" Background="White">
                                                 <Label x:Name="labelTitle1CEO" Content="Change Employee Position" FontSize="16" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="221" Margin="6,0,0,0"/>
-                                                <ComboBox x:Name="comboBoxNewPositionCEO" HorizontalAlignment="Left" Height="24" Margin="155,60,0,0" VerticalAlignment="Top" Width="134"/>
-                                                <Label x:Name="labelInfoCEO" Content="New type:" HorizontalAlignment="Left" Height="26" Margin="33,59,0,0" VerticalAlignment="Top" Width="117"/>
-                                                <Button x:Name="buttonApplyTypeChangeCEO" Content="Apply " HorizontalAlignment="Left" Height="25" Margin="395,59,0,0" VerticalAlignment="Top" Width="65" Click="ApplyTypeChangeButton_Click" Background="#FFEEEEEE"/>
+                                                <ComboBox x:Name="comboBoxNewPositionCEO" HorizontalAlignment="Left" Height="24" Margin="155,69,0,0" VerticalAlignment="Top" Width="134">
+                                                    <ComboBox.Background>
+                                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                            <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                            <GradientStop Color="#FFF4F5F7" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </ComboBox.Background>
+                                                </ComboBox>
+                                                <Label x:Name="labelInfoCEO" Content="New type:" HorizontalAlignment="Left" Height="26" Margin="38,67,0,0" VerticalAlignment="Top" Width="117"/>
+                                                <Button x:Name="buttonApplyTypeChangeCEO" Content="Apply " HorizontalAlignment="Left" Height="25" Margin="385,68,0,0" VerticalAlignment="Top" 
+                                                        Width="65" Click="ApplyTypeChangeButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                             </Grid>
                                         </Grid>
                                     </TabItem>
@@ -184,7 +207,7 @@
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                             <Label Content="Select company and send partnership request:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="337"/>
-                                            <Button x:Name="PartnershipRequestCEO_button" Content="Send partnership request" HorizontalAlignment="Left" Margin="60,274,0,0" VerticalAlignment="Top" Width="147" Height="27" Click="PartnershipRequestCEOButton_Click"/>
+                                            <Button x:Name="PartnershipRequestCEO_button" Content="Send partnership request" HorizontalAlignment="Left" Margin="60,274,0,0" VerticalAlignment="Top" Width="152" Height="27" Click="PartnershipRequestCEOButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                         </Grid>
                                     </TabItem>
                                     <TabItem x:Name="tabItemProjects" Header="Projects" Height="39" Margin="-1,-1,-3,1">
@@ -210,9 +233,9 @@
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                             <Label Content="Select project for approval:" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="262"/>
-                                            <Button x:Name="ApproveProjectButton" Content="Approve project" HorizontalAlignment="Left" Margin="150,279,0,0" VerticalAlignment="Top" Width="109" Height="22" Click="ApproveProjectButton_CLick"/>
-                                            <Grid HorizontalAlignment="Left" Height="291" Margin="285,10,0,0" VerticalAlignment="Top" Width="490" Background="White">
-                                                <DataGrid x:Name="approvedProjectsDataGrid" HorizontalAlignment="Left" Margin="253,31,0,0" VerticalAlignment="Top" Height="227" Width="227" Background="#FFDDDDDD"
+                                            <Button x:Name="ApproveProjectButton" Content="Approve project" HorizontalAlignment="Left" Margin="159,275,0,0" VerticalAlignment="Top" Width="100" Height="27" Click="ApproveProjectButton_CLick" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
+                                            <Grid HorizontalAlignment="Left" Height="302" Margin="285,10,0,0" VerticalAlignment="Top" Width="490" Background="White">
+                                                <DataGrid x:Name="approvedProjectsDataGrid" HorizontalAlignment="Left" Margin="253,31,0,0" VerticalAlignment="Top" Height="229" Width="227" Background="#FFDDDDDD"
                                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -233,8 +256,8 @@
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                                 <Label Content="Select project and company which will develope that project:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="386"/>
-                                                <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="197,263,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28"/>
-                                                <DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="227" Width="219" Background="#FFDDDDDD"
+                                                <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="388,264,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
+                                                <DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="229" Width="219" Background="#FFDDDDDD"
                                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -258,18 +281,18 @@
                                 </TabControl>
                             </Grid>
                         </TabItem>
-                        <TabItem x:Name="PO_Work_TabItem" Header="PO Work" HorizontalAlignment="Right" Width="77" Visibility="Hidden" Height="39" Focusable="True" Margin="-14.6,10,14.4,-9.8">
+                        <TabItem x:Name="PO_Work_TabItem" Header="PO Work" HorizontalAlignment="Right" Width="77" Visibility="Visible" Height="39" Focusable="True" Margin="-14.6,10,14.4,-9.8">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
-                                <Label x:Name="ProjectNameLabel" Content="Project name: " HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" Width="83"/>
-                                <Label x:Name="ProjectDescriptionLabel" Content="Description: " HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Width="83"/>
-                                <Label x:Name="ProjectStartDateLabel" Content="Start date: " HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Width="83"/>
-                                <Label x:Name="ProjectDeadlineLabel" Content="Deadline: " HorizontalAlignment="Left" Margin="10,269,0,0" VerticalAlignment="Top" Width="83"/>
+                                <Label x:Name="ProjectNameLabel" Content="Project name: " HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" Width="83" Height="28"/>
+                                <Label x:Name="ProjectDescriptionLabel" Content="Description: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="83"/>
+                                <Label x:Name="ProjectStartDateLabel" Content="Start date: " HorizontalAlignment="Left" Margin="10,195,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
+                                <Label x:Name="ProjectDeadlineLabel" Content="Deadline: " HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
                                 <TextBox x:Name="ProjectNameTextBox" HorizontalAlignment="Left" Height="23" Margin="98,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <TextBox x:Name="ProjectDescriptionTextBox" HorizontalAlignment="Left" Height="92" Margin="98,93,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,210,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,269,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,340,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click"/>
-                                <Label x:Name="DateTimeFormatLabel" Content="dd/mm/yyyy" HorizontalAlignment="Left" Margin="259,210,0,0" VerticalAlignment="Top" Width="77"/>
+                                <TextBox x:Name="ProjectDescriptionTextBox" HorizontalAlignment="Left" Height="92" Margin="98,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,195,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,268,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
+                                <Label x:Name="DateTimeFormatLabel" Content="dd/mm/yyyy" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="23"/>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="0,10,-228,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">
@@ -355,21 +378,18 @@
                                 </StackPanel>
                             </TabItem.Header-->
                     </TabControl>
-                    <Button x:Name="NotificationsButton" Content="Notifications" HorizontalAlignment="Left" Margin="690,97,0,0" VerticalAlignment="Top" Width="82" Height="33" Click="NotificationsButton_Click"/>
-                    <ScrollViewer x:Name="scrollViewerNotifications" CanContentScroll="True" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Visibility="Collapsed" Height="248" Width="185" Margin="575,135,39,212">
-                    <StackPanel x:Name="notificationsStackPanel"   Visibility="Visible"  HorizontalAlignment="Left" Height="242" VerticalAlignment="Top" Width="179" Background="#FFFDF8F8">
-                        <!--<ItemsControl ItemsSource="{Binding}">
+                    <Button x:Name="NotificationsButton" HorizontalContentAlignment="Left" Content="Notifications" HorizontalAlignment="Left" Margin="708,0,0,0" VerticalAlignment="Top" Width="102" Height="24" Click="NotificationsButton_Click"
+                            Background="#FFFAFBFE" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="0"/>
+                    <ScrollViewer x:Name="scrollViewerNotifications" CanContentScroll="True" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Visibility="Collapsed" Height="248" Width="145" Margin="665,24,0,323">
+                        <StackPanel x:Name="notificationsStackPanel"   Visibility="Visible"  HorizontalAlignment="Left" Height="248" VerticalAlignment="Bottom" Width="128" Background="#FFFDF8F8">
 
-                        </ItemsControl>-->
-                        
-                    </StackPanel>
+                        </StackPanel>
                     </ScrollViewer>
-                    <Label x:Name="notificationCounter" Content="0" Visibility="Hidden" HorizontalAlignment="Left" Margin="745,75,0,0" VerticalAlignment="Top" Width="27" Background="#FFFCFAFA"/>
+                    <Label x:Name="notificationCounter" Content="0"  HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Height="22" Margin="790,2,0,0" VerticalAlignment="Top" Width="20" FontSize="11" FontStretch="UltraCondensed" Foreground="#FF1F3277"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <Label x:Name="label1" Content="Hiring Company Employee" FontWeight="Bold" FontSize="32" HorizontalAlignment="Left" Height="53" Margin="228,21,0,0" VerticalAlignment="Top" Width="444" Foreground="#FF1F3270" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="nameSurnameLabel" Content="" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,2,84,574" VerticalAlignment="Center" Width="115" Height="24" Foreground="#FF1F3270"/>
         <Label Content="© Miljana e333/ Zvezdana e335" HorizontalAlignment="Left" Margin="712,574,0,0" VerticalAlignment="Top" Width="180" Foreground="#FF1F3277"/>
         <Button x:Name="signOutButton" Content="SignOut" HorizontalAlignment="Left" Margin="816,2,0,0" VerticalAlignment="Top" Width="50" Height="24" Visibility="Hidden" Click="signOutButton_Click" Background="#FFFAFBFE" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="0"/>
         <Button x:Name="closeButton" Content="X" HorizontalAlignment="Center" Height="24" Margin="869,2,1,0" VerticalAlignment="Top" Width="30" Background="#FFFAFBFE" BorderBrush="#FFACACAC" Foreground="#FF1F3270" FontWeight="Bold" Click="closeButton_Click" BorderThickness="0"/>
