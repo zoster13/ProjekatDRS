@@ -17,6 +17,7 @@ namespace ClientCommon.Data
         private string teamName;
         private AssignStatus assignStatus;
         private ProgressStatus progressStatus;
+        private Team team;
 
         private List<UserStory> userStories;
 
@@ -66,6 +67,13 @@ namespace ClientCommon.Data
         {
             get { return userStories; }
             set { userStories = value; }
+        }
+
+        [DataMember]
+        public Team Team
+        {
+            get { return team; }
+            set { team = value; }
         }
 
         public override string ToString()

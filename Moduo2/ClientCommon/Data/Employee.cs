@@ -16,33 +16,33 @@ namespace ClientCommon.Data
         private string surname;
         private string email;
         private string password;
-        private string teamName;
+        private Team team;
         private DateTime passwordTimeStamp;
         private DateTime workingHoursStart;
         private DateTime workingHoursEnd;
         private ICallbackMethods channel;
 
         private List<Notification> notifications;
-
-        private ICollection<Team> team;
-
+        
         public Employee()
         {
-            team = new List<Team>();
             passwordTimeStamp = new DateTime();
             workingHoursStart = new DateTime();
             workingHoursEnd = new DateTime();
             notifications = new List<Notification>();
         }
 
-        public Employee(EmployeeType type, string name, string surname, string email, string password, string teamName)
+        public Employee(EmployeeType type, string name, string surname, string email, string password, Team team)
         {
             this.type = type;
             this.name = name;
             this.surname = surname;
             this.email = email;
             this.password = password;
-            this.teamName = teamName;
+            this.team = team;
+            this.workingHoursStart = DateTime.Now;
+            this.workingHoursEnd = DateTime.Now;
+            this.passwordTimeStamp = DateTime.Now;
             this.channel = null;
         }
 
@@ -90,10 +90,10 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public string TeamName
+        public Team Team
         {
-            get { return this.teamName; }
-            set { this.teamName = value; }
+            get { return this.team; }
+            set { this.team = value; }
         }
 
         [DataMember]
@@ -123,11 +123,8 @@ namespace ClientCommon.Data
             get { return notifications; }
             set { notifications = value; }
         }
-
-        [DataMember]
-        public ICollection<Team> Team { get; set; }
-
-        [DataMember]
+        
+        [IgnoreDataMember]
         public ICallbackMethods Channel
         {
             get { return this.channel; }

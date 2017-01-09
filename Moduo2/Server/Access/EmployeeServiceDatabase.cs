@@ -64,7 +64,7 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                var employee = from em in access.Employees.Include(e => e.Team)
+                var employee = from em in access.Employees
                                where em.Email.Equals(email)
                                select em;
 

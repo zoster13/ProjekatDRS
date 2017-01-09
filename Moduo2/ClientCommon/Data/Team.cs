@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientCommon.Data
 {
@@ -14,8 +10,6 @@ namespace ClientCommon.Data
     {
         private int id;
         private string name;
-        private int teamLeaderId;
-        private int scrumMasterId;
         private Employee teamLeader;
         private Employee scrumMaster;
 
@@ -47,27 +41,12 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public int TeamLeaderId
-        {
-            get { return teamLeaderId; }
-            set { teamLeaderId = value; }
-        }
-
-        [ForeignKey("TeamLeaderId")]
-        [DataMember]
         public Employee TeamLeader
         {
             get { return teamLeader; }
             set { teamLeader = value; }
         }
-
-        [DataMember]
-        public int ScrumMasterId
-        {
-            get { return scrumMasterId; }
-            set { scrumMasterId = value; }
-        }
-
+        
         [DataMember]
         public Employee ScrumMaster
         {

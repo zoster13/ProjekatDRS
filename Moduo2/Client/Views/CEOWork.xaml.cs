@@ -200,14 +200,13 @@ namespace Client.Views
                     {
                         team = comboBoxTeamDeveloper.SelectedItem as Team;
 
-                        employee.Team.Add(team);
+                        employee.Team = team;
 
                         employee.Name = textBoxName.Text;
                         employee.Surname = textBoxSurname.Text;
                         employee.Email = textBoxEmail.Text;
                         employee.Password = passwordBoxNew.Password;
                         employee.Type = EmployeeType.HR;
-                        employee.TeamName = team.Name;
                         employee.PasswordTimeStamp = DateTime.Now;
 
                         NewEmployeeMessage();
@@ -218,8 +217,9 @@ namespace Client.Views
 
         private void buttonAddTeam2_Click(object sender, RoutedEventArgs e)
         {
-            Employee em = new Employee() { Name = textBoxLeaderName.Text, Surname = textBoxLeaderSurname.Text, Email = textBoxLeaderEmail.Text, TeamName = textBoxTeamName.Text, Password = passwordBoxLeader.Password };
+            Employee em = new Employee() { Name = textBoxLeaderName.Text, Surname = textBoxLeaderSurname.Text, Email = textBoxLeaderEmail.Text, Password = passwordBoxLeader.Password };
             Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeader = em };
+            em.Team = newTeam;
 
             LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
 
@@ -291,14 +291,14 @@ namespace Client.Views
             {
                 team = comboBoxTeamDeveloper.SelectedItem as Team;
 
-                employee.Team.Add(team);
+                //employee.Team.Add(team);
 
                 employee.Name = textBoxName.Text;
                 employee.Surname = textBoxSurname.Text;
                 employee.Email = textBoxEmail.Text;
                 employee.Password = passwordBoxNew.Password;
                 employee.Type = EmployeeType.DEVELOPER;
-                employee.TeamName = team.Name;
+                employee.Team = team;
                 employee.PasswordTimeStamp = DateTime.Now;
 
                 NewEmployeeMessage();
@@ -316,14 +316,14 @@ namespace Client.Views
 
                 if (team.ScrumMaster.Email == "")
                 {
-                    employee.Team.Add(team);
+                    //employee.Team.Add(team);
 
                     employee.Name = textBoxName.Text;
                     employee.Surname = textBoxSurname.Text;
                     employee.Email = textBoxEmail.Text;
                     employee.Password = passwordBoxNew.Password;
                     employee.Type = EmployeeType.SCRUMMASTER;
-                    employee.TeamName = team.Name;
+                    employee.Team = team;
                     employee.PasswordTimeStamp = DateTime.Now;
 
                     NewEmployeeMessage();
@@ -342,14 +342,14 @@ namespace Client.Views
 
                 if (team.ScrumMaster.Email == "")
                 {
-                    employee.Team.Add(team);
+                    //employee.Team.Add(team);
 
                     employee.Name = textBoxName.Text;
                     employee.Surname = textBoxSurname.Text;
                     employee.Email = textBoxEmail.Text;
                     employee.Password = passwordBoxNew.Password;
                     employee.Type = EmployeeType.SCRUMMASTER;
-                    employee.TeamName = team.Name;
+                    employee.Team = team;
                     employee.PasswordTimeStamp = DateTime.Now;
 
                     NewEmployeeMessage();

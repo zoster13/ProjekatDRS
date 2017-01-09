@@ -45,7 +45,7 @@ namespace Server
         {
             employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
             subscribers.Add(employee.Channel);
-
+            
             PublishLogInChanges(employee);
         }
 

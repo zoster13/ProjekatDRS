@@ -111,7 +111,7 @@ namespace Client
                     LocalClientDatabase.Instance.CurrentEmployee = employee;
 
                     displayName.Text = employee.Name + " " + employee.Surname;
-                    displayTeam.Text = employee.TeamName;
+                    //displayTeam.Text = employee.Team.Name;
                     displayType.Text = employee.Type.ToString();
                     displayEmail.Text = employee.Email;
 
@@ -273,7 +273,7 @@ namespace Client
             LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(textBoxEditFromTimeHours.Text), int.Parse(textBoxEditFromTimeMinutes.Text), DateTime.Now.Second);
             LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(textBoxEditToTimeHours.Text), int.Parse(textBoxEditToTimeMinutes.Text), DateTime.Now.Second);
 
-            if (passBoxNewPass.Password != "" && passBoxOldPass.Password != "")       //mora se i stari unijeti
+            if (passBoxNewPass.Password != "" && passBoxOldPass.Password != "")     
             {
                 LocalClientDatabase.Instance.CurrentEmployee.Password = passBoxNewPass.Password;
                 LocalClientDatabase.Instance.CurrentEmployee.PasswordTimeStamp = DateTime.Now;
@@ -311,7 +311,7 @@ namespace Client
 
             LocalClientDatabase.Instance.Teams.Clear();
             LocalClientDatabase.Instance.Teams.Add(team);
-            LocalClientDatabase.Instance.CurrentEmployee.TeamName = team.Name;
+            LocalClientDatabase.Instance.CurrentEmployee.Team = team;
 
             MessageBox.Show(message, "Type Change", MessageBoxButton.OK);
 
