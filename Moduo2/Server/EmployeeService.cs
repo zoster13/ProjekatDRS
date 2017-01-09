@@ -113,6 +113,7 @@ namespace Server
             EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
 
             Publisher.Instance.UpdateEmployeeFunctionAndTeamCallback(employee);
+            Publisher.Instance.NotifyJustMe(employee);
         }
     }
 }

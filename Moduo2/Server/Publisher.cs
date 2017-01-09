@@ -179,5 +179,20 @@ namespace Server
                 }
             }
         }
+
+        public void NotifyJustMe(Employee employee)
+        {
+            try
+            {
+                if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                {
+                    employee.Channel.NotifyJustMe(employee);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+            }
+        }
     }
 }

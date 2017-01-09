@@ -63,5 +63,10 @@ namespace Client
         {
             throw new NotImplementedException();
         }
+
+        public void NotifyJustMe(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
