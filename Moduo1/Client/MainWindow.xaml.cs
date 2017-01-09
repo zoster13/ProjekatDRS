@@ -337,7 +337,7 @@ namespace Client
 
         private void SetUpConnection()
         {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService"; //10.1.212.113
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -432,16 +432,17 @@ namespace Client
 
             lock (clientDB.ProjectsForApproval_lock)
             {
-                foreach (Project p in clientDB.ProjectsForApproval)
-                {
-                    if (p.Name.Equals(proj.Name))
-                    {
-                        clientDB.ProjectsForApproval.Remove(p);
-                        proxy.ProjectApproved(p);
+                proxy.ProjectApproved(proj);
+                //foreach (Project p in clientDB.ProjectsForApproval)
+                //{
+                //    if (p.Name.Equals(proj.Name))
+                //    {
+                //        //clientDB.ProjectsForApproval.Remove(p);
+                        //proxy.ProjectApproved(p);
                         
-                        break;
-                    }
-                }
+                        //break;
+                //    }
+                //}
             }
             //dodati liste projekata(verovatno ih ima vise) i u pravu serversku bazu,ne samo u memoriju
             //dodati proj u listu odobrenih projekata

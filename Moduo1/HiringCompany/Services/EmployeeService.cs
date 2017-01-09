@@ -417,6 +417,11 @@ namespace HiringCompany.Services
 
         public void CreateNewProject(Project p)
         {
+            lock (hiringCompanyDB.ProjectsForApproval_lock)
+            {
+                hiringCompanyDB.ProjectsForApproval.Add(p);
+            }
+
             try
             {
                 var access = new AccessDB();
@@ -427,12 +432,7 @@ namespace HiringCompany.Services
                         foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannels)
                         {
                             if (pair.Key.Equals(em.Username))
-                            {
-                                lock (hiringCompanyDB.ProjectsForApproval_lock)
-                                {
-                                    hiringCompanyDB.ProjectsForApproval.Add(p);
-                                }
-
+                            {                              
                                 CurrentData cData = new CurrentData();
                                 cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
                                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
@@ -441,7 +441,7 @@ namespace HiringCompany.Services
                                 //treba napraviti metodu koja notifikuje CEO da treba da potvrdi projekat
                             }
                         }
-                        break;
+                        //break;
                     }
                 }
             }
@@ -465,18 +465,87 @@ namespace HiringCompany.Services
 
         public void ProjectApproved(Project p) // treba pozvati NotifyPO
         {
-            var callback = hiringCompanyDB.ConnectionChannels[p.ProductOwner];
+            lock (hiringCompanyDB.ProjectsForApproval_lock)
+            {
+                foreach (Project proj in hiringCompanyDB.ProjectsForApproval)
+                {
+                    if (proj.Name.Equals(p.Name))
+                    {
+                        hiringCompanyDB.ProjectsForApproval.Remove(proj);
+                        break;
+                    }
+                }
+                    
+            }
+
             try
             {
-                
-                callback.NotifyPO(string.Format("Project {0} is approved.",p.Name));
+                bool isNotificationSent = false;
+                var access = new AccessDB();
+                foreach (Employee em in access.employees)
+                {
+                    if (em.Type == EmployeeType.CEO)
+                    {
+                        foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannels)
+                        {
+                            CurrentData cData = new CurrentData();
+                            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+                            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
+                            cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                            pair.Value.SyncData(cData);
+
+                            if (!isNotificationSent)
+                            {
+                                if (pair.Key.Equals(p.ProductOwner))
+                                {
+                                    try
+                                    {
+
+                                        pair.Value.NotifyPO(string.Format("Project {0} is approved.", p.Name));
+                                        isNotificationSent = true;
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                        throw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            catch (Exception)
+
+            catch (DbEntityValidationException e)
             {
-                
-                throw;
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
             }
-            
+
         }
+
+            //var callback = hiringCompanyDB.ConnectionChannels[p.ProductOwner];
+            //try
+            //{
+                
+            //    callback.NotifyPO(string.Format("Project {0} is approved.",p.Name));
+            //}
+            //catch (Exception)
+            //{
+                
+            //    throw;
+            //}
+            
+        
     }
 }

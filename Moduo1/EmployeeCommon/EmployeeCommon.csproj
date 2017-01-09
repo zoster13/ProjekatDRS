@@ -49,7 +49,7 @@
     <Compile Include="Data\EmployeeType.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="IEmployeeServiceCallback.cs" />
-    <Compile Include="Data\Notification.cs" />
+    <Compile Include="Notification.cs" />
     <Compile Include="Data\NotificationType.cs" />
     <Compile Include="Data\PartnerCompany.cs" />
     <Compile Include="Data\Project.cs" />
