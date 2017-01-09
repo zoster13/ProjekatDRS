@@ -352,16 +352,22 @@ namespace Client
 
         public void EditEmployeeDataCalbackResult(Employee employee)
         {
+            bool flag = false;
+
             foreach (var emp in LocalClientDatabase.Instance.Employees)
             {
                 if (emp.Email == employee.Email)
                 {
                     LocalClientDatabase.Instance.Employees.Remove(emp);
+                    flag = true;
                     break;
                 }
             }
 
-            LocalClientDatabase.Instance.Employees.Add(employee);
+            if (flag)
+            {
+                LocalClientDatabase.Instance.Employees.Add(employee);
+            }
         }
 
         public void AddEmployeeCallbackResult(Employee employee)
@@ -370,6 +376,27 @@ namespace Client
             {
                 LocalClientDatabase.Instance.Developers.Add(employee);
             }
+        }
+
+        public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
+        {
+            bool flag = false;
+
+            foreach(var emp in LocalClientDatabase.Instance.Employees)
+            {
+                if(emp.Email == employee.Email)
+                {
+                    LocalClientDatabase.Instance.Employees.Remove(emp);
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag)
+            {
+                LocalClientDatabase.Instance.Employees.Add(employee);
+            }
+            
         }
     }
 }
