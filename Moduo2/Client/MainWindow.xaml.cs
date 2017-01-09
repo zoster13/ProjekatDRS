@@ -17,6 +17,12 @@ namespace Client
             InitializeComponent();
             //database = new LocalClientDatabase();
             DataContext = LocalClientDatabase.Instance;
+
+            workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
+            workDevLeader.Visibility = Visibility.Hidden;
+            workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
+            workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
+
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -248,7 +254,7 @@ namespace Client
                 DataContext = LocalClientDatabase.Instance;
 
                 // sve se postavlja da bude nevidljivo
-                workCeo.Visibility = Visibility.Visible; // kao i svi ostali
+                workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
                 workDevLeader.Visibility = Visibility.Hidden;
                 workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
                 workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
