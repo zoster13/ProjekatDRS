@@ -84,7 +84,7 @@ namespace Client
                 }
             }
 
-            foreach(var employee in onlineEmployees)
+            foreach (var employee in onlineEmployees)
             {
                 LocalClientDatabase.Instance.Employees.Add(employee);
             }
@@ -103,7 +103,7 @@ namespace Client
             //    LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
             //}
         }
-        
+
         public void LogInCallbackResult(Employee employee)
         {
             if (employee != null)
@@ -282,7 +282,7 @@ namespace Client
             LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(textBoxEditFromTimeHours.Text), int.Parse(textBoxEditFromTimeMinutes.Text), DateTime.Now.Second);
             LocalClientDatabase.Instance.CurrentEmployee.WorkingHoursEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, int.Parse(textBoxEditToTimeHours.Text), int.Parse(textBoxEditToTimeMinutes.Text), DateTime.Now.Second);
 
-            if (passBoxNewPass.Password != "" && passBoxOldPass.Password != "")     
+            if (passBoxNewPass.Password != "" && passBoxOldPass.Password != "")
             {
                 LocalClientDatabase.Instance.CurrentEmployee.Password = passBoxNewPass.Password;
                 LocalClientDatabase.Instance.CurrentEmployee.PasswordTimeStamp = DateTime.Now;
@@ -295,16 +295,16 @@ namespace Client
 
         private void buttonNotifDetail_Click(object sender, RoutedEventArgs e)
         {
-            if(dataGridNotifications.SelectedItem != null)
+            if (dataGridNotifications.SelectedItem != null)
             {
                 MakeNotifInvisible();
 
                 Notification notification = (Notification)dataGridNotifications.SelectedItem;
                 LocalClientDatabase.Instance.CurrentNotification = notification;
 
-                switch(notification.Type)
+                switch (notification.Type)
                 {
-                    
+
                 }
             }
         }
@@ -348,7 +348,7 @@ namespace Client
         {
             foreach (var emp in LocalClientDatabase.Instance.Employees)
             {
-                if(emp.Email == employee.Email)
+                if (emp.Email == employee.Email)
                 {
                     LocalClientDatabase.Instance.Employees.Remove(emp);
                     break;
@@ -356,6 +356,14 @@ namespace Client
             }
 
             LocalClientDatabase.Instance.Employees.Add(employee);
+        }
+
+        public void AddEmployeeCallbackResult(Employee employee)
+        {
+            if (employee.Type == EmployeeType.DEVELOPER)
+            {
+                LocalClientDatabase.Instance.Developers.Add(employee);
+            }
         }
     }
 }

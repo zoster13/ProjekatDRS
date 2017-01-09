@@ -202,8 +202,9 @@ namespace Client.Views
                     employee.Type = EmployeeType.HR;
                     employee.PasswordTimeStamp = DateTime.Now;
 
-                    NewEmployeeMessage();
+                    LocalClientDatabase.Instance.proxy.AddEmployee(employee);
 
+                    NewEmployeeMessage();
                 }
             }
         }
@@ -298,6 +299,8 @@ namespace Client.Views
                 employee.Team = team;
                 employee.PasswordTimeStamp = DateTime.Now;
 
+                LocalClientDatabase.Instance.proxy.AddEmployee(employee);
+
                 NewEmployeeMessage();
             }
         }
@@ -324,6 +327,8 @@ namespace Client.Views
                         employee.Type = EmployeeType.SCRUMMASTER;
                         employee.Team = team;
                         employee.PasswordTimeStamp = DateTime.Now;
+
+                        LocalClientDatabase.Instance.proxy.AddEmployee(employee);
 
                         NewEmployeeMessage();
 

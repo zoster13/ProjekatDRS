@@ -10,7 +10,7 @@ namespace Client
     public class CallbackMethods : ICallbackMethods
     {
         MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
-
+        
         public void EditEmployeeCallback(Employee employee)
         {
             App.Current.Dispatcher.Invoke((Action)delegate
@@ -48,6 +48,14 @@ namespace Client
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 mainWindow.TypeChangeCallbackResult(team, newType);
+            });
+        }
+
+        public void AddEmployeeCallback(Employee employee)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.AddEmployeeCallbackResult(employee);
             });
         }
     }

@@ -26,9 +26,9 @@ namespace ClientCommon.Data
         
         public Employee()
         {
-            passwordTimeStamp = new DateTime();
-            workingHoursStart = new DateTime();
-            workingHoursEnd = new DateTime();
+            passwordTimeStamp = DateTime.Now;
+            workingHoursStart = DateTime.Now;
+            workingHoursEnd = DateTime.Now;
             notifications = new List<Notification>();
         }
 

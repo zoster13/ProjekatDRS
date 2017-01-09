@@ -98,5 +98,12 @@ namespace Server
         {
             throw new NotImplementedException();
         }
+
+        public void AddEmployee(Employee employee)
+        {
+            EmployeeServiceDatabase.Instance.AddEmployee(employee);
+
+            Publisher.Instance.AddEmployeeCallback(employee);
+        }
     }
 }

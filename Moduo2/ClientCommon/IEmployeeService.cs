@@ -35,5 +35,8 @@ namespace ClientCommon
 
         [OperationContract]
         List<HiringCompany> GetAllHiringCompanies();
+
+        [OperationContract]
+        void AddEmployee(Employee employee);
     }
 }

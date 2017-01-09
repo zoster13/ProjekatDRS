@@ -128,5 +128,17 @@ namespace Client
                 Console.WriteLine("Error while trying to ProjectTeamAssign: {0}", e.Message);
             }
         }
+
+        public void AddEmployee(Employee employee)
+        {
+            try
+            {
+                factory.AddEmployee(employee);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddEmployee: {0}", e.Message);
+            }
+        }
     }
 }

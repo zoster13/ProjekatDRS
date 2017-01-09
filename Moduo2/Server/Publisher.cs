@@ -143,5 +143,23 @@ namespace Server
                 }
             }
         }
+
+        public void AddEmployeeCallback(Employee employee)
+        {
+            foreach (ICallbackMethods sub in subscribers)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.AddEmployeeCallback(employee);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
     }
 }
