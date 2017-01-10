@@ -32,7 +32,7 @@ namespace Client
 
         private void logOutButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalClientDatabase.Instance.proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee.Email);
+            LocalClientDatabase.Instance.proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee);
         }
 
         private void editPassword_Click(object sender, RoutedEventArgs e)

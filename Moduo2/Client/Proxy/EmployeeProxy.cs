@@ -29,11 +29,11 @@ namespace Client
             }
         }
 
-        public void LogOut(string email)
+        public void LogOut(Employee employee)
         {
             try
             {
-                factory.LogOut(email);
+                factory.LogOut(employee);
             }
             catch (Exception e)
             {
