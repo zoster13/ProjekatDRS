@@ -77,6 +77,7 @@ namespace EmployeeCommon
             set { namesOfCompaniesData = value; }
         }
 
+        [DataMember]
         public List<PartnerCompany> CompaniesData 
         {
             get { return companiesData; }

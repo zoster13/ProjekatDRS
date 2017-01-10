@@ -275,9 +275,9 @@ namespace Client
             }
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
 
-            lock (clientDB.Companies_lock) 
+            lock (clientDB.Companies_lock)
             {
-                if (clientDB.Companies.Count != 0) 
+                if (clientDB.Companies.Count != 0)
                 {
                     clientDB.Companies.Clear();
                 }
