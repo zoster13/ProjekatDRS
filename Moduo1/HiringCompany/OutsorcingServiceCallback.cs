@@ -38,16 +38,24 @@ namespace HiringCompany
 
                     foreach (var ceo in ceosList)
                     {
-                        CurrentData cData = new CurrentData();
-                        cData.ProjectsForApprovalData = hiringCompanyDb.ProjectsForApproval;
-                        cData.AllEmployeesData = hiringCompanyDb.AllEmployees;
-                        cData.EmployeesData = hiringCompanyDb.OnlineEmployees;
-                        cData.NamesOfCompaniesData = hiringCompanyDb.PartnerCompaniesAddresses.Keys.ToList();
+                        
+                       
 
-                        hiringCompanyDb.ConnectionChannelsClients[ceo.Username].SyncData(cData);            
+                                 
                         hiringCompanyDb.ConnectionChannelsClients[ceo.Username].Notify("Company <" + outsourcingCompName + "> accepted request for partnership.");
                     }
-
+                    CurrentData cData = new CurrentData();
+                    cData.ProjectsForApprovalData = hiringCompanyDb.ProjectsForApproval;
+                    cData.AllEmployeesData = hiringCompanyDb.AllEmployees;
+                    cData.EmployeesData = hiringCompanyDb.OnlineEmployees;
+                    cData.NamesOfCompaniesData = hiringCompanyDb.PartnerCompaniesAddresses.Keys.ToList();
+                    cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSending;
+                    cData.CompaniesData = hiringCompanyDb.PartnerCompanies;
+                    
+                    foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)
+                    {
+                        call.SyncData(cData);
+                    }
 
                 }
                 catch (Exception)

@@ -81,7 +81,16 @@ namespace HiringCompany.DatabaseAccess
                 {
                     var companies = from com in access.companies
                                     select com;
-                    return companies.ToList();
+
+                    if (companies.ToList() == null) // videti gde jos treba ova provera
+                    {
+                        return new List<PartnerCompany>();
+                    }
+                    else
+                    {
+                        return companies.ToList();
+                    }
+                    
                 }
             }
         }
@@ -96,7 +105,14 @@ namespace HiringCompany.DatabaseAccess
                                        where proj.IsAcceptedCEO == false
                                        select proj;
 
-                    return projectsForA.ToList();
+                    if (projectsForA.ToList() == null) // videti gde jos treba ova provera
+                    {
+                        return new List<Project>();
+                    }
+                    else
+                    {
+                        return projectsForA.ToList();
+                    }
                 }
             }
            // set { projectsForApproval = value; }
@@ -112,7 +128,14 @@ namespace HiringCompany.DatabaseAccess
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
 
-                    return projectsForS.ToList();
+                    if (projectsForS.ToList() == null) // videti gde jos treba ova provera
+                    {
+                        return new List<Project>();
+                    }
+                    else
+                    {
+                        return projectsForS.ToList();
+                    }
                 }
             }
         }
