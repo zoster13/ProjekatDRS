@@ -320,7 +320,8 @@ namespace Client
 
         private void SetUpConnection()
         {
-            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; // 10.1.212.113
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; // 10.1.212.113
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
