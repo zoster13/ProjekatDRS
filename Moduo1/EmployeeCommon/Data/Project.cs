@@ -21,10 +21,14 @@ namespace EmployeeCommon
         private string outsourcingCompany;
         private string productOwner;
         private string scrumMaster;
+        private bool isAcceptedCEO;
+        private bool isAcceptedOutsCompany;
 
         public Project() 
         {
             userStories=new List<UserStory>();
+            isAcceptedCEO = false;
+            isAcceptedOutsCompany = false;
         }
 
         [Key]
@@ -89,6 +93,20 @@ namespace EmployeeCommon
         {
             get { return scrumMaster; }
             set { scrumMaster = value; }
+        }
+
+        [DataMember]
+        public bool IsAcceptedCEO 
+        {
+            get { return isAcceptedCEO; }
+            set { isAcceptedCEO = value; }
+        }
+
+        [DataMember]
+        public bool IsAcceptedOutsCompany 
+        {
+            get { return isAcceptedOutsCompany; }
+            set { isAcceptedOutsCompany = value; }
         }
     }
 }

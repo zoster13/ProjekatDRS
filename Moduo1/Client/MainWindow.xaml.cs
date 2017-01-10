@@ -400,7 +400,7 @@ namespace Client
 
         private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
         {
-
+            //u metodi na serveru treba da se promeni polje isAcceptedOutsCompany da bude true
         }
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
@@ -426,7 +426,8 @@ namespace Client
 
             lock(clientDB.ProjectsForApproval_lock)
             {
-                proxy.ProjectApproved(proj);
+                proxy.ProjectApproved(proj); //u ProjectApproved metodi na serveru treba da se promeni polje isApprovedCEO da bude true
+                
                 //foreach (Project p in clientDB.ProjectsForApproval)
                 //{
                 //    if (p.Name.Equals(proj.Name))
