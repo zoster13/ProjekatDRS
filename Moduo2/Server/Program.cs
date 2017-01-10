@@ -30,7 +30,7 @@ namespace Server
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             host.Open();
-            Console.WriteLine("EmployeeService service is started.");
+            Console.WriteLine("EmployeeService is started.");
 
             //---OutsourcingService host
             NetTcpBinding bindingOutsourcingService = new NetTcpBinding();
@@ -41,7 +41,7 @@ namespace Server
             hostOutsourcingService.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             hostOutsourcingService.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             hostOutsourcingService.Open();
-            Console.WriteLine("EmployeeService service is started.");
+            Console.WriteLine("OutsourcingService is started.");
             
             Console.WriteLine("Press <enter> to stop service...");
 

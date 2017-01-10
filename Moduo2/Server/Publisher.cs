@@ -71,13 +71,6 @@ namespace Server
 
         public void LogOutCallback(Employee employee)
         {
-            employeeChannels.Remove(employee.Email);
-
-            PublishLogOutChanges(employee);
-        }
-
-        public void PublishLogOutChanges(Employee employee)
-        {
             foreach (ICallbackMethods sub in employeeChannels.Values)
             {
                 try
@@ -92,8 +85,10 @@ namespace Server
                     Console.WriteLine("Error: {0}", e.Message);
                 }
             }
-        }
 
+            employeeChannels.Remove(employee.Email);
+        }
+        
         public void TeamAddedCallback(Team team, bool flag)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
