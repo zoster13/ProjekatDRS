@@ -460,5 +460,17 @@ namespace Client
             LocalClientDatabase.Instance.CurrentEmployee.Notifications.Add(notification);
             CountNewNotifications();
         }
+
+        public void ScrumMasterUpdatedCallbackResult(Team team)
+        {
+            foreach (var team1 in LocalClientDatabase.Instance.Teams)
+            {
+                if (team1.Name == team.Name)
+                {
+                    team1.ScrumMasterEmail = team.ScrumMasterEmail;
+                    break;
+                }
+            }
+        }
     }
 }

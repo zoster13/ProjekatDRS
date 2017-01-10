@@ -74,7 +74,10 @@ namespace Client
 
         public void ScrumMasterUpdatedCallback(Team team)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.ScrumMasterUpdatedCallbackResult(team);
+            });
         }
 
         //IOutsourcingServiceCallbacks
