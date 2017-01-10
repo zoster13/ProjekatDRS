@@ -76,5 +76,11 @@ namespace Client
         {
             throw new NotImplementedException();
         }
+
+        //IOutsourcingServiceCallbacks
+        public void SendNotificationToCEO(Notification notification)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

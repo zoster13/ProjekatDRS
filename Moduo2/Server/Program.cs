@@ -5,6 +5,7 @@ using System;
 using System.Data.Entity;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using ICommon;
 
 namespace Server
 {
@@ -20,7 +21,7 @@ namespace Server
             // update database
             System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccessDB, Configuration>());
 
-            //EmployeeService host
+            //---EmployeeService host
             NetTcpBinding binding = new NetTcpBinding();
             string address = "net.tcp://localhost:9999/EmployeeService";
 
@@ -29,8 +30,19 @@ namespace Server
             host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             host.Open();
-
             Console.WriteLine("EmployeeService service is started.");
+
+            //---OutsourcingService host
+            NetTcpBinding bindingOutsourcingService = new NetTcpBinding();
+            string addressOutsourcingService = "net.tcp://localhost:9998/OutsourcingService";
+
+            ServiceHost hostOutsourcingService = new ServiceHost(typeof(OutsourcingService));
+            hostOutsourcingService.AddServiceEndpoint(typeof(IOutsourcingService), bindingOutsourcingService, addressOutsourcingService);
+            hostOutsourcingService.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            hostOutsourcingService.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+            hostOutsourcingService.Open();
+            Console.WriteLine("EmployeeService service is started.");
+            
             Console.WriteLine("Press <enter> to stop service...");
 
             ////DB Test

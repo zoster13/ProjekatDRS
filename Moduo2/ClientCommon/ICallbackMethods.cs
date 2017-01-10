@@ -33,5 +33,9 @@ namespace ClientCommon
 
         [OperationContract(IsOneWay = true)]
         void ScrumMasterUpdatedCallback(Team team);
+
+        //IOutsourcingServiceCallbacks
+        [OperationContract(IsOneWay = true)]
+        void SendNotificationToCEO(Notification notification);
     }
 }

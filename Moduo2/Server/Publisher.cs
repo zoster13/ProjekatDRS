@@ -5,6 +5,7 @@ using ClientCommon.Data;
 using System.Collections.Generic;
 using Server.Database;
 using System.Linq;
+using Server.Access;
 
 namespace Server
 {
@@ -13,7 +14,7 @@ namespace Server
     {
         private static Publisher instance;
         private static Dictionary<string, ICallbackMethods> employeeChannels;
-        
+
         public Publisher()
         {
             if (instance == null)
@@ -71,10 +72,10 @@ namespace Server
         public void LogOutCallback(Employee employee)
         {
             employeeChannels.Remove(employee.Email);
-            
+
             PublishLogOutChanges(employee);
         }
-        
+
         public void PublishLogOutChanges(Employee employee)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
@@ -184,9 +185,9 @@ namespace Server
         {
             Employee selectedEmployee = null;
 
-            foreach(Employee emp in InternalDatabase.Instance.OnlineEmployees)
+            foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
             {
-                if(emp.Email.Equals(employee.Email))
+                if (emp.Email.Equals(employee.Email))
                 {
                     selectedEmployee = emp;
                     break;
@@ -223,6 +224,35 @@ namespace Server
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
+
+        //-------------------------IOutsourcingServiceCallbacks-------------------------------//
+        public void SendNotificationToCEO(Notification notification)
+        {
+            foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
+            {
+                if (emp.Type.Equals(EmployeeType.CEO))
+                {
+                    try
+                    {
+                        if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+                        {
+                            emp.Channel.SendNotificationToCEO(notification);
+                        }
+                        else
+                        {
+                            Employee ceo = EmployeeServiceDatabase.Instance.GetEmployee(emp.Email);
+                            ceo.Notifications.Add(notification);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
+
+                    break;
                 }
             }
         }

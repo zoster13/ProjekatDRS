@@ -57,6 +57,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICommon">
+      <HintPath>..\..\Common\ICommon\bin\Debug\ICommon.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -75,6 +78,7 @@
     <Compile Include="Access\IEmployeeServiceDatabase.cs" />
     <Compile Include="Database\InternalDatabase.cs" />
     <Compile Include="EmployeeService.cs" />
+    <Compile Include="OutsourcingService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />

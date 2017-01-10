@@ -22,7 +22,7 @@ namespace Server
         {
             lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
             lateOnJobTimer.Interval = 15000;
-            lateOnJobTimer.Enabled = true;        
+            //lateOnJobTimer.Enabled = true;        
         }
 
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
@@ -48,10 +48,6 @@ namespace Server
                         };
                         client.Send(_senderEmailAddress, em.Email, "Obavjestenje", "Zakasnili ste na posao!");
                     }
-                }
-                else
-                {
-                    //posalji mu obavjestenje!
                 }
             }
         }

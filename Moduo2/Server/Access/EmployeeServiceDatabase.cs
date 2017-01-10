@@ -148,6 +148,5 @@ namespace Server.Access
             updateCommand.ExecuteNonQuery();
             con.Close();
         }
-
     }
 }
