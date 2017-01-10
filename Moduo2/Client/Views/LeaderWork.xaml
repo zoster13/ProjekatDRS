@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="Client.Views.LeaderWork"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Client.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="370" d:DesignWidth="750">
+    <Grid Background="White">
+        <TabControl >
+            <TabItem Header="Tasks" Margin="0,1,-4,-1" Height="39">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
+                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
+                            <DataGridTextColumn Header="Progress Status" Binding="{Binding ProgressStatus}"/>
+                            <DataGridTextColumn Header="Assign Status" Binding="{Binding AssignStatus}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridClaimTask" Background="White" Margin="461,10,10,10">
+                        <Label x:Name="labelTitle3" Content="Claim task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="90,10,-20,0" VerticalAlignment="Top" Width="199"/>
+                        <Label x:Name="labelTask11" Content="Task: (must be unassigned)" HorizontalAlignment="Left" Height="26" Margin="12,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
+                        <ComboBox x:Name="comboBoxAllTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,73,0,0" VerticalAlignment="Top" Width="238"/>
+                        <Button x:Name="buttonTaskClaim" Content="Claim" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskClaim_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="My Tasks" Margin="8,0,-12,0" Height="39">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridMyTasks" ItemsSource="{Binding MyTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
+                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
+                            <DataGridTextColumn Header="Progress Status" Binding="{Binding ProgressStatus}"/>
+                            <DataGridTextColumn Header="Assign Status" Binding="{Binding AssignStatus}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridMarkAsCompleted1" Background="White" Margin="461,10,10,10">
+                        <Label x:Name="labelTitle41" Content="Mark task as completed" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="42,10,0,0" VerticalAlignment="Top" Width="199"/>
+                        <Label x:Name="labelTask211" Content="Task: (must be uncomleted)" HorizontalAlignment="Left" Height="26" Margin="12,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
+                        <ComboBox x:Name="comboBoxMyTasks" ItemsSource="{Binding MyTasks, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,73,0,0" VerticalAlignment="Top" Width="238"/>
+                        <Button x:Name="buttonTaskComplete" Content="Complete" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskComplete_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="User Stories" Height="39" Margin="28,0,-44,0">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridUserStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header=" Project" Binding="{Binding Project.Name}"/>
+                            <DataGridTextColumn Header=" Difficulty" Binding="{Binding Difficulty}"/>
+                            <DataGridTextColumn Header=" Deadline" Binding="{Binding Deadline}"/>
+                            <DataGridTextColumn Header=" Accept Status" Binding="{Binding AcceptSatus}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridAddTask" Background="White" Margin="376,10,10,10">
+                        <Label x:Name="labelTitle2" Content="Make task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="122,10,0,0" VerticalAlignment="Top" Width="199"/>
+                        <ComboBox x:Name="comboBoxStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,73,0,0" VerticalAlignment="Top" Width="280"/>
+                        <Label x:Name="labelTask1" Content="User story: (must be in accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="21,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
+                        <Label x:Name="labelTaskContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,137,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxTaskContent" HorizontalAlignment="Left" Height="81" Margin="21,163,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxTaskContent_TextChanged" />
+                        <Label x:Name="labelTaskTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,111,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxTaskTitle" HorizontalAlignment="Left" Height="21" Margin="67,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="textBoxTaskTitle_TextChanged" />
+                        <Button x:Name="buttonTaskAdd" Content="Create" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="279,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskAdd_Click"/>
+                    </Grid>
+                    <Grid x:Name="gridStartStory" Background="White" Margin="10,191,385,10">
+                        <Label x:Name="labelTitle33" Content="Finish user story" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="102,0,0,0" VerticalAlignment="Top" Width="199"/>
+                        <Label x:Name="labelTask" Content="User story: (must be in accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="10,24,0,0" VerticalAlignment="Top" Width="279" RenderTransformOrigin="0.372,0.731"/>
+                        <ComboBox x:Name="comboBoxStories1" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,55,0,0" VerticalAlignment="Top" Width="280"/>
+                        <Button x:Name="buttonFinishStory" Content="Finish Story" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="247,84,0,0" VerticalAlignment="Top" Width="88" Click="buttonFinishStory_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Projects" Height="39" Margin="49,0,-49,0">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="dataGridProjects" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header=" Status" Binding="{Binding ProgressStatus}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid x:Name="gridAddUserStory" Background="White" Margin="376,10,10,10">
+                        <Label x:Name="labelTitle1" Content="Make userstory" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,10,0,0" VerticalAlignment="Top" Width="123"/>
+                        <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding MyProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,73,0,0" VerticalAlignment="Top" Width="280"/>
+                        <Label x:Name="labelProject" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,47,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <Label x:Name="labelUserStoryTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,111,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxUserStoryTitle" HorizontalAlignment="Left" Height="21" Margin="67,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="textBoxUserStoryTitle_TextChanged" />
+                        <Label x:Name="labelUserStoryContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,137,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxUserStoryContent" HorizontalAlignment="Left" Height="81" Margin="21,163,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxUserStoryContent_TextChanged" />
+                        <Label x:Name="labelUserStoryDifficulty" Content="Difficulty: " HorizontalAlignment="Left" Height="26" Margin="21,263,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxUserStoryDifficulty" HorizontalAlignment="Left" Height="24" Margin="90,265,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="40" TextChanged="textBoxUserStoryDifficulty_TextChanged"/>
+                        <Button x:Name="buttonUserStoryAdd" Content="Create" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="279,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonUserStoryAdd_Click"/>
+
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Send User Messages" Margin="54,0,-58,0" Height="39">
+                <Grid Background="#FFE5E5E5">
+                    <Grid Background="White" Margin="194,10,198,10">
+                        <Label x:Name="labelTitle44" Content="Send userstories" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,10,0,0" VerticalAlignment="Top" Width="158"/>
+                        <ComboBox x:Name="comboBoxProjectsSend" ItemsSource="{Binding MyProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,96,0,0" VerticalAlignment="Top" Width="280"/>
+                        <Label x:Name="labelProjectSend" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,63,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <Button x:Name="buttonUserStorySend" Content="Send userstories for selected project" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="118,258,0,0" VerticalAlignment="Top" Width="220" Click="buttonUserStorySend_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

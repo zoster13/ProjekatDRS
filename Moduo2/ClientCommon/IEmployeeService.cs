@@ -1,6 +1,7 @@
 ﻿using ClientCommon.Data;
 using System.Collections.Generic;
 using System.ServiceModel;
+using ICommon;
 
 namespace ClientCommon
 {
@@ -20,9 +21,25 @@ namespace ClientCommon
         void EditEmployeeData(Employee employee);
 
         [OperationContract(IsOneWay = false, IsInitiating = true)]
-        void ProjectTeamAssign(string projName, string teamName);   // tim treba da ima listu projekata koji su mu dodeljeni
-                                                                    // treba izvaditi iz baze projekat i staviti ga u tim
-                                                                    // onda poslati svim online clanovima tog tima taj projekat
+        void ProjectTeamAssign(Project project);
+
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void ReleaseUserStory(UserStory userStory);
+
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void TaskClaimed(Task task);
+
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void TaskCompleted(Task task);
+
+        [OperationContract]
+        void AddUserStory(UserStory userStory);
+
+        [OperationContract]
+        void AddTask(Task task);
+
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void SendUserStories(List<UserStoryCommon> userStories, string projectName);
 
         [OperationContract]
         List<Employee> GetAllOnlineEmployees();

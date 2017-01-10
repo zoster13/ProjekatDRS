@@ -19,6 +19,7 @@ namespace ClientCommon.Data
         private ProgressStatus progressStatus;
         private AcceptStatus acceptStatus;
         private DateTime deadline;
+        private Project project = null;
 
         private List<Task> tasks;
 
@@ -26,7 +27,7 @@ namespace ClientCommon.Data
         {
             acceptStatus = AcceptStatus.PENDING;
             progressStatus = ProgressStatus.INPREP;
-            deadline = new DateTime();
+            deadline = DateTime.Now;
         }
 
         [Key]
@@ -84,6 +85,13 @@ namespace ClientCommon.Data
         {
             get { return deadline; }
             set { deadline = value; }
+        }
+
+        [DataMember]
+        public Project Project
+        {
+            get { return project; }
+            set { project = value; }
         }
     }
 }

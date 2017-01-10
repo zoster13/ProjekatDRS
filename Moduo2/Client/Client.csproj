@@ -63,8 +63,11 @@
     <Compile Include="Views\CEOWork.xaml.cs">
       <DependentUpon>CEOWork.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DevAndLeaderWork.xaml.cs">
-      <DependentUpon>DevAndLeaderWork.xaml</DependentUpon>
+    <Compile Include="Views\DevWork.xaml.cs">
+      <DependentUpon>DevWork.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LeaderWork.xaml.cs">
+      <DependentUpon>LeaderWork.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Notifications\AcceptDecline.xaml.cs">
       <DependentUpon>AcceptDecline.xaml</DependentUpon>
@@ -88,7 +91,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevAndLeaderWork.xaml">
+    <Page Include="Views\DevWork.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LeaderWork.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

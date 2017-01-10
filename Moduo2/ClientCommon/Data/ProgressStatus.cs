@@ -9,6 +9,7 @@ namespace ClientCommon.Data
     public enum ProgressStatus
     {
         INPREP,
+        PENDING,
         STARTED,
         COMPLETED
     }

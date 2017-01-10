@@ -265,18 +265,31 @@ namespace Client.Views
                 Project project = comboBoxProjects.SelectedItem as Project;
                 Team team = comboBoxTeam.SelectedItem as Team;
 
-                if (project.AssignStatus == AssignStatus.UNASSIGNED && team.ScrumMasterEmail != "")
+                if (project.AssignStatus == AssignStatus.UNASSIGNED)
                 {
-                    foreach (var proj in LocalClientDatabase.Instance.AllProjects)
+                    if(team.ScrumMasterEmail != null)
                     {
-                        if (proj.Name == project.Name)
+                        foreach (var proj in LocalClientDatabase.Instance.AllProjects)
                         {
-                            proj.TeamName = team.Name;
-                            proj.AssignStatus = AssignStatus.ASSIGNED;
+                            if (proj.Name == project.Name)
+                            {
+                                proj.Team = team;
+                                proj.AssignStatus = AssignStatus.ASSIGNED;
+                            }
                         }
-                    }
 
-                    LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project.Name, team.Name);
+                        dataGridProjects.Items.Refresh();
+
+                        LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project); // promeniti da se salje samo projekat
+                    }
+                    else
+                    {
+                        MessageBox.Show("This team does not have a scrum master!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("This project has already been assigned to a team!");
                 }
             }
         }

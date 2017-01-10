@@ -24,6 +24,8 @@ namespace Client
         private BindingList<Project> allProjects;
         private BindingList<Project> myTeamProjects;
 
+        private BindingList<UserStory> userStories;
+
         private BindingList<Task> allTasks;
         private BindingList<Task> myTasks;
 
@@ -42,6 +44,8 @@ namespace Client
             notifications = new BindingList<Notification>();
             allProjects = new BindingList<Project>();
             myTeamProjects = new BindingList<Project>();
+
+            userStories = new BindingList<UserStory>();
 
             allTasks = new BindingList<Task>();
             myTasks = new BindingList<Task>();
@@ -105,6 +109,18 @@ namespace Client
             }
         }
 
+        public BindingList<UserStory> UserStories
+        {
+            get
+            {
+                return userStories;
+            }
+            set
+            {
+                userStories = value;
+            }
+        }
+
         public BindingList<Team> Teams
         {
             get
@@ -150,6 +166,30 @@ namespace Client
             set
             {
                 notifications = value;
+            }
+        }
+
+        public BindingList<Task> AllTasks
+        {
+            get
+            {
+                return allTasks;
+            }
+            set
+            {
+                allTasks = value;
+            }
+        }
+
+        public BindingList<Task> MyTasks
+        {
+            get
+            {
+                return myTasks;
+            }
+            set
+            {
+                myTasks = value;
             }
         }
 

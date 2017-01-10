@@ -65,12 +65,9 @@ namespace ClientCommon.Data
         {
             string returnString = name;
 
-            if (scrumMasterEmail != null)
+            if (scrumMasterEmail == null)
             {
-                if (scrumMasterEmail.Equals(string.Empty))
-                {
-                    returnString += ", no scrum master";
-                }
+                returnString += ", no scrum master";
             }
             return returnString;
 

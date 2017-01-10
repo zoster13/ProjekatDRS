@@ -281,5 +281,25 @@ namespace Server
                 Console.WriteLine("Error: {0}", e.Message);
             }
         }
+
+        public void ProjectTeamAssignCallback(Project project)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReleaseUserStoryCallback(UserStory userStory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TaskClaimedCallback(Task task)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TaskCompletedCallback(Task task)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

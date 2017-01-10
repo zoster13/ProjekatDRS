@@ -38,5 +38,17 @@ namespace ClientCommon
         //IOutsourcingServiceCallbacks
         [OperationContract(IsOneWay = true)]
         void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel);
+
+        [OperationContract(IsOneWay = true)]
+        void ProjectTeamAssignCallback(Project project);
+
+        [OperationContract(IsOneWay = true)]
+        void ReleaseUserStoryCallback(UserStory userStory);
+
+        [OperationContract(IsOneWay = true)]
+        void TaskClaimedCallback(Task task);
+
+        [OperationContract(IsOneWay = true)]
+        void TaskCompletedCallback(Task task);
     }
 }

@@ -89,5 +89,37 @@ namespace Client
                 mainWindow.SendNotificationToCEOResult(notification);
             });
         }
+
+        public void ProjectTeamAssignCallback(Project project)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.ProjectTeamAssignCallbackResult(project);
+            });
+        }
+
+        public void ReleaseUserStoryCallback(UserStory userStory)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.ReleaseUserStoryCallbackResult(userStory);
+            });
+        }
+
+        public void TaskClaimedCallback(Task task)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.TaskClaimedCallbackResult(task);
+            });
+        }
+
+        public void TaskCompletedCallback(Task task)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.TaskCompletedCallbackResult(task);
+            });
+        }
     }
 }

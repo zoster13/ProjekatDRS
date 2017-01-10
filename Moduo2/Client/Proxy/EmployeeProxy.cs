@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using ClientCommon;
 using ClientCommon.Data;
+using ICommon;
 
 namespace Client
 {
@@ -117,11 +118,11 @@ namespace Client
             }
         }
 
-        public void ProjectTeamAssign(string projName, string teamName)
+        public void ProjectTeamAssign(Project project)
         {
             try
             {
-                factory.ProjectTeamAssign(projName, teamName);
+                factory.ProjectTeamAssign(project);
             }
             catch (Exception e)
             {
@@ -153,6 +154,17 @@ namespace Client
             }
         }
 
+        public void AddUserStory(UserStory userStory)
+        {
+            try
+            {
+                factory.AddUserStory(userStory);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddUserStory: {0}", e.Message);
+            }
+        }
 
         //IOutsorucingService
         public void ResponseToPartnershipRequest(bool accepted, string companyName)
@@ -164,6 +176,66 @@ namespace Client
             catch (Exception e)
             {
                 Console.WriteLine("Error while trying to ResponseToPartnershipRequest: {0}", e.Message);
+            }
+        }
+
+        public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
+        {
+            try
+            {
+                factory.SendUserStories(userStories, projectName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to SendUserStories: {0}", e.Message);
+            }
+        }
+
+        public void AddTask(Task task)
+        {
+            try
+            {
+                factory.AddTask(task);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddTask: {0}", e.Message);
+            }
+        }
+
+        public void ReleaseUserStory(UserStory userStory)
+        {
+            try
+            {
+                factory.ReleaseUserStory(userStory);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to ReleaseUserStory: {0}", e.Message);
+            }
+        }
+
+        public void TaskClaimed(Task task)
+        {
+            try
+            {
+                factory.TaskClaimed(task);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to TaskClaimed: {0}", e.Message);
+            }
+        }
+
+        public void TaskCompleted(Task task)
+        {
+            try
+            {
+                factory.TaskCompleted(task);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to TaskCompleted: {0}", e.Message);
             }
         }
     }

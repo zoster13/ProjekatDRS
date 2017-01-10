@@ -3,6 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using ClientCommon.Data;
 using System;
+using System.Windows.Media;
+using ICommon;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -19,9 +22,7 @@ namespace Client
             DataContext = LocalClientDatabase.Instance;
 
             workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
-            workDevLeader.Visibility = Visibility.Hidden;
-            workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
-            workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
+            workLeader.Visibility = Visibility.Hidden;
 
         }
 
@@ -178,9 +179,7 @@ namespace Client
         public void DeveloperWorkspace()
         {
             tabControl1.SelectedIndex = 0;
-            workDevLeader.Visibility = Visibility.Visible;
-            workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
-            workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
+            workDev.Visibility = Visibility.Visible;
             LoadCommonData();
             SetSettings();
             ResetWork();
@@ -191,9 +190,7 @@ namespace Client
         public void TeamLeaderWorkspace()
         {
             tabControl1.SelectedIndex = 0;
-            workDevLeader.Visibility = Visibility.Visible;
-            workDevLeader.gridAddUserStory.Visibility = Visibility.Visible;
-            workDevLeader.gridAddTask.Visibility = Visibility.Visible;
+            workLeader.Visibility = Visibility.Visible;
             LoadCommonData();
             SetSettings();
             ResetWork();
@@ -285,9 +282,8 @@ namespace Client
 
                 // sve se postavlja da bude nevidljivo
                 workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
-                workDevLeader.Visibility = Visibility.Hidden;
-                workDevLeader.gridAddUserStory.Visibility = Visibility.Hidden;
-                workDevLeader.gridAddTask.Visibility = Visibility.Hidden;
+                workLeader.Visibility = Visibility.Hidden;
+                workDev.Visibility = Visibility.Hidden;
             }
         }
 
@@ -472,6 +468,17 @@ namespace Client
 
             textBoxNotifNum.Text = countNew.ToString();
 
+            if(countNew > 0)
+            {
+                textBoxNotifNum.Background = new SolidColorBrush(Colors.DarkOrange);
+                textBoxNotifNum.Foreground = new SolidColorBrush(Colors.White);
+            }
+            else
+            {
+                textBoxNotifNum.Background = new SolidColorBrush(Colors.Transparent);
+                textBoxNotifNum.Foreground = new SolidColorBrush(Colors.Black);
+            }
+
             return countNew;
         }
 
@@ -490,6 +497,78 @@ namespace Client
                 {
                     team1.ScrumMasterEmail = team.ScrumMasterEmail;
                     break;
+                }
+            }
+
+            workCeo.comboBoxTeamScrum.Items.Refresh();
+        }
+
+        public void ProjectTeamAssignCallbackResult(Project project)
+        {
+            LocalClientDatabase.Instance.MyTeamProjects.Add(project);
+        }
+
+        public void ReleaseUserStoryCallbackResult(UserStory userStory)
+        {
+            LocalClientDatabase.Instance.UserStories.Add(userStory);
+            foreach(var task in userStory.Tasks)
+            {
+                LocalClientDatabase.Instance.AllTasks.Add(task);
+            }
+        }
+
+        public void ReceiveUserStoriesCallbackResult(List<UserStoryCommon> commStories, string projName)
+        {
+            Project project = new Project();
+
+            foreach(var proj in LocalClientDatabase.Instance.MyTeamProjects)
+            {
+                if(proj.Name == projName)
+                {
+                    project = proj;
+                    break;
+                }
+            }
+
+            foreach(var comStory in commStories)
+            {
+                foreach(var story in project.UserStories)
+                {
+                    if(story.Title == comStory.Title)
+                    {
+                        if(comStory.IsAccepted == true)
+                        {
+                            story.AcceptStatus = AcceptStatus.ACCEPTED;
+                        }
+                        else
+                        {
+                            story.AcceptStatus = AcceptStatus.DECLINED;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void TaskClaimedCallbackResult(Task task)
+        {
+            foreach(var task1 in LocalClientDatabase.Instance.AllTasks)
+            {
+                if(task1.Title == task.Title)
+                {
+                    task1.AssignStatus = AssignStatus.ASSIGNED;
+                    task1.EmployeeName = task.EmployeeName;
+                    task1.ProgressStatus = ProgressStatus.STARTED;
+                }
+            }
+        }
+
+        public void TaskCompletedCallbackResult(Task task)
+        {
+            foreach (var task1 in LocalClientDatabase.Instance.AllTasks)
+            {
+                if (task1.Title == task.Title)
+                {
+                    task1.ProgressStatus = ProgressStatus.COMPLETED;
                 }
             }
         }

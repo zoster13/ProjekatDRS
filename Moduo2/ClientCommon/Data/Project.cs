@@ -18,12 +18,23 @@ namespace ClientCommon.Data
         private AssignStatus assignStatus;
         private ProgressStatus progressStatus;
         private Team team;
+        private string hiringCompanyName;
 
         private List<UserStory> userStories;
 
         public Project()
         {
             userStories = new List<UserStory>();
+            assignStatus = AssignStatus.UNASSIGNED;
+            progressStatus = ProgressStatus.INPREP;
+        }
+
+        public Project(string projName, string hiringCompanyName)
+        {
+            userStories = new List<UserStory>();
+            assignStatus = AssignStatus.UNASSIGNED;
+            progressStatus = ProgressStatus.INPREP;
+            this.hiringCompanyName = hiringCompanyName;
         }
 
         [Key]
@@ -35,6 +46,13 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        [DataMember]
         public string TeamName
         {
             get { return teamName; }
@@ -42,11 +60,12 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public string Name
+        public string HiringCompanyName
         {
-            get { return name; }
-            set { name = value; }
+            get { return hiringCompanyName; }
+            set { hiringCompanyName = value; }
         }
+
 
         [DataMember]
         public AssignStatus AssignStatus
@@ -73,8 +92,10 @@ namespace ClientCommon.Data
         public Team Team
         {
             get { return team; }
-            set { team = value; }
+            set { team = value; teamName = team.Name; }
         }
+
+
 
         public override string ToString()
         {

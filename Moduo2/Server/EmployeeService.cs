@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Net;
 using System.ServiceModel;
 using Server.Logger;
+using ICommon;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -131,9 +132,12 @@ namespace Server
             Publisher.Instance.EditEmployeeCallback(employee);
         }
 
-        public void ProjectTeamAssign(string projName, string teamName)
+        public void ProjectTeamAssign(Project project)
         {
             throw new NotImplementedException();
+
+            // ako je tim lider online, treba mu poslati projekat (SAMO NJEMU), inace se stavlja u bazu
+            // mora se postaviti referenca projekta tj. izvuci tim iz baze
         }
 
         public void AddEmployee(Employee employee)
@@ -189,10 +193,55 @@ namespace Server
             }
         }
 
+        public void AddUserStory(UserStory userStory)
+        {
+            // dodaje user story u bazu, ne treba callback
+            throw new NotImplementedException();
+        }
+
+
+
+        public void AddTask(Task task)
+        {
+            // izvuce se user story iz baze na osnovu user storija iz taska( story ima title) i doda se task
+            // ne treba callback
+            throw new NotImplementedException();
+        }
+
+
+        public void ReleaseUserStory(UserStory userStory)
+        {
+            // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima kako bi oni mogli da preuzimaju taskove
+            throw new NotImplementedException();
+        }
+
+        public void TaskClaimed(Task task)
+        {
+            // rponaci task prema title i postaviti da je claimed i started, i postaviti ime employee-a
+            // callback TaskClaimedCallback(Task) za sve clanove tima, vratiti taj task
+            throw new NotImplementedException();
+        }
+
+        public void TaskCompleted(Task task)
+        {
+            // slicno kao claimed
+            throw new NotImplementedException();
+        }
+
         //IOutsourcingService
         public void ResponseToPartnershipRequest(bool accepted, string companyName)
         {
             Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
         }
+
+        public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
+        {
+            // salje listu user storija za projekat
+            // u nasu bazu abdejtuje status za projekat status pending
+            // ne treba callback
+            throw new NotImplementedException();
+        }
+
+        
     }
 }
