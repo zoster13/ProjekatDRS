@@ -5,17 +5,20 @@ using Server.Database;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using System.Data.SqlClient;
 using System.Timers;
 using System.Net.Mail;
 using System.Net;
 using System.ServiceModel;
+using Server.Logger;
+
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace Server
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
+        public static readonly log4net.ILog Logger = LogHelper.GetLogger();
         Timer lateOnJobTimer = new Timer();
 
         public EmployeeService()
@@ -25,45 +28,24 @@ namespace Server
             //lateOnJobTimer.Enabled = true;        
         }
 
-        private void NotifyOnLate(object sender, ElapsedEventArgs e)
-        {
-            string _senderEmailAddress = "blok4.moduo2@gmail.com";
-            string _senderPassword = "ftnnovisad";
-            Console.WriteLine("alarm...");
-            foreach (Employee em in InternalDatabase.Instance.AllEmployees) // slanje maila onima koji nisu online
-            {
-                if (!InternalDatabase.Instance.OnlineEmployees.Contains(em))
-                {
-                    DateTime current = DateTime.Now;
-                    DateTime workTimeEmployee = em.WorkingHoursStart;
-                    TimeSpan timeDiff = current - workTimeEmployee;
-                    TimeSpan allowed = new TimeSpan(0, 15, 0);
-
-                    if (timeDiff > allowed)
-                    {
-                        var client = new SmtpClient("smtp.gmail.com", 587)
-                        {
-                            Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
-                            EnableSsl = true
-                        };
-                        client.Send(_senderEmailAddress, em.Email, "Obavjestenje", "Zakasnili ste na posao!");
-                    }
-                }
-            }
-        }
-
+        
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
 
-            if(employee!=null && password.Equals(employee.Password))
+            if(employee != null && password.Equals(employee.Password))
             {
                 lock (InternalDatabase.Instance.LockerOnlineEmployees)
                 {
                     InternalDatabase.Instance.OnlineEmployees.Add(employee);
+                    Logger.Info(string.Format("Employee [{0}] is loged in.", email));
                 }
 
                 Publisher.Instance.LogInCallback(employee);
+            }
+            else
+            {
+                Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
             }
         }
 
@@ -76,6 +58,7 @@ namespace Server
                     lock (InternalDatabase.Instance.LockerOnlineEmployees)
                     {
                         InternalDatabase.Instance.OnlineEmployees.Remove(e);
+                        Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
                     }
                     break;
                 }
@@ -129,10 +112,12 @@ namespace Server
                     InternalDatabase.Instance.Teams.Add(team);
                 }
 
+                Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
                 Publisher.Instance.TeamAddedCallback(team, true);
             }
             else
             {
+                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
                 Publisher.Instance.TeamAddedCallback(team, false);
             }
         }
@@ -142,6 +127,7 @@ namespace Server
             EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
             //dodati i update u internoj bazi!!!
 
+            Logger.Info(string.Format("Employee [{0}] is edited.", employee.Email));
             Publisher.Instance.EditEmployeeCallback(employee);
         }
 
@@ -153,12 +139,14 @@ namespace Server
         public void AddEmployee(Employee employee)
         {
             EmployeeServiceDatabase.Instance.AddEmployee(employee);
+            Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
             Publisher.Instance.AddEmployeeCallback(employee);
 
             if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
             {
                 employee.Team.ScrumMasterEmail = employee.Email;
                 EmployeeServiceDatabase.Instance.UpdateScrumMaster(employee);
+                Logger.Info(string.Format("ScrumMaster [{0}] is updated.", employee.Name));
 
                 Publisher.Instance.ScrumMasterUpdatedCallback(employee.Team);
             }
@@ -167,11 +155,39 @@ namespace Server
         public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
         {
             EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
+            Logger.Info(string.Format("Employe [{0}] is updated your function and team.", employee.Name));
 
             Publisher.Instance.UpdateEmployeeFunctionAndTeamCallback(employee);
             Publisher.Instance.NotifyJustMe(employee);
         }
 
+        private void NotifyOnLate(object sender, ElapsedEventArgs e)
+        {
+            string _senderEmailAddress = "blok4.moduo2@gmail.com";
+            string _senderPassword = "ftnnovisad";
+            Console.WriteLine("alarm...");
+            foreach (Employee em in InternalDatabase.Instance.AllEmployees) // slanje maila onima koji nisu online
+            {
+                if (!InternalDatabase.Instance.OnlineEmployees.Contains(em))
+                {
+                    DateTime current = DateTime.Now;
+                    DateTime workTimeEmployee = em.WorkingHoursStart;
+                    TimeSpan timeDiff = current - workTimeEmployee;
+                    TimeSpan allowed = new TimeSpan(0, 15, 0);
+
+                    if (timeDiff > allowed)
+                    {
+                        var client = new SmtpClient("smtp.gmail.com", 587)
+                        {
+                            Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                            EnableSsl = true
+                        };
+                        client.Send(_senderEmailAddress, em.Email, "Obavjestenje", "Zakasnili ste na posao!");
+                        Logger.Info(string.Format("Employee [{0}] late on work.", em.Name));
+                    }
+                }
+            }
+        }
 
         //IOutsourcingService
         public void ResponseToPartnershipRequest(bool accepted, string companyName)

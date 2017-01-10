@@ -1,16 +1,17 @@
 ﻿using ClientCommon;
-using ClientCommon.Data;
 using Server.Access;
 using System;
 using System.Data.Entity;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using ICommon;
+using Server.Logger;
+
 
 namespace Server
 {
     class Program
-    {
+    {   
         static void Main(string[] args)
         {
             // set |DataDirectory|
@@ -31,7 +32,7 @@ namespace Server
             host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
             host.Open();
             Console.WriteLine("EmployeeService is started.");
-
+            
             //---OutsourcingService host
             NetTcpBinding bindingOutsourcingService = new NetTcpBinding();
             string addressOutsourcingService = "net.tcp://localhost:9998/OutsourcingService";
@@ -49,8 +50,8 @@ namespace Server
             //Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
             //EmployeeServiceDatabase.Instance.AddEmployee(em1);
 
-            OutsourcingService os = new OutsourcingService();
-            os.AskForPartnership("HiringCompany1");
+            //OutsourcingService os = new OutsourcingService();
+            //os.AskForPartnership("HiringCompany1");
 
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");
