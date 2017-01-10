@@ -155,11 +155,11 @@ namespace Client
 
 
         //IOutsorucingService
-        public void ResponseToPartnershipRequest(bool accepted)
+        public void ResponseToPartnershipRequest(bool accepted, string companyName)
         {
             try
             {
-                factory.ResponseToPartnershipRequest(accepted);
+                factory.ResponseToPartnershipRequest(accepted, companyName);
             }
             catch (Exception e)
             {

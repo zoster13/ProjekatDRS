@@ -6,20 +6,23 @@ using System.Collections.Generic;
 using Server.Database;
 using System.Linq;
 using Server.Access;
+using ICommon;
 
 namespace Server
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
-    public class Publisher : ICallbackMethods
+    public class Publisher : ICallbackMethods, IOutsourcingServiceCallback
     {
         private static Publisher instance;
         private static Dictionary<string, ICallbackMethods> employeeChannels;
+        private static Dictionary<string, IOutsourcingServiceCallback> companiesChannels;
 
         public Publisher()
         {
             if (instance == null)
             {
                 employeeChannels = new Dictionary<string, ICallbackMethods>();
+                companiesChannels = new Dictionary<string, IOutsourcingServiceCallback>();
                 instance = this;
             }
         }
@@ -224,8 +227,10 @@ namespace Server
         }
 
         //-------------------------IOutsourcingServiceCallbacks-------------------------------//
-        public void SendNotificationToCEO(Notification notification)
+        public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
         {
+            companiesChannels.Add(notification.HiringCompanyName, outsourcingCallbackChannel);
+
             //Obavjesti CEO ako je online da je dobio notif
             foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
             {
@@ -235,7 +240,7 @@ namespace Server
                     {
                         if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
                         {
-                            emp.Channel.SendNotificationToCEO(notification);
+                            emp.Channel.SendNotificationToCEO(notification, null);
                         }
                     }
                     catch (Exception e)
@@ -257,6 +262,23 @@ namespace Server
                     notification.Emoloyee = ceo;
                     EmployeeServiceDatabase.Instance.AddNotification(notification);
                 }
+            }
+        }
+
+        public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
+        {
+            IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompName];
+
+            try
+            {
+                if (((IClientChannel)ch).State == CommunicationState.Opened)
+                {
+                    ch.AskForPartnershipCallback(accepted, outsourcingCompName);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
             }
         }
     }

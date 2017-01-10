@@ -46,7 +46,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(true);
+                        LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(true, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
                         MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been accepted!");
                     }
                     else
@@ -71,7 +71,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(false);
+                        LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(false, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
 
                         MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been declined!");
                     }

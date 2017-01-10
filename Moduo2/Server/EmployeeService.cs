@@ -89,7 +89,7 @@ namespace Server
                 {
                     if (notif.Emoloyee == employeeInDB)
                     {
-
+                        //DOVRSITI!!!
                     }
                 }
             }
@@ -174,9 +174,9 @@ namespace Server
 
 
         //IOutsourcingService
-        public void ResponseToPartnershipRequest(bool accepted)
+        public void ResponseToPartnershipRequest(bool accepted, string companyName)
         {
-            
+            Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
         }
     }
 }

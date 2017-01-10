@@ -1,4 +1,5 @@
 ﻿using ClientCommon.Data;
+using ICommon;
 using System.ServiceModel;
 
 namespace ClientCommon
@@ -36,6 +37,6 @@ namespace ClientCommon
 
         //IOutsourcingServiceCallbacks
         [OperationContract(IsOneWay = true)]
-        void SendNotificationToCEO(Notification notification);
+        void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel);
     }
 }

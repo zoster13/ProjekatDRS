@@ -3,6 +3,7 @@ using System;
 using ClientCommon.Data;
 using System.ServiceModel;
 using System.Threading;
+using ICommon;
 
 namespace Client
 {
@@ -81,7 +82,7 @@ namespace Client
         }
 
         //IOutsourcingServiceCallbacks
-        public void SendNotificationToCEO(Notification notification)
+        public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {
