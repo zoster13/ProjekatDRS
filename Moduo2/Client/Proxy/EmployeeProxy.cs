@@ -157,7 +157,14 @@ namespace Client
         //IOutsorucingService
         public void ResponseToPartnershipRequest(bool accepted)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.ResponseToPartnershipRequest(accepted);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to ResponseToPartnershipRequest: {0}", e.Message);
+            }
         }
     }
 }
