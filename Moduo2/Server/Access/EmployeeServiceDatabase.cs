@@ -162,5 +162,24 @@ namespace Server.Access
                 con.Close();
             }
         }
+
+        public void UpdateScrumMaster(Employee employee)
+        {
+            //Update in Database
+            string commandText = "UPDATE Teams SET ScrumMasterEmail = @email Where Name=@teamName";
+
+            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+            SqlConnection con = new SqlConnection(constr);
+            SqlCommand updateCommand = new SqlCommand(commandText, con);
+            updateCommand.Parameters.AddWithValue("@email", employee.Email);
+            updateCommand.Parameters.AddWithValue("@teamName", employee.Team.Name);
+            
+            lock (lockObjectTeams)
+            {
+                con.Open();
+                updateCommand.ExecuteNonQuery();
+                con.Close();
+            }
+        }
     }
 }
