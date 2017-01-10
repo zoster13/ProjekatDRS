@@ -67,15 +67,12 @@ namespace Server
             }
         }
 
-        public void LogOut(string email)
+        public void LogOut(Employee employee)
         {
-            Employee employee = null;
-            
             foreach (Employee e in InternalDatabase.Instance.OnlineEmployees)
             {
-                if(e.Email.Equals(email))
+                if(e.Email.Equals(employee.Email))
                 {
-                    employee = e;
                     lock (InternalDatabase.Instance.LockerOnlineEmployees)
                     {
                         InternalDatabase.Instance.OnlineEmployees.Remove(e);

@@ -11,7 +11,7 @@ namespace ClientCommon
         void LogIn(string email, string password);
 
         [OperationContract(IsOneWay = false, IsInitiating = true)]
-        void LogOut(string email);
+        void LogOut(Employee employee);
 
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         void AddTeam(Team team);
