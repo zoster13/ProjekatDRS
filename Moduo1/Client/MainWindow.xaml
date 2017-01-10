@@ -202,9 +202,9 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </DataGrid.RowStyle>
-                                                <DataGrid.Columns>
+                                                <!--<DataGrid.Columns>
                                                     <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
-                                                </DataGrid.Columns>
+                                                </DataGrid.Columns>-->
                                             </DataGrid>
                                             <Label Content="Select company and send partnership request:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="337"/>
                                             <Button x:Name="PartnershipRequestCEO_button" Content="Send partnership request" HorizontalAlignment="Left" Margin="60,274,0,0" VerticalAlignment="Top" Width="152" Height="27" Click="PartnershipRequestCEOButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>

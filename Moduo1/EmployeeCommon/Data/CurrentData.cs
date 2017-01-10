@@ -15,12 +15,14 @@ namespace EmployeeCommon
         private List<Employee> employeesData;
         private List<Employee> allEmployeesData;
         private List<Project> projectsForApprovalData;
+        private List<String> namesOfCompaniesData;
         
         public CurrentData()
         {
             employeesData = new List<Employee>();
             allEmployeesData = new List<Employee>();
             projectsForApprovalData = new List<Project>();
+            namesOfCompaniesData = new List<string>();
         }
 
        
@@ -55,6 +57,13 @@ namespace EmployeeCommon
         {
             get { return projectsForApprovalData; }
             set { projectsForApprovalData = value; }
+        }
+
+        [DataMember]
+        public List<String> NamesOfCompaniesData 
+        {
+            get { return namesOfCompaniesData; }
+            set { namesOfCompaniesData = value; }
         }
 
     }

@@ -14,12 +14,14 @@ namespace Client
         public object AllEmployees_lock = new object();
         public object Projects_lock = new object();
         public object ProjectsForApproval_lock = new object();
+        public object NamesOfCompanies_lock = new object();
 
         private BindingList<Employee> employees;
         private BindingList<Employee> allEmployees;
         private BindingList<Project> projects;
         private BindingList<PartnerCompany> companies; //ovo je lista partneskih kompanija
         //trebace i da se napravi lista kompanija koje jos uvak nisu partnerske,vec su samo konektovane sa nasim serverom
+        private BindingList<string> namesOfCompanies;
 
         private BindingList<Project> projectsForApproval;
 
@@ -35,6 +37,7 @@ namespace Client
             allEmployees = new BindingList<Employee>();
             projects = new BindingList<Project>();
             companies = new BindingList<PartnerCompany>();
+            namesOfCompanies = new BindingList<string>();
 
             projectsForApproval = new BindingList<Project>();
         }
@@ -69,6 +72,12 @@ namespace Client
         {
             get { return companies; }
             set { companies = value; }
+        }
+
+        public BindingList<string> NamesOfCompanies 
+        {
+            get { return namesOfCompanies; }
+            set { namesOfCompanies = value; }
         }
 
         public BindingList<Project> ProjectsForApproval

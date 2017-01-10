@@ -41,6 +41,7 @@ namespace Client
             dataGridCEO.DataContext = clientDB.AllEmployees;
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
             WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
+            dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
 
             foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
@@ -263,6 +264,16 @@ namespace Client
             }
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
 
+            lock (clientDB.NamesOfCompanies_lock) 
+            {
+                if (clientDB.NamesOfCompanies.Count != 0) 
+                {
+                    clientDB.NamesOfCompanies.Clear();
+                }
+                clientDB.NamesOfCompanies = new BindingList<string>(data.NamesOfCompaniesData);
+            }
+            dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
+            
             FillHomeLabels();
         }
 
