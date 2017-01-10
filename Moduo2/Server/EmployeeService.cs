@@ -71,7 +71,7 @@ namespace Server
         {
             foreach (Employee e in InternalDatabase.Instance.OnlineEmployees)
             {
-                if(e.Email.Equals(employee.Email))
+                if (e.Email.Equals(employee.Email))
                 {
                     lock (InternalDatabase.Instance.LockerOnlineEmployees)
                     {
@@ -81,9 +81,18 @@ namespace Server
                 }
             }
 
-            //Employee employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
-            //employeeInDB.Notifications = employee.Notifications;
-            //EmployeeServiceDatabase.Instance.UpdateEmployeeNotifications(employeeInDB);
+            Employee employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
+
+            using (var access = new AccessDB())
+            {
+                foreach (Notification notif in access.Notifications.ToList())
+                {
+                    if (notif.Emoloyee == employeeInDB)
+                    {
+
+                    }
+                }
+            }
 
             Publisher.Instance.LogOutCallback(employee);
         }

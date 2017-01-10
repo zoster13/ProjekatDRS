@@ -226,6 +226,7 @@ namespace Server
         //-------------------------IOutsourcingServiceCallbacks-------------------------------//
         public void SendNotificationToCEO(Notification notification)
         {
+            //Obavjesti CEO ako je online da je dobio notif
             foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
             {
                 if (emp.Type.Equals(EmployeeType.CEO))
@@ -246,6 +247,7 @@ namespace Server
                 }
             }
 
+            //Sacauvaj u bazi
             foreach (Employee emp in InternalDatabase.Instance.AllEmployees)
             {
                 if (emp.Type.Equals(EmployeeType.CEO))
@@ -255,7 +257,6 @@ namespace Server
                     notification.Emoloyee = ceo;
                     EmployeeServiceDatabase.Instance.AddNotification(notification);
                 }
-
             }
         }
     }
