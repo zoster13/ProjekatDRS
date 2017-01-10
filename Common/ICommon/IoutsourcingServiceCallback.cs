@@ -10,6 +10,6 @@ namespace ICommon
     public interface IOutsourcingServiceCallback
     {
         [OperationContract(IsOneWay = true)]
-        void AskForPartnershipCallback(bool accepted);
+        void AskForPartnershipCallback(bool accepted, string outsourcingCompName);
     }
 }

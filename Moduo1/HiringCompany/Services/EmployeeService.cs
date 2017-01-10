@@ -70,8 +70,10 @@ namespace HiringCompany.Services
             if(employee != null && password.Equals(employee.Password))
             {
                 IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-                hiringCompanyDB.ConnectionChannels.Add(username, callback); // kad ne ugasis server, a klijent se ponovo poveze, puca posto taj username postoji
+                hiringCompanyDB.ConnectionChannelsClients.Add(username, callback); // kad ne ugasis server, a klijent se ponovo poveze, puca posto taj username postoji
                 // nesto se desi, kad apredugo ceka na klijenta i klijent se ugasi ne izbrise ga...
+                // an item with the same key has already be added, s vremena na vreme greska -> ne izbrise se iz tabele red u sign out? ili od negde
+                // to jest iz diktionarija se ne izbrise kako treba, hm :O 
 
                 lock(hiringCompanyDB.Employees_lock)
                 {
@@ -79,18 +81,6 @@ namespace HiringCompany.Services
                 }
 
                 SyncAll();
-
-                //CurrentData cData = new CurrentData();
-                //cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-                //cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-                //cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-
-                //foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
-                //{
-                //    call.SyncData(cData);
-                //}
-
-                // return employee;
             }
             else
             {
@@ -117,19 +107,10 @@ namespace HiringCompany.Services
                 }
 
                 hiringCompanyDB.OnlineEmployees.Remove(employee);
-                hiringCompanyDB.ConnectionChannels.Remove(username);
+                hiringCompanyDB.ConnectionChannelsClients.Remove(username);
             }
 
             SyncAll();
-            //CurrentData cData = new CurrentData();
-            //cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-            //cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            //cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-            //foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
-            //{
-            //    call.SyncData(cData);
-            //}
-
         }
 
         public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
@@ -234,15 +215,6 @@ namespace HiringCompany.Services
             }
 
             SyncAll();
-            //CurrentData cData = new CurrentData();
-            //cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-            //cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            //cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-
-            //foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
-            //{
-            //    call.SyncData(cData);
-            //}
         }
 
         public void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM)
@@ -311,20 +283,11 @@ namespace HiringCompany.Services
             }
 
             SyncAll();
-            //CurrentData cData = new CurrentData();
-            //cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-            //cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            //cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-
-            //foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
-            //{
-            //    call.SyncData(cData);
-            //}
         }
 
         public void AskForPartnership(string outsorcingCompanyName)
         {
-           string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsorcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
+           string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
             
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -339,22 +302,16 @@ namespace HiringCompany.Services
 
             // izbrisati iz liste, i dodati ako negde nesto treba
             outsorcingProxy = new OutsorcingCompProxy(instanceContext, binding, endpointAddress);
+            // sacuvati proxy, namestiti lockovabhe
+            hiringCompanyDB.ConnectionChannelsCompanies.Add(outsorcingCompanyName, outsorcingProxy);
+            
+            outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);
         }
 
         public void AddNewEmployee(Employee em)
         {
             hiringCompanyDB.AddNewEmployee(em);
-
             SyncAll();
-            //CurrentData cData = new CurrentData();
-            //cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-            //cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            //cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-
-            //foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
-            //{
-            //    call.SyncData(cData);
-            //}
         }
 
         public void ChangeEmployeeType(string username, EmployeeType type)
@@ -413,15 +370,6 @@ namespace HiringCompany.Services
             }
 
             SyncAll();
-            //CurrentData cData = new CurrentData();
-            //cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-            //cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            //cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-
-            //foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
-            //{
-            //    call.SyncData(cData);
-            //}
         }
 
         public void ProjectOverview()
@@ -443,7 +391,7 @@ namespace HiringCompany.Services
                 {
                     if(em.Type == EmployeeType.CEO)
                     {
-                        foreach(KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannels)
+                        foreach(KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
                         {
                             if(pair.Key.Equals(em.Username))
                             {
@@ -451,6 +399,8 @@ namespace HiringCompany.Services
                                 cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
                                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                                cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
+
                                 pair.Value.SyncData(cData);
                                 pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
                                 //treba napraviti metodu koja notifikuje CEO da treba da potvrdi projekat
@@ -501,12 +451,13 @@ namespace HiringCompany.Services
                 {
                     if(em.Type == EmployeeType.CEO)
                     {
-                        foreach(KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannels)
+                        foreach(KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
                         {
                             CurrentData cData = new CurrentData();
                             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
                             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                            cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
                             pair.Value.SyncData(cData);
 
                             if(!isNotificationSent)
@@ -546,20 +497,7 @@ namespace HiringCompany.Services
                     }
                 }
             }
-
         }
-
-        //var callback = hiringCompanyDB.ConnectionChannels[p.ProductOwner];
-        //try
-        //{
-
-        //    callback.NotifyPO(string.Format("Project {0} is approved.",p.Name));
-        //}
-        //catch (Exception)
-        //{
-
-        //    throw;
-        //}
 
         private void SyncAll()
         {
@@ -569,7 +507,7 @@ namespace HiringCompany.Services
             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
-            foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
+            foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannelsClients.Values)
             {
                 call.SyncData(cData);
             }

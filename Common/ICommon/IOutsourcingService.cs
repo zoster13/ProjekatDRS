@@ -7,7 +7,7 @@ using System.ServiceModel;
 
 namespace ICommon
 {
-    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IOutsourcingService))]
+    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IOutsourcingServiceCallback))]
     public interface IOutsourcingService
     {
         [OperationContract(IsOneWay = false, IsInitiating = true)]

@@ -14,7 +14,6 @@ namespace HiringCompany.DatabaseAccess
 
         public DbSet<Employee> employees { get; set; }
         public DbSet<Project> projects { get; set; }
-        
-        // dodati companies
+        public DbSet<PartnerCompany> companies { get; set; }
     }
 }
