@@ -36,7 +36,8 @@ namespace Client.Views.Notifications
             switch (notification.Type)
             {
                 case NotificationType.REQUEST_FOR_PARTNERSHIP:
-
+                    HiringCompany hiringCompany = new HiringCompany();
+                   // hiringCompany.Name = 
                     break;
             }
         }

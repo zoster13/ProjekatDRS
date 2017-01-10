@@ -13,6 +13,7 @@ namespace ClientCommon.Data
         protected DateTime notificationStamp;
         protected NotificationStatus status;
         protected string message;
+        private string hiringCompanyName;
         
         public Notification()
         {
@@ -71,6 +72,13 @@ namespace ClientCommon.Data
         {
             get { return message; }
             set { message = value; }
+        }
+
+        [DataMember]
+        public string HiringCompanyName
+        {
+            get { return hiringCompanyName; }
+            set { hiringCompanyName = value; }
         }
     }
 }
