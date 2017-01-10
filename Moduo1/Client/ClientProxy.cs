@@ -75,11 +75,11 @@ namespace Client
             }
         }
 
-        public void AskForPartnership()
+        public void AskForPartnership(string companyName)
         {
             try
             {
-
+                factory.AskForPartnership(companyName);
             }
             catch (Exception)
             {

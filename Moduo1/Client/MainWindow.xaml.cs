@@ -395,7 +395,7 @@ namespace Client
 
         private void PartnershipRequestCEOButton_Click(object sender, RoutedEventArgs e)
         {
-
+            proxy.AskForPartnership((string)dataGrid_NotPartnerCompanies.SelectedItem);
         }
 
         private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
