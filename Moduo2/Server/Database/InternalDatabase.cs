@@ -12,9 +12,19 @@ namespace Server.Database
         private static List<Employee> allEmployees;
         private static List<Team> teams;
 
+        private object lockerOnlineEmployees;
+        private object lockerAllEmployees;
+        private object lockerTeams;
+
+
         private InternalDatabase()
         {
             onlineEmployees = new List<Employee>();
+            allEmployees = new List<Employee>();
+
+            lockerAllEmployees = new object();
+            lockerOnlineEmployees = new object();
+            lockerTeams = new object();
 
             using (var access = new AccessDB())
             {
@@ -65,5 +75,22 @@ namespace Server.Database
             }
             set { allEmployees = value; }
         }
+
+        public object LockerAllEmployees
+        {
+            get { return this.lockerAllEmployees; }
+            set { lockerAllEmployees = value; }
+        }
+        public object LockerOnlineEmployees
+        {
+            get { return this.lockerOnlineEmployees; }
+            set { lockerOnlineEmployees = value; }
+        }
+        public object LockerTeams
+        {
+            get { return this.lockerTeams; }
+            set { lockerTeams = value; }
+        }
+
     }
 }

@@ -58,7 +58,10 @@ namespace Server
 
             if(employee!=null && password.Equals(employee.Password))
             {
-                InternalDatabase.Instance.OnlineEmployees.Add(employee);
+                lock (InternalDatabase.Instance.LockerOnlineEmployees)
+                {
+                    InternalDatabase.Instance.OnlineEmployees.Add(employee);
+                }
 
                 Publisher.Instance.LogInCallback(employee);
             }
@@ -73,7 +76,10 @@ namespace Server
                 if(e.Email.Equals(email))
                 {
                     employee = e;
-                    InternalDatabase.Instance.OnlineEmployees.Remove(e);
+                    lock (InternalDatabase.Instance.LockerOnlineEmployees)
+                    {
+                        InternalDatabase.Instance.OnlineEmployees.Remove(e);
+                    }
                     break;
                 }
             }
@@ -108,7 +114,10 @@ namespace Server
         {
             if (EmployeeServiceDatabase.Instance.AddTeam(team))
             {
-                InternalDatabase.Instance.Teams.Add(team);
+                lock (InternalDatabase.Instance.LockerTeams)
+                {
+                    InternalDatabase.Instance.Teams.Add(team);
+                }
 
                 Publisher.Instance.TeamAddedCallback(team, true);
             }
@@ -121,6 +130,7 @@ namespace Server
         public void EditEmployeeData(Employee employee)
         {
             EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
+            //dodati i update u internoj bazi!!!
 
             Publisher.Instance.EditEmployeeCallback(employee);
         }

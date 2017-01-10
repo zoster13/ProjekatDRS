@@ -1,15 +1,14 @@
 ﻿using ClientCommon.Data;
-using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 using System.Data.SqlClient;
-using System;
 
 namespace Server.Access
 {
     public class EmployeeServiceDatabase : IEmployeeServiceDatabase
     {
         private static IEmployeeServiceDatabase myDB;
+        private static object lockObjectEmployees;
+        private static object lockObjectTeams;
 
         public static IEmployeeServiceDatabase Instance
         {
@@ -18,6 +17,8 @@ namespace Server.Access
                 if(myDB == null)
                 {
                     myDB = new EmployeeServiceDatabase();
+                    lockObjectEmployees = new object();
+                    lockObjectTeams = new object();
                 }
 
                 return myDB;
@@ -42,7 +43,11 @@ namespace Server.Access
                     employee.Team = team;
                 }
 
-                access.Employees.Add(employee);
+                lock (lockObjectEmployees)
+                {
+                    access.Employees.Add(employee);
+                }
+
                 int i = access.SaveChanges();
 
                 if (i > 0)
@@ -70,9 +75,12 @@ namespace Server.Access
                 updateCommand.Parameters.AddWithValue("@email", employee.Email);
                 updateCommand.Parameters.AddWithValue("@team", newTeam.Id);
 
-                con.Open();
-                updateCommand.ExecuteNonQuery();
-                con.Close();
+                lock (lockObjectEmployees)
+                {
+                    con.Open();
+                    updateCommand.ExecuteNonQuery();
+                    con.Close();
+                }
             }
         }
 
@@ -104,9 +112,12 @@ namespace Server.Access
 
                 if (team1.ToList().FirstOrDefault() == null)
                 {
-                    access.Teams.Add(team);
-                    int i = access.SaveChanges();
+                    lock (lockObjectTeams)
+                    {
+                        access.Teams.Add(team);
+                    }
 
+                    int i = access.SaveChanges();
                     if (i > 0)
                         return true;
                     return false;
@@ -143,10 +154,13 @@ namespace Server.Access
             updateCommand.Parameters.AddWithValue("@password", employee.Password);
             updateCommand.Parameters.AddWithValue("@workingHoursStart", employee.WorkingHoursStart.ToString());
             updateCommand.Parameters.AddWithValue("@workingHoursEnd", employee.WorkingHoursEnd.ToString());
-            
-            con.Open();
-            updateCommand.ExecuteNonQuery();
-            con.Close();
+
+            lock (lockObjectEmployees)
+            {
+                con.Open();
+                updateCommand.ExecuteNonQuery();
+                con.Close();
+            }
         }
     }
 }
