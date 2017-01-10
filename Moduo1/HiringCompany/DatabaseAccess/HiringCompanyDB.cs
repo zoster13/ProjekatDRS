@@ -25,8 +25,8 @@ namespace HiringCompany.DatabaseAccess
 
         private string companyName = "HiringCompany";// company name, videti gde ga cuvati, neki fajl ili slicno.. 
         private List<Employee> onlineEmployees;
-        private List<Employee> allEmployees; // ne koristimo
-        private List<Project> projectsForApproval; // u mdf
+       // private List<Employee> allEmployees; // ne koristimo
+       // private List<Project> projectsForApproval; // u mdf
         private Dictionary<string, string> partnerCompaniesAddresses; // ["companyName", "ipaddress:port"]
         private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; // treba zakljucavati
         Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
@@ -36,13 +36,13 @@ namespace HiringCompany.DatabaseAccess
         private HiringCompanyDB()
         {
             onlineEmployees = new List<Employee>();
-            allEmployees = new List<Employee>();
-            projectsForApproval = new List<Project>();
+           // allEmployees = new List<Employee>();
+          //  projectsForApproval = new List<Project>();
             partnerCompaniesAddresses = new Dictionary<string, string>();
             connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
             connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();
 
-            partnerCompaniesAddresses.Add("ZekaMisa", "10.1.212.114:9998");
+            partnerCompaniesAddresses.Add("cekic", "10.1.212.114:9998");
         }
 
 
@@ -70,7 +70,7 @@ namespace HiringCompany.DatabaseAccess
                     return employees.ToList();
                 }
             }
-            set { allEmployees = value; } // ne koristimo nigde
+           // set { allEmployees = value; } // ne koristimo nigde
         }
 
         public List<PartnerCompany> PartnerCompanies
@@ -88,8 +88,33 @@ namespace HiringCompany.DatabaseAccess
 
         public List<Project> ProjectsForApproval
         {
-            get { return projectsForApproval; }
-            set { projectsForApproval = value; }
+            get 
+            {
+                using (var access = new AccessDB())
+                {
+                    var projectsForA = from proj in access.projects
+                                       where proj.IsAcceptedCEO == false
+                                       select proj;
+
+                    return projectsForA.ToList();
+                }
+            }
+           // set { projectsForApproval = value; }
+        }
+
+        public List<Project> ProjectsForSending 
+        {
+            get
+            {
+                using (var access = new AccessDB())
+                {
+                    var projectsForS = from proj in access.projects
+                                       where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
+                                       select proj;
+
+                    return projectsForS.ToList();
+                }
+            }
         }
 
         public Dictionary<string, IEmployeeServiceCallback> ConnectionChannelsClients
@@ -193,5 +218,37 @@ namespace HiringCompany.DatabaseAccess
             }
             return false;
         }
+
+        public bool AddNewProject(Project project)
+        {
+            try
+            {
+                var access = new AccessDB();
+                access.projects.Add(project);
+                int i = access.SaveChanges(); // srediti ovo, da ne moze u bazu da se doda ono sto vec psotoji  
+
+                if (i > 0)
+                    return true;
+                return false;
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
+            return false;
+        }
+
+        
     }
 }

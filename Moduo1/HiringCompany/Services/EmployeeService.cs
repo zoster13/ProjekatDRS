@@ -35,7 +35,7 @@ namespace HiringCompany.Services
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
-            string _senderEmailAddress = "mzftn123fakultet@gmail.com";
+            string _senderEmailAddress = "mzftn123fakultet@gmail.com"; // i ovo cuvati u nekom fajlu
             string _senderPassword = "miljanazvezdana123";
             Console.WriteLine("alarm...");
             foreach(Employee em in hiringCompanyDB.AllEmployees)
@@ -379,13 +379,11 @@ namespace HiringCompany.Services
 
         public void CreateNewProject(Project p)
         {
-            lock(hiringCompanyDB.ProjectsForApproval_lock)
-            {
-                hiringCompanyDB.ProjectsForApproval.Add(p);
-            }
+            hiringCompanyDB.AddNewProject(p); // onaj neki lock
 
             try
             {
+                // lepse napisati, sa linq
                 var access = new AccessDB();
                 foreach(Employee em in access.employees)
                 {
@@ -395,8 +393,10 @@ namespace HiringCompany.Services
                         {
                             if(pair.Key.Equals(em.Username))
                             {
+                                // videti da organizujes ovo, neka metoda nesto ili konstruktor
                                 CurrentData cData = new CurrentData();
                                 cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+                                cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSending;
                                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                                 cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
@@ -431,18 +431,38 @@ namespace HiringCompany.Services
 
         public void ProjectApproved(Project p) // treba pozvati NotifyPO
         {
-            lock(hiringCompanyDB.ProjectsForApproval_lock)
-            {
-                foreach(Project proj in hiringCompanyDB.ProjectsForApproval)
-                {
-                    if(proj.Name.Equals(p.Name))
-                    {
-                        hiringCompanyDB.ProjectsForApproval.Remove(proj);
-                        break;
-                    }
-                }
+            //lock(hiringCompanyDB.ProjectsForApproval_lock)
+            //{
+               // foreach(Project proj in hiringCompanyDB.ProjectsForApproval)
+               // {
+                   // if(proj.Name.Equals(p.Name))
+                  //  {
+                       // hiringCompanyDB.ProjectsForApproval.Remove(proj);
 
-            }
+                        try
+                        {
+                            var access = new AccessDB();
+                            var project = from proj in access.projects
+                                          where proj.Name.Equals(p.Name)
+                                          select proj;
+
+                            var pr = project.ToList().FirstOrDefault();
+
+                            pr.IsAcceptedCEO = true;
+                            access.SaveChanges();
+
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+
+                       // break;
+                   // }
+               // }
+
+           // }
 
             try
             {
@@ -456,6 +476,7 @@ namespace HiringCompany.Services
                         {
                             CurrentData cData = new CurrentData();
                             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+                            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSending;
                             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
@@ -507,6 +528,7 @@ namespace HiringCompany.Services
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSending;
             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 

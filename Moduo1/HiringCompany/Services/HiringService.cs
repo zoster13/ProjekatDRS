@@ -9,7 +9,7 @@ namespace HiringCompany.Services
 {
     public class HiringService : IOutsourcingServiceCallback
     {
-        public void AskForPartnershipCallback(bool accepted)
+        public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
         {
             
         }
