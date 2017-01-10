@@ -5,6 +5,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ICommon;
 
 namespace HiringCompany.DatabaseAccess
 {
@@ -12,22 +13,31 @@ namespace HiringCompany.DatabaseAccess
     {
         private static HiringCompanyDB myDB;
 
+        // zasto su public objecti?
         public object Employees_lock = new object();
         public object AllEmployees_lock = new object();
         public object ProjectsForApproval_lock = new object();
+        public object PartnerCompaniesAddresses_lock = new object();
+        
+        // lockovi za connection channele
 
         private List<Employee> onlineEmployees;
         private List<Employee> allEmployees;
         private List<Project> projectsForApproval;
-        Dictionary<string, IEmployeeServiceCallback> connectionChannels;
-        //morace biti ovakav dictionary i za konekcije sa drugim serverom
+        private Dictionary<string, string> partnerCompaniesAddresses; // ["companyName", "ipaddress:port"]
+        private Dictionary<string, IOutsourcingService> connectionChannelsCompanies;
+        Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
+
+        
 
         private HiringCompanyDB()
         {
             onlineEmployees = new List<Employee>();
             allEmployees = new List<Employee>();
             projectsForApproval = new List<Project>();
-            connectionChannels = new Dictionary<string, IEmployeeServiceCallback>();
+            partnerCompaniesAddresses = new Dictionary<string, string>();
+            connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
+            connectionChannelsCompanies = new Dictionary<string, IOutsourcingService>();
         }
 
         public List<Employee> OnlineEmployees
@@ -59,8 +69,14 @@ namespace HiringCompany.DatabaseAccess
 
         public Dictionary<string, IEmployeeServiceCallback> ConnectionChannels
         {
-            get { return connectionChannels; }
-            set { connectionChannels = value; }
+            get { return connectionChannelsClients; }
+            set { connectionChannelsClients = value; }
+        }
+
+        public Dictionary<string,string> PartnerCompaniesAddresses
+        {
+            get { return partnerCompaniesAddresses; }
+            set { partnerCompaniesAddresses = value; }
         }
 
         public static HiringCompanyDB Instance()
@@ -69,6 +85,8 @@ namespace HiringCompany.DatabaseAccess
                 myDB = new HiringCompanyDB();
             return myDB;
         }
+
+        
 
         // valjda treba da ima neka metoda za brisanje employee-a? 
 

@@ -71,9 +71,14 @@
     <Compile Include="DatabaseAccess\AccessDB.cs" />
     <Compile Include="DatabaseAccess\DBConfiguration.cs" />
     <Compile Include="DatabaseAccess\HiringCompanyDB.cs" />
+    <Compile Include="OutsorcingCompProxy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OutsorcingServiceCallback.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HiringService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -96,10 +101,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="PartnerCompaniesMng\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ICommon\ICommon.csproj">
+      <Project>{32fb816c-6a52-4ec3-a6ef-d577e56a9e2c}</Project>
+      <Name>ICommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EmployeeCommon\EmployeeCommon.csproj">
       <Project>{f52c7068-8a38-4d65-a13c-4ff1453f6b83}</Project>
       <Name>EmployeeCommon</Name>

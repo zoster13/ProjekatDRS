@@ -26,7 +26,7 @@ namespace EmployeeCommon
 
         // CEO
         [OperationContract]
-        void AskForPartnership();
+        void AskForPartnership(string companyName);
 
         // CEO, HR
         [OperationContract]

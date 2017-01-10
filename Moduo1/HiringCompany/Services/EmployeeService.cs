@@ -10,16 +10,19 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using ICommon;
 
 namespace HiringCompany.Services
 {
+
+    // videti da li je baza koju koristimo mdf sigurna, treba je lockovati
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
       ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
         HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
-
+        OutsorcingCompProxy outsorcingProxy;
         System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
 
         public EmployeeService()
@@ -319,9 +322,23 @@ namespace HiringCompany.Services
             //}
         }
 
-        public void AskForPartnership()
+        public void AskForPartnership(string outsorcingCompanyName)
         {
-            throw new NotImplementedException();
+           string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsorcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
+            
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(outsorcingSvcEndpoint));
+            IOutsourcingServiceCallback callback = new OutsorcingServiceCallback();
+            InstanceContext instanceContext = new InstanceContext(callback);
+
+
+            // izbrisati iz liste, i dodati ako negde nesto treba
+            outsorcingProxy = new OutsorcingCompProxy(instanceContext, binding, endpointAddress);
         }
 
         public void AddNewEmployee(Employee em)
@@ -550,6 +567,7 @@ namespace HiringCompany.Services
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+            cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
             foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannels.Values)
             {
