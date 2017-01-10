@@ -399,6 +399,7 @@ namespace HiringCompany.Services
                                 cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
                                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                                cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
                                 cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
                                 pair.Value.SyncData(cData);
@@ -457,6 +458,7 @@ namespace HiringCompany.Services
                             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
                             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
+                            cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
                             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
                             pair.Value.SyncData(cData);
 
@@ -505,6 +507,7 @@ namespace HiringCompany.Services
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
             cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
+            cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
             foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannelsClients.Values)
