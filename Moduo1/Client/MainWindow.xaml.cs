@@ -42,6 +42,7 @@ namespace Client
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
             WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
+            approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
 
             foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
@@ -283,6 +284,16 @@ namespace Client
                 clientDB.Companies = new BindingList<PartnerCompany>(data.CompaniesData);
             }
             companiesDataGrid.DataContext = clientDB.Companies;
+
+            lock (clientDB.ProjectsForSending_lock) 
+            {
+                if (clientDB.ProjectsForSending.Count != 0) 
+                {
+                    clientDB.ProjectsForSending.Clear();
+                }
+                clientDB.ProjectsForSending = new BindingList<Project>(data.ProjectsForSendingData);
+            }
+            approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
             
             FillHomeLabels();
         }
@@ -437,17 +448,6 @@ namespace Client
             lock(clientDB.ProjectsForApproval_lock)
             {
                 proxy.ProjectApproved(proj); //u ProjectApproved metodi na serveru treba da se promeni polje isApprovedCEO da bude true
-                
-                //foreach (Project p in clientDB.ProjectsForApproval)
-                //{
-                //    if (p.Name.Equals(proj.Name))
-                //    {
-                //        //clientDB.ProjectsForApproval.Remove(p);
-                //proxy.ProjectApproved(p);
-
-                //break;
-                //    }
-                //}
             }
             //dodati liste projekata(verovatno ih ima vise) i u pravu serversku bazu,ne samo u memoriju
             //dodati proj u listu odobrenih projekata
@@ -482,10 +482,8 @@ namespace Client
             tb.Width = 128;
 
             Border myBorder = new Border();
-            // myBorder.Background = Brushes.SkyBlue;
             BrushConverter bc = new BrushConverter();
             myBorder.Background = (Brush)bc.ConvertFrom("#FFFAFBFE");
-            //myBorder.BorderBrush = Brushes.Black;  
             myBorder.BorderBrush = (Brush)bc.ConvertFrom("#FFACACAC");
             myBorder.BorderThickness = new Thickness(1);
             myBorder.Child = tb;
