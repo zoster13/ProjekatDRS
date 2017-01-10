@@ -41,5 +41,8 @@ namespace ClientCommon
 
         [OperationContract]
         void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
+
+        [OperationContract]
+        void ResponseToPartnershipRequest(bool accepted);
     }
 }

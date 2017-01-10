@@ -152,5 +152,12 @@ namespace Client
                 Console.WriteLine("Error while trying to UpdateEmployeeFunctionAndTeam: {0}", e.Message);
             }
         }
+
+
+        //IOutsorucingService
+        public void ResponseToPartnershipRequest(bool accepted)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
