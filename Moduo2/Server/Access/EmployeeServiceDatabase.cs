@@ -1,6 +1,7 @@
 ﻿using ClientCommon.Data;
 using System.Linq;
 using System.Data.SqlClient;
+using System;
 
 namespace Server.Access
 {
@@ -9,6 +10,7 @@ namespace Server.Access
         private static IEmployeeServiceDatabase myDB;
         private static object lockObjectEmployees;
         private static object lockObjectTeams;
+        private static object lockObjectNotifications;
 
         public static IEmployeeServiceDatabase Instance
         {
@@ -19,6 +21,7 @@ namespace Server.Access
                     myDB = new EmployeeServiceDatabase();
                     lockObjectEmployees = new object();
                     lockObjectTeams = new object();
+                    lockObjectNotifications = new object();
                 }
 
                 return myDB;
@@ -179,6 +182,18 @@ namespace Server.Access
                 con.Open();
                 updateCommand.ExecuteNonQuery();
                 con.Close();
+            }
+        }
+
+        public void AddNotification(Notification notification)
+        {
+            using (var access = new AccessDB())
+            {
+                lock (lockObjectNotifications)
+                {
+                    access.Notifications.Add(notification);
+                }
+                access.SaveChanges();
             }
         }
     }

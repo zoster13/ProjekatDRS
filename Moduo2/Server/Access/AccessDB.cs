@@ -10,6 +10,8 @@ namespace Server.Access
         public DbSet<Employee> Employees { get; set; }
 
         public DbSet<Team> Teams { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
     }
 
 }

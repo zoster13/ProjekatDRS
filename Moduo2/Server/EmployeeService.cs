@@ -80,7 +80,11 @@ namespace Server
                     break;
                 }
             }
-            
+
+            //Employee employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
+            //employeeInDB.Notifications = employee.Notifications;
+            //EmployeeServiceDatabase.Instance.UpdateEmployeeNotifications(employeeInDB);
+
             Publisher.Instance.LogOutCallback(employee);
         }
         

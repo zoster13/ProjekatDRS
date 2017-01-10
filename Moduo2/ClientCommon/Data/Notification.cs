@@ -15,7 +15,8 @@ namespace ClientCommon.Data
         protected NotificationNewStatus statusNew;
         protected string message;
         private string hiringCompanyName;
-        
+        private Employee employee;
+
         public Notification()
         {
             notificationStamp = DateTime.Now;
@@ -90,5 +91,13 @@ namespace ClientCommon.Data
             get { return hiringCompanyName; }
             set { hiringCompanyName = value; }
         }
+
+        [DataMember]
+        public Employee Emoloyee
+        {
+            get { return employee; }
+            set { employee = value; }
+        }
+
     }
 }

@@ -49,6 +49,9 @@ namespace Server
             //Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
             //EmployeeServiceDatabase.Instance.AddEmployee(em1);
 
+            OutsourcingService os = new OutsourcingService();
+            os.AskForPartnership("HiringCompany1");
+
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");
         }

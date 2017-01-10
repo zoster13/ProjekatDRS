@@ -18,5 +18,7 @@ namespace Server.Access
 
         void UpdateEmployee(Employee employee);
         void UpdateScrumMaster(Employee employee);
+
+        void AddNotification(Notification notification);
     }
 }

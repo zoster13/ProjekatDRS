@@ -88,7 +88,7 @@ namespace Server
 
             employeeChannels.Remove(employee.Email);
         }
-        
+
         public void TeamAddedCallback(Team team, bool flag)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
@@ -236,11 +236,6 @@ namespace Server
                         {
                             emp.Channel.SendNotificationToCEO(notification);
                         }
-                        else
-                        {
-                            Employee ceo = EmployeeServiceDatabase.Instance.GetEmployee(emp.Email);
-                            ceo.Notifications.Add(notification);
-                        }
                     }
                     catch (Exception e)
                     {
@@ -249,6 +244,18 @@ namespace Server
 
                     break;
                 }
+            }
+
+            foreach (Employee emp in InternalDatabase.Instance.AllEmployees)
+            {
+                if (emp.Type.Equals(EmployeeType.CEO))
+                {
+                    //save to database
+                    Employee ceo = EmployeeServiceDatabase.Instance.GetEmployee(emp.Email);
+                    notification.Emoloyee = ceo;
+                    EmployeeServiceDatabase.Instance.AddNotification(notification);
+                }
+
             }
         }
     }
