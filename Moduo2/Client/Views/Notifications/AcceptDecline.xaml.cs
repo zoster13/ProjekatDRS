@@ -34,12 +34,17 @@ namespace Client.Views.Notifications
             switch (LocalClientDatabase.Instance.CurrentNotification.Type)
             {
                 case NotificationType.REQUEST_FOR_PARTNERSHIP:
-                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept != NotificationAcceptStatus.PENDING)
+                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept == NotificationAcceptStatus.PENDING)
                     {
                         HiringCompany hiringCompany = new HiringCompany();
                         hiringCompany.Name = LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName;
                         LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
                         LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.ACCEPTED;
+                        mainWindow.dataGridNotifications.Items.Refresh();
+
+                        this.Visibility = Visibility.Hidden;
+                        buttonAccept.IsEnabled = false;
+                        buttonDecline.IsEnabled = false;
                     }
                     else
                     {
@@ -54,9 +59,14 @@ namespace Client.Views.Notifications
             switch (LocalClientDatabase.Instance.CurrentNotification.Type)
             {
                 case NotificationType.REQUEST_FOR_PARTNERSHIP:
-                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept != NotificationAcceptStatus.PENDING)
+                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept == NotificationAcceptStatus.PENDING)
                     {
                         LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.DECLINED;
+                        mainWindow.dataGridNotifications.Items.Refresh();
+
+                        this.Visibility = Visibility.Hidden;
+                        buttonAccept.IsEnabled = false;
+                        buttonDecline.IsEnabled = false;
                     }
                     else
                     {

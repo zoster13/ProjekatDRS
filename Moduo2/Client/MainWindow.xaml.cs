@@ -326,9 +326,29 @@ namespace Client
             {
                 MakeNotifInvisible();
 
+                acceptDeclineCanvas.Visibility = Visibility.Visible;
+
                 Notification notification = (Notification)dataGridNotifications.SelectedItem;
                 notification.StatusNew = NotificationNewStatus.SEEN;
                 LocalClientDatabase.Instance.CurrentNotification = notification;
+
+                //foreach (var notif in LocalClientDatabase.Instance.CurrentEmployee.Notifications)
+                //{
+                //    if (notif.Equals(notification))
+                //    {
+                //        notif.StatusNew = NotificationNewStatus.SEEN;
+                //    }
+                //}
+
+                //foreach (var notif in LocalClientDatabase.Instance.Notifications)
+                //{
+                //    if (notif.Equals(notification))
+                //    {
+                //        notif.StatusNew = NotificationNewStatus.SEEN;
+                //    }
+                //}
+
+                dataGridNotifications.Items.Refresh();
 
                 if (notification.StatusAccept != NotificationAcceptStatus.PENDING)
                 {
@@ -458,6 +478,7 @@ namespace Client
         public void SendNotificationToCEOResult(Notification notification)
         {
             LocalClientDatabase.Instance.CurrentEmployee.Notifications.Add(notification);
+            LocalClientDatabase.Instance.Notifications.Add(notification);
             CountNewNotifications();
         }
 

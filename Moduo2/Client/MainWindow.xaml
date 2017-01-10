@@ -121,7 +121,7 @@
                                 </StackPanel>
                             </TabItem.Header>
                             <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
-                                <DataGrid x:Name="dataGridNotifications" ItemsSource="{Binding Notifications, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="336" Margin="10,10,0,0" VerticalAlignment="Top" Width="363">
+                                <DataGrid x:Name="dataGridNotifications"  ItemsSource="{Binding Notifications, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="336" Margin="10,10,0,0" VerticalAlignment="Top" Width="363">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Summary" Binding="{Binding Type}"/>
                                         <DataGridTextColumn Header="Timestamp" Binding="{Binding NotificationStamp}"/>

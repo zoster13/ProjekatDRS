@@ -93,6 +93,18 @@ namespace Client
             }
         }
 
+        public BindingList<Notification> Notifications
+        {
+            get
+            {
+                return notifications;
+            }
+            set
+            {
+                notifications = value;
+            }
+        }
+
         public BindingList<Team> Teams
         {
             get
