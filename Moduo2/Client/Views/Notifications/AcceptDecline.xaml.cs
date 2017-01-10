@@ -31,25 +31,37 @@ namespace Client.Views.Notifications
 
         private void buttonAccept_Click(object sender, RoutedEventArgs e)
         {
-            Notification notification = LocalClientDatabase.Instance.CurrentNotification;
-
-            switch (notification.Type)
+            switch (LocalClientDatabase.Instance.CurrentNotification.Type)
             {
                 case NotificationType.REQUEST_FOR_PARTNERSHIP:
-                    HiringCompany hiringCompany = new HiringCompany();
-                   // hiringCompany.Name = 
+                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept != NotificationAcceptStatus.PENDING)
+                    {
+                        HiringCompany hiringCompany = new HiringCompany();
+                        hiringCompany.Name = LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName;
+                        LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+                        LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.ACCEPTED;
+                    }
+                    else
+                    {
+                        MessageBox.Show("This request has already been " + LocalClientDatabase.Instance.CurrentNotification.StatusAccept + "!");
+                    }
                     break;
             }
         }
 
         private void buttonDecline_Click(object sender, RoutedEventArgs e)
         {
-            Notification notification = LocalClientDatabase.Instance.CurrentNotification;
-
-            switch (notification.Type)
+            switch (LocalClientDatabase.Instance.CurrentNotification.Type)
             {
                 case NotificationType.REQUEST_FOR_PARTNERSHIP:
-
+                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept != NotificationAcceptStatus.PENDING)
+                    {
+                        LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.DECLINED;
+                    }
+                    else
+                    {
+                        MessageBox.Show("This request has already been " + LocalClientDatabase.Instance.CurrentNotification.StatusAccept + "!");
+                    }
                     break;
             }
         }

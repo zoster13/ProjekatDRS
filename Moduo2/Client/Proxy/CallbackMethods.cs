@@ -80,7 +80,10 @@ namespace Client
         //IOutsourcingServiceCallbacks
         public void SendNotificationToCEO(Notification notification)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.SendNotificationToCEOResult(notification);
+            });
         }
     }
 }

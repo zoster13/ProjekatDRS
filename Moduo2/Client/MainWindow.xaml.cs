@@ -158,6 +158,7 @@ namespace Client
             ResetWork();
             SetHome();
             MakeNotifInvisible();
+            CountNewNotifications();
         }
 
         public void HRWorkspace()
@@ -170,6 +171,7 @@ namespace Client
             ResetWork();
             SetHome();
             MakeNotifInvisible();
+            CountNewNotifications();
         }
 
 
@@ -184,6 +186,7 @@ namespace Client
             ResetWork();
             SetHome();
             MakeNotifInvisible();
+            CountNewNotifications();
         }
         public void TeamLeaderWorkspace()
         {
@@ -196,6 +199,7 @@ namespace Client
             ResetWork();
             SetHome();
             MakeNotifInvisible();
+            CountNewNotifications();
         }
 
         public void ScrumMasterWorkspace()
@@ -206,6 +210,7 @@ namespace Client
             ResetWork();
             SetHome();
             MakeNotifInvisible();
+            CountNewNotifications();
         }
 
         public void SetHome()
@@ -322,15 +327,31 @@ namespace Client
                 MakeNotifInvisible();
 
                 Notification notification = (Notification)dataGridNotifications.SelectedItem;
+                notification.StatusNew = NotificationNewStatus.SEEN;
                 LocalClientDatabase.Instance.CurrentNotification = notification;
 
+                if (notification.StatusAccept != NotificationAcceptStatus.PENDING)
+                {
+                    acceptDeclineCanvas.buttonAccept.IsEnabled = false;
+                    acceptDeclineCanvas.buttonDecline.IsEnabled = false;
+                }
+                else
+                {
+                    acceptDeclineCanvas.buttonAccept.IsEnabled = true;
+                    acceptDeclineCanvas.buttonDecline.IsEnabled = true;
+                }
+
                 acceptDeclineCanvas.notificationText.Text = notification.Message;
+
+                CountNewNotifications();
             }
         }
 
         private void MakeNotifInvisible()
         {
             acceptDeclineCanvas.Visibility = Visibility.Hidden;
+            acceptDeclineCanvas.buttonAccept.IsEnabled = false;
+            acceptDeclineCanvas.buttonDecline.IsEnabled = false;
         }
 
         public void TypeChangeCallbackResult(Employee employee)
@@ -415,6 +436,29 @@ namespace Client
                     break;
                 }
             }
+        }
+
+        public int CountNewNotifications()
+        {
+            int countNew = 0;
+
+            foreach (var notif in LocalClientDatabase.Instance.CurrentEmployee.Notifications)
+            {
+                if (notif.StatusNew == NotificationNewStatus.NEW)
+                {
+                    countNew++;
+                }
+            }
+
+            textBoxNotifNum.Text = countNew.ToString();
+
+            return countNew;
+        }
+
+        public void SendNotificationToCEOResult(Notification notification)
+        {
+            LocalClientDatabase.Instance.CurrentEmployee.Notifications.Add(notification);
+            CountNewNotifications();
         }
     }
 }

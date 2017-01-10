@@ -11,21 +11,23 @@ namespace ClientCommon.Data
         protected int id;
         protected NotificationType type;
         protected DateTime notificationStamp;
-        protected NotificationStatus status;
+        protected NotificationAcceptStatus statusAccept;
+        protected NotificationNewStatus statusNew;
         protected string message;
         private string hiringCompanyName;
         
         public Notification()
         {
             notificationStamp = DateTime.Now;
-            status = NotificationStatus.PENDING;
+            statusAccept = NotificationAcceptStatus.PENDING;
         }
 
         public Notification(NotificationType type, string hiringCompany, string projectName)
         {
             this.type = type;
             notificationStamp = DateTime.Now;
-            status = NotificationStatus.PENDING;
+            statusAccept = NotificationAcceptStatus.PENDING;
+            statusNew = NotificationNewStatus.NEW;
             hiringCompanyName = hiringCompany;
 
             switch (type)
@@ -62,10 +64,17 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public NotificationStatus Status
+        public NotificationAcceptStatus StatusAccept
         {
-            get { return status; }
-            set { status = value; }
+            get { return statusAccept; }
+            set { statusAccept = value; }
+        }
+
+        [DataMember]
+        public NotificationNewStatus StatusNew
+        {
+            get { return statusNew; }
+            set { statusNew = value; }
         }
 
         [DataMember]

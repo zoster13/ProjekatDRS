@@ -125,7 +125,8 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Summary" Binding="{Binding Type}"/>
                                         <DataGridTextColumn Header="Timestamp" Binding="{Binding NotificationStamp}"/>
-                                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                                        <DataGridTextColumn Header="Accept Status" Binding="{Binding StatusAccept}"/>
+                                        <DataGridTextColumn Header="Seen Status" Binding="{Binding StatusNew}"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <Grid Margin="416,86,22,117" Background="White">

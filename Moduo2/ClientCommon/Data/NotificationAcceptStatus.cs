@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClientCommon.Data
 {
-    public enum NotificationStatus
+    public enum NotificationAcceptStatus
     {
         UNREAD,
         READ,
