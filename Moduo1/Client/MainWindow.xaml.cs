@@ -16,6 +16,7 @@ using EmployeeCommon;
 using System.ServiceModel;
 using System.Reflection;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Client
 {
@@ -44,9 +45,8 @@ namespace Client
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
             approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
 
-            foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
+            foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
-
                 comboBoxNewPositionCEO.Items.Add(Extensions.TypeToString(type));
                 comboBoxNewPositionCEO.SelectedIndex = 0;
 
@@ -54,37 +54,57 @@ namespace Client
                 comboBoxPositionCEO.SelectedIndex = 0;
             }
 
-
         }
 
-        private void logInButton_Click(object sender, RoutedEventArgs e)
+        private void SetUpConnection()
+        {
+            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
+            IEmployeeServiceCallback callback = new ClientCallback();
+
+            InstanceContext instanceContext = new InstanceContext(callback);
+
+            proxy = new ClientProxy(instanceContext, binding, endpointAddress);
+        }
+
+        private void LogInButton_Click(object sender, RoutedEventArgs e)
         {
             SetUpConnection();
 
-            signOutButton.Visibility = System.Windows.Visibility.Visible;
-            bool success = proxy.SignIn(usernameBox.Text, passwordBox.Password);
 
-            if(success)
+            bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
+
+            if (success)
             {
-                logInWarningLabel.Content = "";
+                warningLabel.Content = "";
                 tabControl.SelectedIndex = 1;
 
                 //ovde treba da se napravi da su visible objekti koji
                 //su vidjivi samo za odredjeni tip
 
-                clientDB.Username = usernameBox.Text;
+                signOutButton.Visibility = System.Windows.Visibility.Visible;
+                clientDB.Username = usernameBox.Text.Trim();
             }
             else
             {
-                logInWarningLabel.Content = "Employee with username <" + usernameBox.Text.Trim() + "> doesn't exist!";
+                warningLabel.Content = string.Format("Employee with username <{0}> does not exist!", usernameBox.Text);
                 usernameBox.Text = "";
                 passwordBox.Password = "";
+                warningLabel.Visibility = Visibility.Visible;
             }
         }
 
         private void signOutButton_Click(object sender, RoutedEventArgs e)
         {
-            proxy.SignOut(clientDB.Username);
+            proxy.SignOut(clientDB.Username.Trim());
 
             usernameBox.Text = "";
             passwordBox.Password = "";
@@ -102,11 +122,11 @@ namespace Client
 
         private void editData_Click(object sender, RoutedEventArgs e)
         {
-            lock(clientDB.Employees_lock)
+            lock (clientDB.Employees_lock)
             {
-                foreach(Employee em in clientDB.Employees)
+                foreach (Employee em in clientDB.Employees)
                 {
-                    if(em.Username == clientDB.Username)
+                    if (em.Username == clientDB.Username)
                     {
                         textBoxEditName.IsEnabled = true;
                         textBoxEditName.Text = em.Name;
@@ -128,15 +148,14 @@ namespace Client
                     }
                 }
             }
-
         }
 
-        private void saveChanges_Click(object sender, RoutedEventArgs e)
+        private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             proxy.ChangeEmployeeData(clientDB.Username, textBoxEditName.Text, textBoxEditSurname.Text, textBoxEditEmail.Text, passBoxNewPass.Password);
             FillHomeLabels();
 
-            if(workBeginHour.Text != "" && workBeginMinute.Text != "" && workEndHour.Text != "" && workEndMinute.Text != "")
+            if (workBeginHour.Text != "" && workBeginMinute.Text != "" && workEndHour.Text != "" && workEndMinute.Text != "")
             {
                 proxy.SetWorkingHours(clientDB.Username, Int32.Parse(workBeginHour.Text), Int32.Parse(workBeginMinute.Text), Int32.Parse(workEndHour.Text), Int32.Parse(workEndMinute.Text));
             }
@@ -192,10 +211,10 @@ namespace Client
             workEndMinute.Text = "";
         }
 
-        private void usernameTextChanged(object sender, TextChangedEventArgs e)
+        private void UsernameTextChanged(object sender, TextChangedEventArgs e)
         {
-            logInWarningLabel.Visibility = Visibility.Hidden;
-            if(usernameBox.Text != "" && passwordBox.Password != "")
+            warningLabel.Visibility = Visibility.Hidden;
+            if (usernameBox.Text != "" && passwordBox.Password != "")
             {
                 logInButton.IsEnabled = true;
             }
@@ -205,9 +224,9 @@ namespace Client
             }
         }
 
-        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
         {
-            if(usernameBox.Text != "" && passwordBox.Password != "")
+            if (usernameBox.Text != "" && passwordBox.Password != "")
             {
                 logInButton.IsEnabled = true;
             }
@@ -217,12 +236,12 @@ namespace Client
             }
         }
 
-        private void passBoxOldPass_PasswordChanged(object sender, RoutedEventArgs e)
+        private void PassBoxOldPass_PasswordChanged(object sender, RoutedEventArgs e)
         {
             passBoxNewPass.IsEnabled = true;
         }
 
-        private void comboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Project p = (Project)comboBoxProjects.SelectedItem;
             BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
@@ -232,22 +251,21 @@ namespace Client
             textBoxProjects.Text = str;
         }
 
-        public void syncClientDB(EmployeeCommon.CurrentData data)
+        public void SyncClientDb(EmployeeCommon.CurrentData data)
         {
-            lock(clientDB.Employees_lock)
+            lock (clientDB.Employees_lock)
             {
-                if(clientDB.Employees.Count != 0)
+                if (clientDB.Employees.Count != 0)
                 {
                     clientDB.Employees.Clear();
                 }
-                //clientDB.Employees.Clear();
                 clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
             }
             employeesDataGrid.DataContext = clientDB.Employees;
 
-            lock(clientDB.AllEmployees_lock)
+            lock (clientDB.AllEmployees_lock)
             {
-                if(clientDB.AllEmployees.Count != 0)
+                if (clientDB.AllEmployees.Count != 0)
                 {
                     clientDB.AllEmployees.Clear();
                 }
@@ -255,9 +273,9 @@ namespace Client
             }
             dataGridCEO.DataContext = clientDB.AllEmployees;
 
-            lock(clientDB.ProjectsForApproval_lock)
+            lock (clientDB.ProjectsForApproval_lock)
             {
-                if(clientDB.ProjectsForApproval.Count != 0)
+                if (clientDB.ProjectsForApproval.Count != 0)
                 {
                     clientDB.ProjectsForApproval.Clear();
                 }
@@ -265,9 +283,9 @@ namespace Client
             }
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
 
-            lock (clientDB.NamesOfCompanies_lock) 
+            lock (clientDB.NamesOfCompanies_lock)
             {
-                if (clientDB.NamesOfCompanies.Count != 0) 
+                if (clientDB.NamesOfCompanies.Count != 0)
                 {
                     clientDB.NamesOfCompanies.Clear();
                 }
@@ -285,26 +303,26 @@ namespace Client
             }
             companiesDataGrid.DataContext = clientDB.Companies;
 
-            lock (clientDB.ProjectsForSending_lock) 
+            lock (clientDB.ProjectsForSending_lock)
             {
-                if (clientDB.ProjectsForSending.Count != 0) 
+                if (clientDB.ProjectsForSending.Count != 0)
                 {
                     clientDB.ProjectsForSending.Clear();
                 }
                 clientDB.ProjectsForSending = new BindingList<Project>(data.ProjectsForSendingData);
             }
             approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
-            
+
             FillHomeLabels();
         }
 
         public void FillHomeLabels()
         {
-            lock(clientDB.Employees_lock)
+            lock (clientDB.Employees_lock)
             {
-                foreach(Employee em in clientDB.Employees)
+                foreach (Employee em in clientDB.Employees)
                 {
-                    if(em.Username == clientDB.Username)
+                    if (em.Username == clientDB.Username)
                     {
                         homeLabelName.Content = em.Name;
                         homeLabelSurname.Content = em.Surname;
@@ -315,21 +333,21 @@ namespace Client
 
                         nameSurnameLabel.Content = em.Name + " " + em.Surname;
 
-                        if(em.Type.Equals(EmployeeType.CEO))
+                        if (em.Type.Equals(EmployeeType.CEO))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Visible;
                             tabItemProjects.Visibility = Visibility.Visible;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
-                        else if(em.Type.Equals(EmployeeType.HR))
+                        else if (em.Type.Equals(EmployeeType.HR))
                         {
                             workTabItem.Visibility = Visibility.Visible;
                             tabItemCompanies.Visibility = Visibility.Hidden;
                             tabItemProjects.Visibility = Visibility.Hidden;
                             PO_Work_TabItem.Visibility = Visibility.Hidden;
                         }
-                        else if(em.Type.Equals(EmployeeType.PO))
+                        else if (em.Type.Equals(EmployeeType.PO))
                         {
                             workTabItem.Visibility = Visibility.Hidden;
                             tabItemCompanies.Visibility = Visibility.Hidden;
@@ -350,26 +368,6 @@ namespace Client
             }
         }
 
-        private void SetUpConnection()
-        {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-            //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService"; // 10.1.212.113
-
-            NetTcpBinding binding = new NetTcpBinding();
-            binding.OpenTimeout = new TimeSpan(1, 0, 0);
-            binding.CloseTimeout = new TimeSpan(1, 0, 0);
-            binding.SendTimeout = new TimeSpan(1, 0, 0);
-            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
-
-            EndpointAddress endpointAddress = new EndpointAddress(new Uri(employeeSvcEndpoint));
-            IEmployeeServiceCallback callback = new ClientCallback();
-
-            InstanceContext instanceContext = new InstanceContext(callback);
-
-            proxy = new ClientProxy(instanceContext, binding, endpointAddress);
-        }
-
-
 
         private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e)
         {
@@ -380,13 +378,10 @@ namespace Client
         private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             Employee newEmployee;
-            if((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
+            if ((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
             {
                 newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, Extensions.StringToType((string)comboBoxPositionCEO.SelectedItem),
                     textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
-                //Na serverskoj strani uraditi proveru
-                //postoji li vec zaposleni sa tim username-om.
-                proxy.AddNewEmployee(newEmployee);
 
                 textBoxNameCEO.Text = "";
                 textBoxSurnameCEO.Text = "";
@@ -394,14 +389,21 @@ namespace Client
                 usernameTextBoxCEO.Text = "";
                 passwordBoxCEO.Password = "";
                 comboBoxPositionCEO.SelectedIndex = 0;
+
+                if (!proxy.AddNewEmployee(newEmployee))
+                {
+                    labelUsernameExists.Visibility = Visibility.Visible;
+                }
+
             }
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             // uraditi close proxy-ija i sve to...ako treba pocistiti bazu i sta vec
-            if(!clientDB.Username.Equals(string.Empty))
+            if (!clientDB.Username.Equals(string.Empty))
             {
+                Debug.WriteLine("Client sign out");
                 proxy.SignOut(clientDB.Username);
                 proxy.Dispose();
             }
@@ -426,12 +428,18 @@ namespace Client
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            Project p = new Project();
-            p.Name = ProjectNameTextBox.Text;
-            p.Description = ProjectDescriptionTextBox.Text;
-            p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
-            p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text); // namestiti da se vrse provere da li je datum validan i da bude vizuelni feedback ako klijent ne ukuca kako treba
-            p.ProductOwner = clientDB.Username;
+            Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username);
+
+            // namestiti da se vrse provere da li je datum validan 
+            // i da bude vizuelni feedback, npr crvene ivice, ako klijent ne ukuca kako treba
+            //p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
+            DateTime dateTimeOut;
+            if (DateTime.TryParse(ProjectStartDateTextBox.Text, out dateTimeOut)) //tako nesto raditi kada se text promeni ili slicno...
+            {
+                p.StartDate = dateTimeOut;
+            }
+
+            p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
 
             proxy.CreateNewProject(p);
 
@@ -445,13 +453,11 @@ namespace Client
         {
             Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
 
-            lock(clientDB.ProjectsForApproval_lock)
+            lock (clientDB.ProjectsForApproval_lock)
             {
-                proxy.ProjectApproved(proj); //u ProjectApproved metodi na serveru treba da se promeni polje isApprovedCEO da bude true
+                proxy.ProjectApproved(proj);
             }
-            //dodati liste projekata(verovatno ih ima vise) i u pravu serversku bazu,ne samo u memoriju
-            //dodati proj u listu odobrenih projekata
-            //(odluciti da li je to lista projects koja vec postoji ili treba napraviti listu odobrenih,pa kad outsComp prihvati,onda se projekat smesta u listu projects)
+
             //Poslati notification PO da je projekat odobren                     
         }
 
@@ -461,11 +467,7 @@ namespace Client
             BrushConverter bc = new BrushConverter();
             NotificationsButton.Background = (Brush)bc.ConvertFrom("#FFFAFBFE");
             notificationCounter.Content = "0";
-
-            //if (notificationCounter.Visibility == Visibility.Visible)
-            //{
-            //    notificationCounter.Visibility = Visibility.Hidden;
-            //}
+            notificationCounter.Background = (Brush)bc.ConvertFrom("#FFFAFBFE");
 
             scrollViewerNotifications.Visibility = scrollViewerNotifications.Visibility == Visibility.Collapsed
                 ? Visibility.Visible
@@ -479,7 +481,8 @@ namespace Client
             tb.TextWrapping = TextWrapping.Wrap;
 
             tb.Height = 45;
-            tb.Width = 128;
+            //tb.Width = 128;
+            tb.Width = double.NaN; // auto?
 
             Border myBorder = new Border();
             BrushConverter bc = new BrushConverter();
@@ -489,16 +492,21 @@ namespace Client
             myBorder.Child = tb;
 
             notificationsStackPanel.Children.Insert(0, myBorder);
-            //notificationsStackPanel.Children.Add(myBorder);
             int notifNum = Int32.Parse((string)notificationCounter.Content);
             notifNum++;
             notificationCounter.Content = notifNum.ToString();
+            notificationCounter.Background = Brushes.Cyan;
+        }
 
-            //if (notificationCounter.Visibility == Visibility.Hidden)
-            //{
-            //    notificationCounter.Visibility = Visibility.Visible;
-            //}
-            notificationCounter.Background = Brushes.Red;
+        private void UsernameBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            //  warningLabel.Visibility = Visibility.Hidden;
+        }
+
+        private void TextBoxNameCeoTextChanged(object sender, TextChangedEventArgs e)
+        {
+            labelUsernameExists.Visibility = Visibility.Hidden;
         }
     }
 }

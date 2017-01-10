@@ -49,8 +49,9 @@ namespace Client
         public static ClientDatabase Instance()
         {
             if (instance == null)
+            {
                 instance = new ClientDatabase();
-
+            }
             return instance;
         }
 

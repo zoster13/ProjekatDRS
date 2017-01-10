@@ -33,14 +33,14 @@ namespace Client
 
         public void SyncData(EmployeeCommon.CurrentData data)
         {
-            //lock (clientDB.Employees_lock) //mislim da nam ovde ne treba lock jer se u Main.syncClientDB(data) metodi svakako koristi lock
+            //lock (clientDB.Employees_lock) //mislim da nam ovde ne treba lock jer se u Main.SyncClientDb(data) metodi svakako koristi lock
             //{
             //System.Diagnostics.Debug.WriteLine("Iznad invokeDispatcher");
 
             var disp = App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     new ThreadStart(() =>
                     {
-                        clientDB.Main.syncClientDB(data);
+                        clientDB.Main.SyncClientDb(data);
                     }
                     )
                         );

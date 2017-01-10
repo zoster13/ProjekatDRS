@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 
 namespace HiringCompany
 {
-    //mzftn123fakultet@gmail.com
-    //miljanazvezdana123
+
 
     class Program
     {
         static void Main(string[] args)
         {
             Console.Title = "Hiring Company";
+            // mozda ovde da bude setup deo gde cemo citati sve konfiguracione podatke iz fajla
+
             // set |DataDirectory|
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string path = System.IO.Path.GetDirectoryName(executable);
@@ -30,8 +31,8 @@ namespace HiringCompany
 
             // --------------------- service for clients--------------------------------
 
-            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
-            //string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
+           // string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
+            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 
@@ -56,11 +57,6 @@ namespace HiringCompany
             //HiringCompanyDB.Instance().AddNewEmployee(em3);
             //HiringCompanyDB.Instance().AddNewEmployee(em4);
             //HiringCompanyDB.Instance().AddNewEmployee(em5);
-
-
-            // --------------------- service for outsorcing companies-------------------------
-            // outsorcing company exposes it
-
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(true);

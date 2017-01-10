@@ -12,13 +12,13 @@ namespace HiringCompany
     {
         ICommon.IOutsourcingService factory;
 
-        public OutsorcingCompProxy(InstanceContext callbackContext,Binding binding,EndpointAddress remoteAddress):
+        public OutsorcingCompProxy( InstanceContext callbackContext, Binding binding, EndpointAddress remoteAddress ) :
             base(callbackContext, binding, remoteAddress)
         {
             factory = this.ChannelFactory.CreateChannel();
         }
 
-        public void AskForPartnership(string hiringCompanyName)
+        public void AskForPartnership( string hiringCompanyName )
         {
             try
             {
@@ -26,7 +26,7 @@ namespace HiringCompany
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }

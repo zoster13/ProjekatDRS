@@ -9,29 +9,29 @@ using EmployeeCommon;
 
 namespace Client
 {
-    public class ClientProxy : DuplexClientBase<EmployeeCommon.IEmployeeService>, EmployeeCommon.IEmployeeService,IDisposable
+    public class ClientProxy : DuplexClientBase<EmployeeCommon.IEmployeeService>, EmployeeCommon.IEmployeeService, IDisposable
     {
         EmployeeCommon.IEmployeeService factory;
 
         public ClientProxy(InstanceContext callbackContext, Binding binding, EndpointAddress remoteAddress) :
          base(callbackContext, binding, remoteAddress)
         {
-            factory = this.ChannelFactory.CreateChannel();           
+            factory = this.ChannelFactory.CreateChannel();
         }
 
 
 
-        public bool SignIn(string username,string password)
+        public bool SignIn(string username, string password)
         {
             bool retval = false;
             try
             {
-                retval=factory.SignIn(username,password);  //Ne moze se pozvati SyncData jer je zapucao ovde i ceka odgovor!
+                retval = factory.SignIn(username, password);  //Ne moze se pozvati SyncData jer je zapucao ovde i ceka odgovor!
             }
-            catch (Exception)
+            catch(Exception)
             {
-                
-               
+
+
             }
             return retval;
         }
@@ -42,7 +42,7 @@ namespace Client
             {
                 factory.SignOut(username);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
@@ -55,7 +55,7 @@ namespace Client
             {
                 factory.ChangeEmployeeData(username, name, surname, email, password);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
@@ -68,7 +68,7 @@ namespace Client
             {
                 factory.SetWorkingHours(username, beginH, beginM, endH, endM);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
@@ -81,34 +81,36 @@ namespace Client
             {
                 factory.AskForPartnership(companyName);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
             }
         }
 
-        public void AddNewEmployee(Employee e)
+        public bool AddNewEmployee(Employee e)
         {
+            bool retVal = false;
             try
             {
-                factory.AddNewEmployee(e);
+                retVal = factory.AddNewEmployee(e);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
             }
+            return retVal;
         }
 
-        public void ChangeEmployeeType(string username,EmployeeType type)
+        public void ChangeEmployeeType(string username, EmployeeType type)
         {
             try
             {
 
                 factory.ChangeEmployeeType(username, type);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
@@ -121,7 +123,7 @@ namespace Client
             {
 
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
@@ -134,20 +136,20 @@ namespace Client
             {
                 factory.CreateNewProject(p);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
             }
         }
 
-        public void ProjectApproved(Project p) 
+        public void ProjectApproved(Project p)
         {
             try
             {
                 factory.ProjectApproved(p);
             }
-            catch (Exception)
+            catch(Exception)
             {
 
 
@@ -160,11 +162,11 @@ namespace Client
             {
                 this.Close();
             }
-            catch (CommunicationException)
+            catch(CommunicationException)
             {
                 this.Abort();
             }
-            catch (TimeoutException)
+            catch(TimeoutException)
             {
                 this.Abort();
             }

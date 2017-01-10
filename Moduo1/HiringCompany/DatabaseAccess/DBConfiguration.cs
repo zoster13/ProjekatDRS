@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HiringCompany.DatabaseAccess
 {
-    class DBConfiguration : DbMigrationsConfiguration<AccessDB>
+    public class DBConfiguration : DbMigrationsConfiguration<AccessDB>
     {
         public DBConfiguration()
         {

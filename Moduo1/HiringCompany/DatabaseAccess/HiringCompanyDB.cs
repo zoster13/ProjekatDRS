@@ -13,38 +13,33 @@ namespace HiringCompany.DatabaseAccess
     {
         private static HiringCompanyDB myDB;
 
-        // zasto su public objecti?
+        // da ne budu public objekti
         public object Employees_lock = new object();
-        public object AllEmployees_lock = new object();
-        public object ProjectsForApproval_lock = new object();
+        public object AllEmployees_lock = new object(); // ne treba?
+        public object ProjectsForApproval_lock = new object(); // ne treba
         public object PartnerCompaniesAddresses_lock = new object();
         public object DbAccess_lock = new object(); // LOKOVATI SVUDA GDE SE KORISTI DB ACCESS!!!!!!!
 
-        // lockovi za connection channele
-        // dodati lockove za pravu bazu
-
-        private string companyName = "HiringCompany";// company name, videti gde ga cuvati, neki fajl ili slicno.. 
+        // in-memory data
+        // videti gde cuvati ove podatke, mozda na pocetku setup delu iscitati iz fajla sve, neki fajl ili slicno.. 
+        //mzftn123fakultet@gmail.com
+        //miljanazvezdana123
+        private string companyName = "HiringCompany";
         private List<Employee> onlineEmployees;
-       // private List<Employee> allEmployees; // ne koristimo
-       // private List<Project> projectsForApproval; // u mdf
         private Dictionary<string, string> partnerCompaniesAddresses; // ["companyName", "ipaddress:port"]
         private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; // treba zakljucavati
         Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
 
-        
 
         private HiringCompanyDB()
         {
             onlineEmployees = new List<Employee>();
-           // allEmployees = new List<Employee>();
-          //  projectsForApproval = new List<Project>();
             partnerCompaniesAddresses = new Dictionary<string, string>();
             connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
             connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();
 
-            partnerCompaniesAddresses.Add("cekic", "10.1.212.114:9998");
+            partnerCompaniesAddresses.Add("cekic", "10.1.212.114:9998"); // u fajlu cuvati
         }
-
 
         public string CompanyName
         {
@@ -70,19 +65,25 @@ namespace HiringCompany.DatabaseAccess
                     return employees.ToList();
                 }
             }
-           // set { allEmployees = value; } // ne koristimo nigde
         }
 
+        public Dictionary<string, string> PartnerCompaniesAddresses
+        {
+            get { return partnerCompaniesAddresses; }
+            set { partnerCompaniesAddresses = value; }
+        }
         public List<PartnerCompany> PartnerCompanies
         {
-            get
-            {
-                using (var access = new AccessDB())
+            get {
+                using(var access = new AccessDB())
                 {
                     var companies = from com in access.companies
                                     select com;
 
-                    if (companies.ToList() == null) // videti gde jos treba ova provera
+                    // ovo nema smisla, zbog neceg drugog je vracao null. 
+                    // ako select nema sta da procita ne vraca null, nego empty enumerable
+
+                    if(companies.ToList() == null) // videti gde jos treba ova provera
                     {
                         return new List<PartnerCompany>();
                     }
@@ -90,22 +91,22 @@ namespace HiringCompany.DatabaseAccess
                     {
                         return companies.ToList();
                     }
-                    
+
                 }
             }
         }
 
-        public List<Project> ProjectsForApproval
+        public List<Project> ProjectsForCeoApproval
         {
-            get 
-            {
-                using (var access = new AccessDB())
+            get {
+                using(var access = new AccessDB())
                 {
+                    // get all projects that are not yet approved by CEO
                     var projectsForA = from proj in access.projects
                                        where proj.IsAcceptedCEO == false
                                        select proj;
 
-                    if (projectsForA.ToList() == null) // videti gde jos treba ova provera
+                    if(projectsForA.ToList() == null) // videti gde jos treba ova provera
                     {
                         return new List<Project>();
                     }
@@ -115,20 +116,18 @@ namespace HiringCompany.DatabaseAccess
                     }
                 }
             }
-           // set { projectsForApproval = value; }
         }
-
-        public List<Project> ProjectsForSending 
+        public List<Project> ProjectsForSendingToOutsC
         {
-            get
-            {
-                using (var access = new AccessDB())
+            get {
+                // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
+                using(var access = new AccessDB())
                 {
                     var projectsForS = from proj in access.projects
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
 
-                    if (projectsForS.ToList() == null) // videti gde jos treba ova provera
+                    if(projectsForS.ToList() == null) // videti gde jos treba ova provera
                     {
                         return new List<Project>();
                     }
@@ -145,13 +144,6 @@ namespace HiringCompany.DatabaseAccess
             get { return connectionChannelsClients; }
             set { connectionChannelsClients = value; }
         }
-
-        public Dictionary<string,string> PartnerCompaniesAddresses
-        {
-            get { return partnerCompaniesAddresses; }
-            set { partnerCompaniesAddresses = value; }
-        }
-
         public Dictionary<string, OutsorcingCompProxy> ConnectionChannelsCompanies
         {
             get { return connectionChannelsCompanies; }
@@ -165,21 +157,24 @@ namespace HiringCompany.DatabaseAccess
             return myDB;
         }
 
-        
-
         // valjda treba da ima neka metoda za brisanje employee-a? 
-        // videti za one lude lockove
+
         public bool AddNewEmployee(EmployeeCommon.Employee employee)
         {
+            bool retVal = false;
             try
             {
-                var access = new AccessDB();
-                access.employees.Add(employee);
-                int i = access.SaveChanges(); // srediti ovo, da ne moze u bazu da se doda ono sto vec psotoji  
-
-                if(i > 0)
-                    return true;
-                return false;
+                using(var access = new AccessDB())
+                {
+                    int i = 0;
+                    if(!access.employees.Any(e => e.Username == employee.Username)) // does not exist in db
+                    {
+                        access.employees.Add(employee);
+                        i = access.SaveChanges();
+                    }
+                    if(i > 0)
+                        retVal = true;
+                }
             }
             catch(DbEntityValidationException e)
             {
@@ -196,7 +191,7 @@ namespace HiringCompany.DatabaseAccess
                     }
                 }
             }
-            return false;
+            return retVal;
         }
 
 
@@ -214,23 +209,29 @@ namespace HiringCompany.DatabaseAccess
 
         public bool AddNewPartnerCompany(PartnerCompany company)
         {
+            bool retVal = false;
             try
             {
-                var access = new AccessDB();
-                access.companies.Add(company);
-                int i = access.SaveChanges(); // srediti ovo, da ne moze u bazu da se doda ono sto vec psotoji  
+                using(var access = new AccessDB())
+                {
+                    int i = 0;
+                    if(!access.companies.Any(c => c.Name == company.Name))
+                    {
+                        access.companies.Add(company);
+                        i = access.SaveChanges();
+                    }
 
-                if(i > 0)
-                    return true;
-                return false;
+                    if(i > 0)
+                        retVal = true;
+                }
             }
-            catch (DbEntityValidationException e)
+            catch(DbEntityValidationException e)
             {
-                foreach (var eve in e.EntityValidationErrors)
+                foreach(var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
+                    foreach(var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -239,28 +240,33 @@ namespace HiringCompany.DatabaseAccess
                     }
                 }
             }
-            return false;
+            return retVal;
         }
-
         public bool AddNewProject(Project project)
         {
+            bool retVal = false;
             try
             {
-                var access = new AccessDB();
-                access.projects.Add(project);
-                int i = access.SaveChanges(); // srediti ovo, da ne moze u bazu da se doda ono sto vec psotoji  
+                using(var access = new AccessDB())
+                {
+                    int i = 0;
+                    if(!access.projects.Any(p => p.Id == project.Id))
+                    {
+                        access.projects.Add(project);
+                        i = access.SaveChanges();
+                    }
 
-                if (i > 0)
-                    return true;
-                return false;
+                    if(i > 0)
+                        retVal = true;
+                }
             }
-            catch (DbEntityValidationException e)
+            catch(DbEntityValidationException e)
             {
-                foreach (var eve in e.EntityValidationErrors)
+                foreach(var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
+                    foreach(var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -269,9 +275,7 @@ namespace HiringCompany.DatabaseAccess
                     }
                 }
             }
-            return false;
+            return retVal;
         }
-
-        
     }
 }

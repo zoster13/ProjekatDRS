@@ -30,7 +30,7 @@ namespace EmployeeCommon
 
         // CEO, HR
         [OperationContract]
-        void AddNewEmployee(Employee e);
+        bool AddNewEmployee(Employee e);
 
         [OperationContract]
         void ChangeEmployeeType(string username,EmployeeType type);

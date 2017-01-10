@@ -15,13 +15,12 @@ using ICommon;
 namespace HiringCompany.Services
 {
 
-    // videti da li je baza koju koristimo mdf sigurna, treba je lockovati
-
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
       ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
         HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
+
         OutsorcingCompProxy outsorcingProxy;
         System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
 
@@ -38,18 +37,19 @@ namespace HiringCompany.Services
             string _senderEmailAddress = "mzftn123fakultet@gmail.com"; // i ovo cuvati u nekom fajlu
             string _senderPassword = "miljanazvezdana123";
             Console.WriteLine("alarm...");
-            foreach(Employee em in hiringCompanyDB.AllEmployees)
+            foreach (Employee em in hiringCompanyDB.AllEmployees)
             {
-                if(!hiringCompanyDB.OnlineEmployees.Contains(em))
+                if (!hiringCompanyDB.OnlineEmployees.Contains(em))
                 {
                     DateTime current = DateTime.Now;
                     DateTime workTimeEmployee = new DateTime(current.Year, current.Month, current.Day, em.StartHour, em.StartMinute, 0);
                     TimeSpan timeDiff = current - workTimeEmployee;
                     TimeSpan allowed = new TimeSpan(0, 15, 0);
 
-                    if(timeDiff > allowed)
+                    if (timeDiff > allowed)
                     {
-                        var client = new SmtpClient("smtp.gmail.com", 587) {
+                        var client = new SmtpClient("smtp.gmail.com", 587)
+                        {
                             Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
                             EnableSsl = true
                         };
@@ -67,20 +67,27 @@ namespace HiringCompany.Services
 
             Employee employee = hiringCompanyDB.GetEmployee(username);
 
-            if(employee != null && password.Equals(employee.Password))
+            if (employee != null && password.Equals(employee.Password))
             {
                 IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-                hiringCompanyDB.ConnectionChannelsClients.Add(username, callback); // kad ne ugasis server, a klijent se ponovo poveze, puca posto taj username postoji
-                // nesto se desi, kad apredugo ceka na klijenta i klijent se ugasi ne izbrise ga...
-                // an item with the same key has already be added, s vremena na vreme greska -> ne izbrise se iz tabele red u sign out? ili od negde
-                // to jest iz diktionarija se ne izbrise kako treba, hm :O 
 
-                lock(hiringCompanyDB.Employees_lock)
+                IEmployeeServiceCallback outCallback;
+                if (!hiringCompanyDB.ConnectionChannelsClients.TryGetValue(username, out outCallback))
                 {
-                    hiringCompanyDB.OnlineEmployees.Add(employee);
+                    hiringCompanyDB.ConnectionChannelsClients.Add(username, callback);
+
+                    lock (hiringCompanyDB.Employees_lock)
+                    {
+                        hiringCompanyDB.OnlineEmployees.Add(employee);
+                    }
+
+                    SyncAll();
+                }
+                else
+                {
+                    Console.WriteLine("Greska kod sign-in, uslo u else...");
                 }
 
-                SyncAll();
             }
             else
             {
@@ -92,22 +99,30 @@ namespace HiringCompany.Services
 
         public void SignOut(string username)
         {
-            Employee employee = null; // namestiti...
-
-            lock(hiringCompanyDB.Employees_lock)
+            Employee employee = null;
+            Console.WriteLine("SignOut {0} called", username); // for debug
+            lock (hiringCompanyDB.Employees_lock)
             {
-                // sacuvati podatke tog korisnika u bazi
-                foreach(Employee e in hiringCompanyDB.OnlineEmployees)
+                Console.WriteLine("SignOut {0} lock", username);
+
+
+                foreach (Employee e in hiringCompanyDB.OnlineEmployees)
                 {
-                    if(e.Username.Equals(username))
+                    Console.WriteLine("SignOut {0} foreach", username);
+
+                    if (e.Username.Equals(username))
                     {
+                        Console.WriteLine("SignOut {0} equals", username);
                         employee = e;
                         break;
                     }
                 }
 
                 hiringCompanyDB.OnlineEmployees.Remove(employee);
+                Console.WriteLine("SignOut {0} removed online ", username);
+
                 hiringCompanyDB.ConnectionChannelsClients.Remove(username);
+                Console.WriteLine("SignOut {0} removed channel", username);
             }
 
             SyncAll();
@@ -117,40 +132,27 @@ namespace HiringCompany.Services
         {
             try
             {
-                var access = new AccessDB();
-                foreach(Employee em in access.employees)
+                using (var access = new AccessDB())
                 {
-                    if(em.Username == username)
-                    {
-                        if(name != "")
-                        {
-                            em.Name = name;
-                        }
-                        if(surname != "")
-                        {
-                            em.Surname = surname;
-                        }
-                        if(email != "")
-                        {
-                            em.Email = email;
-                        }
-                        if(password != "")
-                        {
-                            em.Password = password;
-                        }
+                    Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
 
-                        break;
+                    if (em != null)
+                    {
+                        em.Name = name != "" ? name : em.Name;
+                        em.Surname = surname != "" ? surname : em.Surname;
+                        em.Email = email != "" ? email : em.Email;
+                        em.Password = password != "" ? password : em.Password;
+                        access.SaveChanges();
                     }
                 }
-                access.SaveChanges();
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -160,57 +162,16 @@ namespace HiringCompany.Services
                 }
             }
 
-            lock(hiringCompanyDB.AllEmployees_lock)
+            lock (hiringCompanyDB.Employees_lock)
             {
-                foreach(Employee em in hiringCompanyDB.AllEmployees)
-                {
-                    if(em.Username == username)
-                    {
-                        if(name != "")
-                        {
-                            em.Name = name;
-                        }
-                        if(surname != "")
-                        {
-                            em.Surname = surname;
-                        }
-                        if(email != "")
-                        {
-                            em.Email = email;
-                        }
-                        if(password != "")
-                        {
-                            em.Password = password;
-                        }
-                        break;
-                    }
-                }
-            }
 
-            lock(hiringCompanyDB.Employees_lock)
-            {
-                foreach(Employee em in hiringCompanyDB.OnlineEmployees)
+                Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
                 {
-                    if(em.Username == username)
-                    {
-                        if(name != "")
-                        {
-                            em.Name = name;
-                        }
-                        if(surname != "")
-                        {
-                            em.Surname = surname;
-                        }
-                        if(email != "")
-                        {
-                            em.Email = email;
-                        }
-                        if(password != "")
-                        {
-                            em.Password = password;
-                        }
-                        break;
-                    }
+                    em.Name = name != "" ? name : em.Name;
+                    em.Surname = surname != "" ? surname : em.Surname;
+                    em.Email = email != "" ? email : em.Email;
+                    em.Password = password != "" ? password : em.Password;
                 }
             }
 
@@ -222,9 +183,9 @@ namespace HiringCompany.Services
             try
             {
                 var access = new AccessDB();
-                foreach(Employee em in access.employees)
+                foreach (Employee em in access.employees)
                 {
-                    if(em.Username == username)
+                    if (em.Username == username)
                     {
                         em.StartHour = beginH;
                         em.StartMinute = beginM;
@@ -236,13 +197,13 @@ namespace HiringCompany.Services
                 }
                 access.SaveChanges();
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -252,11 +213,11 @@ namespace HiringCompany.Services
                 }
             }
 
-            lock(hiringCompanyDB.Employees_lock)
+            lock (hiringCompanyDB.Employees_lock)
             {
-                foreach(Employee em in hiringCompanyDB.OnlineEmployees)
+                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
                 {
-                    if(em.Username == username)
+                    if (em.Username == username)
                     {
                         em.StartHour = beginH;
                         em.StartMinute = beginM;
@@ -267,11 +228,11 @@ namespace HiringCompany.Services
                 }
             }
 
-            lock(hiringCompanyDB.AllEmployees_lock)
+            lock (hiringCompanyDB.AllEmployees_lock)
             {
-                foreach(Employee em in hiringCompanyDB.AllEmployees)
+                foreach (Employee em in hiringCompanyDB.AllEmployees)
                 {
-                    if(em.Username == username)
+                    if (em.Username == username)
                     {
                         em.StartHour = beginH;
                         em.StartMinute = beginM;
@@ -287,8 +248,8 @@ namespace HiringCompany.Services
 
         public void AskForPartnership(string outsorcingCompanyName)
         {
-           string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
-            
+            string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
+
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
             binding.CloseTimeout = new TimeSpan(1, 0, 0);
@@ -304,14 +265,15 @@ namespace HiringCompany.Services
             outsorcingProxy = new OutsorcingCompProxy(instanceContext, binding, endpointAddress);
             // sacuvati proxy, namestiti lockovabhe
             hiringCompanyDB.ConnectionChannelsCompanies.Add(outsorcingCompanyName, outsorcingProxy);
-            
+
             outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);
         }
 
-        public void AddNewEmployee(Employee em)
+        public bool AddNewEmployee(Employee em)
         {
-            hiringCompanyDB.AddNewEmployee(em);
+            bool retVal = hiringCompanyDB.AddNewEmployee(em);
             SyncAll();
+            return retVal;
         }
 
         public void ChangeEmployeeType(string username, EmployeeType type)
@@ -319,9 +281,9 @@ namespace HiringCompany.Services
             try
             {
                 var access = new AccessDB();
-                foreach(Employee em in access.employees)
+                foreach (Employee em in access.employees)
                 {
-                    if(em.Username == username)
+                    if (em.Username == username)
                     {
                         em.Type = type;
                         break;
@@ -329,13 +291,13 @@ namespace HiringCompany.Services
                 }
                 access.SaveChanges();
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -345,11 +307,11 @@ namespace HiringCompany.Services
                 }
             }
 
-            lock(hiringCompanyDB.Employees_lock)
+            lock (hiringCompanyDB.Employees_lock)
             {
-                foreach(Employee em in hiringCompanyDB.OnlineEmployees)
+                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
                 {
-                    if(em.Username == username)
+                    if (em.Username == username)
                     {
                         em.Type = type;
                         break;
@@ -357,11 +319,11 @@ namespace HiringCompany.Services
                 }
             }
 
-            lock(hiringCompanyDB.AllEmployees_lock)
+            lock (hiringCompanyDB.AllEmployees_lock)
             {
-                foreach(Employee em in hiringCompanyDB.AllEmployees)
+                foreach (Employee em in hiringCompanyDB.AllEmployees)
                 {
-                    if(em.Username == username)
+                    if (em.Username == username)
                     {
                         em.Type = type;
                         break;
@@ -385,18 +347,18 @@ namespace HiringCompany.Services
             {
                 // lepse napisati, sa linq
                 var access = new AccessDB();
-                foreach(Employee em in access.employees)
+                foreach (Employee em in access.employees)
                 {
-                    if(em.Type == EmployeeType.CEO)
+                    if (em.Type == EmployeeType.CEO)
                     {
-                        foreach(KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
+                        foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
                         {
-                            if(pair.Key.Equals(em.Username))
+                            if (pair.Key.Equals(em.Username))
                             {
                                 // videti da organizujes ovo, neka metoda nesto ili konstruktor
                                 CurrentData cData = new CurrentData();
-                                cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-                                cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSending;
+                                cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForCeoApproval;
+                                cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
                                 cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                                 cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
@@ -411,13 +373,13 @@ namespace HiringCompany.Services
                     }
                 }
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -433,59 +395,55 @@ namespace HiringCompany.Services
         {
             //lock(hiringCompanyDB.ProjectsForApproval_lock)
             //{
-               // foreach(Project proj in hiringCompanyDB.ProjectsForApproval)
-               // {
-                   // if(proj.Name.Equals(p.Name))
-                  //  {
-                       // hiringCompanyDB.ProjectsForApproval.Remove(proj);
+            // foreach(Project proj in hiringCompanyDB.ProjectsForCeoApproval)
+            // {
+            // if(proj.Name.Equals(p.Name))
+            //  {
+            // hiringCompanyDB.ProjectsForCeoApproval.Remove(proj);
 
-                        try
-                        {
-                            var access = new AccessDB();
-                            var project = from proj in access.projects
-                                          where proj.Name.Equals(p.Name)
-                                          select proj;
+            try
+            {
+                var access = new AccessDB();
+                var project = from proj in access.projects
+                              where proj.Name.Equals(p.Name)
+                              select proj;
 
-                            var pr = project.ToList().FirstOrDefault();
+                var pr = project.ToList().FirstOrDefault();
 
-                            pr.IsAcceptedCEO = true;
-                            access.SaveChanges();
+                pr.IsAcceptedCEO = true;
+                access.SaveChanges();
 
-                        }
-                        catch (Exception)
-                        {
+            }
+            catch (Exception)
+            {
 
-                            throw;
-                        }
+                throw;
+            }
 
-                       // break;
-                   // }
-               // }
 
-           // }
 
             try
             {
                 bool isNotificationSent = false;
                 var access = new AccessDB();
-                foreach(Employee em in access.employees)
+                foreach (Employee em in access.employees)
                 {
-                    if(em.Type == EmployeeType.CEO)
+                    if (em.Type == EmployeeType.CEO)
                     {
-                        foreach(KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
+                        foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
                         {
                             CurrentData cData = new CurrentData();
-                            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-                            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSending;
+                            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForCeoApproval;
+                            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
                             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
                             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
                             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
                             pair.Value.SyncData(cData);
 
-                            if(!isNotificationSent)
+                            if (!isNotificationSent)
                             {
-                                if(pair.Key.Equals(p.ProductOwner))
+                                if (pair.Key.Equals(p.ProductOwner))
                                 {
                                     try
                                     {
@@ -493,7 +451,7 @@ namespace HiringCompany.Services
                                         pair.Value.Notify(string.Format("Project {0} is approved.", p.Name));
                                         isNotificationSent = true;
                                     }
-                                    catch(Exception)
+                                    catch (Exception)
                                     {
 
                                         throw;
@@ -505,13 +463,13 @@ namespace HiringCompany.Services
                 }
             }
 
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -527,12 +485,12 @@ namespace HiringCompany.Services
             CurrentData cData = new CurrentData();
             cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
             cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForApproval;
-            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSending;
+            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForCeoApproval;
+            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
-            foreach(IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannelsClients.Values)
+            foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannelsClients.Values)
             {
                 call.SyncData(cData);
             }

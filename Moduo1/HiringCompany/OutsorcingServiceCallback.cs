@@ -45,11 +45,11 @@ namespace HiringCompany
                         hiringCompanyDb.ConnectionChannelsClients[ceo.Username].Notify("Company <" + outsourcingCompName + "> accepted request for partnership.");
                     }
                     CurrentData cData = new CurrentData();
-                    cData.ProjectsForApprovalData = hiringCompanyDb.ProjectsForApproval;
+                    cData.ProjectsForApprovalData = hiringCompanyDb.ProjectsForCeoApproval;
                     cData.AllEmployeesData = hiringCompanyDb.AllEmployees;
                     cData.EmployeesData = hiringCompanyDb.OnlineEmployees;
                     cData.NamesOfCompaniesData = hiringCompanyDb.PartnerCompaniesAddresses.Keys.ToList();
-                    cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSending;
+                    cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSendingToOutsC;
                     cData.CompaniesData = hiringCompanyDb.PartnerCompanies;
                     
                     foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)

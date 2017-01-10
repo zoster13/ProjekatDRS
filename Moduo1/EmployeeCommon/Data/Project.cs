@@ -31,6 +31,13 @@ namespace EmployeeCommon
             isAcceptedOutsCompany = false;
         }
 
+        public Project(string name, string description, string po)
+        {
+            this.name = name;
+            this.description = description;
+            this.productOwner = po;
+        }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id 
