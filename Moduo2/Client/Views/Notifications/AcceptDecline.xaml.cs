@@ -31,12 +31,26 @@ namespace Client.Views.Notifications
 
         private void buttonAccept_Click(object sender, RoutedEventArgs e)
         {
-           
+            Notification notification = LocalClientDatabase.Instance.CurrentNotification;
+
+            switch (notification.Type)
+            {
+                case NotificationType.REQUEST_FOR_PARTNERSHIP:
+
+                    break;
+            }
         }
 
         private void buttonDecline_Click(object sender, RoutedEventArgs e)
         {
+            Notification notification = LocalClientDatabase.Instance.CurrentNotification;
 
+            switch (notification.Type)
+            {
+                case NotificationType.REQUEST_FOR_PARTNERSHIP:
+
+                    break;
+            }
         }
     }
 }
