@@ -16,6 +16,7 @@ namespace EmployeeCommon
         private List<Employee> allEmployeesData;
         private List<Project> projectsForApprovalData;
         private List<String> namesOfCompaniesData;
+        private List<PartnerCompany> companiesData;
         
         public CurrentData()
         {
@@ -23,6 +24,7 @@ namespace EmployeeCommon
             allEmployeesData = new List<Employee>();
             projectsForApprovalData = new List<Project>();
             namesOfCompaniesData = new List<string>();
+            companiesData = new List<PartnerCompany>();
         }
 
        
@@ -64,6 +66,12 @@ namespace EmployeeCommon
         {
             get { return namesOfCompaniesData; }
             set { namesOfCompaniesData = value; }
+        }
+
+        public List<PartnerCompany> CompaniesData 
+        {
+            get { return companiesData; }
+            set { companiesData = value; }
         }
 
     }

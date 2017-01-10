@@ -273,6 +273,16 @@ namespace Client
                 clientDB.NamesOfCompanies = new BindingList<string>(data.NamesOfCompaniesData);
             }
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
+
+            lock (clientDB.Companies_lock) 
+            {
+                if (clientDB.Companies.Count != 0) 
+                {
+                    clientDB.Companies.Clear();
+                }
+                clientDB.Companies = new BindingList<PartnerCompany>(data.CompaniesData);
+            }
+            companiesDataGrid.DataContext = clientDB.Companies;
             
             FillHomeLabels();
         }
