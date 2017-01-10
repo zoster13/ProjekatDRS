@@ -26,6 +26,7 @@ namespace ClientCommon.Data
             this.type = type;
             notificationStamp = DateTime.Now;
             status = NotificationStatus.PENDING;
+            hiringCompanyName = hiringCompany;
 
             switch (type)
             {
