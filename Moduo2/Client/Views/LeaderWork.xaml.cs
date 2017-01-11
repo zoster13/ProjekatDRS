@@ -208,6 +208,11 @@ namespace Client.Views
                     userStory.Deadline = DateTime.Now;
                     userStory.Deadline.AddDays(3);
 
+                    foreach(var task in userStory.Tasks)
+                    {
+                        task.ProgressStatus = ProgressStatus.STARTED;
+                    }
+
                     LocalClientDatabase.Instance.proxy.ReleaseUserStory(userStory);
                 }
                 else

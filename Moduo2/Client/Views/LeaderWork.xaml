@@ -25,7 +25,7 @@
                     </DataGrid>
                     <Grid x:Name="gridClaimTask" Background="White" Margin="461,10,10,10">
                         <Label x:Name="labelTitle3" Content="Claim task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="90,10,-20,0" VerticalAlignment="Top" Width="199"/>
-                        <Label x:Name="labelTask11" Content="Task: (must be unassigned)" HorizontalAlignment="Left" Height="26" Margin="12,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
+                        <Label x:Name="labelTask11" Content="Task: (must be unassigned and started)" HorizontalAlignment="Left" Height="26" Margin="12,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
                         <ComboBox x:Name="comboBoxAllTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,73,0,0" VerticalAlignment="Top" Width="238"/>
                         <Button x:Name="buttonTaskClaim" Content="Claim" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskClaim_Click"/>
                     </Grid>
