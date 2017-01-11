@@ -17,6 +17,7 @@ using System.ServiceModel;
 using System.Reflection;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace Client
 {
@@ -58,8 +59,8 @@ namespace Client
 
         private void SetUpConnection()
         {
-            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+           // string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -313,6 +314,17 @@ namespace Client
             }
             approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
 
+            //lock (clientDB.Projects_lock) 
+            //{
+            //    if (clientDB.Projects.Count != 0) 
+            //    {
+            //        clientDB.Projects.Clear();
+            //    }
+            //    clientDB.Projects = new BindingList<Project>(data.ProjectsData);
+            //}
+            //comboBoxProjects.DataContext = clientDB.Projects;
+            //treba odraditi ovo za projects na serverskoj strani
+
             FillHomeLabels();
         }
 
@@ -423,12 +435,73 @@ namespace Client
 
         private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
         {
-            //u metodi na serveru treba da se promeni polje isAcceptedOutsCompany da bude true
+            //napraviti metodu SendProject u EmployeeService koja ce pozvati metodu drugog servera,dodati tu metodu i u interfejs i ClientProxy
+            //proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedProjectsDataGrid.SelectedItem);
+
+            //public void SendProject(string outscCompany,Project p)
+            //{
+            //    ProjectCommon proj=new ProjectCommon(p.Name,p.Description,p.StartDate,p.Deadline);
+            //    hiringCompanyDB.ConnectionChannelsCompanies[outscCompany].SendProjectToPartnerCompany((string)nase ime,proj);
+            //}
+
+            //za callback,dodati u OutscServiceCallback i u interfejs
+                //public void SendProjectToPartnerCompanyCallback(string outsCompany,ProjectCommon p)
+                //{
+                //    string notification = string.Empty;
+
+                //    if(p.IsAcceptedByOutsCompany)
+                //    {
+                //        try
+                //            {
+                //                using (var access = new AccessDB())
+                //                {
+                //                    Project proj = access.projects.SingleOrDefault(proj => proj.Name.Equals(p.Name));
+
+                //                    if (proj != null)
+                //                    {
+                //                        proj.IsAcceptedOutsCompany=true;
+                //                        access.SaveChanges();
+                //                    }
+                //                }
+                //            }
+                //            catch (DbEntityValidationException e)
+                //            {
+                //                foreach (var eve in e.EntityValidationErrors)
+                //                {
+                //                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                //                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                //                    foreach (var ve in eve.ValidationErrors)
+                //                    {
+                //                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                //                        ve.PropertyName,
+                //                        eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                //                        ve.ErrorMessage);
+                //                    }
+                //                }
+                //            }
+                //        notification = "Company <" + outsourcingCompName + "> accepted request for developing project <" + p.Name + ">.";
+
+                //        //treba da se notifikuje CEO,moze i PO
+                //        //svima treba da se uradi Sync
+                //    }
+                //    else
+                //    {
+                //        notification = "Company <" + outsourcingCompName + "> declined request for developing project <" + p.Name + ">.";
+                //        //notifikovati CEO,moze i PO
+                //    }
+                // }
+
+
+
+            //u callback metodi na nasem serveru treba da se promeni polje isAcceptedOutsCompany da bude true
         }
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username);
+
+            Debug.WriteLine("Attempting to parse strings using {0} culture.",
+                        CultureInfo.CurrentCulture.Name);
 
             // namestiti da se vrse provere da li je datum validan 
             // i da bude vizuelni feedback, npr crvene ivice, ako klijent ne ukuca kako treba
@@ -439,7 +512,11 @@ namespace Client
                 p.StartDate = dateTimeOut;
             }
 
-            p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
+            if (DateTime.TryParse(ProjectDeadlineTextBox.Text, out dateTimeOut)) //tako nesto raditi kada se text promeni ili slicno...
+            {
+                p.Deadline = dateTimeOut;
+            }
+            //p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
 
             proxy.CreateNewProject(p);
 

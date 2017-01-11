@@ -14,10 +14,20 @@ namespace ICommon
         private string description;
         private DateTime startDate;
         private DateTime deadline;
+        private bool isAcceptedByOutsCompany;
 
         public ProjectCommon() 
         {
-            
+            isAcceptedByOutsCompany = false;
+        }
+
+        public ProjectCommon(string n, string desc, DateTime startD, DateTime dead) 
+        {
+            name = n;
+            description = desc;
+            startDate = startD;
+            deadline = dead;
+            isAcceptedByOutsCompany = false;
         }
 
         [DataMember]
@@ -46,6 +56,13 @@ namespace ICommon
         {
             get { return deadline; }
             set { deadline = value; }
+        }
+
+        [DataMember]
+        public bool IsAcceptedByOutsCompany 
+        {
+            get { return isAcceptedByOutsCompany; }
+            set { isAcceptedByOutsCompany = value; }
         }
     }
 }

@@ -294,7 +294,7 @@
                                 <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,195,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,268,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
-                                <Label x:Name="DateTimeFormatLabel" Content="dd/mm/yyyy" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="23"/>
+                                <Label x:Name="DateTimeFormatLabel" Content="mm/dd/yyyy" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="0,10,-228,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">
