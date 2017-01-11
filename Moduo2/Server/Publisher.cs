@@ -335,6 +335,26 @@ namespace Server
             }
         }
 
+        public void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName)
+        {
+            if (emp.Type.Equals(EmployeeType.CEO))
+            {
+                try
+                {
+                    if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+                    {
+                        emp.Channel.SendNotificationToCEO(notification);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+
+                break;
+            }
+        }
+
         #endregion ICallbackMethods
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace ICommon
 {
@@ -10,5 +11,8 @@ namespace ICommon
 
         [OperationContract]
         void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p);
+
+        [OperationContract]
+        void SendEvaluatedUserstoriesToOutsourcingCompany(List<UserStoryCommon> userStories, string projectName);
     }
 }

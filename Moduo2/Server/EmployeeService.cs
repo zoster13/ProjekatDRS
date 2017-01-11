@@ -269,6 +269,24 @@ namespace Server
         {
             // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima 
             // kako bi oni mogli da preuzimaju taskove
+            using (var access = new AccessDB())
+            {
+                UserStory userStory1 = access.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
+                userStory1.ProgressStatus = ProgressStatus.STARTED;
+
+                foreach(var task in userStory.Tasks)
+                {
+                    Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
+                    taskInDB.ProgressStatus = ProgressStatus.STARTED;
+
+                    access.Tasks.Add(task);
+                    //access.SaveChanges(); // ne znam da li treba
+                }
+
+                access.UserStories.Add(userStory1);
+                access.SaveChanges();
+            }
+
             Publisher.Instance.ReleaseUserStoryCallback(userStory);
         }
 
@@ -281,6 +299,7 @@ namespace Server
             {
                 Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
 
+                taskInDB.AssignStatus = AssignStatus.ASSIGNED;
                 taskInDB.ProgressStatus = ProgressStatus.STARTED;
                 taskInDB.EmployeeName = task.EmployeeName;
 

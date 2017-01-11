@@ -559,10 +559,15 @@ namespace Client
 
         public void ReleaseUserStoryCallbackResult(UserStory userStory)
         {
-            LocalClientDatabase.Instance.UserStories.Add(userStory);
-            foreach(var task in userStory.Tasks)
+            if(LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER || LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.TEAMLEADER)
             {
-                LocalClientDatabase.Instance.AllTasks.Add(task);
+                LocalClientDatabase.Instance.UserStories.Add(userStory);
+                foreach (var task in userStory.Tasks)
+                {
+                    LocalClientDatabase.Instance.AllTasks.Add(task);
+                }
+
+                MessageBox.Show("A user story for project " + userStory.Project.Name + " has arived.\n You can claim tasks.");
             }
         }
 

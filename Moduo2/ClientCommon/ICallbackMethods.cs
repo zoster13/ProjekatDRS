@@ -1,5 +1,6 @@
 ﻿using ClientCommon.Data;
 using ICommon;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace ClientCommon
@@ -37,6 +38,9 @@ namespace ClientCommon
 
         [OperationContract(IsOneWay = true)]
         void ProjectTeamAssignCallback(Project project);
+
+        [OperationContract(IsOneWay = true)]
+        void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName);
 
         [OperationContract(IsOneWay = true)]
         void ReleaseUserStoryCallback(UserStory userStory);
