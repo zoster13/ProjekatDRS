@@ -289,7 +289,22 @@ namespace Server
 
         public void ProjectTeamAssignCallback(Project project)
         {
-            throw new NotImplementedException();
+            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
+
+            if (teamLeader != null)        
+            {
+                try
+                {
+                    if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
+                    {
+                        teamLeader.Channel.ProjectTeamAssignCallback(project);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
         }
 
         public void ReleaseUserStoryCallback(UserStory userStory)
