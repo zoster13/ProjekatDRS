@@ -13,6 +13,6 @@ namespace ICommon
         void AskForPartnershipCallback(bool accepted, string outsourcingCompName);
 
         [OperationContract(IsOneWay = true)]
-        void SendProjectToOutsourcingCompany(string outsourcingCompanyName, ProjectCommon p);
+        void SendProjectToOutsourcingCompanyCallback(string outsourcingCompanyName, ProjectCommon p);
     }
 }
