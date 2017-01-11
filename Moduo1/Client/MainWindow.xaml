@@ -274,9 +274,10 @@
                                                         </Style>
                                                     </DataGrid.RowStyle>
                                                     <DataGrid.Columns>
-                                                        <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                                        <DataGridTextColumn Width="*"  Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
                                                     </DataGrid.Columns>
                                                 </DataGrid>
+                                                <ComboBox x:Name="comboBoxCompanies" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="30,265,0,0" VerticalAlignment="Top" Width="132"/>
                                             </Grid>
                                         </Grid>
                                     </TabItem>

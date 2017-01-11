@@ -43,6 +43,7 @@ namespace Client
             dataGridCEO.DataContext = clientDB.AllEmployees;
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
             WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
+            comboBoxCompanies.DataContext = clientDB.Companies;
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
             approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
 
@@ -248,7 +249,7 @@ namespace Client
             BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
             DataGridUserStories.DataContext = userStories;
 
-            string str = "Id: " + p.Id + "\nName: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany + "\nProductOwner: " + p.ProductOwner;
+            string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany + "\nProductOwner: " + p.ProductOwner;
             textBoxProjects.Text = str;
         }
 
@@ -302,7 +303,9 @@ namespace Client
                 }
                 clientDB.Companies = new BindingList<PartnerCompany>(data.CompaniesData);
             }
-            companiesDataGrid.DataContext = clientDB.Companies;
+            companiesDataGrid.DataContext = clientDB.Companies;         
+            WorkCompaniesDataGrid.DataContext = clientDB.Companies;
+            comboBoxCompanies.DataContext = clientDB.Companies;
 
             lock (clientDB.ProjectsForSending_lock)
             {
@@ -314,15 +317,15 @@ namespace Client
             }
             approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
 
-            //lock (clientDB.Projects_lock) 
-            //{
-            //    if (clientDB.Projects.Count != 0) 
-            //    {
-            //        clientDB.Projects.Clear();
-            //    }
-            //    clientDB.Projects = new BindingList<Project>(data.ProjectsData);
-            //}
-            //comboBoxProjects.DataContext = clientDB.Projects;
+            lock (clientDB.Projects_lock) 
+            {
+                if (clientDB.Projects.Count != 0) 
+                {
+                    clientDB.Projects.Clear();
+                }
+                clientDB.Projects = new BindingList<Project>(data.ProjectsData);
+            }
+            comboBoxProjects.DataContext = clientDB.Projects;
             //treba odraditi ovo za projects na serverskoj strani
 
             FillHomeLabels();
@@ -434,8 +437,9 @@ namespace Client
         }
 
         private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
-        {         
-            proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedProjectsDataGrid.SelectedItem);
+        {
+            proxy.SendProject(((PartnerCompany)comboBoxCompanies.SelectedItem).Name, (Project)approvedProjectsDataGrid.SelectedItem);
+            //proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedProjectsDataGrid.SelectedItem);
         }
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
