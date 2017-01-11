@@ -113,7 +113,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(true, string.Empty, string.Empty);
+                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(false, string.Empty, string.Empty);
 
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been declined!");
                     }
