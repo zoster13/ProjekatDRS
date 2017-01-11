@@ -30,7 +30,7 @@
                     <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Text="" Height="25" Margin="445,178,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" TextChanged="UsernameTextChanged" Background="#FFFAFBFE" BorderThickness="0" GotFocus="UsernameBox_GotFocus"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left"   Height="25" Margin="445,207,0,0" VerticalAlignment="Top" Width="150" PasswordChanged="PasswordBoxPasswordChanged" Background="#FFFAFBFE" BorderThickness="0"/>
                     <Button x:Name="logInButton" Content="Sign In" IsEnabled="True" Margin="545,251,297,317" Click="LogInButton_Click" Background="#FFFAFBFE" FontWeight="Bold" Foreground="#FF1F3277" BorderBrush="#FFABADB3" BorderThickness="0"/>
-                   
+
                     <Label x:Name="warningLabel" Content="" HorizontalAlignment="Center" Margin="228,345,215,190" VerticalAlignment="Center" Width="444" FontSize="14" Height="60" HorizontalContentAlignment="Center"/>
                 </Grid>
             </TabItem>
@@ -259,7 +259,7 @@
                                                 </DataGrid>
                                                 <Label Content="Select project and company which will develope that project:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="386"/>
                                                 <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="388,264,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
-                                                <DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="229" Width="219" Background="#FFDDDDDD"
+                                                <!--<DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="229" Width="219" Background="#FFDDDDDD"
                                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -276,8 +276,8 @@
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Width="*"  Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
                                                     </DataGrid.Columns>
-                                                </DataGrid>
-                                                <ComboBox x:Name="comboBoxCompanies" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="30,265,0,0" VerticalAlignment="Top" Width="132"/>
+                                                </DataGrid>-->
+                                                <ComboBox x:Name="comboBoxCompanies" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="219" Height="36"/>
                                             </Grid>
                                         </Grid>
                                     </TabItem>
@@ -296,6 +296,14 @@
                                 <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,268,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
                                 <Label x:Name="DateTimeFormatLabel" Content="mm/dd/yyyy" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
+                                <Grid HorizontalAlignment="Left" Height="410" Margin="392,10,0,0" VerticalAlignment="Top" Width="468" Background="White">
+                                    <ComboBox x:Name="ProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,30,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
+                                    
+                                    <Button x:Name="ApproveUserStoriesButton" Content="Approve User Stories" HorizontalAlignment="Left" Margin="23,376,0,0" VerticalAlignment="Top" Width="184" Height="23" Click="ApproveUserStoriesButton_Click"/>
+                                    <ListBox x:Name="UserStoriesForApprovalListBox" HorizontalAlignment="Left" Height="286" Margin="23,71,0,0" VerticalAlignment="Top" Width="352">
+                                    </ListBox>
+
+                                </Grid>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="0,10,-228,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">

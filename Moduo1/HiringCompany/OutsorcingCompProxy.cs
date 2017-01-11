@@ -19,7 +19,7 @@ namespace HiringCompany
             factory = this.ChannelFactory.CreateChannel();
         }
 
-        public void AskForPartnership( string hiringCompanyName )
+        public void AskForPartnership(string hiringCompanyName )
         {
             try
             {

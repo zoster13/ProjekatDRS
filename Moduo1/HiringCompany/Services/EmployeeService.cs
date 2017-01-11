@@ -252,7 +252,7 @@ namespace HiringCompany.Services
             binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
 
             EndpointAddress endpointAddress = new EndpointAddress(new Uri(outsorcingSvcEndpoint));
-            IOutsourcingServiceCallback callback = new OutsorcingServiceCallback();
+            IHiringService callback = new OutsorcingServiceCallback();
             InstanceContext instanceContext = new InstanceContext(callback);
 
 

@@ -49,3 +49,11 @@
 2017-01-11 01:41:19,035 INFO - User:zklasnic, password: 456 SignIn was successfull.
 2017-01-11 01:41:28,505 INFO - SignIn(amisic, 789) called.
 2017-01-11 01:41:28,558 INFO - User:amisic, password: 789 SignIn was successfull.
+2017-01-11 18:50:34,886 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 18:50:36,850 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 18:50:54,191 INFO - SignIn(amisic, 789) called.
+2017-01-11 18:50:54,239 INFO - User:amisic, password: 789 SignIn was successfull.
+2017-01-11 19:41:38,485 INFO - SignIn(amisic, 789) called.
+2017-01-11 19:41:40,013 INFO - User:amisic, password: 789 SignIn was successfull.
+2017-01-11 19:41:49,859 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 19:41:49,907 INFO - User:zklasnic, password: 456 SignIn was successfull.

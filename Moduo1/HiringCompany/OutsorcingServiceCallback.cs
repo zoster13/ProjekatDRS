@@ -12,11 +12,11 @@ using HiringCompany.Services;
 namespace HiringCompany
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
-    public class OutsorcingServiceCallback : ICommon.IOutsourcingServiceCallback
+    public class OutsorcingServiceCallback : ICommon.IHiringService
     {
         HiringCompanyDB hiringCompanyDb = HiringCompanyDB.Instance();
 
-        public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
+        public void ResponseForPartnershipRequest(bool accepted, string outsourcingCompName)
         {
             string notification = string.Empty;
 
@@ -95,7 +95,7 @@ namespace HiringCompany
 
         }
 
-        public void SendProjectToOutsourcingCompanyCallback(string outsourcingCompanyName, ProjectCommon p) 
+        public void ResponseForProjectRequest(string outsourcingCompanyName, ProjectCommon p) 
         {
             string notification = string.Empty;
 

@@ -42,10 +42,12 @@ namespace Client
             companiesDataGrid.DataContext = clientDB.Companies; //verovatno ce i ovo morati opet da se nakuca u SyncClientDB metodi-ako budemo slali celu listu,isto kao za Employees
             dataGridCEO.DataContext = clientDB.AllEmployees;
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
-            WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
+            //WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
             comboBoxCompanies.DataContext = clientDB.Companies;
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
             approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
+
+            
 
             foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
@@ -60,8 +62,8 @@ namespace Client
 
         private void SetUpConnection()
         {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-           // string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -275,6 +277,7 @@ namespace Client
             }
             dataGridCEO.DataContext = clientDB.AllEmployees;
 
+
             lock (clientDB.ProjectsForApproval_lock)
             {
                 if (clientDB.ProjectsForApproval.Count != 0)
@@ -304,7 +307,7 @@ namespace Client
                 clientDB.Companies = new BindingList<PartnerCompany>(data.CompaniesData);
             }
             companiesDataGrid.DataContext = clientDB.Companies;         
-            WorkCompaniesDataGrid.DataContext = clientDB.Companies;
+            //WorkCompaniesDataGrid.DataContext = clientDB.Companies;
             comboBoxCompanies.DataContext = clientDB.Companies;
 
             lock (clientDB.ProjectsForSending_lock)
@@ -479,9 +482,7 @@ namespace Client
             lock (clientDB.ProjectsForApproval_lock)
             {
                 proxy.ProjectApproved(proj);
-            }
-
-            //Poslati notification PO da je projekat odobren                     
+            }                    
         }
 
         // da li da cuvamo notifikacije u bazi?
@@ -530,6 +531,46 @@ namespace Client
         private void TextBoxNameCeoTextChanged(object sender, TextChangedEventArgs e)
         {
             labelUsernameExists.Visibility = Visibility.Hidden;
+        }
+
+        private void ApproveUserStoriesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Project p = (Project)comboBoxProjects.SelectedItem;
+            //napraviti listu userStorija za odobravanje koji ce se slati
+            foreach (CheckBox cb in UserStoriesForApprovalListBox.Items)
+            {
+                if (cb.IsChecked == true)
+                {
+                    foreach (UserStory us in p.UserStories)
+                    {
+                        if (us.Title.Equals(cb.Content))
+                        {
+                            //dodati u listu za odobravanje userStory(promeniti mu polje isAccepted ili kako vec)
+                        }
+                    }
+                }
+                //poslati listu odobrenih
+            }
+
+            UserStoriesForApprovalListBox.Items.Clear();
+        }
+
+        private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Project p = (Project)comboBoxProjects.SelectedItem;
+            //BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
+            
+            foreach (UserStory us in p.UserStories)//mozda i nekako drugacije,ne znam kako i gde cemo smestati userStory-je koje nam posalju,videcemo
+            {
+                //string s = String.Format("Name: {0}", us.Title);
+                CheckBox property = new CheckBox()
+                {
+
+                    Content = us.Title, //dodati i ostatak
+                    IsChecked = false
+                };
+                UserStoriesForApprovalListBox.Items.Add(property);
+            }
         }
     }
 }
