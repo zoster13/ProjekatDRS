@@ -246,32 +246,65 @@ namespace Server
                 access.UserStories.Add(userStory);
                 access.SaveChanges();
             }
+
+            Logger.Info(string.Format("UserStory [{0}] is added to database.", userStory.Title));
         }
 
         public void AddTask(Task task)
         {
             // izvuce se user story iz baze na osnovu user storija iz taska( story ima title) i doda se task
             // ne treba callback
-            
+
+            using (var access = new AccessDB())
+            {
+                UserStory userStory = access.UserStories.FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
+                task.UserStory = userStory;
+
+                access.Tasks.Add(task);
+                access.SaveChanges();
+            }
         }
 
         public void ReleaseUserStory(UserStory userStory)
         {
-            // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima kako bi oni mogli da preuzimaju taskove
-            throw new NotImplementedException();
+            // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima 
+            // kako bi oni mogli da preuzimaju taskove
+            Publisher.Instance.ReleaseUserStoryCallback(userStory);
         }
 
         public void TaskClaimed(Task task)
         {
             // rponaci task prema title i postaviti da je claimed i started, i postaviti ime employee-a
             // callback TaskClaimedCallback(Task) za sve clanove tima, vratiti taj task
-            throw new NotImplementedException();
+
+            using (var access = new AccessDB())
+            {
+                Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
+
+                taskInDB.ProgressStatus = ProgressStatus.STARTED;
+                taskInDB.EmployeeName = task.EmployeeName;
+
+                access.SaveChanges();
+            }
+
+            Logger.Info(string.Format("Task [{0}] is claimed.", task.Title));
+            Publisher.Instance.TaskClaimedCallback(task);
         }
 
         public void TaskCompleted(Task task)
         {
             // slicno kao claimed
-            throw new NotImplementedException();
+            using (var access = new AccessDB())
+            {
+                Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
+
+                taskInDB.ProgressStatus = ProgressStatus.COMPLETED;
+
+                access.SaveChanges();
+            }
+
+            Logger.Info(string.Format("Task [{0}] is completed.", task.Title));
+            Publisher.Instance.TaskCompletedCallback(task);
         }
 
         public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
@@ -279,7 +312,14 @@ namespace Server
             // salje listu user storija za projekat
             // u nasu bazu abdejtuje status za projekat status pending
             // ne treba callback
-            throw new NotImplementedException();
+
+            using (var access = new AccessDB())
+            {
+                Project projectInDB = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
+                projectInDB.ProgressStatus = ProgressStatus.PENDING;
+                access.SaveChanges();
+            }
+
         }
         
         #endregion IEmployeeService Methods

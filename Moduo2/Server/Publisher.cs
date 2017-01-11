@@ -247,17 +247,56 @@ namespace Server
 
         public void ReleaseUserStoryCallback(UserStory userStory)
         {
-            throw new NotImplementedException();
+            foreach (ICallbackMethods sub in employeeChannels.Values)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.ReleaseUserStoryCallback(userStory);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
         }
 
         public void TaskClaimedCallback(Task task)
         {
-            throw new NotImplementedException();
+            foreach (ICallbackMethods sub in employeeChannels.Values)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.TaskClaimedCallback(task);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
         }
 
         public void TaskCompletedCallback(Task task)
         {
-            throw new NotImplementedException();
+            foreach (ICallbackMethods sub in employeeChannels.Values)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.TaskCompletedCallback(task);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
         }
 
         //Delegiranje notifikacije od hiring kompanije
