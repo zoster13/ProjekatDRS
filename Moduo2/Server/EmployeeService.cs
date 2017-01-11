@@ -20,9 +20,17 @@ namespace Server
     public class EmployeeService : IEmployeeService
     {
         #region Fields
+
+        private readonly string OutsourcingCompanyName = "cekic";
+
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
         Timer lateOnJobTimer = new Timer();
+
+        NetTcpBinding binding = new NetTcpBinding();
+        string hiringCompanyAddress = "";
+
         #endregion Fields
+
 
         public EmployeeService()
         {
@@ -273,14 +281,16 @@ namespace Server
             // ne treba callback
             throw new NotImplementedException();
         }
+        
+        #endregion IEmployeeService Methods
 
+        #region Responses to Hiring company
 
-        public void ResponseToPartnershipRequest(bool accepted, string companyName)
+        public void ResponseToPartnershipRequest(bool accepted, string hiringCompanyName)
         {
-            //ako prihvati dodaj u bazu
             if (accepted)
             {
-                HiringCompany newHiringCompany = new HiringCompany(companyName);
+                HiringCompany newHiringCompany = new HiringCompany(hiringCompanyName);
 
                 using (var access = new AccessDB())
                 {
@@ -289,12 +299,14 @@ namespace Server
                 }
             }
 
-            Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
+            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            {
+                proxy.ResponseForPartnershipRequest(accepted, OutsourcingCompanyName);
+            }
         }
 
         public void ResponseToProjectRequest(bool accepted, Project project)
         {
-            //ako prihvati dodaj u bazu
             if (accepted)
             {
                 Project newProject = new Project();
@@ -311,9 +323,12 @@ namespace Server
             prCommon.Name = project.Name;
             prCommon.IsAcceptedByOutsCompany = accepted;
 
-            Publisher.Instance.SendProjectToOutsourcingCompanyCallback(project.HiringCompanyName, prCommon);
+            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            {
+                proxy.ResponseForProjectRequest(OutsourcingCompanyName, prCommon);
+            }
         }
 
-        #endregion IEmployeeService Methods
+        #endregion 
     }
 }

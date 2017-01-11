@@ -82,7 +82,7 @@ namespace Client
         }
 
         //IOutsourcingServiceCallbacks
-        public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
+        public void SendNotificationToCEO(Notification notification)
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {

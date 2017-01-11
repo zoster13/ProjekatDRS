@@ -58,9 +58,10 @@ namespace ClientCommon
 
         [OperationContract]
         void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
-
+        
+        //Response to Hiring company
         [OperationContract]
-        void ResponseToPartnershipRequest(bool accepted, string companyName);
+        void ResponseToPartnershipRequest(bool accepted, string hiringCompanyName);
 
         [OperationContract]
         void ResponseToProjectRequest(bool accepted, Project project);

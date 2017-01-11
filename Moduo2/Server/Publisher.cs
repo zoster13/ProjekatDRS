@@ -11,19 +11,16 @@ using ICommon;
 namespace Server
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
-    public class Publisher : ICallbackMethods, IOutsourcingServiceCallback
+    public class Publisher : ICallbackMethods
     {
         private static Publisher instance;
         private static Dictionary<string, ICallbackMethods> employeeChannels;
-        private static Dictionary<string, IOutsourcingServiceCallback> companiesChannels;
-        private readonly string companyName = "cekic";
-
+        
         public Publisher()
         {
             if (instance == null)
             {
                 employeeChannels = new Dictionary<string, ICallbackMethods>();
-                companiesChannels = new Dictionary<string, IOutsourcingServiceCallback>();
                 instance = this;
             }
         }
@@ -259,17 +256,19 @@ namespace Server
         {
             throw new NotImplementedException();
         }
-        #endregion ICallbackMethods
 
-
-        #region Metode za delegiranje zahtjeva klijentu upucenih od Hiring kompanije
-        
-        public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
+        //Delegiranje notifikacije od hiring kompanije
+        public void SendNotificationToCEO(Notification notification)
         {
-            // AKO VEC POSTOJI - GRESK!!!! - ispravljeno,testirati
-            if (!companiesChannels.Keys.Contains(notification.HiringCompanyName))
+            //Sacauvaj notifikaciju u bazu
+            foreach (Employee emp in InternalDatabase.Instance.AllEmployees)
             {
-                companiesChannels.Add(notification.HiringCompanyName, outsourcingCallbackChannel);
+                if (emp.Type.Equals(EmployeeType.CEO))
+                {
+                    Employee ceo = EmployeeServiceDatabase.Instance.GetEmployee(emp.Email);
+                    notification.Emoloyee = ceo;
+                    EmployeeServiceDatabase.Instance.AddNotification(notification);
+                }
             }
 
             //Obavjesti CEO ako je online da je dobio notif
@@ -281,7 +280,7 @@ namespace Server
                     {
                         if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
                         {
-                            emp.Channel.SendNotificationToCEO(notification, null);
+                            emp.Channel.SendNotificationToCEO(notification);
                         }
                     }
                     catch (Exception e)
@@ -292,90 +291,8 @@ namespace Server
                     break;
                 }
             }
-
-            //Sacauvaj u bazi notifikaciju
-            foreach (Employee emp in InternalDatabase.Instance.AllEmployees)
-            {
-                if (emp.Type.Equals(EmployeeType.CEO))
-                {
-                    //save to database
-                    Employee ceo = EmployeeServiceDatabase.Instance.GetEmployee(emp.Email);
-                    notification.Emoloyee = ceo;
-                    EmployeeServiceDatabase.Instance.AddNotification(notification);
-                }
-            }
         }
 
-        public void SendProjectToCEO(string hiringCompanyName, Project project)
-        {
-            ////Slanje projekta CEO ako je online
-            //foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
-            //{
-            //    if (emp.Type.Equals(EmployeeType.CEO))
-            //    {
-            //        try
-            //        {
-            //            if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
-            //            {
-            //                emp.Channel.SendProjectToCEO(hiringCompanyName, project);
-            //            }
-            //        }
-            //        catch (Exception e)
-            //        {
-            //            Console.WriteLine("Error: {0}", e.Message);
-            //        }
-
-            //        break;
-            //    }
-            //}
-
-            ////Sacauvaj u bazi projekat
-            //using(var access = new AccessDB())
-            //{
-            //    access.Projects.Add(project);
-            //    access.SaveChanges();
-            //}
-        }
-        
-        #endregion Metode za delegiranje zahtjeva klijentu upucenih od Hiring kompanije
-
-
-        #region IOutsourcingServiceCallback
-        
-        public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
-        {
-            IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompName];    //outsourcingCompName=hiring company name
-
-            try
-            {
-                if (((IClientChannel)ch).State == CommunicationState.Opened)
-                {
-                    ch.AskForPartnershipCallback(accepted, companyName);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e.Message);
-            }
-        }
-
-        public void SendProjectToOutsourcingCompanyCallback(string outsourcingCompanyName, ProjectCommon p)
-        {
-            IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompanyName];    //outsourcingCompName=hiring company name
-
-            try
-            {
-                if (((IClientChannel)ch).State == CommunicationState.Opened)
-                {
-                    ch.SendProjectToOutsourcingCompanyCallback(companyName, p);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e.Message);
-            }
-        }
-
-        #endregion IOutsourcingServiceCallback
+        #endregion ICallbackMethods
     }
 }

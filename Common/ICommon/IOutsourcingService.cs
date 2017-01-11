@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
 namespace ICommon
 {
-    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IOutsourcingServiceCallback))]
+    [ServiceContract]
     public interface IOutsourcingService
     {
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract]
         void AskForPartnership(string hiringCompanyName);
 
-        [OperationContract(IsOneWay=true)]
+        [OperationContract]
         void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p);
     }
 }

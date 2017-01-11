@@ -12,7 +12,7 @@ namespace Server.Access
         private static object lockObjectTeams;
         private static object lockObjectNotifications;
 
-        private readonly string ConnectionStringForDB = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True;";
+        private readonly string ConnectionStringForDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
 
         public static IEmployeeServiceDatabase Instance
         {

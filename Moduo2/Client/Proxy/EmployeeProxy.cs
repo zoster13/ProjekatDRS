@@ -166,19 +166,6 @@ namespace Client
             }
         }
 
-        //IOutsorucingService
-        public void ResponseToPartnershipRequest(bool accepted, string companyName)
-        {
-            try
-            {
-                factory.ResponseToPartnershipRequest(accepted, companyName);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error while trying to ResponseToPartnershipRequest: {0}", e.Message);
-            }
-        }
-
         public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
         {
             try
@@ -239,6 +226,18 @@ namespace Client
             }
         }
 
+        //Responses to Hiring Company
+        public void ResponseToPartnershipRequest(bool accepted, string hiringCompanyName)
+        {
+            try
+            {
+                factory.ResponseToPartnershipRequest(accepted, hiringCompanyName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to ResponseToPartnershipRequest: {0}", e.Message);
+            }
+        }
 
         public void ResponseToProjectRequest(bool accepted, Project project)
         {
