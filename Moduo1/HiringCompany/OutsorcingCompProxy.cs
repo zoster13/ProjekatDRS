@@ -24,7 +24,7 @@ namespace HiringCompany
             {
                 factory.AskForPartnership(hiringCompanyName);
             }
-            catch (Exception)
+            catch (Exception) // srediti ako nihov server otkaze
             {
 
                 throw;
