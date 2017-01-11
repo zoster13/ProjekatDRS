@@ -15,35 +15,22 @@ namespace HiringCompany
 
         public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
         {
-            
+            string notification = string.Empty;
+
             if (accepted)
             {
                 Console.WriteLine("Komunikacija uspostavljena, partnerstvo uspostavljeno");
+
+                notification = "Company <" + outsourcingCompName + "> accepted request for partnership.";
+
                 // brisanje, namestiti da lockovanje bude u bazi
-                hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // bacati exc ako ime ne postoji
-               
-                // dodati i mdf bazu 
+                hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // bacati exc ako ime ne postoji 
                 hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName));
 
 
                 // citati iz baze preko linq
                 try
                 {
-                    var access = new AccessDB();
-                    var ceos = from x in access.employees
-                               where x.Type == EmployeeCommon.EmployeeType.CEO
-                               select x;
-
-                    var ceosList = ceos.ToList();
-
-                    foreach (var ceo in ceosList)
-                    {
-                        
-                       
-
-                                 
-                        hiringCompanyDb.ConnectionChannelsClients[ceo.Username].Notify("Company <" + outsourcingCompName + "> accepted request for partnership.");
-                    }
                     CurrentData cData = new CurrentData();
                     cData.ProjectsForApprovalData = hiringCompanyDb.ProjectsForCeoApproval;
                     cData.AllEmployeesData = hiringCompanyDb.AllEmployees;
@@ -51,23 +38,42 @@ namespace HiringCompany
                     cData.NamesOfCompaniesData = hiringCompanyDb.PartnerCompaniesAddresses.Keys.ToList();
                     cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSendingToOutsC;
                     cData.CompaniesData = hiringCompanyDb.PartnerCompanies;
-                    
+
                     foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)
                     {
                         call.SyncData(cData);
                     }
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    
-                    throw;
+                    Console.WriteLine(ex.Message);
                 }
 
             }
             else
             {
+                notification = "Company <" + outsourcingCompName + "> declined request for partnership.";
+
+                hiringCompanyDb.ConnectionChannelsCompanies.Remove(outsourcingCompName); // namestiti da ne pada ako posalju pogresno ime..
+
                 Console.WriteLine("Zahtev za partnerstvo odbijen");
+            }
+            // dodati using
+            var access = new AccessDB();
+            var ceos = from x in access.employees
+                       where x.Type == EmployeeCommon.EmployeeType.CEO
+                       select x;
+
+            var ceosList = ceos.ToList();
+
+            foreach (var ceo in ceosList)
+            {
+                Employee em = hiringCompanyDb.OnlineEmployees.Find(e => e.Username.Equals(ceo.Username));
+                if (em != null)
+                {
+                    hiringCompanyDb.ConnectionChannelsClients[ceo.Username].Notify(notification);
+                }
             }
 
         }

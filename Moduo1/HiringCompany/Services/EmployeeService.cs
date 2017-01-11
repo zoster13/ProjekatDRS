@@ -479,7 +479,9 @@ namespace HiringCompany.Services
                 }
             }
         }
-
+        // namestiti da kada se desi greska sa klijentske strane da se on uvek disposuje kako treba, tj da se izloguje i da se
+        // uradi remove channel uvek sa serverske strane ..ili pre nego sto pozovemo sync da vidimo da li je channel u dobrom stanju i slati ako jeste
+        // tj pre poziva bilo koje metode proveravati stanje kanala
         private void SyncAll()
         {
             CurrentData cData = new CurrentData();
