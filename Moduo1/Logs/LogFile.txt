@@ -1,0 +1,21 @@
+2017-01-10 21:43:53,905 INFO - Korisnik se logovao.
+2017-01-10 22:32:48,525 INFO - SignIn(zklasnic, 456) called.
+2017-01-10 22:32:52,456 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-10 22:33:24,662 INFO - SignIn(zklasnic, 456) called.
+2017-01-10 22:33:24,703 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-10 22:34:38,161 INFO - SignIn(zklasnic, 456) called.
+2017-01-10 22:34:42,065 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-10 22:35:26,937 INFO - SignIn(zklasnic, 456) called.
+2017-01-10 22:35:26,953 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-10 22:36:36,558 INFO - SignIn(zklasnic, 456) called.
+2017-01-10 22:36:36,715 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-10 22:51:46,509 INFO - SignIn(mvujakovic, 123) called.
+2017-01-10 22:53:21,955 INFO - SignIn(mvujakovic, 123) called.
+2017-01-10 22:53:25,642 INFO - User:mvujakovic, password: 123 SignIn was successfull.
+2017-01-10 22:53:54,541 INFO - SignIn(mvujakovic, 123) called.
+2017-01-10 22:55:03,383 INFO - SignIn(mvujakovic, 123) called.
+2017-01-10 22:55:18,626 INFO - User:mvujakovic, password: 123 SignIn was successfull.
+2017-01-10 22:58:55,123 INFO - SignIn(rzekanovic, 112) called.
+2017-01-10 22:58:58,919 INFO - User:rzekanovic, password: 112 SignIn was successfull.
+2017-01-10 22:59:21,399 INFO - SignIn(mvujakovic, 123) called.
+2017-01-10 22:59:21,665 INFO - User:mvujakovic, password: 123 SignIn was successfull.

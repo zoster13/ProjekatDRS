@@ -12,5 +12,8 @@ namespace ICommon
     {
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         void AskForPartnership(string hiringCompanyName);
+
+        [OperationContract(IsOneWay=true)]
+        void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p);
     }
 }
