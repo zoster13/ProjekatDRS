@@ -33,8 +33,8 @@ namespace HiringCompany
 
             // --------------------- service for clients--------------------------------
 
-           // string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
-            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
+           string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
+            //string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 
@@ -59,6 +59,13 @@ namespace HiringCompany
             //HiringCompanyDB.Instance().AddNewEmployee(em3);
             //HiringCompanyDB.Instance().AddNewEmployee(em4);
             //HiringCompanyDB.Instance().AddNewEmployee(em5);
+
+            //PartnerCompany pc = new PartnerCompany("nesto");
+            //using(var access = new AccessDB())
+            //{
+            //    access.companies.Add(pc);
+            //    access.SaveChanges();
+            //}
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(true);

@@ -19,3 +19,33 @@
 2017-01-10 22:58:58,919 INFO - User:rzekanovic, password: 112 SignIn was successfull.
 2017-01-10 22:59:21,399 INFO - SignIn(mvujakovic, 123) called.
 2017-01-10 22:59:21,665 INFO - User:mvujakovic, password: 123 SignIn was successfull.
+2017-01-11 00:14:19,147 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:14:28,452 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 00:25:38,609 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:28:52,674 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:32:41,189 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:36:11,993 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:44:11,745 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:50:54,452 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:58:47,707 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 00:58:57,208 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:10:49,302 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:10:53,071 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:13:30,922 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:13:34,990 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:14:39,259 INFO - SignIn(amisic, 789) called.
+2017-01-11 01:14:39,305 INFO - User:amisic, password: 789 SignIn was successfull.
+2017-01-11 01:26:29,896 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:26:33,833 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:29:23,906 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:29:27,632 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:30:28,147 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:30:32,253 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:39:30,814 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:39:34,939 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:39:47,863 INFO - SignIn(amisic, 789) called.
+2017-01-11 01:39:47,923 INFO - User:amisic, password: 789 SignIn was successfull.
+2017-01-11 01:41:15,003 INFO - SignIn(zklasnic, 456) called.
+2017-01-11 01:41:19,035 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-11 01:41:28,505 INFO - SignIn(amisic, 789) called.
+2017-01-11 01:41:28,558 INFO - User:amisic, password: 789 SignIn was successfull.

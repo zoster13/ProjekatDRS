@@ -368,7 +368,7 @@ namespace HiringCompany.Services
                                 cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
                                 cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
                                 cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
-
+                                cData.ProjectsData = hiringCompanyDB.ProjectsInDevelopment;
 
                                 ICommunicationObject co = pair.Value as ICommunicationObject;
                                 Console.WriteLine(co.State.ToString());
@@ -524,6 +524,7 @@ namespace HiringCompany.Services
             cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
+            cData.ProjectsData = hiringCompanyDB.ProjectsInDevelopment;
 
             List<string> forRemove = new List<string>();
 

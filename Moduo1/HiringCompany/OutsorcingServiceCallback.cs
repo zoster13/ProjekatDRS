@@ -28,7 +28,7 @@ namespace HiringCompany
 
                 // brisanje, namestiti da lockovanje bude u bazi
                 hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // bacati exc ako ime ne postoji 
-                hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName));
+               // hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName));
 
 
                 // citati iz baze preko linq
@@ -41,6 +41,7 @@ namespace HiringCompany
                     cData.NamesOfCompaniesData = hiringCompanyDb.PartnerCompaniesAddresses.Keys.ToList();
                     cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSendingToOutsC;
                     cData.CompaniesData = hiringCompanyDb.PartnerCompanies;
+                    cData.ProjectsData = hiringCompanyDb.ProjectsInDevelopment;
 
                     //foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)
                     //{
@@ -108,6 +109,7 @@ namespace HiringCompany
 
                         if (proj != null)
                         {
+                            proj.OutsourcingCompany = outsourcingCompanyName;
                             proj.IsAcceptedOutsCompany = true;
                             access.SaveChanges();
                         }
@@ -140,6 +142,7 @@ namespace HiringCompany
                 cData.NamesOfCompaniesData = hiringCompanyDb.PartnerCompaniesAddresses.Keys.ToList();
                 cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSendingToOutsC;
                 cData.CompaniesData = hiringCompanyDb.PartnerCompanies;
+                cData.ProjectsData = hiringCompanyDb.ProjectsInDevelopment;
 
                 //foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)
                 //{

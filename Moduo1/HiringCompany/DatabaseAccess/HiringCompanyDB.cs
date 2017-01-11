@@ -72,25 +72,16 @@ namespace HiringCompany.DatabaseAccess
             get { return partnerCompaniesAddresses; }
             set { partnerCompaniesAddresses = value; }
         }
+
         public List<PartnerCompany> PartnerCompanies
         {
             get {
                 using(var access = new AccessDB())
                 {
-                    var companies = from com in access.companies
-                                    select com;
 
-                    // ovo nema smisla, zbog neceg drugog je vracao null. 
-                    // ako select nema sta da procita ne vraca null, nego empty enumerable
+                    return access.companies.ToList();
 
-                    if(companies.ToList() == null) // videti gde jos treba ova provera
-                    {
-                        return new List<PartnerCompany>();
-                    }
-                    else
-                    {
-                        return companies.ToList();
-                    }
+                    Console.WriteLine("partner companies posle select");
 
                 }
             }
@@ -276,6 +267,31 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
             return retVal;
+        }
+
+        public List<Project> ProjectsInDevelopment 
+        {
+            get
+            {
+                // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
+                using (var access = new AccessDB())
+                {
+                    var projectsInDev = from proj in access.projects
+                                       where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
+                                       select proj;
+
+                    return projectsInDev.ToList();
+
+                    //if (projectsInDev.ToList() == null) // videti gde jos treba ova provera
+                    //{
+                    //    return new List<Project>();
+                    //}
+                    //else
+                    //{
+                    //    return projectsInDev.ToList();
+                    //}
+                }
+            }
         }
     }
 }
