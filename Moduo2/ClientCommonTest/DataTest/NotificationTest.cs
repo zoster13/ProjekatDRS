@@ -16,6 +16,10 @@ namespace ClientCommonTest.DataTest
         private string hiringCompanyName = "kompanija";
         private string projectName = "projekat";
         private int id = 1;
+        private string projectDescription = "nesto o projektu";
+        private DateTime someTime = DateTime.Now;
+        private string message = "poruka";
+        private Employee employee = new Employee(EmployeeType.DEVELOPER, "mare", "maric", "mare", "mare", null);
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -34,11 +38,13 @@ namespace ClientCommonTest.DataTest
         [Test]
         public void ConstructorTestWithParameters()
         {
-            //Assert.DoesNotThrow(() => new Notification(type, hiringCompanyName, projectName));
+            Assert.DoesNotThrow(() => new Notification(type, hiringCompanyName, projectName, projectDescription));
 
+            notificationTest = new Notification(type, hiringCompanyName, projectName, projectDescription);
             Assert.AreEqual(type, notificationTest.Type);
             Assert.AreEqual(hiringCompanyName, notificationTest.HiringCompanyName);
             Assert.AreEqual(projectName, notificationTest.ProjectName);
+            Assert.AreEqual(projectDescription, notificationTest.ProjectDescription);
         }
 
         [Test]
@@ -57,37 +63,69 @@ namespace ClientCommonTest.DataTest
             Assert.AreEqual(type, notificationTest.Type);
         }
 
-        //[Test]
-        //public void NameTest()
-        //{
-        //    employeeTest.Name = name;
+        [Test]
+        public void NotificationStampTest()
+        {
+            notificationTest.NotificationStamp = someTime;
 
-        //    Assert.AreEqual(name, employeeTest.Name);
-        //}
+            Assert.AreEqual(notificationTest.NotificationStamp, someTime);
+        }
 
-        //[Test]
-        //public void SurnameTest()
-        //{
-        //    employeeTest.Surname = surname;
+        [Test]
+        public void NotificationAcceptStatusTest()
+        {
+            notificationTest.StatusAccept = NotificationAcceptStatus.ACCEPTED;
 
-        //    Assert.AreEqual(surname, employeeTest.Surname);
-        //}
+            Assert.AreEqual(notificationTest.StatusAccept, NotificationAcceptStatus.ACCEPTED);
+        }
 
-        //[Test]
-        //public void EmailTest()
-        //{
-        //    employeeTest.Email = email;
+        [Test]
+        public void NotificationNewStatusTest()
+        {
+            notificationTest.StatusNew = NotificationNewStatus.NEW;
 
-        //    Assert.AreEqual(email, employeeTest.Email);
-        //}
+            Assert.AreEqual(notificationTest.StatusNew, NotificationNewStatus.NEW);
+        }
 
-        //[Test]
-        //public void PasswordTest()
-        //{
-        //    employeeTest.Password = password;
+        [Test]
+        public void MessageTest()
+        {
+            notificationTest.Message = message;
 
-        //    Assert.AreEqual(password, employeeTest.Password);
-        //}
+            Assert.AreEqual(notificationTest.Message, message);
+        }
+
+        [Test]
+        public void HiringCompanyNameTest()
+        {
+            notificationTest.HiringCompanyName = hiringCompanyName;
+
+            Assert.AreEqual(notificationTest.HiringCompanyName, hiringCompanyName);
+        }
+
+        [Test]
+        public void ProjectCompanyNameTest()
+        {
+            notificationTest.ProjectName = projectName;
+
+            Assert.AreEqual(notificationTest.ProjectName, projectName);
+        }
+
+        [Test]
+        public void ProjectDescriptionTest()
+        {
+            notificationTest.ProjectDescription = projectDescription;
+
+            Assert.AreEqual(notificationTest.ProjectDescription, projectDescription);
+        }
+
+        [Test]
+        public void EmployeeTest()
+        {
+            notificationTest.Emoloyee = employee;
+
+            Assert.AreEqual(notificationTest.Emoloyee, employee);
+        }
 
         #endregion Tests
     }
