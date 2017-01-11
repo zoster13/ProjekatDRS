@@ -4,6 +4,7 @@ using ClientCommon.Data;
 using System.ServiceModel;
 using System.Threading;
 using ICommon;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -95,6 +96,14 @@ namespace Client
             App.Current.Dispatcher.Invoke((Action)delegate
             {
                 mainWindow.ProjectTeamAssignCallbackResult(project);
+            });
+        }
+
+        public void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.ReceiveUserStoriesCallbackResult(commUserStories, projectName);
             });
         }
 

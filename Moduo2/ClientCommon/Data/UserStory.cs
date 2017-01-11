@@ -93,5 +93,10 @@ namespace ClientCommon.Data
             get { return project; }
             set { project = value; }
         }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

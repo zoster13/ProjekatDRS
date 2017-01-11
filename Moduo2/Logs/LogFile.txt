@@ -29,3 +29,37 @@
 2017-01-11 14:03:50,972 INFO - Employee [jovan@gmail.com] is loged in.
 2017-01-11 14:10:03,626 INFO - Employee [marko@gmail.com] is loged in.
 2017-01-11 14:10:12,641 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 20:27:21,987 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 20:27:22,754 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 20:29:16,587 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 20:29:31,890 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 20:31:23,894 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 20:36:30,897 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 20:43:31,270 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 20:52:25,413 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 20:57:53,498 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:00:07,475 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:02:04,832 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:02:34,777 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 21:05:38,521 INFO - UserStory [us1] is added to database.
+2017-01-11 21:08:49,093 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:09:08,581 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 21:10:29,377 INFO - UserStory [us1] is added to database.
+2017-01-11 21:12:13,069 INFO - UserStory [us2] is added to database.
+2017-01-11 21:16:43,546 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:18:33,414 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:19:09,447 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 21:19:49,960 INFO - UserStory [us1] is added to database.
+2017-01-11 21:20:14,839 INFO - UserStory [us2] is added to database.
+2017-01-11 21:21:27,320 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:21:42,231 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 21:22:16,079 INFO - UserStory [us1] is added to database.
+2017-01-11 21:22:22,782 INFO - UserStory [us2] is added to database.
+2017-01-11 21:26:56,116 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:27:17,348 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 21:27:55,176 INFO - UserStory [us1] is added to database.
+2017-01-11 21:28:02,745 INFO - UserStory [us2] is added to database.
+2017-01-11 21:33:14,097 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 21:35:05,496 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 21:39:38,411 INFO - UserStory [us1] is added to database.
+2017-01-11 21:39:51,868 INFO - UserStory [us2] is added to database.

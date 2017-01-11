@@ -119,6 +119,9 @@ namespace Client.Views
 
                     project.ProgressStatus = ProgressStatus.PENDING;
 
+                    dataGridProjects.Items.Refresh();
+                    dataGridProjects1.Items.Refresh();
+
                     comboBoxProjectsSend.Items.Refresh();
 
                     foreach (var userStory in project.UserStories)
@@ -130,7 +133,7 @@ namespace Client.Views
                         storiesToSend.Add(commStory);
                     }
 
-                    LocalClientDatabase.Instance.proxy.SendUserStories(storiesToSend, project.Name);
+                    //LocalClientDatabase.Instance.proxy.SendUserStories(storiesToSend, project.Name);
                 }
                 else
                 {
@@ -169,7 +172,7 @@ namespace Client.Views
             {
                 UserStory userStory = comboBoxStories.SelectedItem as UserStory;
 
-                if(userStory.AcceptStatus != AcceptStatus.ACCEPTED && userStory.ProgressStatus == ProgressStatus.INPREP)
+                if(userStory.AcceptStatus == AcceptStatus.ACCEPTED && userStory.ProgressStatus == ProgressStatus.INPREP)
                 {
                     ClientCommon.Data.Task task = new ClientCommon.Data.Task();
 

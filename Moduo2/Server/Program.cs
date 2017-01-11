@@ -7,6 +7,7 @@ using System.ServiceModel.Description;
 using ICommon;
 using Server.Logger;
 using ClientCommon.Data;
+using System.Collections.Generic;
 
 namespace Server
 {
@@ -55,9 +56,24 @@ namespace Server
 
             Console.ReadKey();
 
-            //Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat", "bla");
-            //Publisher.Instance.SendNotificationToCEO(notif, null);
-            
+            Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat", "bla");
+            Publisher.Instance.SendNotificationToCEO(notif);
+
+            Console.ReadKey();
+
+            UserStoryCommon us1 = new UserStoryCommon();
+            us1.Title = "us1";
+            us1.Description = "prvi user story";
+            us1.IsAccepted = true;
+            UserStoryCommon us2 = new UserStoryCommon();
+            us2.Title = "us2";
+            us2.Description = "prvi drugi story";
+            us2.IsAccepted = true;
+
+            List<UserStoryCommon> usl = new List<UserStoryCommon>();
+            usl.Add(us1);
+            usl.Add(us2);
+            Publisher.Instance.ReceiveUserStoriesCallback(usl, "projekat");
 
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");

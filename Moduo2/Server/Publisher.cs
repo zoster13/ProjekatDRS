@@ -337,21 +337,31 @@ namespace Server
 
         public void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName)
         {
-            if (emp.Type.Equals(EmployeeType.CEO))
+            string teamleader = string.Empty;
+            Project proj;
+
+            using (var access = new AccessDB())
+            {
+                proj = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
+
+                teamleader = proj.Team.Name;
+            }
+
+            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(proj.Team.TeamLeaderEmail));
+
+            if (teamLeader != null)
             {
                 try
                 {
-                    if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+                    if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
                     {
-                        emp.Channel.SendNotificationToCEO(notification);
+                        teamLeader.Channel.ReceiveUserStoriesCallback(commUserStories, projectName);
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: {0}", e.Message);
                 }
-
-                break;
             }
         }
 

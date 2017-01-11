@@ -382,10 +382,10 @@ namespace Server
             prCommon.Name = project.Name;
             prCommon.IsAcceptedByOutsCompany = accepted;
 
-            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            {
-                proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
-            }
+            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            //{
+            //    proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
+            //}
         }
 
         #endregion 

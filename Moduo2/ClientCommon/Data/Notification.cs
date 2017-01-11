@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using ICommon;
+using System.Collections.Generic;
 
 namespace ClientCommon.Data
 {
@@ -114,7 +116,7 @@ namespace ClientCommon.Data
             set { projectDescription = value; }
         }
 
-        [DataMember]
+        [IgnoreDataMember]
         public Employee Emoloyee
         {
             get { return employee; }
