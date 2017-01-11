@@ -12,7 +12,7 @@ namespace Server
         public void AskForPartnership(string hiringCompanyName)
         {
             outsourcingCallbackChannel = OperationContext.Current.GetCallbackChannel<IOutsourcingServiceCallback>();
-            Notification notification = new Notification(NotificationType.REQUEST_FOR_PARTNERSHIP,hiringCompanyName, string.Empty);
+            Notification notification = new Notification(NotificationType.REQUEST_FOR_PARTNERSHIP,hiringCompanyName, string.Empty, string.Empty);
 
             Publisher.Instance.SendNotificationToCEO(notification, outsourcingCallbackChannel);
         }
@@ -22,7 +22,7 @@ namespace Server
             //Project newProject = new Project(hiringCompanyName, p.Name);
             //Publisher.Instance.SendProjectToCEO(hiringCompanyName, newProject);
 
-            Notification notification = new Notification(NotificationType.PROJECT_REQUEST, hiringCompanyName, p.Name);
+            Notification notification = new Notification(NotificationType.PROJECT_REQUEST, hiringCompanyName, p.Name, p.Description);
             Publisher.Instance.SendNotificationToCEO(notification, outsourcingCallbackChannel);
         }
     }

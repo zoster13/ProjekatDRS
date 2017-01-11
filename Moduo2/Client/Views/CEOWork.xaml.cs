@@ -233,7 +233,7 @@ namespace Client.Views
             textBoxTeamName.Text = "";
             passwordBoxLeader.Password = "";
 
-            OkMessageBox("A new team has been added!");
+            OkMessageBox("A new team has been added!\n It can be seen in the Teams pannel.");
 
             tabControlNewTeam.SelectedIndex = 0;
         }
@@ -253,7 +253,7 @@ namespace Client.Views
 
             textBoxTeamName.Text = "";
 
-            OkMessageBox("A new team has been added!");
+            OkMessageBox("A new team has been added!\n It can be seen in the Teams pannel.");
 
             tabControlNewTeam.SelectedIndex = 0;
         }

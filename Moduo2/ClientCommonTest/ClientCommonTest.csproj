@@ -47,7 +47,11 @@
   <ItemGroup>
     <Compile Include="DataTest\EmployeeTest.cs" />
     <Compile Include="DataTest\HiringCompanyTest.cs" />
+    <Compile Include="DataTest\NotificationTest.cs" />
+    <Compile Include="DataTest\ProjectTest.cs" />
+    <Compile Include="DataTest\TaskTest.cs" />
     <Compile Include="DataTest\TeamTest.cs" />
+    <Compile Include="DataTest\UserStoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

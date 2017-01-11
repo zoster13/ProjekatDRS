@@ -96,7 +96,7 @@ namespace Client.Views
 
                     //LocalClientDatabase.Instance.proxy.AddUserStory(userStory);
 
-                    MessageBox.Show("User story has been added");
+                    MessageBox.Show("User story has been added!");
                 }
                 else
                 {
@@ -185,10 +185,15 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.proxy.AddTask(task);
 
+                    textBoxTaskTitle.Text = "";
+                    textBoxTaskContent.Text = "";
+                    comboBoxStories.SelectedItem = null;
+
+                    MessageBox.Show("A task has been added!");
                 }
                 else
                 {
-                    MessageBox.Show("The selected user story i=has not been accepted!");
+                    MessageBox.Show("The selected user story has not been accepted!");
                 }
             }
         }

@@ -276,7 +276,9 @@ namespace Client
             workLeader.textBoxUserStoryDifficulty.Text = "2";
 
             //make tasks
-
+            workLeader.textBoxTaskTitle.Text = "";
+            workLeader.textBoxTaskContent.Text = "";
+            workLeader.comboBoxStories.SelectedItem = null;
 
 
             //send user story
@@ -527,6 +529,7 @@ namespace Client
         public void ProjectTeamAssignCallbackResult(Project project)
         {
             LocalClientDatabase.Instance.MyTeamProjects.Add(project);
+            MessageBox.Show("CEO has assigned a new project to your team. It can be seen in the Work pannel in Projects.");
         }
 
         public void ReleaseUserStoryCallbackResult(UserStory userStory)

@@ -55,7 +55,7 @@ namespace Server
 
             Console.ReadKey();
 
-            Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat");
+            Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat", "bla");
             Publisher.Instance.SendNotificationToCEO(notif, null);
 
             Console.ReadKey();

@@ -85,7 +85,7 @@
                     </DataGrid>
                     <Grid x:Name="gridAddUserStory" Background="White" Margin="376,10,10,10">
                         <Label x:Name="labelTitle1" Content="Make userstory" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,10,0,0" VerticalAlignment="Top" Width="123"/>
-                        <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding MyProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,73,0,0" VerticalAlignment="Top" Width="280"/>
+                        <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,73,0,0" VerticalAlignment="Top" Width="280"/>
                         <Label x:Name="labelProject" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,47,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
                         <Label x:Name="labelUserStoryTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,111,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
                         <TextBox x:Name="textBoxUserStoryTitle" HorizontalAlignment="Left" Height="21" Margin="67,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="textBoxUserStoryTitle_TextChanged" />

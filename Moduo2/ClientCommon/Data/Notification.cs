@@ -16,6 +16,7 @@ namespace ClientCommon.Data
         protected string message;
         private string hiringCompanyName;
         private string projectName;
+        private string projectDescription;
         private Employee employee;
 
         public Notification()
@@ -24,7 +25,7 @@ namespace ClientCommon.Data
             statusAccept = NotificationAcceptStatus.PENDING;
         }
 
-        public Notification(NotificationType type, string hiringCompany, string projectName)
+        public Notification(NotificationType type, string hiringCompany, string projectName, string projectDescription)
         {
             this.type = type;
             notificationStamp = DateTime.Now;
@@ -32,6 +33,7 @@ namespace ClientCommon.Data
             statusNew = NotificationNewStatus.NEW;
             hiringCompanyName = hiringCompany;
             this.projectName = projectName;
+            this.projectDescription = projectDescription;
 
             switch (type)
             {
@@ -103,6 +105,13 @@ namespace ClientCommon.Data
         {
             get { return projectName; }
             set { projectName = value; }
+        }
+
+        [DataMember]
+        public string ProjectDescription
+        {
+            get { return projectDescription; }
+            set { projectDescription = value; }
         }
 
         [DataMember]

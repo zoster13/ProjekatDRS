@@ -14,6 +14,7 @@ namespace ClientCommon.Data
     {
         private int id;
         private string name;
+        private string description;
         private string teamName;
         private AssignStatus assignStatus;
         private ProgressStatus progressStatus;
@@ -50,6 +51,13 @@ namespace ClientCommon.Data
         {
             get { return name; }
             set { name = value; }
+        }
+
+        [DataMember]
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
         }
 
         [DataMember]

@@ -47,7 +47,7 @@ namespace Client.Views.Notifications
                         buttonDecline.IsEnabled = false;
 
                         LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(true, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
-                        MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been accepted!");
+                        MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been accepted!\n It can be seen in the Companies pannel.");
                     }
                     else
                     {
@@ -68,9 +68,9 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        // poziv metode
+                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(true, project.Name, project.HiringCompanyName);
                         
-                        MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been accepted!");
+                        MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been accepted!\n It can be seen in the Work pannel in Projects.");
                     }
                     else
                     {
@@ -113,7 +113,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        // poziv metode
+                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(true, string.Empty, string.Empty);
 
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been declined!");
                     }
