@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using ICommon;
 
 namespace HiringCompany
 {
@@ -31,6 +32,8 @@ namespace HiringCompany
             }
         }
 
+
+
         public void Dispose() // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
         {
 
@@ -48,5 +51,19 @@ namespace HiringCompany
             }
         }
 
+
+
+        public void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p)
+        {
+            try
+            {
+                factory.SendProjectToOutsourcingCompany(hiringCompanyName,p);
+            }
+            catch (Exception) // srediti ako nihov server otkaze
+            {
+
+                throw;
+            }
+        }
     }
 }

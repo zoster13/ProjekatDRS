@@ -171,5 +171,19 @@ namespace Client
                 this.Abort();
             }
         }
+
+
+        public void SendProject(string outscCompany, Project p)
+        {
+            try
+            {
+                factory.SendProject(outscCompany,p);
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
     }
 }
