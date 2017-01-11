@@ -1,0 +1,11 @@
+2017-01-11 09:01:44,124 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:06:35,918 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:14:45,462 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:16:43,619 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:18:18,229 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:20:56,887 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:22:18,727 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 09:22:49,187 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-11 09:23:00,097 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 10:22:01,031 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 10:23:15,400 INFO - Employee [jovan@gmail.com] is loged in.

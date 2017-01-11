@@ -124,7 +124,7 @@ namespace Client.Views
 
         private void textBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -136,7 +136,7 @@ namespace Client.Views
 
         private void textBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -148,7 +148,7 @@ namespace Client.Views
 
         private void textBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -161,7 +161,7 @@ namespace Client.Views
 
         private void passwordBoxNew_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "")
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
                 buttonNext1.IsEnabled = false;
             }
@@ -263,7 +263,7 @@ namespace Client.Views
             if (comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
             {
                 Project project = comboBoxProjects.SelectedItem as Project;
-                Team team = comboBoxTeam.SelectedItem as Team;
+                Team team = comboBoxTeams.SelectedItem as Team;
 
                 if (project.AssignStatus == AssignStatus.UNASSIGNED)
                 {
@@ -275,12 +275,18 @@ namespace Client.Views
                             {
                                 proj.Team = team;
                                 proj.AssignStatus = AssignStatus.ASSIGNED;
+                                break;
                             }
                         }
 
                         dataGridProjects.Items.Refresh();
+                        comboBoxProjects.Items.Refresh();
+                        comboBoxProjects.SelectedItem = null;
+                        comboBoxTeams.SelectedItem = null;
 
-                        LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project); // promeniti da se salje samo projekat
+                        LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project); 
+
+                        MessageBox.Show("The project has been successfully assigned!");
                     }
                     else
                     {
@@ -291,6 +297,10 @@ namespace Client.Views
                 {
                     MessageBox.Show("This project has already been assigned to a team!");
                 }
+            }
+            else
+            {
+                MessageBox.Show("Select a project and a team!");
             }
         }
 
@@ -334,10 +344,17 @@ namespace Client.Views
                 textBoxSurname.Text = "";
                 textBoxEmail.Text = "";
                 passwordBoxNew.Password = "";
+                comboBoxTeamScrum.SelectedItem = null;
+                comboBoxType.SelectedItem = null;
+                comboBoxTeamDeveloper.SelectedItem = null;
 
                 addEmployeeTabControl.SelectedIndex = 0;
 
                 OkMessageBox("A new employee has been added!");
+            }
+            else
+            {
+                OkMessageBox("You must choose a team!");
             }
         }
 
@@ -370,6 +387,9 @@ namespace Client.Views
                             textBoxSurname.Text = "";
                             textBoxEmail.Text = "";
                             passwordBoxNew.Password = "";
+                            comboBoxTeamScrum.SelectedItem = null;
+                            comboBoxType.SelectedItem = null;
+                            comboBoxTeamDeveloper.SelectedItem = null;
 
                             addEmployeeTabControl.SelectedIndex = 0;
 

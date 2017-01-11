@@ -9,6 +9,7 @@ namespace ClientCommon.Data
     public enum NotificationType
     {
         PROJECT_REQUEST,
-        REQUEST_FOR_PARTNERSHIP
+        REQUEST_FOR_PARTNERSHIP,
+        NEW_PROJECT_TL
     }
 }

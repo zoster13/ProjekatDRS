@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using ICommon;
 using Server.Logger;
-
+using ClientCommon.Data;
 
 namespace Server
 {
@@ -52,6 +52,11 @@ namespace Server
 
             //OutsourcingService os = new OutsourcingService();
             //os.AskForPartnership("HiringCompany1");
+
+            Console.ReadKey();
+
+            Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat");
+            Publisher.Instance.SendNotificationToCEO(notif, null);
 
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");

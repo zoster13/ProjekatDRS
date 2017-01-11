@@ -8,6 +8,7 @@ namespace ClientCommon.Data
 {
     public enum NotificationAcceptStatus
     {
+        NO_STATUS,
         UNREAD,
         READ,
         ACCEPTED,

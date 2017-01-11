@@ -78,18 +78,23 @@ namespace Client.Views
                     userStory.Title = textBoxUserStoryTitle.Text;
                     userStory.Description = textBoxUserStoryContent.Text;
                     userStory.Difficulty = int.Parse(textBoxUserStoryDifficulty.Text);
-                    
 
                     userStory.AcceptStatus = AcceptStatus.PENDING;
-                    userStory.ProgressStatus = ProgressStatus.INPREP; // sta sa deadline-om ??
+                    userStory.ProgressStatus = ProgressStatus.INPREP; 
 
                     userStory.Project = project;
 
-                    project.UserStories.Add(userStory);
+                    comboBoxProjects.Items.Refresh();
+                    comboBoxProjects.SelectedItem = null;
+                    textBoxUserStoryTitle.Text = "";
+                    textBoxUserStoryContent.Text = "";
+                    textBoxUserStoryDifficulty.Text = "2";
+
+                    //project.UserStories.Add(userStory);
 
                     LocalClientDatabase.Instance.UserStories.Add(userStory);
 
-                    LocalClientDatabase.Instance.proxy.AddUserStory(userStory);
+                    //LocalClientDatabase.Instance.proxy.AddUserStory(userStory);
 
                     MessageBox.Show("User story has been added");
                 }
@@ -97,6 +102,10 @@ namespace Client.Views
                 {
                     MessageBox.Show("You cannot add user stories to this project!");
                 }
+            }
+            else
+            {
+                MessageBox.Show("You must select a project!");
             }
         }
 

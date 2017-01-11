@@ -54,6 +54,29 @@ namespace Client.Views.Notifications
                         MessageBox.Show("This request has already been " + LocalClientDatabase.Instance.CurrentNotification.StatusAccept + "!");
                     }
                     break;
+                case NotificationType.PROJECT_REQUEST:
+                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept == NotificationAcceptStatus.PENDING)
+                    {
+                        Project project = new Project();
+                        project.Name = LocalClientDatabase.Instance.CurrentNotification.ProjectName;
+                        project.HiringCompanyName = LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName;
+                        LocalClientDatabase.Instance.AllProjects.Add(project);
+                        LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.ACCEPTED;
+                        mainWindow.dataGridNotifications.Items.Refresh();
+
+                        this.Visibility = Visibility.Hidden;
+                        buttonAccept.IsEnabled = false;
+                        buttonDecline.IsEnabled = false;
+
+                        // poziv metode
+                        
+                        MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been accepted!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("This request has already been " + LocalClientDatabase.Instance.CurrentNotification.StatusAccept + "!");
+                    }
+                    break;
             }
         }
 
@@ -74,6 +97,25 @@ namespace Client.Views.Notifications
                         LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(false, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
 
                         MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been declined!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("This request has already been " + LocalClientDatabase.Instance.CurrentNotification.StatusAccept + "!");
+                    }
+                    break;
+                case NotificationType.PROJECT_REQUEST:
+                    if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept == NotificationAcceptStatus.PENDING)
+                    {
+                        LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.DECLINED;
+                        mainWindow.dataGridNotifications.Items.Refresh();
+
+                        this.Visibility = Visibility.Hidden;
+                        buttonAccept.IsEnabled = false;
+                        buttonDecline.IsEnabled = false;
+
+                        // poziv metode
+
+                        MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been declined!");
                     }
                     else
                     {

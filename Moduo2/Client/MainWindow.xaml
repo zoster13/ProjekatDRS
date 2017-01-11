@@ -131,14 +131,10 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <Grid Margin="416,86,22,117" Background="White">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="48*"/>
-                                        <RowDefinition Height="117*"/>
-                                        <RowDefinition Height="16*"/>
-                                    </Grid.RowDefinitions>
                                     <viewNotif:AcceptDecline x:Name="acceptDeclineCanvas" Margin="10" Grid.RowSpan="3"/>
+                                    <viewNotif:MessageBoxCustom x:Name="messageBoxCanvas" Margin="10" Grid.RowSpan="3"/>
                                 </Grid>
-                                <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Margin="237,358,0,10" Width="75" Click="buttonNotifDetail_Click"/>
+                                <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Margin="237,358,0,0" Width="75" Click="buttonNotifDetail_Click" Height="27" VerticalAlignment="Top"/>
                             </Grid>
                         </TabItem>
                     </TabControl>

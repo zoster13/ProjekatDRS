@@ -15,6 +15,7 @@ namespace ClientCommon.Data
         protected NotificationNewStatus statusNew;
         protected string message;
         private string hiringCompanyName;
+        private string projectName;
         private Employee employee;
 
         public Notification()
@@ -30,6 +31,7 @@ namespace ClientCommon.Data
             statusAccept = NotificationAcceptStatus.PENDING;
             statusNew = NotificationNewStatus.NEW;
             hiringCompanyName = hiringCompany;
+            this.projectName = projectName;
 
             switch (type)
             {
@@ -37,7 +39,11 @@ namespace ClientCommon.Data
                     message = "Hiring company: " + hiringCompany + " has asked for your partnership. \nDo you accept or decline?";
                     break;
                 case NotificationType.PROJECT_REQUEST:
-                    message = "Hiring company: " + hiringCompany + " has sent you a project.\n Do you accept or decline?";
+                    message = "Hiring company: " + hiringCompany + " has sent you a project named: " + projectName + ".\n Do you accept or decline?";
+                    break;
+                case NotificationType.NEW_PROJECT_TL:
+                    statusAccept = NotificationAcceptStatus.NO_STATUS;
+                    message = "Your team has been assigned a new project: " + projectName + ". Write user stories for it and send for evaluation.";
                     break;
             }
         }
@@ -90,6 +96,13 @@ namespace ClientCommon.Data
         {
             get { return hiringCompanyName; }
             set { hiringCompanyName = value; }
+        }
+
+        [DataMember]
+        public string ProjectName
+        {
+            get { return projectName; }
+            set { projectName = value; }
         }
 
         [DataMember]

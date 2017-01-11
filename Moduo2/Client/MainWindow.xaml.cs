@@ -23,7 +23,7 @@ namespace Client
 
             workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
             workLeader.Visibility = Visibility.Hidden;
-
+            workDev.Visibility = Visibility.Hidden;
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -236,6 +236,7 @@ namespace Client
 
         private void ResetWork()
         {
+            //CEO ***********************
             //Add team
             workCeo.textBoxTeamName.Text = "";
 
@@ -253,10 +254,32 @@ namespace Client
             workCeo.textBoxSurname.Text = "";
             workCeo.textBoxEmail.Text = "";
             workCeo.passwordBoxNew.Password = "";
+            workCeo.comboBoxType.SelectedItem = null;
+            workCeo.comboBoxTeamDeveloper.SelectedItem = null;
+            workCeo.comboBoxTeamScrum.SelectedItem = null;
 
             workCeo.addEmployeeTabControl.SelectedIndex = 0;
 
-            //Other Employee work
+            //Assign project
+
+            workCeo.comboBoxProjects.SelectedItem = null;
+            workCeo.comboBoxTeams.SelectedItem = null;
+
+            //************************
+
+            // Team Leader *************************
+            
+            // user stories
+            workLeader.comboBoxProjects.SelectedItem = null;
+            workLeader.textBoxUserStoryTitle.Text = "";
+            workLeader.textBoxUserStoryContent.Text = "";
+            workLeader.textBoxUserStoryDifficulty.Text = "2";
+
+            //make tasks
+
+
+
+            //send user story
         }
 
         public void LogOutCallbackResult(Employee employee)
@@ -322,42 +345,39 @@ namespace Client
             {
                 MakeNotifInvisible();
 
-                acceptDeclineCanvas.Visibility = Visibility.Visible;
-
                 Notification notification = (Notification)dataGridNotifications.SelectedItem;
                 notification.StatusNew = NotificationNewStatus.SEEN;
                 LocalClientDatabase.Instance.CurrentNotification = notification;
-
-                //foreach (var notif in LocalClientDatabase.Instance.CurrentEmployee.Notifications)
-                //{
-                //    if (notif.Equals(notification))
-                //    {
-                //        notif.StatusNew = NotificationNewStatus.SEEN;
-                //    }
-                //}
-
-                //foreach (var notif in LocalClientDatabase.Instance.Notifications)
-                //{
-                //    if (notif.Equals(notification))
-                //    {
-                //        notif.StatusNew = NotificationNewStatus.SEEN;
-                //    }
-                //}
-
                 dataGridNotifications.Items.Refresh();
 
-                if (notification.StatusAccept != NotificationAcceptStatus.PENDING)
+                switch (notification.Type)
                 {
-                    acceptDeclineCanvas.buttonAccept.IsEnabled = false;
-                    acceptDeclineCanvas.buttonDecline.IsEnabled = false;
-                }
-                else
-                {
-                    acceptDeclineCanvas.buttonAccept.IsEnabled = true;
-                    acceptDeclineCanvas.buttonDecline.IsEnabled = true;
+                    case NotificationType.PROJECT_REQUEST:
+                    case NotificationType.REQUEST_FOR_PARTNERSHIP:
+                        
+                        acceptDeclineCanvas.Visibility = Visibility.Visible;
+
+                        if (notification.StatusAccept != NotificationAcceptStatus.PENDING)
+                        {
+                            acceptDeclineCanvas.buttonAccept.IsEnabled = false;
+                            acceptDeclineCanvas.buttonDecline.IsEnabled = false;
+                        }
+                        else
+                        {
+                            acceptDeclineCanvas.buttonAccept.IsEnabled = true;
+                            acceptDeclineCanvas.buttonDecline.IsEnabled = true;
+                        }
+
+                        acceptDeclineCanvas.notificationText.Text = notification.Message;
+                        break;
+
+                    case NotificationType.NEW_PROJECT_TL:
+
+                        messageBoxCanvas.notificationText.Text = notification.Message;
+                        break;
                 }
 
-                acceptDeclineCanvas.notificationText.Text = notification.Message;
+                
 
                 CountNewNotifications();
             }
@@ -368,6 +388,7 @@ namespace Client
             acceptDeclineCanvas.Visibility = Visibility.Hidden;
             acceptDeclineCanvas.buttonAccept.IsEnabled = false;
             acceptDeclineCanvas.buttonDecline.IsEnabled = false;
+            messageBoxCanvas.Visibility = Visibility.Hidden;
         }
 
         public void TypeChangeCallbackResult(Employee employee)
