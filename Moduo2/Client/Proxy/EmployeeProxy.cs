@@ -242,7 +242,14 @@ namespace Client
 
         public void ResponseToProjectRequest(bool accepted, string projectName, string hiringCompanyName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.ResponseToProjectRequest(accepted,projectName,hiringCompanyName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to ResponseToProjectRequest: {0}", e.Message);
+            }
         }
     }
 }
