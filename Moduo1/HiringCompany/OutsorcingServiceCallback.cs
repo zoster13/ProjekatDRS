@@ -39,9 +39,22 @@ namespace HiringCompany
                     cData.ProjectsForSendingData = hiringCompanyDb.ProjectsForSendingToOutsC;
                     cData.CompaniesData = hiringCompanyDb.PartnerCompanies;
 
-                    foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)
+                    //foreach (IEmployeeServiceCallback call in hiringCompanyDb.ConnectionChannelsClients.Values)
+                    //{
+                    //    call.SyncData(cData);
+                    //}
+
+                    foreach (var channel in hiringCompanyDb.ConnectionChannelsClients)
                     {
-                        call.SyncData(cData);
+                        try
+                        {
+                            channel.Value.SyncData(cData);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            hiringCompanyDb.ConnectionChannelsClients.Remove(channel.Key);
+                        }
                     }
 
                 }

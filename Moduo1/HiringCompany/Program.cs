@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 namespace HiringCompany
 {
 
-
+    
+     // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
+     
     class Program
     {
         static void Main(string[] args)
@@ -31,8 +33,8 @@ namespace HiringCompany
 
             // --------------------- service for clients--------------------------------
 
-            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
-           // string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
+           // string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
+            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 

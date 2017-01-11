@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using ICommon;
+using HiringCompany.Logger;
+
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace HiringCompany.Services
 {
@@ -19,8 +22,9 @@ namespace HiringCompany.Services
       ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
-        HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
+        public static readonly log4net.ILog Logger = LogHelper.GetLogger();
 
+        HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
         OutsorcingCompProxy outsorcingProxy;
         System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
 
@@ -63,15 +67,23 @@ namespace HiringCompany.Services
 
         public bool SignIn(string username, string password)
         {
-            Console.WriteLine("EmployeeService.LogIn() called ");
+            Logger.Info(string.Format("SignIn({0}, {1}) called.", username, password));
 
             Employee employee = hiringCompanyDB.GetEmployee(username);
 
             if (employee != null && password.Equals(employee.Password))
             {
                 IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-
                 IEmployeeServiceCallback outCallback;
+
+                // korisiti?
+                ICommunicationObject co = callback as ICommunicationObject;
+                Console.WriteLine(co.State.ToString());
+                if (co.State == CommunicationState.Opened)
+                {
+
+                }
+
                 if (!hiringCompanyDB.ConnectionChannelsClients.TryGetValue(username, out outCallback))
                 {
                     hiringCompanyDB.ConnectionChannelsClients.Add(username, callback);
@@ -85,15 +97,18 @@ namespace HiringCompany.Services
                 }
                 else
                 {
+
                     Console.WriteLine("Greska kod sign-in, uslo u else...");
                 }
 
             }
             else
             {
+                Logger.Info(string.Format("User:{0}, password: {1} SignIn was unsuccessfull.", username, password));
                 return false;
             }
 
+            Logger.Info(string.Format("User:{0}, password: {1} SignIn was successfull.", username, password));
             return true;
         }
 
@@ -182,20 +197,19 @@ namespace HiringCompany.Services
         {
             try
             {
-                var access = new AccessDB();
-                foreach (Employee em in access.employees)
+                using (var access = new AccessDB())
                 {
-                    if (em.Username == username)
+                    Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
+
+                    if (em != null)
                     {
                         em.StartHour = beginH;
                         em.StartMinute = beginM;
                         em.EndHour = endH;
                         em.EndMinute = endM;
-
-                        break;
+                        access.SaveChanges();
                     }
                 }
-                access.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {
@@ -215,34 +229,15 @@ namespace HiringCompany.Services
 
             lock (hiringCompanyDB.Employees_lock)
             {
-                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+                Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
                 {
-                    if (em.Username == username)
-                    {
-                        em.StartHour = beginH;
-                        em.StartMinute = beginM;
-                        em.EndHour = endH;
-                        em.EndMinute = endM;
-                        break;
-                    }
+                    em.StartHour = beginH;
+                    em.StartMinute = beginM;
+                    em.EndHour = endH;
+                    em.EndMinute = endM;
                 }
             }
-
-            lock (hiringCompanyDB.AllEmployees_lock)
-            {
-                foreach (Employee em in hiringCompanyDB.AllEmployees)
-                {
-                    if (em.Username == username)
-                    {
-                        em.StartHour = beginH;
-                        em.StartMinute = beginM;
-                        em.EndHour = endH;
-                        em.EndMinute = endM;
-                        break;
-                    }
-                }
-            }
-
             SyncAll();
         }
 
@@ -265,6 +260,8 @@ namespace HiringCompany.Services
             outsorcingProxy = new OutsorcingCompProxy(instanceContext, binding, endpointAddress);
             // sacuvati proxy, namestiti lockovabhe
             hiringCompanyDB.ConnectionChannelsCompanies.Add(outsorcingCompanyName, outsorcingProxy);
+
+            //i ovde ce trebati try catch - ako ne valja kanal
 
             outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);
         }
@@ -345,12 +342,20 @@ namespace HiringCompany.Services
 
             try
             {
+
+                using (var access = new AccessDB())
+                {
+
+                }
+
                 // lepse napisati, sa linq
-                var access = new AccessDB();
+                //var access = new AccessDB();
                 foreach (Employee em in access.employees)
                 {
                     if (em.Type == EmployeeType.CEO)
                     {
+                        string forRemove = string.Empty;
+
                         foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
                         {
                             if (pair.Key.Equals(em.Username))
@@ -364,10 +369,46 @@ namespace HiringCompany.Services
                                 cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
                                 cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
-                                pair.Value.SyncData(cData);
-                                pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
-                                //treba napraviti metodu koja notifikuje CEO da treba da potvrdi projekat
+
+                                ICommunicationObject co = pair.Value as ICommunicationObject;
+                                Console.WriteLine(co.State.ToString());
+                                if (co.State == CommunicationState.Opened)
+                                {
+
+                                }
+
+                                try
+                                {
+                                    pair.Value.SyncData(cData);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                    forRemove = pair.Key;
+                                }
+                                //pair.Value.SyncData(cData);
+
+                                try
+                                {
+                                    pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
+                                }
+                                catch (Exception e)
+                                {
+
+                                    Console.WriteLine(e.Message);
+                                    forRemove = pair.Key;
+                                }
+
+                                //pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
+
+                                break;
                             }
+
+                        }
+
+                        if (!forRemove.Equals(string.Empty))
+                        {
+                            hiringCompanyDB.ConnectionChannelsClients.Remove(forRemove);
                         }
                         //break;
                     }
@@ -414,52 +455,37 @@ namespace HiringCompany.Services
                 access.SaveChanges();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                Console.WriteLine(e.Message);
             }
 
 
 
             try
             {
-                bool isNotificationSent = false;
+
                 var access = new AccessDB();
-                foreach (Employee em in access.employees)
+
+                string forRemove = string.Empty;
+
+                SyncAll();
+
+                try
                 {
-                    if (em.Type == EmployeeType.CEO)
-                    {
-                        foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
-                        {
-                            CurrentData cData = new CurrentData();
-                            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForCeoApproval;
-                            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
-                            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-                            cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-                            cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
-                            cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
-                            pair.Value.SyncData(cData);
+                    hiringCompanyDB.ConnectionChannelsClients[p.ProductOwner].Notify(string.Format("Project {0} is approved.", p.Name));
+                }
+                catch (Exception e)
+                {
 
-                            if (!isNotificationSent)
-                            {
-                                if (pair.Key.Equals(p.ProductOwner))
-                                {
-                                    try
-                                    {
+                    Console.WriteLine(e.Message);
+                    forRemove = p.ProductOwner;
+                }
 
-                                        pair.Value.Notify(string.Format("Project {0} is approved.", p.Name));
-                                        isNotificationSent = true;
-                                    }
-                                    catch (Exception)
-                                    {
-
-                                        throw;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (!forRemove.Equals(string.Empty))
+                {
+                    hiringCompanyDB.ConnectionChannelsClients.Remove(forRemove);
                 }
             }
 
@@ -492,9 +518,28 @@ namespace HiringCompany.Services
             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
 
-            foreach (IEmployeeServiceCallback call in hiringCompanyDB.ConnectionChannelsClients.Values)
+            List<string> forRemove = new List<string>();
+
+            foreach (var channel in hiringCompanyDB.ConnectionChannelsClients)
             {
-                call.SyncData(cData);
+                // channel.Value je objekat tipa ClientCallback
+
+                try
+                {
+                    channel.Value.SyncData(cData);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    forRemove.Add(channel.Key);
+
+                }
+            }
+
+            foreach (string key in forRemove)
+            {
+                Console.WriteLine("removing channel with key {0}", key);
+                hiringCompanyDB.ConnectionChannelsClients.Remove(key);
             }
         }
 
