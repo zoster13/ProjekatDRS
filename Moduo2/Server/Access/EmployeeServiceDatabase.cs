@@ -12,6 +12,8 @@ namespace Server.Access
         private static object lockObjectTeams;
         private static object lockObjectNotifications;
 
+        private readonly string ConnectionStringForDB = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True;";
+
         public static IEmployeeServiceDatabase Instance
         {
             get
@@ -71,8 +73,7 @@ namespace Server.Access
                 //Update in Database
                 string commandText = "UPDATE Employees SET Type = @type, Team_Id = @team Where Email=@email";
 
-                string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
-                SqlConnection con = new SqlConnection(constr);
+                SqlConnection con = new SqlConnection(ConnectionStringForDB);
                 SqlCommand updateCommand = new SqlCommand(commandText, con);
                 updateCommand.Parameters.AddWithValue("@type", EmployeeType.TEAMLEADER);
                 updateCommand.Parameters.AddWithValue("@email", employee.Email);
@@ -148,8 +149,7 @@ namespace Server.Access
         {
             string commandText = "UPDATE Employees SET Name = @name, Surname = @surname, WorkingHoursStart = @workingHoursStart, WorkingHoursEnd = @workingHoursEnd, Password = @password Where Email=@email";
 
-            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
-            SqlConnection con = new SqlConnection(constr);
+            SqlConnection con = new SqlConnection(ConnectionStringForDB);
             SqlCommand updateCommand = new SqlCommand(commandText, con);
             updateCommand.Parameters.AddWithValue("@email", employee.Email);
             updateCommand.Parameters.AddWithValue("@name", employee.Name);
@@ -171,8 +171,7 @@ namespace Server.Access
             //Update in Database
             string commandText = "UPDATE Teams SET ScrumMasterEmail = @email Where Name=@teamName";
 
-            string constr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
-            SqlConnection con = new SqlConnection(constr);
+            SqlConnection con = new SqlConnection(ConnectionStringForDB);
             SqlCommand updateCommand = new SqlCommand(commandText, con);
             updateCommand.Parameters.AddWithValue("@email", employee.Email);
             updateCommand.Parameters.AddWithValue("@teamName", employee.Team.Name);

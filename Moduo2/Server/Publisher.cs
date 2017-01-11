@@ -16,6 +16,7 @@ namespace Server
         private static Publisher instance;
         private static Dictionary<string, ICallbackMethods> employeeChannels;
         private static Dictionary<string, IOutsourcingServiceCallback> companiesChannels;
+        private readonly string companyName = "cekic";
 
         public Publisher()
         {
@@ -229,6 +230,7 @@ namespace Server
         //-------------------------IOutsourcingServiceCallbacks-------------------------------//
         public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
         {
+            // AKO VEC POSTOJI - GRESK!!!!
             companiesChannels.Add(notification.HiringCompanyName, outsourcingCallbackChannel);
 
             //Obavjesti CEO ako je online da je dobio notif
@@ -267,13 +269,13 @@ namespace Server
 
         public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
         {
-            IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompName];
+            IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompName];    //outsourcingCompName=hiring company name
 
             try
             {
                 if (((IClientChannel)ch).State == CommunicationState.Opened)
                 {
-                    ch.AskForPartnershipCallback(accepted, outsourcingCompName);
+                    ch.AskForPartnershipCallback(accepted, companyName);
                 }
             }
             catch (Exception e)

@@ -19,8 +19,10 @@ namespace Server
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
+        #region Fields
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
         Timer lateOnJobTimer = new Timer();
+        #endregion Fields
 
         public EmployeeService()
         {
@@ -29,7 +31,7 @@ namespace Server
             //lateOnJobTimer.Enabled = true;        
         }
 
-        
+        #region IEmployeeService Methods
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
@@ -65,22 +67,83 @@ namespace Server
                 }
             }
 
-            Employee employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
-
             using (var access = new AccessDB())
             {
+                Employee employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
+
                 foreach (Notification notif in access.Notifications.ToList())
                 {
                     if (notif.Emoloyee == employeeInDB)
                     {
-                        //DOVRSITI!!!
+                        //DOVRSITI!!! azurirati notifikacije
                     }
                 }
             }
 
             Publisher.Instance.LogOutCallback(employee);
         }
+
+        public void AddTeam(Team team)
+        {
+            bool teamAdded = EmployeeServiceDatabase.Instance.AddTeam(team);
+
+            if (teamAdded)
+            {
+                lock (InternalDatabase.Instance.LockerTeams)
+                {
+                    InternalDatabase.Instance.Teams.Add(team);
+                }
+
+                Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
+                Publisher.Instance.TeamAddedCallback(team, true);
+            }
+            else
+            {
+                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                Publisher.Instance.TeamAddedCallback(team, false);
+            }
+        }
         
+        public void EditEmployeeData(Employee employee)
+        {
+            //Update u mdf bazi
+            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
+            
+            //Update u internoj bazi
+            Employee thisEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
+            thisEmployee.Name = employee.Name;
+            thisEmployee.Surname = employee.Surname;
+            thisEmployee.WorkingHoursStart = employee.WorkingHoursStart;
+            thisEmployee.WorkingHoursEnd = employee.WorkingHoursEnd;
+            thisEmployee.Email = employee.Email;
+
+            Logger.Info(string.Format("Employee [{0}] is edited.", employee.Email));
+            Publisher.Instance.EditEmployeeCallback(employee);
+        }
+
+        public void ProjectTeamAssign(Project project)
+        {
+            // ako je tim lider online, treba mu poslati projekat (SAMO NJEMU), inace se stavlja u bazu
+            // mora se postaviti referenca projekta tj. izvuci tim iz baze
+
+            //Azuriraj tim projekta u bazi
+            using(var access = new AccessDB())
+            {
+                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(project.Name));
+                Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(project.Team.Name));
+
+                proj.Team = team;
+            }
+
+            //Obavjesti TL ako je online
+            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
+
+            if (teamLeader != null)
+            {
+                Publisher.Instance.ProjectTeamAssignCallback(project);
+            }
+        }
+
         public List<Employee> GetAllOnlineEmployees()
         {
             return InternalDatabase.Instance.OnlineEmployees;
@@ -102,42 +165,6 @@ namespace Server
         public List<HiringCompany> GetAllHiringCompanies()
         {
             throw new NotImplementedException();
-        }
-
-        public void AddTeam(Team team)
-        {
-            if (EmployeeServiceDatabase.Instance.AddTeam(team))
-            {
-                lock (InternalDatabase.Instance.LockerTeams)
-                {
-                    InternalDatabase.Instance.Teams.Add(team);
-                }
-
-                Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
-                Publisher.Instance.TeamAddedCallback(team, true);
-            }
-            else
-            {
-                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
-                Publisher.Instance.TeamAddedCallback(team, false);
-            }
-        }
-
-        public void EditEmployeeData(Employee employee)
-        {
-            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
-            //dodati i update u internoj bazi!!!
-
-            Logger.Info(string.Format("Employee [{0}] is edited.", employee.Email));
-            Publisher.Instance.EditEmployeeCallback(employee);
-        }
-
-        public void ProjectTeamAssign(Project project)
-        {
-            throw new NotImplementedException();
-
-            // ako je tim lider online, treba mu poslati projekat (SAMO NJEMU), inace se stavlja u bazu
-            // mora se postaviti referenca projekta tj. izvuci tim iz baze
         }
 
         public void AddEmployee(Employee employee)
@@ -193,13 +220,16 @@ namespace Server
             }
         }
 
+        public void ResponseToPartnershipRequest(bool accepted, string companyName)
+        {
+            Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
+        }
+
         public void AddUserStory(UserStory userStory)
         {
             // dodaje user story u bazu, ne treba callback
             throw new NotImplementedException();
         }
-
-
 
         public void AddTask(Task task)
         {
@@ -207,7 +237,6 @@ namespace Server
             // ne treba callback
             throw new NotImplementedException();
         }
-
 
         public void ReleaseUserStory(UserStory userStory)
         {
@@ -228,12 +257,6 @@ namespace Server
             throw new NotImplementedException();
         }
 
-        //IOutsourcingService
-        public void ResponseToPartnershipRequest(bool accepted, string companyName)
-        {
-            Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
-        }
-
         public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
         {
             // salje listu user storija za projekat
@@ -241,7 +264,6 @@ namespace Server
             // ne treba callback
             throw new NotImplementedException();
         }
-
-        
+        #endregion IEmployeeService Methods
     }
 }
