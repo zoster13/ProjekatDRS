@@ -343,13 +343,13 @@ namespace HiringCompany.Services
             try
             {
 
-                using (var access = new AccessDB())
-                {
+                //using (var access = new AccessDB())
+                //{
 
-                }
+                //}
 
                 // lepse napisati, sa linq
-                //var access = new AccessDB();
+                var access = new AccessDB();
                 foreach (Employee em in access.employees)
                 {
                     if (em.Type == EmployeeType.CEO)
@@ -505,6 +505,13 @@ namespace HiringCompany.Services
                 }
             }
         }
+
+        public void SendProject(string outscCompany, Project p) 
+        {
+            ProjectCommon proj = new ProjectCommon(p.Name, p.Description, p.StartDate, p.Deadline);
+            hiringCompanyDB.ConnectionChannelsCompanies[outscCompany].SendProjectToOutsourcingCompany(hiringCompanyDB.CompanyName, proj);
+        }
+
         // namestiti da kada se desi greska sa klijentske strane da se on uvek disposuje kako treba, tj da se izloguje i da se
         // uradi remove channel uvek sa serverske strane ..ili pre nego sto pozovemo sync da vidimo da li je channel u dobrom stanju i slati ako jeste
         // tj pre poziva bilo koje metode proveravati stanje kanala

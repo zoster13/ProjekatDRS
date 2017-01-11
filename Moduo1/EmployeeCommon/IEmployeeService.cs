@@ -47,5 +47,8 @@ namespace EmployeeCommon
         [OperationContract]
         void ProjectApproved(Project p);
 
+        [OperationContract]
+        void SendProject(string outscCompany, Project p);
+
     }
 }

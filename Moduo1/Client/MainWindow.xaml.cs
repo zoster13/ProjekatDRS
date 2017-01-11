@@ -434,66 +434,8 @@ namespace Client
         }
 
         private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
-        {
-            //napraviti metodu SendProject u EmployeeService koja ce pozvati metodu drugog servera,dodati tu metodu i u interfejs i ClientProxy
-            //proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedProjectsDataGrid.SelectedItem);
-
-            //public void SendProject(string outscCompany,Project p)
-            //{
-            //    ProjectCommon proj=new ProjectCommon(p.Name,p.Description,p.StartDate,p.Deadline);
-            //    hiringCompanyDB.ConnectionChannelsCompanies[outscCompany].SendProjectToPartnerCompany((string)nase ime,proj);
-            //}
-
-            //za callback,dodati u OutscServiceCallback i u interfejs
-                //public void SendProjectToPartnerCompanyCallback(string outsCompany,ProjectCommon p)
-                //{
-                //    string notification = string.Empty;
-
-                //    if(p.IsAcceptedByOutsCompany)
-                //    {
-                //        try
-                //            {
-                //                using (var access = new AccessDB())
-                //                {
-                //                    Project proj = access.projects.SingleOrDefault(proj => proj.Name.Equals(p.Name));
-
-                //                    if (proj != null)
-                //                    {
-                //                        proj.IsAcceptedOutsCompany=true;
-                //                        access.SaveChanges();
-                //                    }
-                //                }
-                //            }
-                //            catch (DbEntityValidationException e)
-                //            {
-                //                foreach (var eve in e.EntityValidationErrors)
-                //                {
-                //                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                //                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                //                    foreach (var ve in eve.ValidationErrors)
-                //                    {
-                //                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                //                        ve.PropertyName,
-                //                        eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                //                        ve.ErrorMessage);
-                //                    }
-                //                }
-                //            }
-                //        notification = "Company <" + outsourcingCompName + "> accepted request for developing project <" + p.Name + ">.";
-
-                //        //treba da se notifikuje CEO,moze i PO
-                //        //svima treba da se uradi Sync
-                //    }
-                //    else
-                //    {
-                //        notification = "Company <" + outsourcingCompName + "> declined request for developing project <" + p.Name + ">.";
-                //        //notifikovati CEO,moze i PO
-                //    }
-                // }
-
-
-
-            //u callback metodi na nasem serveru treba da se promeni polje isAcceptedOutsCompany da bude true
+        {         
+            proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedProjectsDataGrid.SelectedItem);
         }
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
