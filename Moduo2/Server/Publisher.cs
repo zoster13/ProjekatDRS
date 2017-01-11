@@ -30,14 +30,17 @@ namespace Server
             get
             {
                 if (instance == null)
+                {
                     instance = new Publisher();
-
+                }
                 return instance;
             }
             set
             {
                 if (instance == null)
+                {
                     instance = value;
+                }
             }
         }
 
@@ -188,7 +191,7 @@ namespace Server
                 }
             }
 
-            if (selectedEmployee != null)        //obavjesti ga samo ako je online
+            if (selectedEmployee != null)
             {
                 try
                 {

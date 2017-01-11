@@ -11,7 +11,7 @@ namespace Server
     {
         public void AskForPartnership(string hiringCompanyName)
         {
-            Notification notification = new Notification(NotificationType.REQUEST_FOR_PARTNERSHIP,hiringCompanyName, string.Empty, string.Empty);
+            Notification notification = new Notification(NotificationType.REQUEST_FOR_PARTNERSHIP, hiringCompanyName, string.Empty, string.Empty);
 
             Publisher.Instance.SendNotificationToCEO(notification);
         }

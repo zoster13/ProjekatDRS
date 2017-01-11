@@ -2,7 +2,7 @@
 
 namespace Server.Access
 {
-    class Configuration : DbMigrationsConfiguration<AccessDB>
+    public class Configuration : DbMigrationsConfiguration<AccessDB>
     {
         public Configuration()
         {

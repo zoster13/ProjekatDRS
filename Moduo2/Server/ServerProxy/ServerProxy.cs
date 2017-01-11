@@ -6,9 +6,9 @@ namespace Server.ServerProxy
 {
     public class ServerProxy : ChannelFactory<IHiringService>, IHiringService, IDisposable
     {
-        IHiringService factory;
+        private IHiringService factory;
 
-        public ServerProxy(NetTcpBinding binding, string address) : base(binding,address)
+        public ServerProxy(NetTcpBinding binding, string address) : base(binding, address)
         {
             factory = this.CreateChannel();
         }

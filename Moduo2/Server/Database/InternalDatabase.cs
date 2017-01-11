@@ -32,14 +32,17 @@ namespace Server.Database
             get
             {
                 if (instance == null)
+                {
                     instance = new InternalDatabase();
-
+                }
                 return instance;
             }
             set
             {
                 if (instance == null)
+                {
                     instance = value;
+                }
             }
         }
 

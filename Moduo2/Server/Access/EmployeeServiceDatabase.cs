@@ -12,13 +12,13 @@ namespace Server.Access
         private static object lockObjectTeams;
         private static object lockObjectNotifications;
 
-        private readonly string ConnectionStringForDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+        private readonly string connectionStringForDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
 
         public static IEmployeeServiceDatabase Instance
         {
             get
             {
-                if(myDB == null)
+                if (myDB == null)
                 {
                     myDB = new EmployeeServiceDatabase();
                     lockObjectEmployees = new object();
@@ -31,7 +31,7 @@ namespace Server.Access
 
             set
             {
-                if(myDB ==null)
+                if (myDB == null)
                 {
                     myDB = value;
                 }
@@ -51,13 +51,9 @@ namespace Server.Access
                 lock (lockObjectEmployees)
                 {
                     access.Employees.Add(employee);
+                    access.SaveChanges();
                 }
-
-                int i = access.SaveChanges();
-
-                if (i > 0)
-                    return true;
-                return false;
+                return true;
             }
         }
 
@@ -73,7 +69,7 @@ namespace Server.Access
                 //Update in Database
                 string commandText = "UPDATE Employees SET Type = @type, Team_Id = @team Where Email=@email";
 
-                SqlConnection con = new SqlConnection(ConnectionStringForDB);
+                SqlConnection con = new SqlConnection(connectionStringForDB);
                 SqlCommand updateCommand = new SqlCommand(commandText, con);
                 updateCommand.Parameters.AddWithValue("@type", EmployeeType.TEAMLEADER);
                 updateCommand.Parameters.AddWithValue("@email", employee.Email);
@@ -119,12 +115,10 @@ namespace Server.Access
                     lock (lockObjectTeams)
                     {
                         access.Teams.Add(team);
+                        access.SaveChanges();
                     }
 
-                    int i = access.SaveChanges();
-                    if (i > 0)
-                        return true;
-                    return false;
+                    return true;
                 }
                 else
                 {
@@ -149,7 +143,7 @@ namespace Server.Access
         {
             string commandText = "UPDATE Employees SET Name = @name, Surname = @surname, WorkingHoursStart = @workingHoursStart, WorkingHoursEnd = @workingHoursEnd, Password = @password Where Email=@email";
 
-            SqlConnection con = new SqlConnection(ConnectionStringForDB);
+            SqlConnection con = new SqlConnection(connectionStringForDB);
             SqlCommand updateCommand = new SqlCommand(commandText, con);
             updateCommand.Parameters.AddWithValue("@email", employee.Email);
             updateCommand.Parameters.AddWithValue("@name", employee.Name);
@@ -171,7 +165,7 @@ namespace Server.Access
             //Update in Database
             string commandText = "UPDATE Teams SET ScrumMasterEmail = @email Where Name=@teamName";
 
-            SqlConnection con = new SqlConnection(ConnectionStringForDB);
+            SqlConnection con = new SqlConnection(connectionStringForDB);
             SqlCommand updateCommand = new SqlCommand(commandText, con);
             updateCommand.Parameters.AddWithValue("@email", employee.Email);
             updateCommand.Parameters.AddWithValue("@teamName", employee.Team.Name);

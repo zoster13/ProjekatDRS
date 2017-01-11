@@ -21,13 +21,13 @@ namespace Server
     {
         #region Fields
 
-        private readonly string OutsourcingCompanyName = "cekic";
+        private readonly string outsourcingCompanyName = "cekic";
 
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
-        Timer lateOnJobTimer = new Timer();
+        private Timer lateOnJobTimer = new Timer();
 
-        NetTcpBinding binding = new NetTcpBinding();
-        string hiringCompanyAddress = "";
+        private NetTcpBinding binding = new NetTcpBinding();
+        private string hiringCompanyAddress = "";
 
         #endregion Fields
 
@@ -44,7 +44,7 @@ namespace Server
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
 
-            if(employee != null && password.Equals(employee.Password))
+            if (employee != null && password.Equals(employee.Password))
             {
                 lock (InternalDatabase.Instance.LockerOnlineEmployees)
                 {
@@ -135,7 +135,7 @@ namespace Server
             // mora se postaviti referenca projekta tj. izvuci tim iz baze
 
             //Azuriraj tim projekta u bazi
-            using(var access = new AccessDB())
+            using (var access = new AccessDB())
             {
                 Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(project.Name));
                 Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(project.Team.Name));
@@ -176,7 +176,7 @@ namespace Server
 
         public List<HiringCompany> GetAllHiringCompanies()
         {
-            using(var access = new AccessDB())
+            using (var access = new AccessDB())
             {
                 return access.HiringCompanies.ToList();
             }
@@ -212,7 +212,7 @@ namespace Server
             string _senderEmailAddress = "blok4.moduo2@gmail.com";
             string _senderPassword = "ftnnovisad";
             Console.WriteLine("alarm...");
-            foreach (Employee em in InternalDatabase.Instance.AllEmployees) // slanje maila onima koji nisu online
+            foreach (Employee em in InternalDatabase.Instance.AllEmployees) 
             {
                 if (!InternalDatabase.Instance.OnlineEmployees.Contains(em))
                 {
@@ -238,7 +238,7 @@ namespace Server
         public void AddUserStory(UserStory userStory)
         {
             // dodaje user story u bazu, ne treba callback
-            using(var access = new AccessDB())
+            using (var access = new AccessDB())
             {
                 Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(userStory.Project.Name));
 
@@ -301,7 +301,7 @@ namespace Server
 
             using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
             {
-                proxy.ResponseForPartnershipRequest(accepted, OutsourcingCompanyName);
+                proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Server
 
             using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
             {
-                proxy.ResponseForProjectRequest(OutsourcingCompanyName, prCommon);
+                proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
             }
         }
 

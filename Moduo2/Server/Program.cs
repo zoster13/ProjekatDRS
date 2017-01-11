@@ -10,9 +10,9 @@ using ClientCommon.Data;
 
 namespace Server
 {
-    class Program
+    public class Program
     {   
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // set |DataDirectory|
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
