@@ -134,6 +134,9 @@ namespace Server
 
                 proj.Team = new Team();
                 proj.Team = team;
+                proj.AssignStatus = AssignStatus.ASSIGNED;
+
+                access.SaveChanges();
             }
 
             //Obavjesti TL ako je online
