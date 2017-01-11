@@ -227,23 +227,6 @@ namespace Server
             }
         }
 
-        public void ResponseToPartnershipRequest(bool accepted, string companyName)
-        {
-            //ako prihvati dodaj u bazu
-            if(accepted)
-            {
-                HiringCompany newHiringCompany = new HiringCompany(companyName);
-
-                using(var access = new AccessDB())
-                {
-                    access.HiringCompanies.Add(newHiringCompany);
-                    access.SaveChanges();
-                }
-            }
-
-            Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
-        }
-
         public void AddUserStory(UserStory userStory)
         {
             // dodaje user story u bazu, ne treba callback
@@ -290,6 +273,46 @@ namespace Server
             // ne treba callback
             throw new NotImplementedException();
         }
+
+
+        public void ResponseToPartnershipRequest(bool accepted, string companyName)
+        {
+            //ako prihvati dodaj u bazu
+            if (accepted)
+            {
+                HiringCompany newHiringCompany = new HiringCompany(companyName);
+
+                using (var access = new AccessDB())
+                {
+                    access.HiringCompanies.Add(newHiringCompany);
+                    access.SaveChanges();
+                }
+            }
+
+            Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
+        }
+
+        public void ResponseToProjectRequest(bool accepted, string projectName, string hiringCompanyName)
+        {
+            //ako prihvati dodaj u bazu
+            if (accepted)
+            {
+                Project newProject = new Project(projectName, hiringCompanyName);
+
+                using (var access = new AccessDB())
+                {
+                    access.Projects.Add(newProject);
+                    access.SaveChanges();
+                }
+            }
+
+            ProjectCommon prCommon = new ProjectCommon();
+            prCommon.Name = projectName;
+            prCommon.IsAcceptedByOutsCompany = accepted;
+
+            Publisher.Instance.SendProjectToOutsourcingCompanyCallback(hiringCompanyName, prCommon);
+        }
+
         #endregion IEmployeeService Methods
     }
 }

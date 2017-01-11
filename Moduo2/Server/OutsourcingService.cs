@@ -19,8 +19,11 @@ namespace Server
 
         public void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p)
         {
-            Project newProject = new Project(hiringCompanyName, p.Name);
-            Publisher.Instance.SendProjectToCEO(hiringCompanyName, newProject);
+            //Project newProject = new Project(hiringCompanyName, p.Name);
+            //Publisher.Instance.SendProjectToCEO(hiringCompanyName, newProject);
+
+            Notification notification = new Notification(NotificationType.PROJECT_REQUEST, hiringCompanyName, p.Name);
+            Publisher.Instance.SendNotificationToCEO(notification, outsourcingCallbackChannel);
         }
     }
 }

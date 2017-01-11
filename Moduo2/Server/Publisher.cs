@@ -308,33 +308,33 @@ namespace Server
 
         public void SendProjectToCEO(string hiringCompanyName, Project project)
         {
-            //Slanje projekta CEO ako je online
-            foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
-            {
-                if (emp.Type.Equals(EmployeeType.CEO))
-                {
-                    try
-                    {
-                        if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
-                        {
-                            emp.Channel.SendProjectToCEO(hiringCompanyName, project);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Error: {0}", e.Message);
-                    }
+            ////Slanje projekta CEO ako je online
+            //foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
+            //{
+            //    if (emp.Type.Equals(EmployeeType.CEO))
+            //    {
+            //        try
+            //        {
+            //            if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+            //            {
+            //                emp.Channel.SendProjectToCEO(hiringCompanyName, project);
+            //            }
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            Console.WriteLine("Error: {0}", e.Message);
+            //        }
 
-                    break;
-                }
-            }
+            //        break;
+            //    }
+            //}
 
-            //Sacauvaj u bazi projekat
-            using(var access = new AccessDB())
-            {
-                access.Projects.Add(project);
-                access.SaveChanges();
-            }
+            ////Sacauvaj u bazi projekat
+            //using(var access = new AccessDB())
+            //{
+            //    access.Projects.Add(project);
+            //    access.SaveChanges();
+            //}
         }
         
         #endregion Metode za delegiranje zahtjeva klijentu upucenih od Hiring kompanije
@@ -361,7 +361,19 @@ namespace Server
 
         public void SendProjectToOutsourcingCompanyCallback(string outsourcingCompanyName, ProjectCommon p)
         {
-            throw new NotImplementedException();
+            IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompanyName];    //outsourcingCompName=hiring company name
+
+            try
+            {
+                if (((IClientChannel)ch).State == CommunicationState.Opened)
+                {
+                    ch.SendProjectToOutsourcingCompanyCallback(companyName, p);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+            }
         }
 
         #endregion IOutsourcingServiceCallback

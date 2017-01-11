@@ -121,11 +121,5 @@ namespace Client
                 mainWindow.TaskCompletedCallbackResult(task);
             });
         }
-
-
-        public void SendProjectToCEO(string hiringCompanyName, Project project)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

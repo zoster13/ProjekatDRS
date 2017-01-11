@@ -50,9 +50,5 @@ namespace ClientCommon
         //delegiranje zahtjeva
         [OperationContract(IsOneWay = true)]
         void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel);
-
-        [OperationContract(IsOneWay = true)]
-        void SendProjectToCEO(string hiringCompanyName, Project project);
-
     }
 }

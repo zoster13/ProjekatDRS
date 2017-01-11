@@ -61,5 +61,8 @@ namespace ClientCommon
 
         [OperationContract]
         void ResponseToPartnershipRequest(bool accepted, string companyName);
+
+        [OperationContract]
+        void ResponseToProjectRequest(bool accepted, string projectName, string hiringCompanyName);
     }
 }

@@ -238,5 +238,11 @@ namespace Client
                 Console.WriteLine("Error while trying to TaskCompleted: {0}", e.Message);
             }
         }
+
+
+        public void ResponseToProjectRequest(bool accepted, string projectName, string hiringCompanyName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
