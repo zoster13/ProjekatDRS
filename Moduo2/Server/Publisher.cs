@@ -44,9 +44,7 @@ namespace Server
             }
         }
 
-        //Properties
-
-        //Methods
+        #region ICallbackMethods
         public void LogInCallback(Employee employee)
         {
             employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
@@ -227,7 +225,45 @@ namespace Server
             }
         }
 
-        //-------------------------IOutsourcingServiceCallbacks-------------------------------//
+        public void ProjectTeamAssignCallback(Project project)
+        {
+            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
+
+            if (teamLeader != null)        
+            {
+                try
+                {
+                    if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
+                    {
+                        teamLeader.Channel.ProjectTeamAssignCallback(project);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
+
+        public void ReleaseUserStoryCallback(UserStory userStory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TaskClaimedCallback(Task task)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TaskCompletedCallback(Task task)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion ICallbackMethods
+
+
+        #region Metode za delegiranje zahtjeva klijentu upucenih od Hiring kompanije
+        
         public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
         {
             // AKO VEC POSTOJI - GRESK!!!! - ispravljeno,testirati
@@ -270,6 +306,42 @@ namespace Server
             }
         }
 
+        public void SendProjectToCEO(string hiringCompanyName, Project project)
+        {
+            //Slanje projekta CEO ako je online
+            foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
+            {
+                if (emp.Type.Equals(EmployeeType.CEO))
+                {
+                    try
+                    {
+                        if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+                        {
+                            emp.Channel.SendProjectToCEO(hiringCompanyName, project);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
+
+                    break;
+                }
+            }
+
+            //Sacauvaj u bazi projekat
+            using(var access = new AccessDB())
+            {
+                access.Projects.Add(project);
+                access.SaveChanges();
+            }
+        }
+        
+        #endregion Metode za delegiranje zahtjeva klijentu upucenih od Hiring kompanije
+
+
+        #region IOutsourcingServiceCallback
+        
         public void AskForPartnershipCallback(bool accepted, string outsourcingCompName)
         {
             IOutsourcingServiceCallback ch = companiesChannels[outsourcingCompName];    //outsourcingCompName=hiring company name
@@ -287,39 +359,11 @@ namespace Server
             }
         }
 
-        public void ProjectTeamAssignCallback(Project project)
-        {
-            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
-
-            if (teamLeader != null)        
-            {
-                try
-                {
-                    if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
-                    {
-                        teamLeader.Channel.ProjectTeamAssignCallback(project);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
-        }
-
-        public void ReleaseUserStoryCallback(UserStory userStory)
+        public void SendProjectToOutsourcingCompanyCallback(string outsourcingCompanyName, ProjectCommon p)
         {
             throw new NotImplementedException();
         }
 
-        public void TaskClaimedCallback(Task task)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TaskCompletedCallback(Task task)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion IOutsourcingServiceCallback
     }
 }

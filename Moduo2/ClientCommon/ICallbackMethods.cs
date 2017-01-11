@@ -35,10 +35,6 @@ namespace ClientCommon
         [OperationContract(IsOneWay = true)]
         void ScrumMasterUpdatedCallback(Team team);
 
-        //IOutsourcingServiceCallbacks
-        [OperationContract(IsOneWay = true)]
-        void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel);
-
         [OperationContract(IsOneWay = true)]
         void ProjectTeamAssignCallback(Project project);
 
@@ -50,5 +46,13 @@ namespace ClientCommon
 
         [OperationContract(IsOneWay = true)]
         void TaskCompletedCallback(Task task);
+
+        //delegiranje zahtjeva
+        [OperationContract(IsOneWay = true)]
+        void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel);
+
+        [OperationContract(IsOneWay = true)]
+        void SendProjectToCEO(string hiringCompanyName, Project project);
+
     }
 }
