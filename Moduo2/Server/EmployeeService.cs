@@ -132,6 +132,7 @@ namespace Server
                 Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(project.Name));
                 Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(project.Team.Name));
 
+                proj.Team = new Team();
                 proj.Team = team;
             }
 
@@ -222,6 +223,17 @@ namespace Server
 
         public void ResponseToPartnershipRequest(bool accepted, string companyName)
         {
+            //ako prihvati dodaj u bazu
+            if(accepted)
+            {
+                HiringCompany newHiringCompany = new HiringCompany(companyName);
+
+                using(var access = new AccessDB())
+                {
+                    access.HiringCompanies.Add(newHiringCompany);
+                }
+            }
+
             Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
         }
 

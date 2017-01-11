@@ -14,6 +14,7 @@ namespace Server.Access
         public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<Project> Projects { get; set; }
-    }
 
+        public DbSet<HiringCompany> HiringCompanies { get; set; }
+    }
 }

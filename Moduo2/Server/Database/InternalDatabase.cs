@@ -25,11 +25,6 @@ namespace Server.Database
             lockerAllEmployees = new object();
             lockerOnlineEmployees = new object();
             lockerTeams = new object();
-
-            using (var access = new AccessDB())
-            {
-                teams = access.Teams.ToList();
-            }
         }
 
         public static InternalDatabase Instance
@@ -56,7 +51,17 @@ namespace Server.Database
 
         public List<Team> Teams
         {
-            get { return teams; }
+            get
+            {
+                using (var access = new AccessDB())
+                {
+                    var teams = from t in access.Teams
+
+                                    select t;
+
+                    return teams.ToList();
+                }
+            }
             set { teams = value; }
         }
 
@@ -76,6 +81,7 @@ namespace Server.Database
             set { allEmployees = value; }
         }
 
+        //Lockers
         public object LockerAllEmployees
         {
             get { return this.lockerAllEmployees; }

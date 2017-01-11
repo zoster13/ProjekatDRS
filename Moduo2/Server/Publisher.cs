@@ -230,8 +230,11 @@ namespace Server
         //-------------------------IOutsourcingServiceCallbacks-------------------------------//
         public void SendNotificationToCEO(Notification notification, IOutsourcingServiceCallback outsourcingCallbackChannel)
         {
-            // AKO VEC POSTOJI - GRESK!!!!
-            companiesChannels.Add(notification.HiringCompanyName, outsourcingCallbackChannel);
+            // AKO VEC POSTOJI - GRESK!!!! - ispravljeno,testirati
+            if (!companiesChannels.Keys.Contains(notification.HiringCompanyName))
+            {
+                companiesChannels.Add(notification.HiringCompanyName, outsourcingCallbackChannel);
+            }
 
             //Obavjesti CEO ako je online da je dobio notif
             foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
@@ -254,7 +257,7 @@ namespace Server
                 }
             }
 
-            //Sacauvaj u bazi
+            //Sacauvaj u bazi notifikaciju
             foreach (Employee emp in InternalDatabase.Instance.AllEmployees)
             {
                 if (emp.Type.Equals(EmployeeType.CEO))
