@@ -16,5 +16,7 @@ namespace Server.Access
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<HiringCompany> HiringCompanies { get; set; }
+
+        public DbSet<UserStory> UserStories { get; set; }
     }
 }

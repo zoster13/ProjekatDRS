@@ -237,6 +237,7 @@ namespace Server
                 using(var access = new AccessDB())
                 {
                     access.HiringCompanies.Add(newHiringCompany);
+                    access.SaveChanges();
                 }
             }
 
@@ -246,14 +247,21 @@ namespace Server
         public void AddUserStory(UserStory userStory)
         {
             // dodaje user story u bazu, ne treba callback
-            throw new NotImplementedException();
+            using(var access = new AccessDB())
+            {
+                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(userStory.Project.Name));
+
+                userStory.Project = proj;
+                access.UserStories.Add(userStory);
+                access.SaveChanges();
+            }
         }
 
         public void AddTask(Task task)
         {
             // izvuce se user story iz baze na osnovu user storija iz taska( story ima title) i doda se task
             // ne treba callback
-            throw new NotImplementedException();
+            
         }
 
         public void ReleaseUserStory(UserStory userStory)
