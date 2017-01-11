@@ -292,12 +292,13 @@ namespace Server
             Publisher.Instance.AskForPartnershipCallback(accepted, companyName);
         }
 
-        public void ResponseToProjectRequest(bool accepted, string projectName, string hiringCompanyName)
+        public void ResponseToProjectRequest(bool accepted, Project project)
         {
             //ako prihvati dodaj u bazu
             if (accepted)
             {
-                Project newProject = new Project(projectName, hiringCompanyName);
+                Project newProject = new Project();
+                newProject = project;
 
                 using (var access = new AccessDB())
                 {
@@ -307,10 +308,10 @@ namespace Server
             }
 
             ProjectCommon prCommon = new ProjectCommon();
-            prCommon.Name = projectName;
+            prCommon.Name = project.Name;
             prCommon.IsAcceptedByOutsCompany = accepted;
 
-            Publisher.Instance.SendProjectToOutsourcingCompanyCallback(hiringCompanyName, prCommon);
+            Publisher.Instance.SendProjectToOutsourcingCompanyCallback(project.HiringCompanyName, prCommon);
         }
 
         #endregion IEmployeeService Methods

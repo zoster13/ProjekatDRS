@@ -275,13 +275,38 @@ namespace Client
             workLeader.textBoxUserStoryContent.Text = "";
             workLeader.textBoxUserStoryDifficulty.Text = "2";
 
+            workLeader.textProjectDescription.Text = "";
+
             //make tasks
             workLeader.textBoxTaskTitle.Text = "";
             workLeader.textBoxTaskContent.Text = "";
             workLeader.comboBoxStories.SelectedItem = null;
 
+            workLeader.textUserStoryDescription.Text = "";
 
             //send user story
+
+            //my tasks
+            workLeader.textMyTaskDescription.Text = "";
+
+            //tasks
+
+            workLeader.textTaskDescription.Text = "";
+
+            //DEVELOPER
+
+            //project
+            workDev.textProjectDescription.Text = "";
+
+            //userstory
+            workDev.textUserStoryDescription.Text = "";
+
+            //my tasks
+            workDev.textMyTaskDescription.Text = "";
+
+            //tasks
+
+            workDev.textTaskDescription.Text = "";
         }
 
         public void LogOutCallbackResult(Employee employee)

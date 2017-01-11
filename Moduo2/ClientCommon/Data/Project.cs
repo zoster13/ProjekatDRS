@@ -100,7 +100,7 @@ namespace ClientCommon.Data
         public Team Team
         {
             get { return team; }
-            set { team = value; teamName = team.Name; }
+            set { team = value; }
         }
 
 

@@ -90,11 +90,9 @@ namespace Client.Views
                     textBoxUserStoryContent.Text = "";
                     textBoxUserStoryDifficulty.Text = "2";
 
-                    //project.UserStories.Add(userStory);
-
                     LocalClientDatabase.Instance.UserStories.Add(userStory);
 
-                    //LocalClientDatabase.Instance.proxy.AddUserStory(userStory);
+                    LocalClientDatabase.Instance.proxy.AddUserStory(userStory);
 
                     MessageBox.Show("User story has been added!");
                 }
@@ -204,7 +202,7 @@ namespace Client.Views
             {
                 UserStory userStory = comboBoxStories1.SelectedItem as UserStory;
 
-                if (userStory.AcceptStatus != AcceptStatus.ACCEPTED && userStory.ProgressStatus == ProgressStatus.INPREP)
+                if (userStory.AcceptStatus == AcceptStatus.ACCEPTED && userStory.ProgressStatus == ProgressStatus.INPREP)
                 {
                     userStory.ProgressStatus = ProgressStatus.STARTED;
                     userStory.Deadline = DateTime.Now;
@@ -214,7 +212,7 @@ namespace Client.Views
                 }
                 else
                 {
-                    MessageBox.Show("The selected user story i=has not been accepted!");
+                    MessageBox.Show("The selected user story has not been accepted\n or it is closed for change!");
                 }
             }
         }
@@ -248,7 +246,7 @@ namespace Client.Views
             {
                 ClientCommon.Data.Task task = comboBoxMyTasks.SelectedItem as ClientCommon.Data.Task;
 
-                if (task.ProgressStatus == ProgressStatus.STARTED)
+                if (task.ProgressStatus != ProgressStatus.COMPLETED)
                 {
                     task.ProgressStatus = ProgressStatus.COMPLETED;
                 }
@@ -256,6 +254,46 @@ namespace Client.Views
                 {
                     MessageBox.Show("This task has already been marked as completed!");
                 }
+            }
+        }
+
+        private void buttonProjectDescription_Click(object sender, RoutedEventArgs e)
+        {
+            if(dataGridProjects.SelectedItem != null)
+            {
+                Project proj = dataGridProjects.SelectedItem as Project;
+
+                textProjectDescription.Text = proj.Description;
+            }
+        }
+
+        private void buttonUserStoryDescription_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGridUserStories.SelectedItem != null)
+            {
+                UserStory userStory = dataGridUserStories.SelectedItem as UserStory;
+
+                textUserStoryDescription.Text = userStory.Description;
+            }
+        }
+
+        private void buttonMyTaskDescription_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGridMyTasks.SelectedItem != null)
+            {
+                ClientCommon.Data.Task task = dataGridMyTasks.SelectedItem as ClientCommon.Data.Task;
+
+                textMyTaskDescription.Text = task.Description;
+            }
+        }
+
+        private void buttonTaskDescription_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGridTasks.SelectedItem != null)
+            {
+                ClientCommon.Data.Task task = dataGridUserStories.SelectedItem as ClientCommon.Data.Task;
+
+                textTaskDescription.Text = task.Description;
             }
         }
     }

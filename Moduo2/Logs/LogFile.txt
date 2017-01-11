@@ -23,3 +23,9 @@
 2017-01-11 11:15:38,492 INFO - Employee [jovan@gmail.com] is loged in.
 2017-01-11 11:17:26,656 INFO - Employee [marko@gmail.com] is loged in.
 2017-01-11 11:17:42,143 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 14:02:18,488 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 14:02:22,892 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 14:03:38,737 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 14:03:50,972 INFO - Employee [jovan@gmail.com] is loged in.
+2017-01-11 14:10:03,626 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-11 14:10:12,641 INFO - Employee [jovan@gmail.com] is loged in.

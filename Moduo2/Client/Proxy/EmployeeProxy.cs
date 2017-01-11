@@ -240,11 +240,11 @@ namespace Client
         }
 
 
-        public void ResponseToProjectRequest(bool accepted, string projectName, string hiringCompanyName)
+        public void ResponseToProjectRequest(bool accepted, Project project)
         {
             try
             {
-                factory.ResponseToProjectRequest(accepted,projectName,hiringCompanyName);
+                factory.ResponseToProjectRequest(accepted, project);
             }
             catch (Exception e)
             {

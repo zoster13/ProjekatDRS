@@ -60,6 +60,7 @@ namespace Client.Views.Notifications
                         Project project = new Project();
                         project.Name = LocalClientDatabase.Instance.CurrentNotification.ProjectName;
                         project.HiringCompanyName = LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName;
+                        project.Description = LocalClientDatabase.Instance.CurrentNotification.ProjectDescription;
                         LocalClientDatabase.Instance.AllProjects.Add(project);
                         LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.ACCEPTED;
                         mainWindow.dataGridNotifications.Items.Refresh();
@@ -68,7 +69,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(true, project.Name, project.HiringCompanyName);
+                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(true, project);
                         
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been accepted!\n It can be seen in the Work pannel in Projects.");
                     }
@@ -113,7 +114,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(false, string.Empty, string.Empty);
+                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(false, null);
 
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been declined!");
                     }
