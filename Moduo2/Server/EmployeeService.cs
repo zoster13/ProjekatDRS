@@ -168,7 +168,10 @@ namespace Server
 
         public List<HiringCompany> GetAllHiringCompanies()
         {
-            throw new NotImplementedException();
+            using(var access = new AccessDB())
+            {
+                return access.HiringCompanies.ToList();
+            }
         }
 
         public void AddEmployee(Employee employee)
