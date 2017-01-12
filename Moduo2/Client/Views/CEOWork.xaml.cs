@@ -252,7 +252,8 @@ namespace Client.Views
                 //LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
                 //LocalClientDatabase.Instance.proxy.UpdateEmployeeFunctionAndTeam(emp, newTeam.Name);
 
-                LocalClientDatabase.Instance.proxy.AddTeamAndTL(newTeam, emp);
+                //LocalClientDatabase.Instance.proxy.AddTeamAndTL(newTeam, emp);
+                LocalClientDatabase.Instance.proxy.AddTeamAndUpdateDeveloperToTL(newTeam, emp);
             }
 
             textBoxTeamName.Text = "";

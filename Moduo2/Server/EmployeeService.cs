@@ -261,7 +261,6 @@ namespace Server
         //    Publisher.Instance.NotifyJustMe(employee);
         //}
 
-
         /// <summary>
         /// Vracanje liste svih ulogovanih zaposlenih
         /// </summary>

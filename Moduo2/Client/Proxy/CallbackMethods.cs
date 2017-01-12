@@ -76,10 +76,10 @@ namespace Client
 
         public void ScrumMasterAddedCallback(Employee employee, Team team)
         {
-            //App.Current.Dispatcher.Invoke((Action)delegate
-            //{
-            //    mainWindow.ScrumMasterUpdatedCallbackResult(team);
-            //});
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.ScrumMasterUpdatedCallbackResult(team);
+            });
         }
 
         //IOutsourcingServiceCallbacks
@@ -135,7 +135,7 @@ namespace Client
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                //mainWindow.AddTeamAndTLCallbackResult(team, teamLeader);
+                mainWindow.AddTeamAndTLCallbackResult(team, teamLeader);
             });
         }
     }

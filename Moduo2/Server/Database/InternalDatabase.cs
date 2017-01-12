@@ -51,18 +51,26 @@ namespace Server.Database
         public void UpdateOnlineEmployee(Employee employee)
         {
             Employee onlineEmployee = OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
-            onlineEmployee.Name = employee.Name;
-            onlineEmployee.Surname = employee.Surname;
-            onlineEmployee.WorkingHoursStart = employee.WorkingHoursStart;
-            onlineEmployee.WorkingHoursEnd = employee.WorkingHoursEnd;
-            onlineEmployee.Email = employee.Email;
+
+            if (onlineEmployee != null)
+            {
+                onlineEmployee.Name = employee.Name;
+                onlineEmployee.Surname = employee.Surname;
+                onlineEmployee.WorkingHoursStart = employee.WorkingHoursStart;
+                onlineEmployee.WorkingHoursEnd = employee.WorkingHoursEnd;
+                onlineEmployee.Email = employee.Email;
+            }
         }
 
         public void UpdateDeveloperToTL(Employee developer, Team newTeam)
         {
             Employee onlineEmployee = OnlineEmployees.FirstOrDefault(e => e.Email.Equals(developer.Email));
-            onlineEmployee.Type = EmployeeType.TEAMLEADER;
-            onlineEmployee.Team = newTeam;
+
+            if (onlineEmployee != null)
+            {
+                onlineEmployee.Type = EmployeeType.TEAMLEADER;
+                onlineEmployee.Team = newTeam;
+            }
         }
     }
 }

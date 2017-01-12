@@ -203,3 +203,14 @@
 2017-01-12 19:17:08,552 INFO - Team [wert] is added to database.
 2017-01-12 19:17:08,621 INFO - Employe [E] is updated your function and team.
 2017-01-12 19:18:14,456 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-12 20:21:02,355 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 20:21:02,626 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 20:21:53,158 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 20:22:11,349 INFO - Employee [g] is added to database.
+2017-01-12 20:22:51,391 INFO - Team [rty] is added to database.
+2017-01-12 20:22:51,393 INFO - Employee [rt] is added to database.
+2017-01-12 20:23:34,977 INFO - Employee [tr] is added to database.
+2017-01-12 20:28:03,707 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 20:28:30,699 INFO - Employee [123] is added to database.
+2017-01-12 20:29:02,482 INFO - Employee [123] is updated your function and team.
+2017-01-12 20:29:02,941 INFO - Team [uio] is added to database.

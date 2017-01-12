@@ -1,6 +1,7 @@
 ﻿using ICommon;
 using System;
 using System.ServiceModel;
+using System.Collections.Generic;
 
 namespace Server.ServerProxy
 {
@@ -35,6 +36,11 @@ namespace Server.ServerProxy
             {
                 Console.WriteLine("Error: {0}", e.Message);
             }
+        }
+
+        public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
