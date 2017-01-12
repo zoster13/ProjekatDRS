@@ -23,12 +23,13 @@ namespace Client
 
         public bool SignIn(string username, string password)
         {
+  
             bool retval = false;
             try
             {
-                retval = factory.SignIn(username, password);  //Ne moze se pozvati SyncData jer je zapucao ovde i ceka odgovor!
+                retval = factory.SignIn(username, password); 
             }
-            catch(Exception)
+            catch(Exception e)
             {
 
 
@@ -143,11 +144,11 @@ namespace Client
             }
         }
 
-        public void ProjectApproved(Project p)
+        public void ProjectApprovedByCeo(Project p)
         {
             try
             {
-                factory.ProjectApproved(p);
+                factory.ProjectApprovedByCeo(p);
             }
             catch(Exception)
             {

@@ -75,6 +75,8 @@
                                     </DataGrid.Columns>
 
                                 </DataGrid>
+                                <Label x:Name="labelOnlineEmployees" Content="Online employees:" HorizontalAlignment="Left" Height="28" Margin="39,0,0,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold"/>
+
                             </Grid>
                         </TabItem>
                         <TabItem Header="Companies" Margin="49,10,-72,-10" Height="39" Focusable="True">
@@ -98,12 +100,13 @@
                                         <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
+                                <Label x:Name="labelPartnerCompanies" Content="Partner Companies:" Height="28" Margin="39,0,635,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Projects" Margin="0,10,-71,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
-                                <DataGrid x:Name="DataGridUserStories" HorizontalAlignment="Left" Margin="365,32,0,0" 
-                                          VerticalAlignment="Top" Height="359" Width="468" Background="#FFDDDDDD"
+                                <DataGrid x:Name="DataGridUserStories" HorizontalAlignment="Left" Margin="365,66,0,0" 
+                                          VerticalAlignment="Top" Height="326" Width="468" Background="#FFDDDDDD"
                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -118,15 +121,17 @@
                                         </Style>
                                     </DataGrid.RowStyle>
                                     <DataGrid.Columns>
-                                        <!--> Koje atribute treba da ima projekat??<-->
+
                                         <DataGridTextColumn Width="*" Header="Title" Binding="{Binding Title}" Foreground="#FF16253E" FontWeight="Bold"/>
                                         <DataGridTextColumn Width="*" Header="Description" Binding="{Binding Description}" Foreground="#FF16253E" FontWeight="Bold"/>
                                         <DataGridTextColumn Width="*" Header="AcceptanceCriteria" Binding="{Binding AcceptanceCriteria}" Foreground="#FF16253E" FontWeight="Bold"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                                <TextBox x:Name="textBoxProjects" HorizontalAlignment="Left" Height="294" Margin="37,97,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="299"/>
-                                <Label Content="Select project:" HorizontalAlignment="Left" Margin="37,3,0,0" VerticalAlignment="Top" Width="141" FontSize="14"/>
-                                <ComboBox x:Name="comboBoxProjects" HorizontalAlignment="Left" Margin="37,32,0,0" VerticalAlignment="Top" Width="299" Height="43" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="ComboBoxProjects_SelectionChanged"/>
+                                <TextBox x:Name="textBoxProjects" HorizontalAlignment="Left" Height="259" Margin="37,132,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="299"/>
+                                <Label Content="Select project:" HorizontalAlignment="Left" Margin="37,37,0,0" VerticalAlignment="Top" Width="141" FontSize="12"/>
+                                <ComboBox x:Name="comboBoxProjects" HorizontalAlignment="Left" Margin="37,66,0,0" VerticalAlignment="Top" Width="299" Height="48" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="ComboBoxProjects_SelectionChanged"/>
+                                <Label x:Name="labelProjectsInDev" Content="Projects In Development:"  Height="28" Margin="39,0,635,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold" />
+                                <Label x:Name="labelUserStories" Content="User Stories: ili sta vec ovde?"  Height="28" Margin="365,33,309,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold" />
                             </Grid>
                         </TabItem>
                         <TabItem x:Name="workTabItem" Header="Work" Margin="71,10,-71,-10" HorizontalAlignment="Left" Width="77" Height="39" Focusable="True">
@@ -237,7 +242,7 @@
                                             <Label Content="Select project for approval:" HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="262"/>
                                             <Button x:Name="ApproveProjectButton" Content="Approve project" HorizontalAlignment="Left" Margin="159,275,0,0" VerticalAlignment="Top" Width="100" Height="27" Click="ApproveProjectButton_CLick" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                             <Grid HorizontalAlignment="Left" Height="302" Margin="285,10,0,0" VerticalAlignment="Top" Width="490" Background="White">
-                                                <DataGrid x:Name="approvedProjectsDataGrid" HorizontalAlignment="Left" Margin="253,31,0,0" VerticalAlignment="Top" Height="229" Width="227" Background="#FFDDDDDD"
+                                                <DataGrid x:Name="approvedprojectsInDevelopmentDataGrid" HorizontalAlignment="Left" Margin="253,31,0,0" VerticalAlignment="Top" Height="229" Width="227" Background="#FFDDDDDD"
                                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -298,7 +303,7 @@
                                 <Label x:Name="DateTimeFormatLabel" Content="mm/dd/yyyy" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
                                 <Grid HorizontalAlignment="Left" Height="410" Margin="392,10,0,0" VerticalAlignment="Top" Width="468" Background="White">
                                     <ComboBox x:Name="ProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,30,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
-                                    
+
                                     <Button x:Name="ApproveUserStoriesButton" Content="Approve User Stories" HorizontalAlignment="Left" Margin="23,376,0,0" VerticalAlignment="Top" Width="184" Height="23" Click="ApproveUserStoriesButton_Click"/>
                                     <ListBox x:Name="UserStoriesForApprovalListBox" HorizontalAlignment="Left" Height="286" Margin="23,71,0,0" VerticalAlignment="Top" Width="352">
                                     </ListBox>

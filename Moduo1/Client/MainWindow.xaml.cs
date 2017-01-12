@@ -45,7 +45,7 @@ namespace Client
             //WorkCompaniesDataGrid.DataContext = clientDB.Companies; //i ovo ce morati da se ponovi u nekoj SyncMetodi,kad se izmeni lista partnerskih kompanija
             comboBoxCompanies.DataContext = clientDB.Companies;
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
-            approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
+            approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
 
             
 
@@ -83,27 +83,41 @@ namespace Client
         {
             SetUpConnection();
 
+           // Debug.WriteLine(proxy.InnerChannel.State);
+            //Debug.WriteLine(proxy.State);
 
-            bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
-
-            if (success)
+            if (proxy.State == CommunicationState.Opened)
             {
-                warningLabel.Content = "";
-                tabControl.SelectedIndex = 1;
 
-                //ovde treba da se napravi da su visible objekti koji
-                //su vidjivi samo za odredjeni tip
+               // Debug.WriteLine(proxy.InnerChannel.State);
+               // Debug.WriteLine(proxy.State);
 
-                signOutButton.Visibility = System.Windows.Visibility.Visible;
-                clientDB.Username = usernameBox.Text.Trim();
+                bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
+
+                if (success)
+                {
+                    warningLabel.Content = "";
+                    tabControl.SelectedIndex = 1;
+
+                    signOutButton.Visibility = System.Windows.Visibility.Visible;
+                    clientDB.Username = usernameBox.Text.Trim();
+                }
+                else
+                {
+                    warningLabel.Content = string.Format("Employee with username <{0}> does not exist!",
+                        usernameBox.Text);
+                    usernameBox.Text = "";
+                    passwordBox.Password = "";
+                    warningLabel.Visibility = Visibility.Visible;
+                }
             }
             else
             {
-                warningLabel.Content = string.Format("Employee with username <{0}> does not exist!", usernameBox.Text);
-                usernameBox.Text = "";
-                passwordBox.Password = "";
+                warningLabel.Content = "<EmployeeService> is not available.";
                 warningLabel.Visibility = Visibility.Visible;
             }
+
+ 
         }
 
         private void signOutButton_Click(object sender, RoutedEventArgs e)
@@ -318,7 +332,7 @@ namespace Client
                 }
                 clientDB.ProjectsForSending = new BindingList<Project>(data.ProjectsForSendingData);
             }
-            approvedProjectsDataGrid.DataContext = clientDB.ProjectsForSending;
+            approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
 
             lock (clientDB.Projects_lock) 
             {
@@ -326,10 +340,10 @@ namespace Client
                 {
                     clientDB.Projects.Clear();
                 }
-                clientDB.Projects = new BindingList<Project>(data.ProjectsData);
+                clientDB.Projects = new BindingList<Project>(data.ProjectsInDevelopmentData);
             }
-            comboBoxProjects.DataContext = clientDB.Projects;
-            //treba odraditi ovo za projects na serverskoj strani
+            comboBoxProjects.DataContext = clientDB.Projects; // koje projekte prikazujemo ovde? 
+          
 
             FillHomeLabels();
         }
@@ -441,8 +455,13 @@ namespace Client
 
         private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
         {
-            proxy.SendProject(((PartnerCompany)comboBoxCompanies.SelectedItem).Name, (Project)approvedProjectsDataGrid.SelectedItem);
-            //proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedProjectsDataGrid.SelectedItem);
+            if (approvedprojectsInDevelopmentDataGrid.SelectedItem != null)
+            {
+                proxy.SendProject(( (PartnerCompany)comboBoxCompanies.SelectedItem ).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
+                //proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
+            }
+
+
         }
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
@@ -477,12 +496,15 @@ namespace Client
 
         private void ApproveProjectButton_CLick(object sender, RoutedEventArgs e)
         {
-            Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
-
-            lock (clientDB.ProjectsForApproval_lock)
+            if (projectsForApprovalDataGrid.SelectedItem != null)
             {
-                proxy.ProjectApproved(proj);
-            }                    
+                Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
+
+                lock (clientDB.ProjectsForApproval_lock)
+                {
+                    proxy.ProjectApprovedByCeo(proj);
+                }
+            }              
         }
 
         // da li da cuvamo notifikacije u bazi?

@@ -8,6 +8,8 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using HiringCompany.Logger;
+using ICommon;
 
 namespace HiringCompany
 {
@@ -17,6 +19,8 @@ namespace HiringCompany
      
     class Program
     {
+        public static readonly log4net.ILog Logger = LogHelper.GetLogger();
+
         static void Main(string[] args)
         {
             Console.Title = "Hiring Company";
@@ -32,9 +36,9 @@ namespace HiringCompany
 
 
             // --------------------- service for clients--------------------------------
-
-           //string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
-            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; //10.1.212.113
+           
+            //string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
+            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; 
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 
@@ -46,6 +50,23 @@ namespace HiringCompany
             hostEmployees.Open();
 
             Console.WriteLine("<EmployeesService> service started.");
+
+
+            // --------------------- service for outsorcing companies--------------------------------
+
+            //string addressEmployees = "net.tcp://10.1.212.113:9998/HiringService"; 
+            string addressCompanies = "net.tcp://localhost:9998/HiringService"; 
+            ServiceHost hostCompanies = new ServiceHost(typeof(HiringService));
+            NetTcpBinding bindingCompanies = new NetTcpBinding();
+
+            bindingCompanies.OpenTimeout = new TimeSpan(1, 0, 0);
+            bindingCompanies.CloseTimeout = new TimeSpan(1, 0, 0);
+            bindingCompanies.SendTimeout = new TimeSpan(1, 0, 0);
+            bindingCompanies.ReceiveTimeout = new TimeSpan(1, 0, 0);
+            hostCompanies.AddServiceEndpoint(typeof(IHiringService), bindingCompanies, addressCompanies);
+            hostCompanies.Open();
+
+            Console.WriteLine("<HiringService> service started.");
 
 
             //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana_lo@hotmail.com", 9, 0, 17, 0);
@@ -60,16 +81,11 @@ namespace HiringCompany
             //HiringCompanyDB.Instance().AddNewEmployee(em4);
             //HiringCompanyDB.Instance().AddNewEmployee(em5);
 
-            //PartnerCompany pc = new PartnerCompany("nesto");
-            //using(var access = new AccessDB())
-            //{
-            //    access.companies.Add(pc);
-            //    access.SaveChanges();
-            //}
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey(true);
             hostEmployees.Close();
+            hostCompanies.Close();
         }
     }
 }

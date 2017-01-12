@@ -1,59 +1,39 @@
-2017-01-10 21:43:53,905 INFO - Korisnik se logovao.
-2017-01-10 22:32:48,525 INFO - SignIn(zklasnic, 456) called.
-2017-01-10 22:32:52,456 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-10 22:33:24,662 INFO - SignIn(zklasnic, 456) called.
-2017-01-10 22:33:24,703 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-10 22:34:38,161 INFO - SignIn(zklasnic, 456) called.
-2017-01-10 22:34:42,065 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-10 22:35:26,937 INFO - SignIn(zklasnic, 456) called.
-2017-01-10 22:35:26,953 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-10 22:36:36,558 INFO - SignIn(zklasnic, 456) called.
-2017-01-10 22:36:36,715 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-10 22:51:46,509 INFO - SignIn(mvujakovic, 123) called.
-2017-01-10 22:53:21,955 INFO - SignIn(mvujakovic, 123) called.
-2017-01-10 22:53:25,642 INFO - User:mvujakovic, password: 123 SignIn was successfull.
-2017-01-10 22:53:54,541 INFO - SignIn(mvujakovic, 123) called.
-2017-01-10 22:55:03,383 INFO - SignIn(mvujakovic, 123) called.
-2017-01-10 22:55:18,626 INFO - User:mvujakovic, password: 123 SignIn was successfull.
-2017-01-10 22:58:55,123 INFO - SignIn(rzekanovic, 112) called.
-2017-01-10 22:58:58,919 INFO - User:rzekanovic, password: 112 SignIn was successfull.
-2017-01-10 22:59:21,399 INFO - SignIn(mvujakovic, 123) called.
-2017-01-10 22:59:21,665 INFO - User:mvujakovic, password: 123 SignIn was successfull.
-2017-01-11 00:14:19,147 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:14:28,452 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 00:25:38,609 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:28:52,674 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:32:41,189 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:36:11,993 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:44:11,745 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:50:54,452 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:58:47,707 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 00:58:57,208 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:10:49,302 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:10:53,071 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:13:30,922 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:13:34,990 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:14:39,259 INFO - SignIn(amisic, 789) called.
-2017-01-11 01:14:39,305 INFO - User:amisic, password: 789 SignIn was successfull.
-2017-01-11 01:26:29,896 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:26:33,833 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:29:23,906 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:29:27,632 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:30:28,147 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:30:32,253 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:39:30,814 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:39:34,939 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:39:47,863 INFO - SignIn(amisic, 789) called.
-2017-01-11 01:39:47,923 INFO - User:amisic, password: 789 SignIn was successfull.
-2017-01-11 01:41:15,003 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 01:41:19,035 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 01:41:28,505 INFO - SignIn(amisic, 789) called.
-2017-01-11 01:41:28,558 INFO - User:amisic, password: 789 SignIn was successfull.
-2017-01-11 18:50:34,886 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 18:50:36,850 INFO - User:zklasnic, password: 456 SignIn was successfull.
-2017-01-11 18:50:54,191 INFO - SignIn(amisic, 789) called.
-2017-01-11 18:50:54,239 INFO - User:amisic, password: 789 SignIn was successfull.
-2017-01-11 19:41:38,485 INFO - SignIn(amisic, 789) called.
-2017-01-11 19:41:40,013 INFO - User:amisic, password: 789 SignIn was successfull.
-2017-01-11 19:41:49,859 INFO - SignIn(zklasnic, 456) called.
-2017-01-11 19:41:49,907 INFO - User:zklasnic, password: 456 SignIn was successfull.
+2017-01-12 00:49:53,752 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 00:49:53,762 INFO - Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+finished successfully.
+
+2017-01-12 00:52:54,062 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 00:52:54,065 INFO - Method: EmployeeService.SignIn(), params: string username=rzekanovic, string password=rzekanovic
+finished successfully.
+
+2017-01-12 01:18:08,539 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 01:18:08,551 INFO - Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+finished successfully.
+
+2017-01-12 01:18:17,699 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 01:18:17,700 INFO - Method: EmployeeService.SignIn(), params: string username=rzekanovic, string password=rzekanovic
+finished successfully.
+
+2017-01-12 01:19:48,545 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 01:19:48,554 INFO - Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+finished successfully.
+
+2017-01-12 01:21:02,441 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 01:21:02,453 INFO - Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+finished successfully.
+
+2017-01-12 01:21:46,791 INFO - Method: Notifier.SyncAll()
+finished successfully
+

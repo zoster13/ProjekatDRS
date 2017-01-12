@@ -16,7 +16,7 @@ namespace EmployeeCommon
         private List<Employee> allEmployeesData;
         private List<Project> projectsForApprovalData;
         private List<Project> projectsForSendingData;
-        private List<Project> projectsData;
+        private List<Project> projectsInDevelopmentData;
         private List<String> namesOfCompaniesData;
         private List<PartnerCompany> companiesData;
         
@@ -26,7 +26,7 @@ namespace EmployeeCommon
             allEmployeesData = new List<Employee>();
             projectsForApprovalData = new List<Project>();
             projectsForSendingData = new List<Project>();
-            projectsData = new List<Project>();
+            projectsInDevelopmentData = new List<Project>();
             namesOfCompaniesData = new List<string>();
             companiesData = new List<PartnerCompany>();
         }
@@ -73,10 +73,10 @@ namespace EmployeeCommon
         }
 
         [DataMember]
-        public List<Project> ProjectsData 
+        public List<Project> ProjectsInDevelopmentData 
         {
-            get { return projectsData; }
-            set { projectsData = value; }
+            get { return projectsInDevelopmentData; }
+            set { projectsInDevelopmentData = value; }
         }
 
         [DataMember]

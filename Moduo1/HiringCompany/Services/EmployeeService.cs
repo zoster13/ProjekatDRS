@@ -22,7 +22,6 @@ namespace HiringCompany.Services
       ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class EmployeeService : IEmployeeService
     {
-        public static readonly log4net.ILog Logger = LogHelper.GetLogger();
 
         HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
         OutsorcingCompProxy outsorcingProxy;
@@ -36,8 +35,12 @@ namespace HiringCompany.Services
         }
 
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
-        private void NotifyOnLate(object sender, ElapsedEventArgs e)
+        // i srediti raspored kad se ovo ukljucuje i iskljucuje i slicno
+        private void NotifyOnLate( object sender, ElapsedEventArgs e )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.NotifyOnLate()"));
+
             string _senderEmailAddress = "mzftn123fakultet@gmail.com"; // i ovo cuvati u nekom fajlu
             string _senderPassword = "miljanazvezdana123";
             Console.WriteLine("alarm...");
@@ -61,90 +64,103 @@ namespace HiringCompany.Services
                     }
                 }
             }
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
-
-
-        public bool SignIn(string username, string password)
+        public bool SignIn( string username, string password )
         {
-            Logger.Info(string.Format("SignIn({0}, {1}) called.", username, password));
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.SignIn(), " +
+                                              "params: string username={0}, string password={0}", username, password));
 
             Employee employee = hiringCompanyDB.GetEmployee(username);
 
             if (employee != null && password.Equals(employee.Password))
             {
-                IEmployeeServiceCallback callback = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-                IEmployeeServiceCallback outCallback;
+                IEmployeeServiceCallback callbackClient = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
 
-                // korisiti?
-                ICommunicationObject co = callback as ICommunicationObject;
-                Console.WriteLine(co.State.ToString());
-                if (co.State == CommunicationState.Opened)
+                // Console.WriteLine(( (IClientChannel)callbackClient ).State.ToString());
+                ICommunicationObject cObject = callbackClient as ICommunicationObject;
+                if (cObject != null)
                 {
-
-                }
-
-                if (!hiringCompanyDB.ConnectionChannelsClients.TryGetValue(username, out outCallback))
-                {
-                    hiringCompanyDB.ConnectionChannelsClients.Add(username, callback);
-
-                    lock (hiringCompanyDB.Employees_lock)
+                    IEmployeeServiceCallback outCallback;
+                    if (!hiringCompanyDB.ConnectionChannelsClients.TryGetValue(username, out outCallback))
                     {
-                        hiringCompanyDB.OnlineEmployees.Add(employee);
+                        hiringCompanyDB.ConnectionChannelsClients.Add(username, callbackClient);
+
+                        lock (hiringCompanyDB.OnlineEmployees_lock) 
+                        {
+                            hiringCompanyDB.OnlineEmployees.Add(employee);
+                        }
+
+                        using (Notifier notifier = new Notifier())
+                        {
+                            notifier.SyncAll();
+                        }
+
                     }
-
-                    SyncAll();
-                }
-                else
-                {
-
-                    Console.WriteLine("Greska kod sign-in, uslo u else...");
+                    else
+                    {
+                        messageToLog.AppendLine("Channel associated with username already exists.");
+                        // taj kanal vec postoji, tj. nije izbrisan iz ConnectionChannelsClients,
+                        // iako klijent svaki put kad se loguje pravi novi kanal, nesto nije u redu...
+                        // mozda ovde da uradimo remove starog kanala, i sacuvamo novi?
+                        // i da proverimo da li je vec dodati u online employees 
+                    }
                 }
 
             }
             else
             {
-                Logger.Info(string.Format("User:{0}, password: {1} SignIn was unsuccessfull.", username, password));
+                messageToLog.AppendLine("Employee equals null, or password was wrong.");
                 return false;
             }
 
-            Logger.Info(string.Format("User:{0}, password: {1} SignIn was successfull.", username, password));
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
             return true;
         }
 
-        public void SignOut(string username)
+        public void SignOut( string username )
         {
-            Employee employee = null;
-            Console.WriteLine("SignOut {0} called", username); // for debug
-            lock (hiringCompanyDB.Employees_lock)
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.SignOut(), " +
+                                              "params: string username={0}", username));
+
+        
+            lock (hiringCompanyDB.OnlineEmployees_lock)
             {
-                Console.WriteLine("SignOut {0} lock", username);
-
-
-                foreach (Employee e in hiringCompanyDB.OnlineEmployees)
+                Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
                 {
-                    Console.WriteLine("SignOut {0} foreach", username);
-
-                    if (e.Username.Equals(username))
-                    {
-                        Console.WriteLine("SignOut {0} equals", username);
-                        employee = e;
-                        break;
-                    }
+                    hiringCompanyDB.OnlineEmployees.Remove(em);
+                    hiringCompanyDB.ConnectionChannelsClients.Remove(username);
                 }
-
-                hiringCompanyDB.OnlineEmployees.Remove(employee);
-                Console.WriteLine("SignOut {0} removed online ", username);
-
-                hiringCompanyDB.ConnectionChannelsClients.Remove(username);
-                Console.WriteLine("SignOut {0} removed channel", username);
+                else
+                {
+                    messageToLog.AppendLine("employee does not exist.");
+                }
             }
 
-            SyncAll();
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
-        public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
+        public void ChangeEmployeeData( string username, string name, string surname, string email, string password )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.ChangeEmployeeData(), " +
+                                              "params: string username={0}, string name={1}," +
+                                                  " string surname={2}, string email={3}, string password={4}",
+                                                  username, name, surname, email, password));
+
             try
             {
                 using (var access = new AccessDB())
@@ -165,21 +181,20 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
+                            ve.ErrorMessage));
                     }
                 }
             }
 
-            lock (hiringCompanyDB.Employees_lock)
+            lock (hiringCompanyDB.OnlineEmployees_lock)
             {
-
                 Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
                 if (em != null)
                 {
@@ -190,17 +205,28 @@ namespace HiringCompany.Services
                 }
             }
 
-            SyncAll();
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
-        public void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM)
+        public void SetWorkingHours( string username, int beginH, int beginM, int endH, int endM )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.SetWorkingHours(), " +
+                                              "params: string username={0}, int beginH={1}, int beginM={2}," +
+                                                  "int endH={3}, int endM={4}", username, beginH, beginM, endH, endM));
+
             try
             {
                 using (var access = new AccessDB())
                 {
                     Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
-
                     if (em != null)
                     {
                         em.StartHour = beginH;
@@ -215,19 +241,19 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
+                            ve.ErrorMessage));
                     }
                 }
             }
 
-            lock (hiringCompanyDB.Employees_lock)
+            lock (hiringCompanyDB.OnlineEmployees_lock)
             {
                 Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
                 if (em != null)
@@ -238,11 +264,24 @@ namespace HiringCompany.Services
                     em.EndMinute = endM;
                 }
             }
-            SyncAll();
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
-        public void AskForPartnership(string outsorcingCompanyName)
+        public void AskForPartnership( string outsorcingCompanyName )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.AskForPartnership(), " +
+                                              "params: string outsorcingCompanuName={0}", outsorcingCompanyName));
+
+            //ovde namestiti da iz baze-mape, ili fajla iscitamo adresu te kompanije
+
             string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
 
             NetTcpBinding binding = new NetTcpBinding();
@@ -252,304 +291,197 @@ namespace HiringCompany.Services
             binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
 
             EndpointAddress endpointAddress = new EndpointAddress(new Uri(outsorcingSvcEndpoint));
-            IHiringService callback = new OutsorcingServiceCallback();
-            InstanceContext instanceContext = new InstanceContext(callback);
 
 
             // izbrisati iz liste, i dodati ako negde nesto treba
-            outsorcingProxy = new OutsorcingCompProxy(instanceContext, binding, endpointAddress);
-            // sacuvati proxy, namestiti lockovabhe
-            hiringCompanyDB.ConnectionChannelsCompanies.Add(outsorcingCompanyName, outsorcingProxy);
+            using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
+            {
+                outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);   // i onda kasnije kad pozivamo neke motede uvek proveravmao da li smo partneri
+            }
 
-            //i ovde ce trebati try catch - ako ne valja kanal
+            // sacuvati proxy, namestiti lockovabhe.. ma ne treba da ga cuvamo
+            //hiringCompanyDB.ConnectionChannelsCompanies.Add(outsorcingCompanyName, outsorcingProxy);
 
-            outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
-        public bool AddNewEmployee(Employee em)
+        public bool AddNewEmployee( Employee em )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.AddNewEmployee()"));
+
             bool retVal = hiringCompanyDB.AddNewEmployee(em);
-            SyncAll();
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
+
             return retVal;
         }
 
-        public void ChangeEmployeeType(string username, EmployeeType type)
+        public void ChangeEmployeeType( string username, EmployeeType type )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.ChangeEmployeeType(), " +
+                                              "params: string username={0}, string EmployeeType={0}", username, type.ToString()));
+
             try
             {
-                var access = new AccessDB();
-                foreach (Employee em in access.employees)
+                using (var access = new AccessDB())
                 {
-                    if (em.Username == username)
+                    Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
+                    if (em != null)
                     {
                         em.Type = type;
-                        break;
+                        access.SaveChanges();
                     }
                 }
-                access.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
+                            ve.ErrorMessage));
                     }
                 }
             }
 
-            lock (hiringCompanyDB.Employees_lock)
+            lock (hiringCompanyDB.OnlineEmployees_lock)
             {
-                foreach (Employee em in hiringCompanyDB.OnlineEmployees)
+                Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
                 {
-                    if (em.Username == username)
-                    {
-                        em.Type = type;
-                        break;
-                    }
+                    em.Type = type;
                 }
             }
 
-            lock (hiringCompanyDB.AllEmployees_lock)
+            using (Notifier notifier = new Notifier())
             {
-                foreach (Employee em in hiringCompanyDB.AllEmployees)
-                {
-                    if (em.Username == username)
-                    {
-                        em.Type = type;
-                        break;
-                    }
-                }
+                notifier.SyncAll();
             }
 
-            SyncAll();
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
         public void ProjectOverview()
         {
-            throw new NotImplementedException();
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.ProjectOverview(), "));
+
+
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
+
         }
 
-        public void CreateNewProject(Project p)
+        public void CreateNewProject( Project p )
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.CreateNewProject(), "));
+
             hiringCompanyDB.AddNewProject(p); // onaj neki lock
 
+            string notification = ( string.Format("Project {0} is waiting for approval.", p.Name));
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncSpecialClients(EmployeeType.CEO, notification);
+            }
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
+        }
+
+        public void ProjectApprovedByCeo( Project p )
+        {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.ProjectApprovedByCeo()"));
+
             try
             {
-
-                //using (var access = new AccessDB())
-                //{
-
-                //}
-
-                // lepse napisati, sa linq
-                var access = new AccessDB();
-                foreach (Employee em in access.employees)
+                using (var access = new AccessDB())
                 {
-                    if (em.Type == EmployeeType.CEO)
-                    {
-                        string forRemove = string.Empty;
+                    var project = from proj in access.projects
+                                  where proj.Name.Equals(p.Name)
+                                  select proj;
 
-                        foreach (KeyValuePair<string, IEmployeeServiceCallback> pair in hiringCompanyDB.ConnectionChannelsClients)
-                        {
-                            if (pair.Key.Equals(em.Username))
-                            {
-                                // videti da organizujes ovo, neka metoda nesto ili konstruktor
-                                CurrentData cData = new CurrentData();
-                                cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForCeoApproval;
-                                cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
-                                cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-                                cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-                                cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
-                                cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
-                                cData.ProjectsData = hiringCompanyDB.ProjectsInDevelopment;
-
-                                ICommunicationObject co = pair.Value as ICommunicationObject;
-                                Console.WriteLine(co.State.ToString());
-                                if (co.State == CommunicationState.Opened)
-                                {
-
-                                }
-
-                                try
-                                {
-                                    pair.Value.SyncData(cData);
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                    forRemove = pair.Key;
-                                }
-                                //pair.Value.SyncData(cData);
-
-                                try
-                                {
-                                    pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
-                                }
-                                catch (Exception e)
-                                {
-
-                                    Console.WriteLine(e.Message);
-                                    forRemove = pair.Key;
-                                }
-
-                                //pair.Value.Notify(string.Format("Project {0} is waiting for approval.", p.Name));
-
-                                break;
-                            }
-
-                        }
-
-                        if (!forRemove.Equals(string.Empty))
-                        {
-                            hiringCompanyDB.ConnectionChannelsClients.Remove(forRemove);
-                        }
-                        //break;
-                    }
+                    var pr = project.ToList().FirstOrDefault();
+                    pr.IsAcceptedCEO = true;
+                    access.SaveChanges();
                 }
             }
             catch (DbEntityValidationException e)
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
+                            ve.ErrorMessage));
                     }
                 }
             }
+
+            string notification = string.Format("Project {0} is approved.", p.Name);
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+                notifier.NotifySpecialClient(p.ProductOwner, notification);
+            }
+
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
 
-
-        public void ProjectApproved(Project p) // treba pozvati NotifyPO
+        public void SendProject( string outscCompany, Project p )
         {
-            //lock(hiringCompanyDB.ProjectsForApproval_lock)
-            //{
-            // foreach(Project proj in hiringCompanyDB.ProjectsForCeoApproval)
-            // {
-            // if(proj.Name.Equals(p.Name))
-            //  {
-            // hiringCompanyDB.ProjectsForCeoApproval.Remove(proj);
-
-            try
-            {
-                var access = new AccessDB();
-                var project = from proj in access.projects
-                              where proj.Name.Equals(p.Name)
-                              select proj;
-
-                var pr = project.ToList().FirstOrDefault();
-
-                pr.IsAcceptedCEO = true;
-                access.SaveChanges();
-
-            }
-            catch (Exception e)
-            {
-
-                Console.WriteLine(e.Message);
-            }
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: EmployeeService.SendProject(), " +
+                                              "params: string outscCompany={0}", outscCompany));
 
 
-
-            try
-            {
-
-                var access = new AccessDB();
-
-                string forRemove = string.Empty;
-
-                SyncAll();
-
-                try
-                {
-                    hiringCompanyDB.ConnectionChannelsClients[p.ProductOwner].Notify(string.Format("Project {0} is approved.", p.Name));
-                }
-                catch (Exception e)
-                {
-
-                    Console.WriteLine(e.Message);
-                    forRemove = p.ProductOwner;
-                }
-
-                if (!forRemove.Equals(string.Empty))
-                {
-                    hiringCompanyDB.ConnectionChannelsClients.Remove(forRemove);
-                }
-            }
-
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                    }
-                }
-            }
-        }
-
-        public void SendProject(string outscCompany, Project p) 
-        {
             ProjectCommon proj = new ProjectCommon(p.Name, p.Description, p.StartDate, p.Deadline);
-            hiringCompanyDB.ConnectionChannelsCompanies[outscCompany].SendProjectToOutsourcingCompany(hiringCompanyDB.CompanyName, proj);
-        }
 
-        // namestiti da kada se desi greska sa klijentske strane da se on uvek disposuje kako treba, tj da se izloguje i da se
-        // uradi remove channel uvek sa serverske strane ..ili pre nego sto pozovemo sync da vidimo da li je channel u dobrom stanju i slati ako jeste
-        // tj pre poziva bilo koje metode proveravati stanje kanala
-        private void SyncAll()
-        {
-            CurrentData cData = new CurrentData();
-            cData.EmployeesData = hiringCompanyDB.OnlineEmployees;
-            cData.AllEmployeesData = hiringCompanyDB.AllEmployees;
-            cData.ProjectsForApprovalData = hiringCompanyDB.ProjectsForCeoApproval;
-            cData.ProjectsForSendingData = hiringCompanyDB.ProjectsForSendingToOutsC;
-            cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
-            cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
-            cData.ProjectsData = hiringCompanyDB.ProjectsInDevelopment;
+            // ovde prvo treba da proverimo da li smo partneri!!!!!!!!!!!!!!!!!!
 
-            List<string> forRemove = new List<string>();
+            //ovde namestiti da iz baze-mape, ili fajla iscitamo adresu te kompanije
 
-            foreach (var channel in hiringCompanyDB.ConnectionChannelsClients)
+            string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outscCompany]);
+
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(outsorcingSvcEndpoint));
+
+
+            using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
-                // channel.Value je objekat tipa ClientCallback
-
-                try
-                {
-                    channel.Value.SyncData(cData);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    forRemove.Add(channel.Key);
-
-                }
+                outsorcingProxy.SendProjectToOutsourcingCompany(hiringCompanyDB.CompanyName, proj);  
             }
-
-            foreach (string key in forRemove)
-            {
-                Console.WriteLine("removing channel with key {0}", key);
-                hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-            }
+        
+            messageToLog.AppendLine("finished successfully.");
+            Program.Logger.Info(messageToLog);
         }
-
     }
 }

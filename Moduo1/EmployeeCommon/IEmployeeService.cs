@@ -45,7 +45,7 @@ namespace EmployeeCommon
 
         // Notification methods
         [OperationContract]
-        void ProjectApproved(Project p);
+        void ProjectApprovedByCeo(Project p);
 
         [OperationContract]
         void SendProject(string outscCompany, Project p);

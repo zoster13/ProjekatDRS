@@ -14,7 +14,7 @@ namespace HiringCompany.DatabaseAccess
         private static HiringCompanyDB myDB;
 
         // da ne budu public objekti
-        public object Employees_lock = new object();
+        public object OnlineEmployees_lock = new object();
         public object AllEmployees_lock = new object(); // ne treba?
         public object ProjectsForApproval_lock = new object(); // ne treba
         public object PartnerCompaniesAddresses_lock = new object();
@@ -54,8 +54,9 @@ namespace HiringCompany.DatabaseAccess
 
         public List<Employee> AllEmployees
         {
-            get {
-                using(var access = new AccessDB())
+            get
+            {
+                using (var access = new AccessDB())
                 {
                     // zakljucati ovde
                     var employees = from em in access.employees
@@ -75,13 +76,12 @@ namespace HiringCompany.DatabaseAccess
 
         public List<PartnerCompany> PartnerCompanies
         {
-            get {
-                using(var access = new AccessDB())
+            get
+            {
+                using (var access = new AccessDB())
                 {
 
                     return access.companies.ToList();
-
-                    Console.WriteLine("partner companies posle select");
 
                 }
             }
@@ -89,15 +89,16 @@ namespace HiringCompany.DatabaseAccess
 
         public List<Project> ProjectsForCeoApproval
         {
-            get {
-                using(var access = new AccessDB())
+            get
+            {
+                using (var access = new AccessDB())
                 {
                     // get all projects that are not yet approved by CEO
                     var projectsForA = from proj in access.projects
                                        where proj.IsAcceptedCEO == false
                                        select proj;
 
-                    if(projectsForA.ToList() == null) // videti gde jos treba ova provera
+                    if (projectsForA.ToList() == null) // videti gde jos treba ova provera
                     {
                         return new List<Project>();
                     }
@@ -110,15 +111,16 @@ namespace HiringCompany.DatabaseAccess
         }
         public List<Project> ProjectsForSendingToOutsC
         {
-            get {
+            get
+            {
                 // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
-                using(var access = new AccessDB())
+                using (var access = new AccessDB())
                 {
                     var projectsForS = from proj in access.projects
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
 
-                    if(projectsForS.ToList() == null) // videti gde jos treba ova provera
+                    if (projectsForS.ToList() == null) // videti gde jos treba ova provera
                     {
                         return new List<Project>();
                     }
@@ -143,37 +145,37 @@ namespace HiringCompany.DatabaseAccess
 
         public static HiringCompanyDB Instance()
         {
-            if(myDB == null)
+            if (myDB == null)
                 myDB = new HiringCompanyDB();
             return myDB;
         }
 
         // valjda treba da ima neka metoda za brisanje employee-a? 
 
-        public bool AddNewEmployee(EmployeeCommon.Employee employee)
+        public bool AddNewEmployee( EmployeeCommon.Employee employee )
         {
             bool retVal = false;
             try
             {
-                using(var access = new AccessDB())
+                using (var access = new AccessDB())
                 {
                     int i = 0;
-                    if(!access.employees.Any(e => e.Username == employee.Username)) // does not exist in db
+                    if (!access.employees.Any(e => e.Username == employee.Username)) // does not exist in db
                     {
                         access.employees.Add(employee);
                         i = access.SaveChanges();
                     }
-                    if(i > 0)
+                    if (i > 0)
                         retVal = true;
                 }
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -186,9 +188,9 @@ namespace HiringCompany.DatabaseAccess
         }
 
 
-        public Employee GetEmployee(string username)
+        public Employee GetEmployee( string username )
         {
-            using(var access = new AccessDB())
+            using (var access = new AccessDB())
             {
                 var employee = from em in access.employees
                                where em.Username.Equals(username)
@@ -198,31 +200,31 @@ namespace HiringCompany.DatabaseAccess
             }
         }
 
-        public bool AddNewPartnerCompany(PartnerCompany company)
+        public bool AddNewPartnerCompany( PartnerCompany company )
         {
             bool retVal = false;
             try
             {
-                using(var access = new AccessDB())
+                using (var access = new AccessDB())
                 {
                     int i = 0;
-                    if(!access.companies.Any(c => c.Name == company.Name))
+                    if (!access.companies.Any(c => c.Name == company.Name))
                     {
                         access.companies.Add(company);
                         i = access.SaveChanges();
                     }
 
-                    if(i > 0)
+                    if (i > 0)
                         retVal = true;
                 }
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -233,31 +235,31 @@ namespace HiringCompany.DatabaseAccess
             }
             return retVal;
         }
-        public bool AddNewProject(Project project)
+        public bool AddNewProject( Project project )
         {
             bool retVal = false;
             try
             {
-                using(var access = new AccessDB())
+                using (var access = new AccessDB())
                 {
                     int i = 0;
-                    if(!access.projects.Any(p => p.Id == project.Id))
+                    if (!access.projects.Any(p => p.Id == project.Id))
                     {
                         access.projects.Add(project);
                         i = access.SaveChanges();
                     }
 
-                    if(i > 0)
+                    if (i > 0)
                         retVal = true;
                 }
             }
-            catch(DbEntityValidationException e)
+            catch (DbEntityValidationException e)
             {
-                foreach(var eve in e.EntityValidationErrors)
+                foreach (var eve in e.EntityValidationErrors)
                 {
                     Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach(var ve in eve.ValidationErrors)
+                    foreach (var ve in eve.ValidationErrors)
                     {
                         Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
@@ -269,7 +271,7 @@ namespace HiringCompany.DatabaseAccess
             return retVal;
         }
 
-        public List<Project> ProjectsInDevelopment 
+        public List<Project> ProjectsInDevelopment
         {
             get
             {
@@ -277,19 +279,10 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
                     var projectsInDev = from proj in access.projects
-                                       where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
-                                       select proj;
+                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
+                                        select proj;
 
                     return projectsInDev.ToList();
-
-                    //if (projectsInDev.ToList() == null) // videti gde jos treba ova provera
-                    //{
-                    //    return new List<Project>();
-                    //}
-                    //else
-                    //{
-                    //    return projectsInDev.ToList();
-                    //}
                 }
             }
         }

@@ -9,14 +9,14 @@ using ICommon;
 
 namespace HiringCompany
 {
-    public class OutsorcingCompProxy : DuplexClientBase<ICommon.IOutsourcingService>, ICommon.IOutsourcingService, IDisposable
+    public class OutsorcingCompProxy : ChannelFactory<IOutsourcingService>, ICommon.IOutsourcingService, IDisposable
     {
-        ICommon.IOutsourcingService factory;
+        IOutsourcingService factory;
 
-        public OutsorcingCompProxy( InstanceContext callbackContext, Binding binding, EndpointAddress remoteAddress ) :
-            base(callbackContext, binding, remoteAddress)
+        public OutsorcingCompProxy( NetTcpBinding binding, EndpointAddress remoteAddress ) :
+            base( binding, remoteAddress)
         {
-            factory = this.ChannelFactory.CreateChannel();
+            factory = this.CreateChannel();
         }
 
         public void AskForPartnership(string hiringCompanyName )
@@ -34,24 +34,10 @@ namespace HiringCompany
 
 
 
-        public void Dispose() // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
+        public void SendEvaluatedUserstoriesToOutsourcingCompany( List<UserStoryCommon> userStories, string projectName )
         {
-
-            try
-            {
-                this.Close();
-            }
-            catch (CommunicationException)
-            {
-                this.Abort();
-            }
-            catch (TimeoutException)
-            {
-                this.Abort();
-            }
+            throw new NotImplementedException();
         }
-
-
 
         public void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p)
         {
@@ -63,6 +49,29 @@ namespace HiringCompany
             {
 
                 throw;
+            }
+        }
+
+
+        // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
+        public void Dispose()
+        {
+
+            if (factory != null)
+            {
+                factory = null;
+            }
+            try
+            {
+                this.Close();
+            }
+            catch (CommunicationException)
+            {
+                this.Abort();
+            }
+            catch (TimeoutException)
+            {
+                this.Abort();
             }
         }
     }
