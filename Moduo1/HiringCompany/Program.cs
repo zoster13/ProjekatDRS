@@ -14,6 +14,16 @@ using ICommon;
 namespace HiringCompany
 {
 
+    /*scrum master za projekat - napraviti da se jednom setuje i ne moze da se promeni
+
+da moze na enter da se sign inuje
+
+srediti loger sta se ispisuje, kad je upsesno kad ne, i koji su params
+
+cekic treba da se skloni iz work-> partner companies ako smo vec partneri
+
+cuvati notifikacije u bazi
+*/
     
      // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
      
