@@ -133,7 +133,10 @@ namespace Client
 
         public void AddTeamAndTLCallback(Team team, Employee teamLeader)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.AddTeamAndTLCallbackResult(team, teamLeader);
+            });
         }
     }
 }

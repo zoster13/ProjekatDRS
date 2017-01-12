@@ -649,5 +649,25 @@ namespace Client
         {
             errorLogInBox.Text = "";
         }
+
+        public void AddTeamAndTLCallbackResult(Team team, Employee leader)
+        {
+            LocalClientDatabase.Instance.Teams.Add(team);
+
+            Employee emp = LocalClientDatabase.Instance.Developers.FirstOrDefault(e => e.Email.Equals(leader.Email));
+
+            if(emp != null)
+            {
+                LocalClientDatabase.Instance.Developers.Remove(emp);
+            }
+
+            emp = LocalClientDatabase.Instance.Employees.FirstOrDefault(e => e.Email.Equals(leader.Email));
+
+            if(emp != null)
+            {
+                emp.Type = EmployeeType.TEAMLEADER;
+                dataGridEmployees.Items.Refresh();
+            }
+        }
     }
 }

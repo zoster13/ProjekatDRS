@@ -222,8 +222,10 @@ namespace Client.Views
             Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = em.Email };
             em.Team = newTeam;
 
-            LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
-            LocalClientDatabase.Instance.proxy.AddEmployee(em);
+            //LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
+            //LocalClientDatabase.Instance.proxy.AddEmployee(em);
+
+            LocalClientDatabase.Instance.proxy.AddTeamAndTL(newTeam, em);
             
             textBoxTeamName.Text = "";
 

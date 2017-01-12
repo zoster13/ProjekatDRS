@@ -247,7 +247,14 @@ namespace Client
 
         public void AddTeamAndTL(Team team, Employee teamLeader)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.AddTeamAndTL(team, teamLeader);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddTeamAndTL: {0}", e.Message);
+            }
         }
     }
 }
