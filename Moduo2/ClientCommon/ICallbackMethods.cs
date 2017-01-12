@@ -10,7 +10,7 @@ namespace ClientCommon
     {
         [OperationContract(IsOneWay = true)]
         [ServiceKnownType(typeof(Employee))]
-        void LogInCallback(Employee employee);
+        void LogInCallback(Employee employee, bool loggedIn);
 
         [OperationContract(IsOneWay = true)]
         void LogOutCallback(Employee employee);

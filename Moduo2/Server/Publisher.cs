@@ -47,22 +47,22 @@ namespace Server
         }
 
         #region ICallbackMethods
-        public void LogInCallback(Employee employee)
+        public void LogInCallback(Employee employee, bool loggedIn)
         {
             employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
             employeeChannels.Add(employee.Email, employee.Channel);
 
-            ((IClientChannel)employee.Channel).Faulted += Publisher_Faulted;
+            //((IClientChannel)employee.Channel).Faulted += Publisher_Faulted;
             
-            PublishLogInChanges(employee);
+            PublishLogInChanges(employee, loggedIn);
         }
 
-        private void Publisher_Faulted(object sender, EventArgs e)
-        {
-            Console.WriteLine("asda");
-        }
+        //private void Publisher_Faulted(object sender, EventArgs e)
+        //{
+        //    Console.WriteLine("asda");
+        //}
 
-        public void PublishLogInChanges(Employee employee)
+        public void PublishLogInChanges(Employee employee, bool loggedIn)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
             {
@@ -70,7 +70,7 @@ namespace Server
                 {
                     if (((IClientChannel)sub).State == CommunicationState.Opened)
                     {
-                        sub.LogInCallback(employee);
+                        sub.LogInCallback(employee, loggedIn);
                     }
                 }
                 catch (Exception e)

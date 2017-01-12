@@ -72,24 +72,24 @@ namespace Server
                             Logger.Info(string.Format("Employee [{0}] is loged in.", email));
                         }
 
-                        Publisher.Instance.LogInCallback(employee);
+                        Publisher.Instance.LogInCallback(employee, true);
                     }
                     else
                     {
                         Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
-                        Publisher.Instance.LogInCallback(null);
+                        Publisher.Instance.LogInCallback(employee, false);
                     }
                 }
                 else
                 {
                     Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
-                    Publisher.Instance.LogInCallback(null);
+                    Publisher.Instance.LogInCallback(employee, false);
                 }
             }
             else
             {
                 Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
-                Publisher.Instance.LogInCallback(null);
+                Publisher.Instance.LogInCallback(employee, false);
             }
         }
 
@@ -146,8 +146,11 @@ namespace Server
         
         public void EditEmployeeData(Employee employee)
         {
-            //Update u mdf bazi
-            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
+            
+
+
+                //Update u mdf bazi
+                EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
             
             //Update u internoj bazi
             Employee thisEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
