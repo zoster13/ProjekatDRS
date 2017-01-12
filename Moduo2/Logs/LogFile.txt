@@ -195,3 +195,11 @@
 2017-01-12 18:45:18,489 INFO - Team [network] is added to database.
 2017-01-12 18:45:18,533 INFO - Employee [asd] is added to database.
 2017-01-12 18:48:47,219 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-12 19:15:52,581 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 19:16:11,108 INFO - Team [brzi tim] is added to database.
+2017-01-12 19:16:11,109 INFO - Employee [asdf] is added to database.
+2017-01-12 19:16:47,118 INFO - Employee [AFD] cannot be added to database.
+2017-01-12 19:16:59,086 INFO - Employee [E] is added to database.
+2017-01-12 19:17:08,552 INFO - Team [wert] is added to database.
+2017-01-12 19:17:08,621 INFO - Employe [E] is updated your function and team.
+2017-01-12 19:18:14,456 INFO - Employee [marko@gmail.com] is loged out.

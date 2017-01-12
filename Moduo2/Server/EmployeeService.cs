@@ -198,9 +198,27 @@ namespace Server
         /// <param name="teamLeader"></param>
         public void AddTeamAndTL(Team team, Employee teamLeader)
         {
-            AddTeam(team);
-            AddEmployee(teamLeader);
+            bool teamAdded = EmployeeServiceDatabase.Instance.AddTeam(team);
+            bool employeeAdded = EmployeeServiceDatabase.Instance.AddEmployee(teamLeader);
+            
+            if (teamAdded)
+            {
+                Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
+            }
+            else
+            {
+                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+            }
 
+            if(employeeAdded)
+            {
+                Logger.Info(string.Format("Employee [{0}] is added to database.", teamLeader.Name));
+            }
+            else
+            {
+                Logger.Info(string.Format("Employee [{0}] cannot be added to database.", teamLeader.Name));
+            }
+            
             Publisher.Instance.AddTeamAndTLCallback(team, teamLeader);   
         }
 

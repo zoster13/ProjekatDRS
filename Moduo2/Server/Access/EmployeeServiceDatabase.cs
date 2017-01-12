@@ -42,18 +42,28 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                if (employee.Team != null)
-                {
-                    Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
-                    employee.Team = team;
-                }
+                Employee employeeInDB = access.Employees.FirstOrDefault(e => e.Email.Equals(employee.Email));
 
-                lock (lockObjectEmployees)
+                //dodaj samo ako ne postoji u bazi
+                if (employeeInDB == null)
                 {
-                    access.Employees.Add(employee);
-                    access.SaveChanges();
+                    if (employee.Team != null)
+                    {
+                        Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
+                        employee.Team = team;
+                    }
+
+                    lock (lockObjectEmployees)
+                    {
+                        access.Employees.Add(employee);
+                        access.SaveChanges();
+                    }
+                    return true;
                 }
-                return true;
+                else
+                {
+                    return false;
+                }
             }
         }
 
