@@ -376,16 +376,11 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void ProjectOverview()
+        public void SendApprovedUserStories(string projectName,List<UserStory> userStories)
         {
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: EmployeeService.ProjectOverview(), "));
-
-
-
-            messageToLog.AppendLine("finished successfully.");
-            Program.Logger.Info(messageToLog);
-
+            //promeniti u bazi polje isApproved za sve odobrene userStories
+            //pozvati outsComp metodu i proslediti listu userStories
+            
         }
 
         public void CreateNewProject( Project p )

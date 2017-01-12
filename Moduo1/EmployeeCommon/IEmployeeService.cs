@@ -37,7 +37,7 @@ namespace EmployeeCommon
 
         // CEO, PO, SM
         [OperationContract]
-        void ProjectOverview();
+        void SendApprovedUserStories(string projectName, List<UserStory> userStories);
 
         // PO
         [OperationContract]

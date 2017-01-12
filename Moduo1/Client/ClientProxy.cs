@@ -118,11 +118,11 @@ namespace Client
             }
         }
 
-        public void ProjectOverview()
+        public void SendApprovedUserStories(string projectName, List<UserStory> userStories)
         {
             try
             {
-
+                factory.SendApprovedUserStories(projectName, userStories);
             }
             catch(Exception)
             {

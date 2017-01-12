@@ -16,10 +16,19 @@ namespace EmployeeCommon
         private string title;
         private string description;
         private string acceptanceCriteria;
-        private int storyPoints;
+        private bool isApprovedByPO;
 
         public UserStory() 
         {
+            isApprovedByPO = false;
+        }
+
+        public UserStory(string title, string description, string acceptanceCriteria) 
+        {
+            this.title = title;
+            this.description = description;
+            this.acceptanceCriteria = acceptanceCriteria;
+            isApprovedByPO = false;
         }
 
         [Key]
@@ -52,10 +61,10 @@ namespace EmployeeCommon
         }
 
         [DataMember]
-        public int StoryPoints
+        public bool IsApprovedByPO
         {
-            get { return storyPoints; }
-            set { storyPoints = value; }
+            get { return isApprovedByPO; }
+            set { isApprovedByPO = value; }
         }
     }
 }

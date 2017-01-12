@@ -561,6 +561,7 @@ namespace Client
         private void ApproveUserStoriesButton_Click(object sender, RoutedEventArgs e)
         {
             Project p = (Project)comboBoxProjects.SelectedItem;
+            List<CheckBox> forRemove = new List<CheckBox>();
             //napraviti listu userStorija za odobravanje koji ce se slati
             foreach (CheckBox cb in UserStoriesForApprovalListBox.Items)
             {
@@ -570,14 +571,19 @@ namespace Client
                     {
                         if (us.Title.Equals(cb.Content))
                         {
-                            //dodati u listu za odobravanje userStory(promeniti mu polje isAccepted ili kako vec)
+                            us.IsApprovedByPO = true;
+                            forRemove.Add(cb);
                         }
                     }
                 }
-                //poslati listu odobrenih
             }
 
-            UserStoriesForApprovalListBox.Items.Clear();
+            foreach (CheckBox cb in forRemove) 
+            {
+                UserStoriesForApprovalListBox.Items.Remove(cb);
+            }
+
+            proxy.SendApprovedUserStories(p.Name,p.UserStories);
         }
 
         private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -585,18 +591,18 @@ namespace Client
             if (comboBoxProjects.SelectedItem != null) 
             {
                 Project p = (Project)comboBoxProjects.SelectedItem;
-                BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
-
-                foreach (UserStory us in p.UserStories)//mozda i nekako drugacije,ne znam kako i gde cemo smestati userStory-je koje nam posalju,videcemo
+                BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories.FindAll(u=>u.IsApprovedByPO==false));
+                
+                foreach (UserStory us in userStories)
                 {
-                    //string s = String.Format("Name: {0}", us.Title);
-                    CheckBox property = new CheckBox()
+                    string tTip = String.Format("Description: " + us.Description + "\nAcceptanceCriteria: " + us.AcceptanceCriteria);
+                    CheckBox userStory = new CheckBox()
                     {
-
-                        Content = us.Title, //dodati i ostatak
-                        IsChecked = false
+                        Content = us.Title,
+                        IsChecked = false,
+                        ToolTip=tTip //srediti vreme trajanja i pokazivanja
                     };
-                    UserStoriesForApprovalListBox.Items.Add(property);
+                    UserStoriesForApprovalListBox.Items.Add(userStory);
                 }
             }
             
