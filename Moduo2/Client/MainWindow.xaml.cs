@@ -352,6 +352,7 @@ namespace Client
             if(team != null)
             {
                 LocalClientDatabase.Instance.Teams.Add(team);
+                MessageBox.Show("A new team has been added!\n It can be seen in the Teams pannel.");
             }
             else
             {
@@ -655,8 +656,9 @@ namespace Client
             LocalClientDatabase.Instance.Teams.Add(team);
 
             Employee emp = LocalClientDatabase.Instance.Developers.FirstOrDefault(e => e.Email.Equals(leader.Email));
+            
 
-            if(emp != null)
+            if (emp != null)
             {
                 LocalClientDatabase.Instance.Developers.Remove(emp);
             }
@@ -668,6 +670,8 @@ namespace Client
                 emp.Type = EmployeeType.TEAMLEADER;
                 dataGridEmployees.Items.Refresh();
             }
+
+            MessageBox.Show("A new team has been added!\n It can be seen in the Teams pannel.");
         }
     }
 }

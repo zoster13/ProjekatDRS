@@ -135,7 +135,7 @@ namespace Client
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                mainWindow.AddTeamAndTLCallbackResult(team, teamLeader);
+                //mainWindow.AddTeamAndTLCallbackResult(team, teamLeader);
             });
         }
     }

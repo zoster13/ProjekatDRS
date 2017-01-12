@@ -235,7 +235,7 @@ namespace Client.Views
             textBoxTeamName.Text = "";
             passwordBoxLeader.Password = "";
 
-            OkMessageBox("A new team has been added!\n It can be seen in the Teams pannel.");
+            //OkMessageBox("A new team has been added!\n It can be seen in the Teams pannel.");
 
             tabControlNewTeam.SelectedIndex = 0;
         }
@@ -249,8 +249,10 @@ namespace Client.Views
                 emp.Team = newTeam;
                 //emp.Type = EmployeeType.TEAMLEADER;
 
-                LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
-                LocalClientDatabase.Instance.proxy.UpdateEmployeeFunctionAndTeam(emp, newTeam.Name);
+                //LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
+                //LocalClientDatabase.Instance.proxy.UpdateEmployeeFunctionAndTeam(emp, newTeam.Name);
+
+                LocalClientDatabase.Instance.proxy.AddTeamAndTL(newTeam, emp);
             }
 
             textBoxTeamName.Text = "";
