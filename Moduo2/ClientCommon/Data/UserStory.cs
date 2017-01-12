@@ -28,6 +28,11 @@ namespace ClientCommon.Data
             acceptStatus = AcceptStatus.PENDING;
             progressStatus = ProgressStatus.INPREP;
             deadline = DateTime.Now;
+            title = string.Empty;
+            description = string.Empty;
+            difficulty = 2;
+            project = new Project();
+            tasks = new List<Task>();
         }
 
         [Key]

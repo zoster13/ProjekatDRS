@@ -25,6 +25,10 @@ namespace ClientCommon.Data
         {
             assignStatus = AssignStatus.UNASSIGNED;
             progressStatus = ProgressStatus.INPREP;
+            title = string.Empty;
+            description = string.Empty;
+            userStory = new UserStory();
+            employeeName = string.Empty;
         }
 
         [Key]

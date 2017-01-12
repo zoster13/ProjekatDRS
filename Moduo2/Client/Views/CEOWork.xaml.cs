@@ -267,7 +267,7 @@ namespace Client.Views
 
                 if (project.AssignStatus == AssignStatus.UNASSIGNED)
                 {
-                    if(team.ScrumMasterEmail != null)
+                    if(team.ScrumMasterEmail.Equals(string.Empty))
                     {
                         foreach (var proj in LocalClientDatabase.Instance.AllProjects)
                         {

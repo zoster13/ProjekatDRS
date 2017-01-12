@@ -78,12 +78,12 @@ namespace Client.Views
                     userStory.Title = textBoxUserStoryTitle.Text;
                     userStory.Description = textBoxUserStoryContent.Text;
                     userStory.Difficulty = int.Parse(textBoxUserStoryDifficulty.Text);
+                    //userStory.Tasks = new List<ClientCommon.Data.Task>();
 
                     userStory.AcceptStatus = AcceptStatus.PENDING;
                     userStory.ProgressStatus = ProgressStatus.INPREP; 
 
-                    userStory.Project = project;
-
+                    
                     comboBoxProjects.Items.Refresh();
                     comboBoxProjects.SelectedItem = null;
                     textBoxUserStoryTitle.Text = "";
@@ -94,7 +94,7 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.UserStories.Add(userStory);
 
-                    LocalClientDatabase.Instance.proxy.AddUserStory(userStory);
+                    LocalClientDatabase.Instance.proxy.AddUserStory(userStory, project.Name);
 
                     MessageBox.Show("User story has been added!");
                 }

@@ -15,7 +15,6 @@ namespace ClientCommon.Data
         private int id;
         private string name;
         private string description;
-        private string teamName;
         private AssignStatus assignStatus;
         private ProgressStatus progressStatus;
         private Team team;
@@ -25,9 +24,13 @@ namespace ClientCommon.Data
 
         public Project()
         {
+            name = string.Empty;
+            description = string.Empty;
+            hiringCompanyName = string.Empty;
             userStories = new List<UserStory>();
             assignStatus = AssignStatus.UNASSIGNED;
             progressStatus = ProgressStatus.INPREP;
+            team = new Team();
         }
 
         public Project(string projName, string hiringCompanyName)
@@ -61,20 +64,12 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public string TeamName
-        {
-            get { return teamName; }
-            set { teamName = value; }
-        }
-
-        [DataMember]
         public string HiringCompanyName
         {
             get { return hiringCompanyName; }
             set { hiringCompanyName = value; }
         }
-
-
+        
         [DataMember]
         public AssignStatus AssignStatus
         {

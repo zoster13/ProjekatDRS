@@ -8,37 +8,37 @@ namespace ClientCommon
     [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(ICallbackMethods))]
     public interface IEmployeeService
     {
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true, IsInitiating = true)]
         void LogIn(string email, string password);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true, IsTerminating = true)]
         void LogOut(Employee employee);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void AddTeam(Team team);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void EditEmployeeData(Employee employee);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void ProjectTeamAssign(Project project);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void ReleaseUserStory(UserStory userStory);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void TaskClaimed(Task task);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void TaskCompleted(Task task);
 
         [OperationContract]
-        void AddUserStory(UserStory userStory);
+        void AddUserStory(UserStory userStory, string projectName);
 
         [OperationContract]
         void AddTask(Task task);
 
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract(IsOneWay = true)]
         void SendUserStories(List<UserStoryCommon> userStories, string projectName);
 
         [OperationContract]

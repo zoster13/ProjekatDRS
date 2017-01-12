@@ -154,16 +154,10 @@ namespace Client
             }
         }
 
-        public void AddUserStory(UserStory userStory)
+        public void AddUserStory(UserStory userStory, string projectName)
         {
-            try
-            {
-                factory.AddUserStory(userStory);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error while trying to AddUserStory: {0}", e.Message);
-            }
+                factory.AddUserStory(userStory, projectName);
+            
         }
 
         public void SendUserStories(List<UserStoryCommon> userStories, string projectName)

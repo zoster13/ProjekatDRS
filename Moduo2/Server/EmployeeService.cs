@@ -26,14 +26,21 @@ namespace Server
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
         private Timer lateOnJobTimer = new Timer();
 
-        private NetTcpBinding binding = new NetTcpBinding();
-        private string hiringCompanyAddress = "";
+        private NetTcpBinding binding;
+        private string hiringCompanyAddress;
 
         #endregion Fields
 
 
         public EmployeeService()
         {
+            hiringCompanyAddress = "net.tcp://10.1.212.13:9998/HiringService";
+            binding = new NetTcpBinding();
+            //binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            //binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            //binding.SendTimeout = new TimeSpan(1, 0, 0);
+            //binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
             lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
             lateOnJobTimer.Interval = 15000;
             //lateOnJobTimer.Enabled = true;        
@@ -190,9 +197,12 @@ namespace Server
 
             if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
             {
-                employee.Team.ScrumMasterEmail = employee.Email;
-                EmployeeServiceDatabase.Instance.UpdateScrumMaster(employee);
-                Logger.Info(string.Format("ScrumMaster [{0}] is updated.", employee.Name));
+                using (var access = new AccessDB())
+                {
+                    Team teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
+                    teamInDB.ScrumMasterEmail = employee.Email;
+                    access.SaveChanges();
+                }
 
                 Publisher.Instance.ScrumMasterUpdatedCallback(employee.Team);
             }
@@ -235,12 +245,12 @@ namespace Server
             }
         }
 
-        public void AddUserStory(UserStory userStory)
+        public void AddUserStory(UserStory userStory, string projectName)
         {
             // dodaje user story u bazu, ne treba callback
             using (var access = new AccessDB())
             {
-                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(userStory.Project.Name));
+                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
 
                 userStory.Project = proj;
                 access.UserStories.Add(userStory);

@@ -159,25 +159,7 @@ namespace Server.Access
                 con.Close();
             }
         }
-
-        public void UpdateScrumMaster(Employee employee)
-        {
-            //Update in Database
-            string commandText = "UPDATE Teams SET ScrumMasterEmail = @email Where Name=@teamName";
-
-            SqlConnection con = new SqlConnection(connectionStringForDB);
-            SqlCommand updateCommand = new SqlCommand(commandText, con);
-            updateCommand.Parameters.AddWithValue("@email", employee.Email);
-            updateCommand.Parameters.AddWithValue("@teamName", employee.Team.Name);
-            
-            lock (lockObjectTeams)
-            {
-                con.Open();
-                updateCommand.ExecuteNonQuery();
-                con.Close();
-            }
-        }
-
+        
         public void AddNotification(Notification notification)
         {
             using (var access = new AccessDB())

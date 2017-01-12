@@ -50,7 +50,14 @@ namespace Server
             employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
             employeeChannels.Add(employee.Email, employee.Channel);
 
+            ((IClientChannel)employee.Channel).Faulted += Publisher_Faulted;
+            
             PublishLogInChanges(employee);
+        }
+
+        private void Publisher_Faulted(object sender, EventArgs e)
+        {
+            Console.WriteLine("asda");
         }
 
         public void PublishLogInChanges(Employee employee)
@@ -383,7 +390,7 @@ namespace Server
                 }
             }
         }
-
+        
         #endregion ICallbackMethods
     }
 }

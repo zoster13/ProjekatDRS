@@ -82,3 +82,58 @@
 2017-01-12 10:41:53,497 INFO - Employee [a] is loged in.
 2017-01-12 10:42:52,193 INFO - Employee [b] is added to database.
 2017-01-12 10:42:52,250 INFO - ScrumMaster [b] is updated.
+2017-01-12 10:52:27,216 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:52:42,124 INFO - Team [SaaS] isn't added to database.
+2017-01-12 10:52:42,711 INFO - Employee [a] is added to database.
+2017-01-12 10:54:22,494 INFO - Employee [b] is added to database.
+2017-01-12 10:54:22,550 INFO - ScrumMaster [b] is updated.
+2017-01-12 10:55:51,332 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 10:56:39,317 INFO - Employee [marko@gmai.com] isn't loged in. There is no Employee in database with this credentials.
+2017-01-12 10:56:58,995 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:57:22,890 INFO - Employee [atlaga@gmail.com] isn't loged in. There is no Employee in database with this credentials.
+2017-01-12 10:57:28,181 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:06:28,376 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:06:44,358 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:11:46,839 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:12:00,326 INFO - Employee [atlaga@gmail.com] isn't loged in. There is no Employee in database with this credentials.
+2017-01-12 11:12:08,204 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:14:25,854 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:14:42,121 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:27:37,041 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:27:50,266 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:31:41,829 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:32:03,327 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:36:37,848 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:36:53,253 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:38:49,167 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:39:05,123 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:40:42,575 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:40:54,350 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:43:15,340 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:43:38,623 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:47:17,583 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:47:36,119 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:56:45,815 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:57:01,075 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:58:31,868 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 11:58:44,664 INFO - Employee [atlaga@gmail.com] is loged in.
+2017-01-12 11:59:41,849 INFO - UserStory [us1] is added to database.
+2017-01-12 12:05:55,367 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 12:07:20,537 INFO - Team [scada] is added to database.
+2017-01-12 12:07:29,256 INFO - Employee [a] is added to database.
+2017-01-12 12:11:35,424 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 12:11:49,816 INFO - Employee [a] is loged in.
+2017-01-12 12:12:31,609 INFO - Employee [b] is added to database.
+2017-01-12 12:12:31,655 INFO - ScrumMaster [b] is updated.
+2017-01-12 12:14:13,423 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 12:14:19,745 INFO - Employee [a] is loged in.
+2017-01-12 12:19:10,898 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 12:19:22,506 INFO - Employee [a] is loged in.
+2017-01-12 12:31:00,672 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 12:32:49,145 INFO - Team [sasa] is added to database.
+2017-01-12 12:35:09,906 INFO - Employee [a] is added to database.
+2017-01-12 12:37:11,181 INFO - Employee [b] is added to database.
+2017-01-12 12:37:52,545 INFO - ScrumMaster [b] is updated.
+2017-01-12 12:45:43,430 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 12:46:03,009 INFO - Team [sas] is added to database.
+2017-01-12 12:46:05,066 INFO - Employee [aa] is added to database.

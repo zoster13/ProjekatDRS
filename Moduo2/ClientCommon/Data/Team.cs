@@ -17,12 +17,18 @@ namespace ClientCommon.Data
 
         public Team()
         {
+            name = string.Empty;
+            teamLeaderEmail = string.Empty;
+            scrumMasterEmail = string.Empty;
             projects = new List<Project>();
         }
 
         public Team(string name)
         {
             this.name = name;
+            teamLeaderEmail = string.Empty;
+            scrumMasterEmail = string.Empty;
+            projects = new List<Project>();
         }
 
         [Key]
