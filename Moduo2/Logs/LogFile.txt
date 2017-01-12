@@ -187,3 +187,11 @@
 2017-01-12 18:30:01,824 INFO - Employee [marko@gmail.com] is loged in.
 2017-01-12 18:30:22,223 INFO - Team [saas] is added to database.
 2017-01-12 18:30:22,291 INFO - Employee [a] is added to database.
+2017-01-12 18:39:31,317 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 18:39:50,832 INFO - Team [cloud] is added to database.
+2017-01-12 18:39:50,954 INFO - Employee [f] is added to database.
+2017-01-12 18:40:59,283 INFO - Employee [as] is added to database.
+2017-01-12 18:44:56,825 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 18:45:18,489 INFO - Team [network] is added to database.
+2017-01-12 18:45:18,533 INFO - Employee [asd] is added to database.
+2017-01-12 18:48:47,219 INFO - Employee [marko@gmail.com] is loged out.

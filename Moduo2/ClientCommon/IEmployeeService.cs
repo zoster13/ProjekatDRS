@@ -18,6 +18,9 @@ namespace ClientCommon
         void AddTeam(Team team);
 
         [OperationContract(IsOneWay = true)]
+        void AddTeamAndTL(Team team, Employee teamLeader);
+
+        [OperationContract(IsOneWay = true)]
         void EditEmployeeData(Employee employee);
 
         [OperationContract(IsOneWay = true)]

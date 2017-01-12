@@ -19,6 +19,9 @@ namespace ClientCommon
         void TeamAddedCallback(Team team);
 
         [OperationContract(IsOneWay = true)]
+        void AddTeamAndTLCallback(Team team, Employee teamLeader);
+
+        [OperationContract(IsOneWay = true)]
         void TypeChangeCallback(Team team, EmployeeType newType);
 
         [OperationContract(IsOneWay = true)]
@@ -34,7 +37,7 @@ namespace ClientCommon
         void NotifyJustMe(Employee employee);
 
         [OperationContract(IsOneWay = true)]
-        void ScrumMasterUpdatedCallback(Team team);
+        void ScrumMasterAddedCallback(Employee employee, Team team);
 
         [OperationContract(IsOneWay = true)]
         void ProjectTeamAssignCallback(Project project);

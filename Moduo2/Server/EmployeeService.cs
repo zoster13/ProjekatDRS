@@ -133,8 +133,6 @@ namespace Server
 
             if (employeeAdded)
             {
-                Publisher.Instance.AddEmployeeCallback(employee);
-
                 //Ako je SM, podesi timu ScrumMasterEmail
                 if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
                 {
@@ -145,7 +143,11 @@ namespace Server
                         access.SaveChanges();
                     }
 
-                    Publisher.Instance.ScrumMasterUpdatedCallback(teamInDB);
+                    Publisher.Instance.ScrumMasterAddedCallback(employee, teamInDB);
+                }
+                else
+                {
+                    Publisher.Instance.AddEmployeeCallback(employee);
                 }
 
                 Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
@@ -188,7 +190,20 @@ namespace Server
                 Publisher.Instance.TeamAddedCallback(null);
             }
         }
-        
+
+        /// <summary>
+        /// Dodavanje novog tima i novog zaposlenog koji je tipa TL
+        /// </summary>
+        /// <param name="team"></param>
+        /// <param name="teamLeader"></param>
+        public void AddTeamAndTL(Team team, Employee teamLeader)
+        {
+            AddTeam(team);
+            AddEmployee(teamLeader);
+         
+               
+        }
+
         /// <summary>
         /// Vracanje liste svih ulogovanih zaposlenih
         /// </summary>
@@ -464,6 +479,6 @@ namespace Server
             //}
         }
 
-        #endregion 
+        #endregion
     }
 }

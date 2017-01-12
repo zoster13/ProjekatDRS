@@ -119,6 +119,24 @@ namespace Server
             }
         }
 
+        public void AddTeamAndTLCallback(Team team, Employee teamLeader)
+        {
+            foreach (ICallbackMethods sub in employeeChannels.Values)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.AddTeamAndTLCallback(team, teamLeader);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
+
         public void TypeChangeCallback(Team team, EmployeeType newType)
         {
             //try
@@ -217,7 +235,7 @@ namespace Server
             }
         }
 
-        public void ScrumMasterUpdatedCallback(Team team)
+        public void ScrumMasterAddedCallback(Employee employee, Team team)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
             {
@@ -225,7 +243,7 @@ namespace Server
                 {
                     if (((IClientChannel)sub).State == CommunicationState.Opened)
                     {
-                        sub.ScrumMasterUpdatedCallback(team);
+                        sub.ScrumMasterAddedCallback(employee, team);
                     }
                 }
                 catch (Exception e)
@@ -398,7 +416,7 @@ namespace Server
                 }
             }
         }
-        
+
         #endregion ICallbackMethods
     }
 }

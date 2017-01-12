@@ -74,12 +74,12 @@ namespace Client
             });
         }
 
-        public void ScrumMasterUpdatedCallback(Team team)
+        public void ScrumMasterAddedCallback(Employee employee, Team team)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate
-            {
-                mainWindow.ScrumMasterUpdatedCallbackResult(team);
-            });
+            //App.Current.Dispatcher.Invoke((Action)delegate
+            //{
+            //    mainWindow.ScrumMasterUpdatedCallbackResult(team);
+            //});
         }
 
         //IOutsourcingServiceCallbacks
@@ -129,6 +129,11 @@ namespace Client
             {
                 mainWindow.TaskCompletedCallbackResult(task);
             });
+        }
+
+        public void AddTeamAndTLCallback(Team team, Employee teamLeader)
+        {
+            throw new NotImplementedException();
         }
     }
 }

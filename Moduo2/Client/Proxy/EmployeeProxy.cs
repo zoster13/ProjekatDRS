@@ -244,5 +244,10 @@ namespace Client
                 Console.WriteLine("Error while trying to ResponseToProjectRequest: {0}", e.Message);
             }
         }
+
+        public void AddTeamAndTL(Team team, Employee teamLeader)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
