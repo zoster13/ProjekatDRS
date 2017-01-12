@@ -27,6 +27,7 @@ namespace Server
         private string hiringCompanyAddress;
         List<Employee> allEmployees;
         private Team teamInDB;
+        private Employee employeeInDB;
         #endregion Fields
 
         //Constructor
@@ -34,6 +35,7 @@ namespace Server
         {
             allEmployees = new List<Employee>();
             teamInDB = new Team();
+            employeeInDB = new Employee();
             hiringCompanyAddress = "net.tcp://10.1.212.13:9998/HiringService";
             binding = new NetTcpBinding();
             //binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -49,6 +51,11 @@ namespace Server
 
         #region IEmployeeService Methods
 
+        /// <summary>
+        /// Logovanje zaposlenih na servis
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
@@ -70,19 +77,26 @@ namespace Server
                     else
                     {
                         Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
+                        Publisher.Instance.LogInCallback(null);
                     }
                 }
                 else
                 {
                     Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
+                    Publisher.Instance.LogInCallback(null);
                 }
             }
             else
             {
                 Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
+                Publisher.Instance.LogInCallback(null);
             }
         }
 
+        /// <summary>
+        /// Odjavljivanje zaposlenih sa servisa
+        /// </summary>
+        /// <param name="employee"></param>
         public void LogOut(Employee employee)
         {
             Employee loggedInEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
@@ -90,22 +104,23 @@ namespace Server
             lock (InternalDatabase.Instance.LockerOnlineEmployees)
             {
                 InternalDatabase.Instance.OnlineEmployees.Remove(loggedInEmployee);
-                Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
             }
-
+            
+            //DODATI AZURIRANJE NOTIFIKACIJA
+            /*
             using (var access = new AccessDB())
             {
-                Employee employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
-
-                foreach (Notification notif in access.Notifications.ToList())
+                employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
+                List<Notification> notificationsInDB = access.Notifications.Where(n => n.Emoloyee == employeeInDB).ToList();
+                
+                foreach(Notification notif in employee.Notifications)
                 {
-                    if (notif.Emoloyee == employeeInDB)
-                    {
-                        //DOVRSITI!!! azurirati notifikacije
-                    }
+                    
                 }
             }
+            */
 
+            Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
             Publisher.Instance.LogOutCallback(employee);
         }
 
