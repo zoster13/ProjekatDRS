@@ -107,8 +107,8 @@ namespace Server.Access
             using (var access = new AccessDB())
             {
                 var team1 = from t in access.Teams
-                           where t.Name.Equals(team.Name)
-                           select t;
+                            where t.Name.Equals(team.Name)
+                            select t;
 
                 if (team1.ToList().FirstOrDefault() == null)
                 {

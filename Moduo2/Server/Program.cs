@@ -54,7 +54,7 @@ namespace Server
             
             Console.WriteLine("Press <enter> to stop service...");
 
-            ////DB Test
+            //DB Test
             Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
             EmployeeServiceDatabase.Instance.AddEmployee(em1);
 

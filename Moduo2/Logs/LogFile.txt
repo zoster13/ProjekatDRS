@@ -177,3 +177,13 @@
 2017-01-12 17:29:14,943 INFO - Employee [marko@gmail.com] is loged in.
 2017-01-12 17:32:06,452 INFO - Employee [marko@gmail.com] personal data are updated.
 2017-01-12 17:33:17,352 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-12 18:15:01,260 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 18:15:36,074 INFO - Team [SaaS] is added to database.
+2017-01-12 18:15:36,147 INFO - Employee [aa] is added to database.
+2017-01-12 18:19:23,018 INFO - Employee [b] is added to database.
+2017-01-12 18:21:41,260 INFO - Employee [a] is loged in.
+2017-01-12 18:24:27,871 INFO - UserStory [us1] is added to database.
+2017-01-12 18:24:52,352 INFO - UserStory [us2] is added to database.
+2017-01-12 18:30:01,824 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 18:30:22,223 INFO - Team [saas] is added to database.
+2017-01-12 18:30:22,291 INFO - Employee [a] is added to database.

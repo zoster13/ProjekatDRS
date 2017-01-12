@@ -133,9 +133,9 @@ namespace Server
 
             if (employeeAdded)
             {
-                Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
                 Publisher.Instance.AddEmployeeCallback(employee);
 
+                //Ako je SM, podesi timu ScrumMasterEmail
                 if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
                 {
                     using (var access = new AccessDB())
@@ -147,6 +147,8 @@ namespace Server
 
                     Publisher.Instance.ScrumMasterUpdatedCallback(teamInDB);
                 }
+
+                Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
             }
             else
             {
@@ -232,8 +234,10 @@ namespace Server
             }
         }
 
-
-
+        /// <summary>
+        /// Dodjeljivanje projekta timu
+        /// </summary>
+        /// <param name="project"></param>
         public void ProjectTeamAssign(Project project)
         {
             // ako je tim lider online, treba mu poslati projekat (SAMO NJEMU), inace se stavlja u bazu
@@ -441,6 +445,7 @@ namespace Server
             {
                 Project newProject = new Project();
                 newProject = project;
+                newProject.Team = null;
 
                 using (var access = new AccessDB())
                 {
