@@ -1,0 +1,40 @@
+2017-01-12 21:27:28,039 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 21:27:28,047 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+finished successfully.
+
+2017-01-12 21:27:41,845 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 21:27:41,845 INFO - Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+finished successfully.
+
+2017-01-12 21:30:37,855 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 21:30:37,864 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+finished successfully.
+
+2017-01-12 21:30:48,707 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 21:30:48,709 INFO - Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+finished successfully.
+
+2017-01-12 21:31:23,984 INFO - Method: Notifier.SyncSpecialClients()
+finished successfully
+
+2017-01-12 21:31:23,985 INFO - Method: Notifier.SyncSpecialClients()
+finished successfully
+finished successfully
+
+2017-01-12 21:31:23,985 INFO - Method: EmployeeService.CreateNewProject(), 
+finished successfully.
+
+2017-01-12 21:31:29,769 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 21:31:29,769 INFO - Method: EmployeeService.SignOut(), params: string username=zklasnic
+finished successfully.
+

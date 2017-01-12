@@ -16,11 +16,11 @@ namespace HiringCompany.DatabaseAccess
         // and add lock for every in-memory list, map..
 
         // da ne budu public objekti
-        public object OnlineEmployees_lock = new object();
-        public object AllEmployees_lock = new object(); 
-        public object ProjectsForApproval_lock = new object(); 
-        public object PartnerCompaniesAddresses_lock = new object();
-        public object DbAccess_lock = new object(); // LOKOVATI SVUDA GDE SE KORISTI DB ACCESS!!!!!!!
+        private object onlineEmployees_lock = new object();
+        private object allEmployees_lock = new object(); 
+        private object projectsForApproval_lock = new object(); 
+        private object partnerCompaniesAddresses_lock = new object();
+        private object dbAccess_lock = new object(); // LOKOVATI SVUDA GDE SE KORISTI DB ACCESS!!!!!!!
 
         // in-memory data
         // videti gde cuvati ove podatke, mozda na pocetku setup delu iscitati iz fajla sve, neki fajl ili slicno.. 
@@ -30,7 +30,7 @@ namespace HiringCompany.DatabaseAccess
         private List<Employee> onlineEmployees;
         private Dictionary<string, string> partnerCompaniesAddresses; // ["companyName", "ipaddress:port"]
         private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; // treba zakljucavati
-        Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
+        private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
 
 
         private HiringCompanyDB()
@@ -41,6 +41,31 @@ namespace HiringCompany.DatabaseAccess
             connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();
 
             partnerCompaniesAddresses.Add("cekic", "10.1.212.114:9998"); // u fajlu cuvati
+        }
+
+        public object OnlineEmployees_lock
+        {
+            get { return onlineEmployees; }
+        }
+
+        public object AllEmployees_lock
+        {
+            get { return allEmployees_lock; }
+        }
+
+        public object ProjectsForApproval_lock
+        {
+            get { return projectsForApproval_lock; }
+        }
+
+        public object PartnerCompaniesAddresses_lock
+        {
+            get { return partnerCompaniesAddresses_lock; }
+        }
+
+        public object DbAccess_lock
+        {
+            get { return dbAccess_lock; }
         }
 
         public string CompanyName
@@ -61,7 +86,7 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
                     // zakljucati ovde
-                    var employees = from em in access.employees
+                    var employees = from em in access.Employees
 
                                     select em;
 
@@ -83,7 +108,7 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
 
-                    return access.companies.ToList();
+                    return access.Companies.ToList();
 
                 }
             }
@@ -95,8 +120,8 @@ namespace HiringCompany.DatabaseAccess
             {
                 using (var access = new AccessDB())
                 {
-                    // get all projects that are not yet approved by CEO
-                    var projectsForA = from proj in access.projects
+                    // get all Projects that are not yet approved by CEO
+                    var projectsForA = from proj in access.Projects
                                        where proj.IsAcceptedCEO == false
                                        select proj;
 
@@ -116,14 +141,14 @@ namespace HiringCompany.DatabaseAccess
         {
             get
             {
-                // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
+                // get all Projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
                     //var projects = access.projects.Include("UserStories"); //mozda mora ovako da se radi sa include
                   
                     //var projectsForS = from proj in projects
 
-                    var projectsForS = from proj in access.projects
+                    var projectsForS = from proj in access.Projects
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
 
@@ -154,13 +179,15 @@ namespace HiringCompany.DatabaseAccess
         public static HiringCompanyDB Instance()
         {
             if (myDB == null)
+            {
                 myDB = new HiringCompanyDB();
+            }               
             return myDB;
         }
 
         // valjda treba da ima neka metoda za brisanje employee-a? 
 
-        public bool AddNewEmployee( EmployeeCommon.Employee employee )
+        public bool AddNewEmployee(EmployeeCommon.Employee employee)
         {
             bool retVal = false;
             try
@@ -168,13 +195,15 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
                     int i = 0;
-                    if (!access.employees.Any(e => e.Username == employee.Username)) // does not exist in db
+                    if (!access.Employees.Any(e => e.Username == employee.Username)) 
                     {
-                        access.employees.Add(employee);
+                        access.Employees.Add(employee); // does not exist in db
                         i = access.SaveChanges();
                     }
                     if (i > 0)
+                    {
                         retVal = true;
+                    }                       
                 }
             }
             catch (DbEntityValidationException e)
@@ -195,12 +224,11 @@ namespace HiringCompany.DatabaseAccess
             return retVal;
         }
 
-
-        public Employee GetEmployee( string username )
+        public Employee GetEmployee(string username)
         {
             using (var access = new AccessDB())
             {
-                var employee = from em in access.employees
+                var employee = from em in access.Employees
                                where em.Username.Equals(username)
                                select em;
 
@@ -208,7 +236,7 @@ namespace HiringCompany.DatabaseAccess
             }
         }
 
-        public bool AddNewPartnerCompany( PartnerCompany company )
+        public bool AddNewPartnerCompany(PartnerCompany company)
         {
             bool retVal = false;
             try
@@ -216,14 +244,16 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
                     int i = 0;
-                    if (!access.companies.Any(c => c.Name == company.Name))
+                    if (!access.Companies.Any(c => c.Name == company.Name))
                     {
-                        access.companies.Add(company);
+                        access.Companies.Add(company);
                         i = access.SaveChanges();
                     }
 
                     if (i > 0)
+                    {
                         retVal = true;
+                    }                       
                 }
             }
             catch (DbEntityValidationException e)
@@ -243,7 +273,7 @@ namespace HiringCompany.DatabaseAccess
             }
             return retVal;
         }
-        public bool AddNewProject( Project project )
+        public bool AddNewProject(Project project)
         {
             bool retVal = false;
             try
@@ -251,14 +281,16 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
                     int i = 0;
-                    if (!access.projects.Any(p => p.Id == project.Id))
+                    if (!access.Projects.Any(p => p.Id == project.Id))
                     {
-                        access.projects.Add(project);
+                        access.Projects.Add(project);
                         i = access.SaveChanges();
                     }
 
                     if (i > 0)
+                    {
                         retVal = true;
+                    }                      
                 }
             }
             catch (DbEntityValidationException e)
@@ -283,12 +315,12 @@ namespace HiringCompany.DatabaseAccess
         {
             get
             {
-                // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
+                // get all Projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
-                    var projects = access.projects.Include("UserStories"); //mozda mora ovako da se radi sa include
+                    var projects = access.Projects.Include("UserStories"); //mozda mora ovako da se radi sa include
 
-                    //var projectsInDev = from proj in access.projects
+                    //var projectsInDev = from proj in access.Projects
                     var projectsInDev = from proj in projects
                                         where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
                                         select proj;

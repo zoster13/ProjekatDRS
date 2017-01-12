@@ -16,7 +16,7 @@ namespace HiringCompany
     public class Notifier : IDisposable
     {
 
-        HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
+        private HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
         private CurrentData cData;
 
         public Notifier()
@@ -73,9 +73,9 @@ namespace HiringCompany
                 List<string> clients;
                 using (var access = new AccessDB())
                 {
-                    var c = from x in access.employees
+                    var c = from x in access.Employees
                             where x.Type == type // special type
-                            select (x.Username);
+                            select x.Username;
 
                     clients = c.ToList();
                 }
@@ -86,9 +86,9 @@ namespace HiringCompany
                 {
 
                    IEmployeeServiceCallback clientChannel;
-                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))
-                    // klijent povezan sa serverom
+                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))                   
                     {
+                        // klijent povezan sa serverom
                         ICommunicationObject cObject = clientChannel as ICommunicationObject;
                         if (cObject != null)
                         {
@@ -140,8 +140,9 @@ namespace HiringCompany
                     }
                 }
             }
-            catch (Exception e) // videti sta je ovde bilo greska
+            catch (Exception e) 
             {
+                // videti sta je ovde bilo greska
                 Console.WriteLine(e);
 
             }
@@ -163,14 +164,14 @@ namespace HiringCompany
                 List<string> clients;
                 using (var access = new AccessDB())
                 {
-                    var c = from x in access.employees
+                    var c = from x in access.Employees
                             where x.Type == type // special type
-                            select (x.Username);
+                            select x.Username;
 
                     clients = c.ToList();
 
                     
-                        //var Project =access.projects.Include("UserStories").FirstOrDefault blabla(trazi se po imenu projekta)
+                        //var Project =access.Projects.Include("UserStories").FirstOrDefault blabla(trazi se po imenu projekta)
                 }
 
                 List<string> forRemove = new List<string>();
@@ -179,9 +180,9 @@ namespace HiringCompany
                 {
 
                     IEmployeeServiceCallback clientChannel;
-                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))
-                    // klijent povezan sa serverom
+                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))                  
                     {
+                        // klijent povezan sa serverom
                         ICommunicationObject cObject = clientChannel as ICommunicationObject;
                         if (cObject != null)
                         {
@@ -227,10 +228,10 @@ namespace HiringCompany
                     }
                 }
             }
-            catch (Exception e) // videti sta je ovde bilo greska
+            catch (Exception e) 
             {
                 Console.WriteLine(e);
-
+                // videti sta je ovde bilo greska
             }
 
 
@@ -245,9 +246,9 @@ namespace HiringCompany
             // kas se korisniku posalju notifikacije, onda mozemo da ih izbrisemo iz baze?
 
             IEmployeeServiceCallback clientChannel;
-            if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))
-            // klijent povezan sa serverom
+            if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))           
             {
+                // klijent povezan sa serverom
                 ICommunicationObject cObject = clientChannel as ICommunicationObject;
                 if (cObject != null)
                 {
@@ -261,9 +262,9 @@ namespace HiringCompany
                     }
                 }
             }
-            else // cuvaj u bazi, napraviti metodu u ovom notifieru koja se poziva iz sign in, koaj ce citati sve notifikacije iz baze i slati klijentu
+            else 
             {
-
+                // cuvaj u bazi, napraviti metodu u ovom notifieru koja se poziva iz sign in, koaj ce citati sve notifikacije iz baze i slati klijentu
             }
 
         }

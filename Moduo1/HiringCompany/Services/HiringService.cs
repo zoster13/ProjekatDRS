@@ -17,7 +17,7 @@ namespace HiringCompany.Services
 
     public class HiringService : IHiringService
     {
-        HiringCompanyDB hiringCompanyDb = HiringCompanyDB.Instance();
+        private HiringCompanyDB hiringCompanyDb = HiringCompanyDB.Instance();
 
         public void ResponseForPartnershipRequest(bool accepted, string outsourcingCompName)
         {
@@ -61,7 +61,7 @@ namespace HiringCompany.Services
             {
                 using (var access = new AccessDB())
                 {
-                    proj = access.projects.SingleOrDefault(project => project.Name.Equals(p.Name));
+                    proj = access.Projects.SingleOrDefault(project => project.Name.Equals(p.Name));
                     if (proj != null)
                     {
                         if (p.IsAcceptedByOutsCompany)
@@ -132,7 +132,7 @@ namespace HiringCompany.Services
 
             using (var access = new AccessDB())
             {
-                proj = access.projects.SingleOrDefault(project => project.Name.Equals(projectName));
+                proj = access.Projects.SingleOrDefault(project => project.Name.Equals(projectName));
                 if (proj != null)
                 {
                     proj.UserStories = tempUserStories;

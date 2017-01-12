@@ -23,9 +23,9 @@ namespace HiringCompany.Services
     public class EmployeeService : IEmployeeService
     {
 
-        HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
-        OutsorcingCompProxy outsorcingProxy;
-        System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
+        private HiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
+        private OutsorcingCompProxy outsorcingProxy;
+        private System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
 
         public EmployeeService()
         {
@@ -107,7 +107,7 @@ namespace HiringCompany.Services
                         // taj kanal vec postoji, tj. nije izbrisan iz ConnectionChannelsClients,
                         // iako klijent svaki put kad se loguje pravi novi kanal, nesto nije u redu...
                         // mozda ovde da uradimo remove starog kanala, i sacuvamo novi?
-                        // i da proverimo da li je vec dodati u online employees 
+                        // i da proverimo da li je vec dodati u online Employees 
                     }
                 }
 
@@ -165,7 +165,7 @@ namespace HiringCompany.Services
             {
                 using (var access = new AccessDB())
                 {
-                    Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
+                    Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
 
                     if (em != null)
                     {
@@ -226,7 +226,7 @@ namespace HiringCompany.Services
             {
                 using (var access = new AccessDB())
                 {
-                    Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
+                    Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
                     if (em != null)
                     {
                         em.StartHour = beginH;
@@ -334,7 +334,7 @@ namespace HiringCompany.Services
             {
                 using (var access = new AccessDB())
                 {
-                    Employee em = access.employees.SingleOrDefault(e => e.Username.Equals(username));
+                    Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
                     if (em != null)
                     {
                         em.Type = type;
@@ -384,7 +384,7 @@ namespace HiringCompany.Services
             {
                 using (var access = new AccessDB())
                 {
-                    proj = access.projects.Include("UserStories").SingleOrDefault(project => project.Name.Equals(projectName));
+                    proj = access.Projects.Include("UserStories").SingleOrDefault(project => project.Name.Equals(projectName));
                     if (proj != null)
                     {
                         int i = 0;
@@ -451,8 +451,8 @@ namespace HiringCompany.Services
                     proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
                     access.SaveChanges();
 
-                    //var projects = access.projects.Include("UserStories");
-                    //var project = from pr in access.projects
+                    //var Projects = access.Projects.Include("UserStories");
+                    //var project = from pr in access.Projects
                     //              where pr.Name.Equals(proj.Name)
                     //              select pr;
 
@@ -499,7 +499,7 @@ namespace HiringCompany.Services
 
             hiringCompanyDB.AddNewProject(p); // onaj neki lock
 
-            string notification = (string.Format("Project {0} is waiting for approval.", p.Name));
+            string notification = string.Format("Project {0} is waiting for approval.", p.Name);
 
             using (Notifier notifier = new Notifier())
             {
@@ -519,7 +519,7 @@ namespace HiringCompany.Services
             {
                 using (var access = new AccessDB())
                 {
-                    var project = from proj in access.projects
+                    var project = from proj in access.Projects
                                   where proj.Name.Equals(p.Name)
                                   select proj;
 

@@ -31,11 +31,12 @@ namespace EmployeeCommon
             isAcceptedOutsCompany = false;
         }
 
-        public Project(string name, string description, string po)
+        public Project(string name, string description, string po, string sm)
         {
             this.name = name;
             this.description = description;
             this.productOwner = po;
+            this.scrumMaster = sm;
         }
 
         [Key]

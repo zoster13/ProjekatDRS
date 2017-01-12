@@ -11,30 +11,30 @@ namespace HiringCompany
 {
     public class OutsorcingCompProxy : ChannelFactory<IOutsourcingService>, ICommon.IOutsourcingService, IDisposable
     {
-        IOutsourcingService factory;
+        private IOutsourcingService factory;
 
-        public OutsorcingCompProxy( NetTcpBinding binding, EndpointAddress remoteAddress ) :
-            base( binding, remoteAddress)
+        public OutsorcingCompProxy(NetTcpBinding binding, EndpointAddress remoteAddress) :
+            base(binding, remoteAddress)
         {
             factory = this.CreateChannel();
         }
 
-        public void AskForPartnership(string hiringCompanyName )
+        public void AskForPartnership(string hiringCompanyName)
         {
             try
             {
                 factory.AskForPartnership(hiringCompanyName);
             }
-            catch (Exception) // srediti ako nihov server otkaze
+            catch (Exception) 
             {
-
+                // srediti ako nihov server otkaze
                 throw;
             }
         }
 
 
 
-        public void SendEvaluatedUserstoriesToOutsourcingCompany( List<UserStoryCommon> userStories, string projectName )
+        public void SendEvaluatedUserstoriesToOutsourcingCompany(List<UserStoryCommon> userStories, string projectName)
         {
             throw new NotImplementedException();
         }
@@ -43,11 +43,11 @@ namespace HiringCompany
         {
             try
             {
-                factory.SendProjectToOutsourcingCompany(hiringCompanyName,p);
+                factory.SendProjectToOutsourcingCompany(hiringCompanyName, p);
             }
-            catch (Exception) // srediti ako nihov server otkaze
+            catch (Exception) 
             {
-
+                // srediti ako nihov server otkaze
                 throw;
             }
         }

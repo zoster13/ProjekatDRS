@@ -63,8 +63,8 @@ namespace Client
 
         private void SetUpConnection()
         {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-            //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -264,7 +264,7 @@ namespace Client
         {
         }
 
-        private void passBoxOldPass_LostFocus(object sender, RoutedEventArgs e)
+        private void PassBoxOldPass_LostFocus(object sender, RoutedEventArgs e)
         {
             if (passBoxOldPass.Password != String.Empty) 
             {
@@ -369,60 +369,66 @@ namespace Client
             //}
             comboBoxProjects.DataContext = clientDB.Projects; // koje projekte prikazujemo ovde?
             ProjectsComboBox.DataContext = clientDB.Projects;
-          
+
 
             FillHomeLabels();
+            foreach(Employee em in clientDB.AllEmployees)
+            {
+                if (em.Type == EmployeeType.SM)
+                {
+                    //Za dodavanje SM u comboBox koji se koristi kad se pravi novi projekat
+                    SMcomboBox.Items.Add(em.Username);
+                }
+            }
         }
 
         public void FillHomeLabels()
         {
             //lock (clientDB.Employees_lock)
             //{
-                foreach (Employee em in clientDB.Employees)
+            foreach (Employee em in clientDB.Employees)
+            {
+                if (em.Username == clientDB.Username)
                 {
-                    if (em.Username == clientDB.Username)
+                    homeLabelName.Content = em.Name;
+                    homeLabelSurname.Content = em.Surname;
+                    TextBlock tb = new TextBlock();
+                    tb.Text = em.Email;
+                    homeLabelEmail.Content = tb;
+                    homeLabelPosition.Content = Extensions.TypeToString(em.Type);
+
+                    nameSurnameLabel.Content = em.Name + " " + em.Surname;
+
+                    if (em.Type.Equals(EmployeeType.CEO))
                     {
-                        homeLabelName.Content = em.Name;
-                        homeLabelSurname.Content = em.Surname;
-                        TextBlock tb = new TextBlock();
-                        tb.Text = em.Email;
-                        homeLabelEmail.Content = tb;
-                        homeLabelPosition.Content = Extensions.TypeToString(em.Type);
-
-                        nameSurnameLabel.Content = em.Name + " " + em.Surname;
-
-                        if (em.Type.Equals(EmployeeType.CEO))
-                        {
-                            workTabItem.Visibility = Visibility.Visible;
-                            tabItemCompanies.Visibility = Visibility.Visible;
-                            tabItemProjects.Visibility = Visibility.Visible;
-                            PO_Work_TabItem.Visibility = Visibility.Hidden;
-                        }
-                        else if (em.Type.Equals(EmployeeType.HR))
-                        {
-                            workTabItem.Visibility = Visibility.Visible;
-                            tabItemCompanies.Visibility = Visibility.Hidden;
-                            tabItemProjects.Visibility = Visibility.Hidden;
-                            PO_Work_TabItem.Visibility = Visibility.Hidden;
-                        }
-                        else if (em.Type.Equals(EmployeeType.PO))
-                        {
-                            workTabItem.Visibility = Visibility.Hidden;
-                            tabItemCompanies.Visibility = Visibility.Hidden;
-                            tabItemProjects.Visibility = Visibility.Hidden;
-                            PO_Work_TabItem.Visibility = Visibility.Visible;
-                        }
-                        else
-                        {
-                            workTabItem.Visibility = Visibility.Hidden;
-                            tabItemCompanies.Visibility = Visibility.Hidden;
-                            tabItemProjects.Visibility = Visibility.Hidden;
-                            PO_Work_TabItem.Visibility = Visibility.Hidden;
-                        }
-
-                        break;
+                        workTabItem.Visibility = Visibility.Visible;
+                        tabItemCompanies.Visibility = Visibility.Visible;
+                        tabItemProjects.Visibility = Visibility.Visible;
+                        PO_Work_TabItem.Visibility = Visibility.Hidden;
                     }
-                }
+                    else if (em.Type.Equals(EmployeeType.HR))
+                    {
+                        workTabItem.Visibility = Visibility.Visible;
+                        tabItemCompanies.Visibility = Visibility.Hidden;
+                        tabItemProjects.Visibility = Visibility.Hidden;
+                        PO_Work_TabItem.Visibility = Visibility.Hidden;
+                    }
+                    else if (em.Type.Equals(EmployeeType.PO))
+                    {
+                        workTabItem.Visibility = Visibility.Hidden;
+                        tabItemCompanies.Visibility = Visibility.Hidden;
+                        tabItemProjects.Visibility = Visibility.Hidden;
+                        PO_Work_TabItem.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        workTabItem.Visibility = Visibility.Hidden;
+                        tabItemCompanies.Visibility = Visibility.Hidden;
+                        tabItemProjects.Visibility = Visibility.Hidden;
+                        PO_Work_TabItem.Visibility = Visibility.Hidden;
+                    }
+                }               
+            }
             //}
         }
 
@@ -492,7 +498,7 @@ namespace Client
 
         private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
         {
-            Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username);
+            Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username, (string)SMcomboBox.SelectedItem);
 
             Debug.WriteLine("Attempting to parse strings using {0} culture.",
                         CultureInfo.CurrentCulture.Name);

@@ -20,18 +20,18 @@ da moze na enter da se sign inuje
 
 srediti loger sta se ispisuje, kad je upsesno kad ne, i koji su params
 
-cekic treba da se skloni iz work-> partner companies ako smo vec partneri
+cekic treba da se skloni iz work-> partner Companies ako smo vec partneri
 
 cuvati notifikacije u bazi
 */
     
      // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
      
-    class Program
+    public class Program
     {
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.Title = "Hiring Company";
             // mozda ovde da bude setup deo gde cemo citati sve konfiguracione podatke iz fajla
@@ -47,8 +47,8 @@ cuvati notifikacije u bazi
 
             // --------------------- service for clients--------------------------------
            
-            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
-            //string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; 
+            //string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
+            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; 
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 
@@ -64,8 +64,8 @@ cuvati notifikacije u bazi
 
             // --------------------- service for outsorcing companies--------------------------------
 
-            string addressCompanies = "net.tcp://10.1.212.113:9998/HiringService"; 
-            //string addressCompanies = "net.tcp://localhost:9998/HiringService"; 
+            //string addressCompanies = "net.tcp://10.1.212.113:9998/HiringService"; 
+            string addressCompanies = "net.tcp://localhost:9998/HiringService"; 
             ServiceHost hostCompanies = new ServiceHost(typeof(HiringService));
             NetTcpBinding bindingCompanies = new NetTcpBinding();
 
