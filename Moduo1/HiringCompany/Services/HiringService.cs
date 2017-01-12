@@ -114,5 +114,29 @@ namespace HiringCompany.Services
                 notifier.NotifySpecialClients(EmployeeType.CEO, notification);
             }
         }
+
+
+        public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
+        {
+            List<UserStory> tempUserStories=new List<UserStory>();
+
+            foreach(UserStoryCommon us in userStories)
+            {
+                UserStory u=new UserStory(us.Title,us.Description,us.AcceptanceCriteria);
+                tempUserStories.Add(u);
+            }
+
+            using (var access = new AccessDB())
+            {
+                Project proj = access.projects.SingleOrDefault(project => project.Name.Equals(projectName));
+                //mozda se mora raditi onaj include userStories
+                if (proj != null)
+                {
+                    proj.UserStories = tempUserStories;
+                    access.SaveChanges();
+                }
+                
+            }
+        }
     }
 }
