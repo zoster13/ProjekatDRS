@@ -12,7 +12,8 @@ using ICommon;
 namespace HiringCompany.Services
 {
     /* [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
-   ConcurrencyMode = ConcurrencyMode.Reentrant)] */ // mozda perCall, i concurrency na single?
+   ConcurrencyMode = ConcurrencyMode.Reentrant)] */
+    // mozda perCall, i concurrency na single?
 
     public class HiringService : IHiringService
     {
@@ -37,7 +38,7 @@ namespace HiringCompany.Services
             else
             {
                 hiringCompanyDb.ConnectionChannelsCompanies.Remove(outsourcingCompName);
-                    // namestiti da ne pada ako posalju pogresno ime..
+                // namestiti da ne pada ako posalju pogresno ime..
                 notification = "Company <" + outsourcingCompName + "> declined request for partnership.";
             }
 
@@ -89,12 +90,12 @@ namespace HiringCompany.Services
                 }
             }
 
-            notification = p.IsAcceptedByOutsCompany ? 
-                string.Format("Company <" + outsourcingCompanyName + "> accepted request for developing project <" + p.Name + ">.") : 
+            notification = p.IsAcceptedByOutsCompany ?
+                string.Format("Company <" + outsourcingCompanyName + "> accepted request for developing project <" + p.Name + ">.") :
                 string.Format("Company <" + outsourcingCompanyName + "> declined request for developing project <" + p.Name + ">.");
             //if (p.IsAcceptedByOutsCompany)
             //{
-                
+
             //    notification = "Company <" + outsourcingCompanyName + "> accepted request for developing project <" +
             //                   p.Name + ">.";
             //}
@@ -106,10 +107,10 @@ namespace HiringCompany.Services
 
             using (Notifier notifier = new Notifier())
             {
-                if (p.IsAcceptedByOutsCompany) 
+                if (p.IsAcceptedByOutsCompany)
                 {
                     notifier.SyncAll();
-                }              
+                }
                 notifier.NotifySpecialClient(proj.ProductOwner, notification);
                 notifier.NotifySpecialClients(EmployeeType.CEO, notification);
             }
@@ -118,25 +119,34 @@ namespace HiringCompany.Services
 
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
         {
-            List<UserStory> tempUserStories=new List<UserStory>();
+            string notification = string.Format("User stories for project <0>, are waiting to be approved.", projectName);
+            Project proj = new Project();
 
-            foreach(UserStoryCommon us in userStories)
+            List<UserStory> tempUserStories = new List<UserStory>();
+
+            foreach (UserStoryCommon us in userStories)
             {
-                UserStory u=new UserStory(us.Title,us.Description,us.AcceptanceCriteria);
+                UserStory u = new UserStory(us.Title, us.Description, us.AcceptanceCriteria);
                 tempUserStories.Add(u);
             }
 
             using (var access = new AccessDB())
             {
-                Project proj = access.projects.SingleOrDefault(project => project.Name.Equals(projectName));
-                //mozda se mora raditi onaj include userStories
+                proj = access.projects.SingleOrDefault(project => project.Name.Equals(projectName));
                 if (proj != null)
                 {
                     proj.UserStories = tempUserStories;
                     access.SaveChanges();
                 }
-                
+
             }
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+                notifier.NotifySpecialClient(proj.ProductOwner, notification);
+            }
+
         }
     }
 }

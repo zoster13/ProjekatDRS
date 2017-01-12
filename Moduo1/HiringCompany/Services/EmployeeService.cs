@@ -485,6 +485,10 @@ namespace HiringCompany.Services
                 }
             }
 
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();               
+            }
 
         }
 

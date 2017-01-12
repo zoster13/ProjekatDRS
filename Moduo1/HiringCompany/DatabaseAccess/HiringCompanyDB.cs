@@ -12,11 +12,13 @@ namespace HiringCompany.DatabaseAccess
     public class HiringCompanyDB
     {
         private static HiringCompanyDB myDB;
+        // add lock before every adding, replacing, updating query
+        // and add lock for every in-memory list, map..
 
         // da ne budu public objekti
         public object OnlineEmployees_lock = new object();
-        public object AllEmployees_lock = new object(); // ne treba?
-        public object ProjectsForApproval_lock = new object(); // ne treba
+        public object AllEmployees_lock = new object(); 
+        public object ProjectsForApproval_lock = new object(); 
         public object PartnerCompaniesAddresses_lock = new object();
         public object DbAccess_lock = new object(); // LOKOVATI SVUDA GDE SE KORISTI DB ACCESS!!!!!!!
 
@@ -98,14 +100,15 @@ namespace HiringCompany.DatabaseAccess
                                        where proj.IsAcceptedCEO == false
                                        select proj;
 
-                    if (projectsForA.ToList() == null) // videti gde jos treba ova provera
-                    {
-                        return new List<Project>();
-                    }
-                    else
-                    {
-                        return projectsForA.ToList();
-                    }
+                    //if (projectsForA.ToList() == null) // videti gde jos treba ova provera
+                    //{
+                    //    return new List<Project>();
+                    //}
+                    //else
+                    //{
+                    //    return projectsForA.ToList();
+                    //}
+                    return projectsForA.ToList();
                 }
             }
         }
@@ -117,19 +120,22 @@ namespace HiringCompany.DatabaseAccess
                 using (var access = new AccessDB())
                 {
                     //var projects = access.projects.Include("UserStories"); //mozda mora ovako da se radi sa include
-                    var projectsForS = from proj in access.projects
+                  
                     //var projectsForS = from proj in projects
+
+                    var projectsForS = from proj in access.projects
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
 
-                    if (projectsForS.ToList() == null) // videti gde jos treba ova provera
-                    {
-                        return new List<Project>();
-                    }
-                    else
-                    {
-                        return projectsForS.ToList();
-                    }
+                    //if (projectsForS.ToList() == null) // videti gde jos treba ova provera
+                    //{
+                    //    return new List<Project>();
+                    //}
+                    //else
+                    //{
+                    //    return projectsForS.ToList();
+                    //}
+                    return projectsForS.ToList();
                 }
             }
         }
