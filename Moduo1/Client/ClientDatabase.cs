@@ -31,6 +31,7 @@ namespace Client
         private static ClientDatabase instance; //singletone
 
         private string username = string.Empty; //da pamti username ulogovanog radnika
+        private string password = string.Empty;
 
         private MainWindow main;
 
@@ -101,6 +102,12 @@ namespace Client
         {
             get { return username; }
             set { username = value; }
+        }
+
+        public string Password 
+        {
+            get { return password; }
+            set { password = value; }
         }
 
         public MainWindow Main 

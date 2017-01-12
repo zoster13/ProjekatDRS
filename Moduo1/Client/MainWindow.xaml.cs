@@ -99,13 +99,17 @@ namespace Client
                 {
                     warningLabel.Content = "";
                     tabControl.SelectedIndex = 1;
+                    tabControl1.SelectedIndex = 0;
+                    comboBoxProjects.SelectedItem = null;
+                    ProjectsComboBox.SelectedItem = null;
 
                     signOutButton.Visibility = System.Windows.Visibility.Visible;
                     clientDB.Username = usernameBox.Text.Trim();
+                    clientDB.Password = passwordBox.Password;
                 }
                 else
                 {
-                    warningLabel.Content = string.Format("Employee with username <{0}> does not exist!",
+                    warningLabel.Content = string.Format("Employee with username <{0}> does not exist, or password is incorrect!",
                         usernameBox.Text);
                     usernameBox.Text = "";
                     passwordBox.Password = "";
@@ -135,8 +139,6 @@ namespace Client
         private void EditPassword_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = true;
-            //passBoxNewPass.IsEnabled = true;
-            //passBoxConfirmNewPass.IsEnabled = true;
         }
 
         private void EditData_Click(object sender, RoutedEventArgs e)
@@ -173,6 +175,7 @@ namespace Client
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
+            clientDB.Password = passBoxNewPass.Password;
             proxy.ChangeEmployeeData(clientDB.Username, textBoxEditName.Text, textBoxEditSurname.Text, textBoxEditEmail.Text, passBoxNewPass.Password);
             FillHomeLabels();
 
@@ -259,7 +262,23 @@ namespace Client
 
         private void PassBoxOldPass_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            passBoxNewPass.IsEnabled = true;
+        }
+
+        private void passBoxOldPass_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (passBoxOldPass.Password != String.Empty) 
+            {
+                if (passBoxOldPass.Equals(clientDB.Password)) 
+                {
+                    passBoxNewPass.IsEnabled = true;
+                    warningPasswordLabel.Content = "";
+                }
+                else
+                {
+                    warningPasswordLabel.Content = "Current password incorrect!";
+                }
+                
+            }
         }
 
         private void ComboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -612,6 +631,6 @@ namespace Client
                 }
             }
             
-        }
+        }      
     }
 }

@@ -29,8 +29,7 @@
                     <Label x:Name="usernameLabel" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Content="Username:" Width="130" Margin="310,177,0,388" HorizontalAlignment="Left" VerticalAlignment="Center" Height="25"  Foreground="#FF1F3270"/>
                     <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Text="" Height="25" Margin="445,178,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" TextChanged="UsernameTextChanged" Background="#FFFAFBFE" BorderThickness="0" GotFocus="UsernameBox_GotFocus"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left"   Height="25" Margin="445,207,0,0" VerticalAlignment="Top" Width="150" PasswordChanged="PasswordBoxPasswordChanged" Background="#FFFAFBFE" BorderThickness="0"/>
-                    <Button x:Name="logInButton" Content="Sign In" IsEnabled="True" Margin="545,251,297,317" Click="LogInButton_Click" Background="#FFFAFBFE" FontWeight="Bold" Foreground="#FF1F3277" BorderBrush="#FFABADB3" BorderThickness="0"/>
-
+                    <Button x:Name="logInButton" IsDefault="True" Content="Sign In" IsEnabled="True" Margin="545,251,297,317" Click="LogInButton_Click" Background="#FFFAFBFE" FontWeight="Bold" Foreground="#FF1F3277" BorderBrush="#FFABADB3" BorderThickness="0"/>
                     <Label x:Name="warningLabel" Content="" HorizontalAlignment="Center" Margin="228,345,215,190" VerticalAlignment="Center" Width="444" FontSize="14" Height="60" HorizontalContentAlignment="Center"/>
                 </Grid>
             </TabItem>
@@ -38,7 +37,7 @@
                 <Grid  Background="#FFBFE9F0" Margin="0,-2,-2,0">
                     <Label x:Name="nameSurnameLabel" Content="" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,94,79,482" VerticalAlignment="Center" Width="109" Height="24" Foreground="#FF1F3270"/>
                     <TabControl x:Name="tabControl1" Margin="10,75,10,25" Focusable="True" BorderBrush="#FFBFE9F0">
-                        <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
+                        <TabItem x:Name="HomeTab" Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,16,0,0" Focusable="True">
                                 <Label Content="Name:" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
                                 <Label Content="Surname:" HorizontalAlignment="Left" Margin="10,137,0,0" VerticalAlignment="Top" Width="142" FontSize="14"/>
@@ -131,7 +130,7 @@
                                 <Label Content="Select project:" HorizontalAlignment="Left" Margin="37,37,0,0" VerticalAlignment="Top" Width="141" FontSize="12"/>
                                 <ComboBox x:Name="comboBoxProjects" HorizontalAlignment="Left" Margin="37,66,0,0" VerticalAlignment="Top" Width="299" Height="48" ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="ComboBoxProjects_SelectionChanged"/>
                                 <Label x:Name="labelProjectsInDev" Content="Projects In Development:"  Height="28" Margin="39,0,635,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold" />
-                                <Label x:Name="labelUserStories" Content="User Stories: ili sta vec ovde?"  Height="28" Margin="365,33,309,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold" />
+                                <Label x:Name="labelUserStories" Content="User Stories:"  Height="28" Margin="365,33,309,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold" />
                             </Grid>
                         </TabItem>
                         <TabItem x:Name="workTabItem" Header="Work" Margin="71,10,-71,-10" HorizontalAlignment="Left" Width="77" Height="39" Focusable="True">
@@ -166,15 +165,15 @@
                                                 <Label x:Name="labelEmailCEO" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="10,104,0,0" VerticalAlignment="Top" Width="79"/>
                                                 <Label x:Name="labelTypeCEO" Content="Position:" HorizontalAlignment="Left" Height="26" Margin="10,205,0,0" VerticalAlignment="Top" Width="80"/>
                                                 <Label x:Name="labelTitleCEO" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="67,0,0,0" VerticalAlignment="Top" Width="157"/>
-                                                <TextBox x:Name="textBoxNameCEO" HorizontalAlignment="Left" Height="21" Margin="128,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="TextBoxNameCeoTextChanged"/>
-                                                <TextBox x:Name="textBoxEmailCEO" HorizontalAlignment="Left" Height="21" Margin="128,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
-                                                <TextBox x:Name="textBoxSurnameCEO" HorizontalAlignment="Left" Height="21" Margin="128,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="textBoxNameCEO" TabIndex="0" HorizontalAlignment="Left" Height="21" Margin="128,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="TextBoxNameCeoTextChanged"/>
+                                                <TextBox x:Name="textBoxEmailCEO" TabIndex="2" HorizontalAlignment="Left" Height="21" Margin="128,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="textBoxSurnameCEO" TabIndex="1" HorizontalAlignment="Left" Height="21" Margin="128,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
                                                 <ComboBox x:Name="comboBoxPositionCEO" HorizontalAlignment="Left" Height="24" Margin="128,207,0,0" VerticalAlignment="Top" Width="134"/>
                                                 <Button x:Name="buttonAddEmployeeCEO" Content="Add" HorizontalAlignment="Left" Height="25" Margin="201,256,0,0" VerticalAlignment="Top" Width="61" Click="AddEmployeeButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                                 <Label x:Name="labelPasswordCEO" Content="Password:" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
-                                                <PasswordBox x:Name="passwordBoxCEO" HorizontalAlignment="Left" Margin="128,171,0,0" VerticalAlignment="Top" Height="21" Width="134"/>
+                                                <PasswordBox x:Name="passwordBoxCEO" TabIndex="4" HorizontalAlignment="Left" Margin="128,171,0,0" VerticalAlignment="Top" Height="21" Width="134"/>
                                                 <Label Content="Username:" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="65"/>
-                                                <TextBox x:Name="usernameTextBoxCEO" HorizontalAlignment="Left" Height="21" Margin="128,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="usernameTextBoxCEO" TabIndex="3" HorizontalAlignment="Left" Height="21" Margin="128,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
                                                 <Label x:Name="labelUsernameExists" Content="Username exists!" Visibility="Hidden" HorizontalAlignment="Left" Height="28" Margin="10,253,0,0" VerticalAlignment="Top" Width="87" Foreground="#FFEC0606" FontSize="11"/>
                                             </Grid>
                                             <Grid HorizontalAlignment="Left" Height="101" Margin="10,200,0,0" VerticalAlignment="Top" Width="470" Background="White">
@@ -337,10 +336,11 @@
                                     <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" VerticalAlignment="Top" Width="132" Click="EditPassword_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                 </Grid>
                                 <Grid Background="White" Margin="32,297,393,4">
-                                    <Label x:Name="oldPasswordLabel" Content="Type in current password: " HorizontalAlignment="Left" Height="24" Margin="10,34,0,0" VerticalAlignment="Top" Width="157"/>
-                                    <Label x:Name="newPasswordLabel" Content="Type in new password: " HorizontalAlignment="Left" Height="23" Margin="10,60,0,0" VerticalAlignment="Top" Width="148"/>
-                                    <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="19" Margin="167,39,0,0" VerticalAlignment="Top" Width="145" PasswordChanged="PassBoxOldPass_PasswordChanged"/>
+                                    <Label x:Name="oldPasswordLabel" Content="Type in current password: " HorizontalAlignment="Left" Height="29" Margin="10,34,0,0" VerticalAlignment="Top" Width="157"/>
+                                    <Label x:Name="newPasswordLabel" Content="Type in new password: " HorizontalAlignment="Left" Height="36" Margin="10,60,0,0" VerticalAlignment="Top" Width="148"/>
+                                    <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="19" Margin="167,39,0,0" VerticalAlignment="Top" Width="145" PasswordChanged="PassBoxOldPass_PasswordChanged" LostFocus="passBoxOldPass_LostFocus"/>
                                     <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="167,63,0,0" VerticalAlignment="Top" Width="145"/>
+                                    <Label x:Name="warningPasswordLabel" Content="" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Width="302"/>
                                 </Grid>
                                 <Grid Background="White" Margin="433,348,31,4">
                                     <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,10,0,0" VerticalAlignment="Top" Width="100" Click="SaveChanges_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
