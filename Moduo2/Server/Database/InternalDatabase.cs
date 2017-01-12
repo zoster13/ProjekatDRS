@@ -1,7 +1,5 @@
 ﻿using ClientCommon.Data;
-using Server.Access;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Server.Database
 {
@@ -9,22 +7,12 @@ namespace Server.Database
     {
         private static InternalDatabase instance;
         private static List<Employee> onlineEmployees;
-        private static List<Employee> allEmployees;
-        private static List<Team> teams;
-
         private object lockerOnlineEmployees;
-        private object lockerAllEmployees;
-        private object lockerTeams;
-
-
+        
         private InternalDatabase()
         {
             onlineEmployees = new List<Employee>();
-            allEmployees = new List<Employee>();
-
-            lockerAllEmployees = new object();
             lockerOnlineEmployees = new object();
-            lockerTeams = new object();
         }
 
         public static InternalDatabase Instance
@@ -51,55 +39,11 @@ namespace Server.Database
             get { return onlineEmployees; }
             set { onlineEmployees = value; }
         }
-
-        public List<Team> Teams
-        {
-            get
-            {
-                using (var access = new AccessDB())
-                {
-                    var teams = from t in access.Teams
-
-                                    select t;
-
-                    return teams.ToList();
-                }
-            }
-            set { teams = value; }
-        }
-
-        public List<Employee> AllEmployees
-        {
-            get
-            {
-                using (var access = new AccessDB())
-                {
-                    var employees = from em in access.Employees
-
-                                    select em;
-
-                    return employees.ToList();
-                }
-            }
-            set { allEmployees = value; }
-        }
-
-        //Lockers
-        public object LockerAllEmployees
-        {
-            get { return this.lockerAllEmployees; }
-            set { lockerAllEmployees = value; }
-        }
+        
         public object LockerOnlineEmployees
         {
             get { return this.lockerOnlineEmployees; }
             set { lockerOnlineEmployees = value; }
         }
-        public object LockerTeams
-        {
-            get { return this.lockerTeams; }
-            set { lockerTeams = value; }
-        }
-
     }
 }

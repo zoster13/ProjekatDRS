@@ -20,20 +20,18 @@ namespace Server
     public class EmployeeService : IEmployeeService
     {
         #region Fields
-
-        private readonly string outsourcingCompanyName = "cekic";
-
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
+        private readonly string outsourcingCompanyName = "cekic";
         private Timer lateOnJobTimer = new Timer();
-
         private NetTcpBinding binding;
         private string hiringCompanyAddress;
-
+        List<Employee> allEmployees;
         #endregion Fields
 
-
+        //Constructor
         public EmployeeService()
         {
+            allEmployees = new List<Employee>();
             hiringCompanyAddress = "net.tcp://10.1.212.13:9998/HiringService";
             binding = new NetTcpBinding();
             //binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -46,7 +44,9 @@ namespace Server
             //lateOnJobTimer.Enabled = true;        
         }
 
+
         #region IEmployeeService Methods
+
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
@@ -104,11 +104,6 @@ namespace Server
 
             if (teamAdded)
             {
-                lock (InternalDatabase.Instance.LockerTeams)
-                {
-                    InternalDatabase.Instance.Teams.Add(team);
-                }
-
                 Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
                 Publisher.Instance.TeamAddedCallback(team, true);
             }
@@ -178,7 +173,10 @@ namespace Server
 
         public List<Team> GetAllTeams()
         {
-            return InternalDatabase.Instance.Teams;
+            using(var access = new AccessDB())
+            {
+                return access.Teams.ToList();
+            }
         }
 
         public List<HiringCompany> GetAllHiringCompanies()
@@ -202,9 +200,10 @@ namespace Server
                     Team teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
                     teamInDB.ScrumMasterEmail = employee.Email;
                     access.SaveChanges();
+
+                    Publisher.Instance.ScrumMasterUpdatedCallback(teamInDB);
                 }
 
-                Publisher.Instance.ScrumMasterUpdatedCallback(employee.Team);
             }
         }
 
@@ -222,7 +221,13 @@ namespace Server
             string _senderEmailAddress = "blok4.moduo2@gmail.com";
             string _senderPassword = "ftnnovisad";
             Console.WriteLine("alarm...");
-            foreach (Employee em in InternalDatabase.Instance.AllEmployees) 
+
+            using (var access = new AccessDB())
+            {
+                allEmployees = access.Employees.ToList();
+            }
+
+            foreach (Employee em in allEmployees)
             {
                 if (!InternalDatabase.Instance.OnlineEmployees.Contains(em))
                 {

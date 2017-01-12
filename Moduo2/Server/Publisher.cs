@@ -15,11 +15,13 @@ namespace Server
     {
         private static Publisher instance;
         private static Dictionary<string, ICallbackMethods> employeeChannels;
+        private List<Employee> allEmployees;
         
         public Publisher()
         {
             if (instance == null)
             {
+                allEmployees = new List<Employee>();
                 employeeChannels = new Dictionary<string, ICallbackMethods>();
                 instance = this;
             }
@@ -309,8 +311,13 @@ namespace Server
         //Delegiranje notifikacije od hiring kompanije
         public void SendNotificationToCEO(Notification notification)
         {
+            using (var access = new AccessDB())
+            {
+                allEmployees = access.Employees.ToList();
+            }
+            
             //Sacauvaj notifikaciju u bazu
-            foreach (Employee emp in InternalDatabase.Instance.AllEmployees)
+            foreach (Employee emp in allEmployees)
             {
                 if (emp.Type.Equals(EmployeeType.CEO))
                 {
