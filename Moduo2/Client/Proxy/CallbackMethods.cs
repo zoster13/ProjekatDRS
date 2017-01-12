@@ -21,11 +21,11 @@ namespace Client
             });
         }
 
-        public void LogInCallback(Employee employee)
+        public void LogInCallback(Employee employee, bool loggedIn)
         {
              App.Current.Dispatcher.Invoke((Action)delegate
              {
-                 mainWindow.LogInCallbackResult(employee);
+                 mainWindow.LogInCallbackResult(employee, loggedIn);
              });
         }
 
@@ -37,7 +37,7 @@ namespace Client
             });
         }
 
-        public void TeamAddedCallback(Team team, bool flag)
+        public void TeamAddedCallback(Team team)
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {

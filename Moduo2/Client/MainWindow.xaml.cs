@@ -106,49 +106,58 @@ namespace Client
             //}
         }
 
-        public void LogInCallbackResult(Employee employee)
+        public void LogInCallbackResult(Employee employee, bool loggedIn)
         {
-            if (employee != null)
+            if (loggedIn)
             {
-                lock (LocalClientDatabase.Instance.Locker)
+                if (employee != null)
                 {
-                    LocalClientDatabase.Instance.Employees.Add(employee);
-                }
-
-                tabControl.SelectedIndex = 1;
-
-                if (LocalClientDatabase.Instance.CurrentEmployee.Email.Equals(string.Empty))
-                {
-                    LocalClientDatabase.Instance.CurrentEmployee = employee;
-
-                    switch (LocalClientDatabase.Instance.CurrentEmployee.Type)
+                    lock (LocalClientDatabase.Instance.Locker)
                     {
-                        case EmployeeType.CEO:
-                            CEOWorkspace();
-                            break;
-                        case EmployeeType.DEVELOPER:
-                            DeveloperWorkspace();
-                            break;
-                        case EmployeeType.TEAMLEADER:
-                            TeamLeaderWorkspace();
-                            break;
-                        case EmployeeType.SCRUMMASTER:
-                            ScrumMasterWorkspace();
-                            break;
-                        case EmployeeType.HR:
-                            HRWorkspace();
-                            break;
+                        LocalClientDatabase.Instance.Employees.Add(employee);
+                    }
+
+                    tabControl.SelectedIndex = 1;
+
+                    if (LocalClientDatabase.Instance.CurrentEmployee.Email.Equals(string.Empty))
+                    {
+                        LocalClientDatabase.Instance.CurrentEmployee = employee;
+
+                        logInButton.IsEnabled = false;
+                        emailBox.Text = "";
+                        passwordBox.Password = "";
+
+                        switch (LocalClientDatabase.Instance.CurrentEmployee.Type)
+                        {
+                            case EmployeeType.CEO:
+                                CEOWorkspace();
+                                break;
+                            case EmployeeType.DEVELOPER:
+                                DeveloperWorkspace();
+                                break;
+                            case EmployeeType.TEAMLEADER:
+                                TeamLeaderWorkspace();
+                                break;
+                            case EmployeeType.SCRUMMASTER:
+                                ScrumMasterWorkspace();
+                                break;
+                            case EmployeeType.HR:
+                                HRWorkspace();
+                                break;
+                        }
                     }
                 }
-            }
-            else
-            {
-                errorLogInBox.Text = "Wrong e-mail or password.";
+                else
+                {
+                    errorLogInBox.Text = "Wrong e-mail or password.";
+
+                    logInButton.IsEnabled = false;
+                    emailBox.Text = "";
+                    passwordBox.Password = "";
+                }
             }
 
-            logInButton.IsEnabled = false;
-            emailBox.Text = "";
-            passwordBox.Password = "";
+            
         }
 
         public void CEOWorkspace()
@@ -340,7 +349,14 @@ namespace Client
 
         public void TeamAddedCallbackResult(Team team)
         {
-            LocalClientDatabase.Instance.Teams.Add(team);
+            if(team != null)
+            {
+                LocalClientDatabase.Instance.Teams.Add(team);
+            }
+            else
+            {
+                MessageBox.Show("The team could not be added because of an internal server error.");
+            }
         }
 
         private void cancelChanges_Click(object sender, RoutedEventArgs e)
@@ -622,6 +638,16 @@ namespace Client
                     task1.ProgressStatus = ProgressStatus.COMPLETED;
                 }
             }
+        }
+
+        private void emailBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            errorLogInBox.Text = "";
+        }
+
+        private void passwordBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            errorLogInBox.Text = "";
         }
     }
 }

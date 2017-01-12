@@ -12,11 +12,11 @@
         <TabControl x:Name="tabControl" SelectedIndex="0" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
             <TabItem Height="0">
                 <Grid>
-                    <TextBox x:Name="errorLogInBox" Margin="489,322,202,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>
+                    <TextBox x:Name="errorLogInBox" IsHitTestVisible="False" Focusable="False" Foreground="Red" Margin="489,322,98,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>
                     <Label x:Name="emailLabel" Content="E-mail address:" Height="37" Width="137" Margin="251,221,446,303"/>
                     <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261"/>
-                    <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged"/>
-                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" PasswordChanged="passwordBox_PasswordChanged" />
+                    <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged" GotFocus="emailBox_GotFocus"/>
+                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" PasswordChanged="passwordBox_PasswordChanged" GotFocus="passwordBox_GotFocus" />
                     <Button x:Name="logInButton" IsEnabled="False" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
                 </Grid>
             </TabItem>
