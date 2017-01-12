@@ -63,3 +63,22 @@
 2017-01-11 21:35:05,496 INFO - Employee [jovan@gmail.com] is loged in.
 2017-01-11 21:39:38,411 INFO - UserStory [us1] is added to database.
 2017-01-11 21:39:51,868 INFO - UserStory [us2] is added to database.
+2017-01-12 10:16:37,115 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:18:51,097 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:19:31,027 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:19:49,944 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:20:47,941 INFO - UserStory [us1] is added to database.
+2017-01-12 10:20:54,569 INFO - UserStory [us2] is added to database.
+2017-01-12 10:24:47,745 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:24:58,846 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:27:22,700 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:27:36,461 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:31:39,947 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:31:52,395 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:34:47,801 INFO - Employee [luka@gmail.com] is loged in.
+2017-01-12 10:40:03,070 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-12 10:40:33,801 INFO - Team [network] is added to database.
+2017-01-12 10:40:33,903 INFO - Employee [a] is added to database.
+2017-01-12 10:41:53,497 INFO - Employee [a] is loged in.
+2017-01-12 10:42:52,193 INFO - Employee [b] is added to database.
+2017-01-12 10:42:52,250 INFO - ScrumMaster [b] is updated.

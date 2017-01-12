@@ -68,7 +68,7 @@ namespace Server
             UserStoryCommon us2 = new UserStoryCommon();
             us2.Title = "us2";
             us2.Description = "prvi drugi story";
-            us2.IsAccepted = true;
+            us2.IsAccepted = false;
 
             List<UserStoryCommon> usl = new List<UserStoryCommon>();
             usl.Add(us1);

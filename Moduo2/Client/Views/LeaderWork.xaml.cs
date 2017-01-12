@@ -90,6 +90,8 @@ namespace Client.Views
                     textBoxUserStoryContent.Text = "";
                     textBoxUserStoryDifficulty.Text = "2";
 
+                    project.UserStories.Add(userStory);
+
                     LocalClientDatabase.Instance.UserStories.Add(userStory);
 
                     LocalClientDatabase.Instance.proxy.AddUserStory(userStory);

@@ -343,6 +343,7 @@ namespace Server
             {
                 proj = access.Projects
                     .Include("UserStories")
+                    .Include("Team")
                     .FirstOrDefault(p => p.Name.Equals(projectName));
 
                 foreach (var userStory in commUserStories)

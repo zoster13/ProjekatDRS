@@ -6,6 +6,7 @@ using System;
 using System.Windows.Media;
 using ICommon;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Client
 {
@@ -573,33 +574,29 @@ namespace Client
 
         public void ReceiveUserStoriesCallbackResult(List<UserStoryCommon> commStories, string projName)
         {
-            Project project = new Project();
+            var project = LocalClientDatabase.Instance.MyTeamProjects.FirstOrDefault(p => p.Name.Equals(projName));
 
-            foreach(var proj in LocalClientDatabase.Instance.MyTeamProjects)
+            if (project != null)
             {
-                if(proj.Name == projName)
+                foreach (var comStory in commStories)
                 {
-                    project = proj;
-                    break;
-                }
-            }
+                    UserStory userStory = project.UserStories.FirstOrDefault(us => us.Title.Equals(comStory.Title));
 
-            foreach(var comStory in commStories)
-            {
-                foreach(var story in project.UserStories)
-                {
-                    if(story.Title == comStory.Title)
+                    if (userStory != null)
                     {
-                        if(comStory.IsAccepted == true)
+                        if (comStory.IsAccepted == true)
                         {
-                            story.AcceptStatus = AcceptStatus.ACCEPTED;
+                            userStory.AcceptStatus = AcceptStatus.ACCEPTED;
                         }
                         else
                         {
-                            story.AcceptStatus = AcceptStatus.DECLINED;
+                            userStory.AcceptStatus = AcceptStatus.DECLINED;
                         }
                     }
                 }
+
+                workLeader.dataGridUserStories.Items.Refresh();
+                workLeader.dataGridUserStories1.Items.Refresh();
             }
         }
 
