@@ -12,7 +12,7 @@ namespace Server.Access
         private static object lockObjectTeams;
         private static object lockObjectNotifications;
 
-        private readonly string connectionStringForDB = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
+        private readonly string connectionStringForDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
 
         public static IEmployeeServiceDatabase Instance
         {
@@ -141,23 +141,39 @@ namespace Server.Access
 
         public void UpdateEmployee(Employee employee)
         {
-            string commandText = "UPDATE Employees SET Name = @name, Surname = @surname, WorkingHoursStart = @workingHoursStart, WorkingHoursEnd = @workingHoursEnd, Password = @password Where Email=@email";
-
-            SqlConnection con = new SqlConnection(connectionStringForDB);
-            SqlCommand updateCommand = new SqlCommand(commandText, con);
-            updateCommand.Parameters.AddWithValue("@email", employee.Email);
-            updateCommand.Parameters.AddWithValue("@name", employee.Name);
-            updateCommand.Parameters.AddWithValue("@surname", employee.Surname);
-            updateCommand.Parameters.AddWithValue("@password", employee.Password);
-            updateCommand.Parameters.AddWithValue("@workingHoursStart", employee.WorkingHoursStart.ToString());
-            updateCommand.Parameters.AddWithValue("@workingHoursEnd", employee.WorkingHoursEnd.ToString());
-
-            lock (lockObjectEmployees)
+            using (var access = new AccessDB())
             {
-                con.Open();
-                updateCommand.ExecuteNonQuery();
-                con.Close();
+                Employee employeeInDB = access.Employees.FirstOrDefault(e => e.Email.Equals(employee.Email));
+
+                lock (lockObjectEmployees)
+                {
+                    employeeInDB.Email = employee.Email;
+                    employeeInDB.Name = employee.Name;
+                    employeeInDB.Surname = employee.Surname;
+                    employeeInDB.WorkingHoursStart = employee.WorkingHoursStart;
+                    employeeInDB.WorkingHoursEnd = employee.WorkingHoursEnd;
+
+                    access.SaveChanges();
+                }
             }
+
+            //string commandText = "UPDATE Employees SET Name = @name, Surname = @surname, WorkingHoursStart = @workingHoursStart, WorkingHoursEnd = @workingHoursEnd, Password = @password Where Email=@email";
+
+            //SqlConnection con = new SqlConnection(connectionStringForDB);
+            //SqlCommand updateCommand = new SqlCommand(commandText, con);
+            //updateCommand.Parameters.AddWithValue("@email", employee.Email);
+            //updateCommand.Parameters.AddWithValue("@name", employee.Name);
+            //updateCommand.Parameters.AddWithValue("@surname", employee.Surname);
+            //updateCommand.Parameters.AddWithValue("@password", employee.Password);
+            //updateCommand.Parameters.AddWithValue("@workingHoursStart", employee.WorkingHoursStart.ToString());
+            //updateCommand.Parameters.AddWithValue("@workingHoursEnd", employee.WorkingHoursEnd.ToString());
+
+            //lock (lockObjectEmployees)
+            //{
+            //    con.Open();
+            //    updateCommand.ExecuteNonQuery();
+            //    con.Close();
+            //}
         }
         
         public void AddNotification(Notification notification)

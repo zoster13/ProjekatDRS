@@ -1,5 +1,6 @@
 ﻿using ClientCommon.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Server.Database
 {
@@ -44,6 +45,17 @@ namespace Server.Database
         {
             get { return this.lockerOnlineEmployees; }
             set { lockerOnlineEmployees = value; }
+        }
+
+        //Methods
+        public void UpdateOnlineEmployee(Employee employee)
+        {
+            Employee onlineEmployee = OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
+            onlineEmployee.Name = employee.Name;
+            onlineEmployee.Surname = employee.Surname;
+            onlineEmployee.WorkingHoursStart = employee.WorkingHoursStart;
+            onlineEmployee.WorkingHoursEnd = employee.WorkingHoursEnd;
+            onlineEmployee.Email = employee.Email;
         }
     }
 }

@@ -49,10 +49,11 @@ namespace Server
         #region ICallbackMethods
         public void LogInCallback(Employee employee, bool loggedIn)
         {
-            employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-            employeeChannels.Add(employee.Email, employee.Channel);
-
-            //((IClientChannel)employee.Channel).Faulted += Publisher_Faulted;
+            if (loggedIn)
+            {
+                employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
+                employeeChannels.Add(employee.Email, employee.Channel);
+            }
             
             PublishLogInChanges(employee, loggedIn);
         }

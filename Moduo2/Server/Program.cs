@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using ICommon;
-using Server.Logger;
 using ClientCommon.Data;
 using System.Collections.Generic;
 
@@ -55,9 +54,9 @@ namespace Server
             
             Console.WriteLine("Press <enter> to stop service...");
 
-            //DB Test
-            Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
-            EmployeeServiceDatabase.Instance.AddEmployee(em1);
+            ////DB Test
+            //Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
+            //EmployeeServiceDatabase.Instance.AddEmployee(em1);
 
             //OutsourcingService os = new OutsourcingService();
             //os.AskForPartnership("HiringCompany1");
