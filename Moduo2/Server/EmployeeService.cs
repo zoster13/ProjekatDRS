@@ -123,7 +123,11 @@ namespace Server
             Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
             Publisher.Instance.LogOutCallback(employee);
         }
-
+        
+        /// <summary>
+        /// Dodavanje novog tima u bazu
+        /// </summary>
+        /// <param name="team"></param>
         public void AddTeam(Team team)
         {
             bool teamAdded = EmployeeServiceDatabase.Instance.AddTeam(team);
@@ -131,12 +135,12 @@ namespace Server
             if (teamAdded)
             {
                 Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
-                Publisher.Instance.TeamAddedCallback(team, true);
+                Publisher.Instance.TeamAddedCallback(team);
             }
             else
             {
                 Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
-                Publisher.Instance.TeamAddedCallback(team, false);
+                Publisher.Instance.TeamAddedCallback(null);
             }
         }
         

@@ -100,7 +100,7 @@ namespace Server
             employeeChannels.Remove(employee.Email);
         }
 
-        public void TeamAddedCallback(Team team, bool flag)
+        public void TeamAddedCallback(Team team)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
             {
@@ -108,7 +108,7 @@ namespace Server
                 {
                     if (((IClientChannel)sub).State == CommunicationState.Opened)
                     {
-                        sub.TeamAddedCallback(team, flag);
+                        sub.TeamAddedCallback(team);
                     }
                 }
                 catch (Exception e)

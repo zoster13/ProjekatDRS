@@ -16,7 +16,7 @@ namespace ClientCommon
         void LogOutCallback(Employee employee);
 
         [OperationContract(IsOneWay = true)]
-        void TeamAddedCallback(Team team, bool flag);
+        void TeamAddedCallback(Team team);
 
         [OperationContract(IsOneWay = true)]
         void TypeChangeCallback(Team team, EmployeeType newType);
