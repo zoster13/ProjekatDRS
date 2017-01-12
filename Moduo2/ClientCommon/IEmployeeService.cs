@@ -21,6 +21,9 @@ namespace ClientCommon
         void AddTeamAndTL(Team team, Employee teamLeader);
 
         [OperationContract(IsOneWay = true)]
+        void AddTeamAndUpdateDeveloperToTL(Team team, Employee developer);
+
+        [OperationContract(IsOneWay = true)]
         void EditEmployeeData(Employee employee);
 
         [OperationContract(IsOneWay = true)]
@@ -59,8 +62,8 @@ namespace ClientCommon
         [OperationContract]
         void AddEmployee(Employee employee);
 
-        [OperationContract]
-        void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
+        //[OperationContract]
+        //void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
         
         //Response to Hiring company
         [OperationContract]

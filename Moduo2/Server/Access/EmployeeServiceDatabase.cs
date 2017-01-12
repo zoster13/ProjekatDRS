@@ -11,9 +11,7 @@ namespace Server.Access
         private static object lockObjectEmployees;
         private static object lockObjectTeams;
         private static object lockObjectNotifications;
-
-        private readonly string connectionStringForDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\EmployeeServiceDB.mdf;Integrated Security=True";
-
+        
         public static IEmployeeServiceDatabase Instance
         {
             get
@@ -71,25 +69,15 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                //Team oldTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));   
                 Team newTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(newTeamName));
-                employee.Team = newTeam;
-                employee.Type = EmployeeType.TEAMLEADER;
-
-                //Update in Database
-                string commandText = "UPDATE Employees SET Type = @type, Team_Id = @team Where Email=@email";
-
-                SqlConnection con = new SqlConnection(connectionStringForDB);
-                SqlCommand updateCommand = new SqlCommand(commandText, con);
-                updateCommand.Parameters.AddWithValue("@type", EmployeeType.TEAMLEADER);
-                updateCommand.Parameters.AddWithValue("@email", employee.Email);
-                updateCommand.Parameters.AddWithValue("@team", newTeam.Id);
-
-                lock (lockObjectEmployees)
+                Employee employeeInDB = access.Employees.FirstOrDefault(e => e.Email.Equals(employee.Email));
+                
+                lock(lockObjectEmployees)
                 {
-                    con.Open();
-                    updateCommand.ExecuteNonQuery();
-                    con.Close();
+                    employeeInDB.Team = newTeam;
+                    employeeInDB.Type = EmployeeType.TEAMLEADER;
+
+                    access.SaveChanges();
                 }
             }
         }

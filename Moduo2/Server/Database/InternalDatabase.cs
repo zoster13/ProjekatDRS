@@ -57,5 +57,12 @@ namespace Server.Database
             onlineEmployee.WorkingHoursEnd = employee.WorkingHoursEnd;
             onlineEmployee.Email = employee.Email;
         }
+
+        public void UpdateDeveloperToTL(Employee developer, Team newTeam)
+        {
+            Employee onlineEmployee = OnlineEmployees.FirstOrDefault(e => e.Email.Equals(developer.Email));
+            onlineEmployee.Type = EmployeeType.TEAMLEADER;
+            onlineEmployee.Team = newTeam;
+        }
     }
 }

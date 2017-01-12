@@ -106,6 +106,30 @@ namespace Client
             }
         }
 
+        public void AddTeamAndTL(Team team, Employee teamLeader)
+        {
+            try
+            {
+                factory.AddTeamAndTL(team, teamLeader);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddTeamAndTL: {0}", e.Message);
+            }
+        }
+
+        public void AddTeamAndUpdateDeveloperToTL(Team team, Employee developer)
+        {
+            try
+            {
+                factory.AddTeamAndUpdateDeveloperToTL(team, developer);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to AddTeamAndUpdateDeveloperToTL: {0}", e.Message);
+            }
+        }
+
         public void EditEmployeeData(Employee employee)
         {
             try
@@ -142,17 +166,17 @@ namespace Client
             }
         }
 
-        public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
-        {
-            try
-            {
-                factory.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error while trying to UpdateEmployeeFunctionAndTeam: {0}", e.Message);
-            }
-        }
+        //public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
+        //{
+        //    try
+        //    {
+        //        factory.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine("Error while trying to UpdateEmployeeFunctionAndTeam: {0}", e.Message);
+        //    }
+        //}
 
         public void AddUserStory(UserStory userStory, string projectName)
         {
@@ -242,18 +266,6 @@ namespace Client
             catch (Exception e)
             {
                 Console.WriteLine("Error while trying to ResponseToProjectRequest: {0}", e.Message);
-            }
-        }
-
-        public void AddTeamAndTL(Team team, Employee teamLeader)
-        {
-            try
-            {
-                factory.AddTeamAndTL(team, teamLeader);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error while trying to AddTeamAndTL: {0}", e.Message);
             }
         }
     }

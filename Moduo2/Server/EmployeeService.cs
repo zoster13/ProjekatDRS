@@ -199,28 +199,67 @@ namespace Server
         public void AddTeamAndTL(Team team, Employee teamLeader)
         {
             bool teamAdded = EmployeeServiceDatabase.Instance.AddTeam(team);
-            bool employeeAdded = EmployeeServiceDatabase.Instance.AddEmployee(teamLeader);
-            
+
             if (teamAdded)
             {
-                Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
+                bool employeeAdded = EmployeeServiceDatabase.Instance.AddEmployee(teamLeader);
+
+                if (employeeAdded)
+                {
+                    Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
+                    Logger.Info(string.Format("Employee [{0}] is added to database.", teamLeader.Name));
+
+                    Publisher.Instance.AddTeamAndTLCallback(team, teamLeader);
+                }
+                else
+                {
+                    Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                    Publisher.Instance.AddTeamAndTLCallback(null, null);
+                }
             }
             else
             {
                 Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                Publisher.Instance.AddTeamAndTLCallback(null, null);
             }
+        }
 
-            if(employeeAdded)
+        /// <summary>
+        /// Dodavanje novog tima i postavljanje postojeceg Developera u TL
+        /// </summary>
+        /// <param name="team"></param>
+        /// <param name="developer"></param>
+        public void AddTeamAndUpdateDeveloperToTL(Team team, Employee developer)
+        {
+            bool teamAdded = EmployeeServiceDatabase.Instance.AddTeam(team);
+
+            if (teamAdded)
             {
-                Logger.Info(string.Format("Employee [{0}] is added to database.", teamLeader.Name));
+                EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(developer, team.Name);
+
+                InternalDatabase.Instance.UpdateDeveloperToTL(developer, team);
+
+                Logger.Info(string.Format("Employee [{0}] is updated your function and team.", developer.Name));
+                Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
+
+                Publisher.Instance.AddTeamAndTLCallback(team, developer);
             }
             else
             {
-                Logger.Info(string.Format("Employee [{0}] cannot be added to database.", teamLeader.Name));
+                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                Publisher.Instance.AddTeamAndTLCallback(null, null);
             }
-            
-            Publisher.Instance.AddTeamAndTLCallback(team, teamLeader);   
         }
+
+        //public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
+        //{
+        //    EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
+        //    Logger.Info(string.Format("Employe [{0}] is updated your function and team.", employee.Name));
+
+        //    Publisher.Instance.UpdateEmployeeFunctionAndTeamCallback(employee);
+        //    Publisher.Instance.NotifyJustMe(employee);
+        //}
+
 
         /// <summary>
         /// Vracanje liste svih ulogovanih zaposlenih
@@ -295,15 +334,6 @@ namespace Server
             {
                 Publisher.Instance.ProjectTeamAssignCallback(project);
             }
-        }
-        
-        public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
-        {
-            EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
-            Logger.Info(string.Format("Employe [{0}] is updated your function and team.", employee.Name));
-
-            Publisher.Instance.UpdateEmployeeFunctionAndTeamCallback(employee);
-            Publisher.Instance.NotifyJustMe(employee);
         }
 
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
