@@ -243,6 +243,7 @@ namespace Server
                 Logger.Info(string.Format("Team [{0}] is added to database.", team.Name));
 
                 Publisher.Instance.AddTeamAndTLCallback(team, developer);
+                Publisher.Instance.NotifyJustMe(developer);
             }
             else
             {

@@ -208,24 +208,15 @@ namespace Server
 
         public void NotifyJustMe(Employee employee)
         {
-            Employee selectedEmployee = null;
+            Employee onlineEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
 
-            foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
-            {
-                if (emp.Email.Equals(employee.Email))
-                {
-                    selectedEmployee = emp;
-                    break;
-                }
-            }
-
-            if (selectedEmployee != null)
+            if (onlineEmployee != null)
             {
                 try
                 {
-                    if (((IClientChannel)selectedEmployee.Channel).State == CommunicationState.Opened)
+                    if (((IClientChannel)onlineEmployee.Channel).State == CommunicationState.Opened)
                     {
-                        selectedEmployee.Channel.NotifyJustMe(employee);
+                        onlineEmployee.Channel.NotifyJustMe(employee);
                     }
                 }
                 catch (Exception e)
