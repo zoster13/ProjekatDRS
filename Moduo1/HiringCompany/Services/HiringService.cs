@@ -55,14 +55,15 @@ namespace HiringCompany.Services
         {
             string notification = string.Empty;
 
-            if (p.IsAcceptedByOutsCompany)
+            Project proj = new Project();
+            try
             {
-                try
+                using (var access = new AccessDB())
                 {
-                    using (var access = new AccessDB())
+                    proj = access.projects.SingleOrDefault(project => project.Name.Equals(p.Name));
+                    if (proj != null)
                     {
-                        Project proj = access.projects.SingleOrDefault(project => project.Name.Equals(p.Name));
-                        if (proj != null)
+                        if (p.IsAcceptedByOutsCompany)
                         {
                             proj.OutsourcingCompany = outsourcingCompanyName;
                             proj.IsAcceptedOutsCompany = true;
@@ -70,36 +71,47 @@ namespace HiringCompany.Services
                         }
                     }
                 }
-                catch (DbEntityValidationException e)
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
                 {
-                    foreach (var eve in e.EntityValidationErrors)
+                    Console.WriteLine(
+                        "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine(
-                            "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                                ve.PropertyName,
-                                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                                ve.ErrorMessage);
-                        }
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
                     }
                 }
-                notification = "Company <" + outsourcingCompanyName + "> accepted request for developing project <" +
-                               p.Name + ">.";
+            }
 
+            notification = p.IsAcceptedByOutsCompany ? 
+                string.Format("Company <" + outsourcingCompanyName + "> accepted request for developing project <" + p.Name + ">.") : 
+                string.Format("Company <" + outsourcingCompanyName + "> declined request for developing project <" + p.Name + ">.");
+            //if (p.IsAcceptedByOutsCompany)
+            //{
+                
+            //    notification = "Company <" + outsourcingCompanyName + "> accepted request for developing project <" +
+            //                   p.Name + ">.";
+            //}
+            //else
+            //{
+            //    notification = "Company <" + outsourcingCompanyName + "> declined request for developing project <" +
+            //                   p.Name + ">.";
+            //}
 
-                using (Notifier notifier = new Notifier())
+            using (Notifier notifier = new Notifier())
+            {
+                if (p.IsAcceptedByOutsCompany) 
                 {
                     notifier.SyncAll();
-                }
-            }
-            else
-            {
-                notification = "Company <" + outsourcingCompanyName + "> declined request for developing project <" +
-                               p.Name + ">.";
-                //notifikovati CEO,moze i PO
+                }              
+                notifier.NotifySpecialClient(proj.ProductOwner, notification);
+                notifier.NotifySpecialClients(EmployeeType.CEO, notification);
             }
         }
     }

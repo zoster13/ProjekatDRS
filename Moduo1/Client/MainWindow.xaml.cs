@@ -261,12 +261,15 @@ namespace Client
 
         private void ComboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Project p = (Project)comboBoxProjects.SelectedItem;
-            BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
-            DataGridUserStories.DataContext = userStories;
+            if (comboBoxProjects.SelectedItem != null) 
+            {
+                Project p = (Project)comboBoxProjects.SelectedItem;
+                BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
+                DataGridUserStories.DataContext = userStories;
 
-            string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany + "\nProductOwner: " + p.ProductOwner;
-            textBoxProjects.Text = str;
+                string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany + "\nProductOwner: " + p.ProductOwner;
+                textBoxProjects.Text = str;
+            }          
         }
 
         public void SyncClientDb(EmployeeCommon.CurrentData data)
@@ -579,20 +582,24 @@ namespace Client
 
         private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Project p = (Project)comboBoxProjects.SelectedItem;
-            //BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
-            
-            foreach (UserStory us in p.UserStories)//mozda i nekako drugacije,ne znam kako i gde cemo smestati userStory-je koje nam posalju,videcemo
+            if (comboBoxProjects.SelectedItem != null) 
             {
-                //string s = String.Format("Name: {0}", us.Title);
-                CheckBox property = new CheckBox()
-                {
+                Project p = (Project)comboBoxProjects.SelectedItem;
+                BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
 
-                    Content = us.Title, //dodati i ostatak
-                    IsChecked = false
-                };
-                UserStoriesForApprovalListBox.Items.Add(property);
+                foreach (UserStory us in p.UserStories)//mozda i nekako drugacije,ne znam kako i gde cemo smestati userStory-je koje nam posalju,videcemo
+                {
+                    //string s = String.Format("Name: {0}", us.Title);
+                    CheckBox property = new CheckBox()
+                    {
+
+                        Content = us.Title, //dodati i ostatak
+                        IsChecked = false
+                    };
+                    UserStoriesForApprovalListBox.Items.Add(property);
+                }
             }
+            
         }
     }
 }
