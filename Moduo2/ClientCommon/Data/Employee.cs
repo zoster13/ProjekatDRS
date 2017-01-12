@@ -30,6 +30,7 @@ namespace ClientCommon.Data
             surname = string.Empty;
             email = string.Empty;
             password = string.Empty;
+            team = new Team();
             passwordTimeStamp = DateTime.Now;
             workingHoursStart = DateTime.Now;
             workingHoursEnd = DateTime.Now;

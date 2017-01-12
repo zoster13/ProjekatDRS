@@ -26,12 +26,14 @@ namespace Server
         private NetTcpBinding binding;
         private string hiringCompanyAddress;
         List<Employee> allEmployees;
+        private Team teamInDB;
         #endregion Fields
 
         //Constructor
         public EmployeeService()
         {
             allEmployees = new List<Employee>();
+            teamInDB = new Team();
             hiringCompanyAddress = "net.tcp://10.1.212.13:9998/HiringService";
             binding = new NetTcpBinding();
             //binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -51,15 +53,29 @@ namespace Server
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
 
-            if (employee != null && password.Equals(employee.Password))
+            if (employee != null)
             {
-                lock (InternalDatabase.Instance.LockerOnlineEmployees)
+                if (password.Equals(employee.Password))
                 {
-                    InternalDatabase.Instance.OnlineEmployees.Add(employee);
-                    Logger.Info(string.Format("Employee [{0}] is loged in.", email));
-                }
+                    if (!InternalDatabase.Instance.OnlineEmployees.Contains(employee))
+                    {
+                        lock (InternalDatabase.Instance.LockerOnlineEmployees)
+                        {
+                            InternalDatabase.Instance.OnlineEmployees.Add(employee);
+                            Logger.Info(string.Format("Employee [{0}] is loged in.", email));
+                        }
 
-                Publisher.Instance.LogInCallback(employee);
+                        Publisher.Instance.LogInCallback(employee);
+                    }
+                    else
+                    {
+                        Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
+                    }
+                }
+                else
+                {
+                    Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
+                }
             }
             else
             {
@@ -69,17 +85,12 @@ namespace Server
 
         public void LogOut(Employee employee)
         {
-            foreach (Employee e in InternalDatabase.Instance.OnlineEmployees)
+            Employee loggedInEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
+            
+            lock (InternalDatabase.Instance.LockerOnlineEmployees)
             {
-                if (e.Email.Equals(employee.Email))
-                {
-                    lock (InternalDatabase.Instance.LockerOnlineEmployees)
-                    {
-                        InternalDatabase.Instance.OnlineEmployees.Remove(e);
-                        Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
-                    }
-                    break;
-                }
+                InternalDatabase.Instance.OnlineEmployees.Remove(loggedInEmployee);
+                Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
             }
 
             using (var access = new AccessDB())
@@ -142,7 +153,6 @@ namespace Server
                 Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(project.Name));
                 Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(project.Team.Name));
 
-                proj.Team = new Team();
                 proj.Team = team;
                 proj.AssignStatus = AssignStatus.ASSIGNED;
 
@@ -189,21 +199,28 @@ namespace Server
 
         public void AddEmployee(Employee employee)
         {
-            EmployeeServiceDatabase.Instance.AddEmployee(employee);
-            Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
-            Publisher.Instance.AddEmployeeCallback(employee);
+            bool employeeAdded = EmployeeServiceDatabase.Instance.AddEmployee(employee);
 
-            if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
+            if(employeeAdded)
             {
-                using (var access = new AccessDB())
+                Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
+                Publisher.Instance.AddEmployeeCallback(employee);
+
+                if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
                 {
-                    Team teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
-                    teamInDB.ScrumMasterEmail = employee.Email;
-                    access.SaveChanges();
+                    using (var access = new AccessDB())
+                    {
+                        teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
+                        teamInDB.ScrumMasterEmail = employee.Email;
+                        access.SaveChanges();
+                    }
 
                     Publisher.Instance.ScrumMasterUpdatedCallback(teamInDB);
                 }
-
+            }
+            else
+            {
+                Logger.Info(string.Format("Employee [{0}] cannot be added to database.", employee.Name));
             }
         }
 
