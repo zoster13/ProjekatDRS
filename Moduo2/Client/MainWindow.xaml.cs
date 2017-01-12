@@ -117,7 +117,7 @@ namespace Client
 
                 tabControl.SelectedIndex = 1;
 
-                if (LocalClientDatabase.Instance.CurrentEmployee.Email == null)
+                if (LocalClientDatabase.Instance.CurrentEmployee.Email.Equals(string.Empty))
                 {
                     LocalClientDatabase.Instance.CurrentEmployee = employee;
 
@@ -542,7 +542,7 @@ namespace Client
         {
             foreach (var team1 in LocalClientDatabase.Instance.Teams)
             {
-                if (team1.Name == team.Name)
+                if (team1.Name.Equals(team.Name))
                 {
                     team1.ScrumMasterEmail = team.ScrumMasterEmail;
                     break;

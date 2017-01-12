@@ -23,8 +23,13 @@ namespace ClientCommon.Data
 
         public Notification()
         {
+            message = string.Empty;
+            hiringCompanyName = string.Empty;
+            projectDescription = string.Empty;
+            projectDescription = string.Empty;
             notificationStamp = DateTime.Now;
             statusAccept = NotificationAcceptStatus.PENDING;
+            employee = new Employee();
         }
 
         public Notification(NotificationType type, string hiringCompany, string projectName, string projectDescription)

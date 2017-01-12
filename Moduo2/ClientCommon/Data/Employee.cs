@@ -25,6 +25,11 @@ namespace ClientCommon.Data
         
         public Employee()
         {
+            type = EmployeeType.DEVELOPER;
+            name = string.Empty;
+            surname = string.Empty;
+            email = string.Empty;
+            password = string.Empty;
             passwordTimeStamp = DateTime.Now;
             workingHoursStart = DateTime.Now;
             workingHoursEnd = DateTime.Now;

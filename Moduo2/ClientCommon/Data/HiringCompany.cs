@@ -15,7 +15,7 @@ namespace ClientCommon.Data
 
         public HiringCompany()
         {
-
+            name = string.Empty;
         }
 
         public HiringCompany(string name)

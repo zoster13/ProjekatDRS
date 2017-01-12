@@ -267,7 +267,7 @@ namespace Client.Views
 
                 if (project.AssignStatus == AssignStatus.UNASSIGNED)
                 {
-                    if(team.ScrumMasterEmail.Equals(string.Empty))
+                    if(!team.ScrumMasterEmail.Equals(string.Empty))
                     {
                         foreach (var proj in LocalClientDatabase.Instance.AllProjects)
                         {
@@ -371,7 +371,7 @@ namespace Client.Views
                 {
                     if (team1.Name == team.Name)
                     {
-                        if (team1.ScrumMasterEmail == null)
+                        if (team1.ScrumMasterEmail.Equals(string.Empty))
                         {
                             employee.Name = textBoxName.Text;
                             employee.Surname = textBoxSurname.Text;
