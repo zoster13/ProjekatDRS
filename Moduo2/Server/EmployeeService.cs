@@ -122,7 +122,51 @@ namespace Server
             Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
             Publisher.Instance.LogOutCallback(employee);
         }
-        
+
+        /// <summary>
+        /// Dodavanje novog zaposlenog u sistem
+        /// </summary>
+        /// <param name="employee"></param>
+        public void AddEmployee(Employee employee)
+        {
+            bool employeeAdded = EmployeeServiceDatabase.Instance.AddEmployee(employee);
+
+            if (employeeAdded)
+            {
+                Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
+                Publisher.Instance.AddEmployeeCallback(employee);
+
+                if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
+                {
+                    using (var access = new AccessDB())
+                    {
+                        teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
+                        teamInDB.ScrumMasterEmail = employee.Email;
+                        access.SaveChanges();
+                    }
+
+                    Publisher.Instance.ScrumMasterUpdatedCallback(teamInDB);
+                }
+            }
+            else
+            {
+                Logger.Info(string.Format("Employee [{0}] cannot be added to database.", employee.Name));
+            }
+        }
+
+        /// <summary>
+        /// Azuriranje izmjenjenih podataka zaposlenog u bazi
+        /// </summary>
+        /// <param name="employee"></param>
+        public void EditEmployeeData(Employee employee)
+        {
+            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
+            InternalDatabase.Instance.UpdateOnlineEmployee(employee);
+
+            Logger.Info(string.Format("Employee [{0}] personal data are updated.", employee.Email));
+            Publisher.Instance.EditEmployeeCallback(employee);
+        }
+
         /// <summary>
         /// Dodavanje novog tima u bazu
         /// </summary>
@@ -143,19 +187,6 @@ namespace Server
             }
         }
         
-        /// <summary>
-        /// Azuriranje izmjenjenih podataka zaposlenog u bazi
-        /// </summary>
-        /// <param name="employee"></param>
-        public void EditEmployeeData(Employee employee)
-        {
-            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
-            InternalDatabase.Instance.UpdateOnlineEmployee(employee);
-
-            Logger.Info(string.Format("Employee [{0}] personal data are updated.", employee.Email));
-            Publisher.Instance.EditEmployeeCallback(employee);
-        }
-
         /// <summary>
         /// Vracanje liste svih ulogovanih zaposlenih
         /// </summary>
@@ -202,6 +233,7 @@ namespace Server
         }
 
 
+
         public void ProjectTeamAssign(Project project)
         {
             // ako je tim lider online, treba mu poslati projekat (SAMO NJEMU), inace se stavlja u bazu
@@ -228,34 +260,6 @@ namespace Server
             }
         }
         
-
-        public void AddEmployee(Employee employee)
-        {
-            bool employeeAdded = EmployeeServiceDatabase.Instance.AddEmployee(employee);
-
-            if(employeeAdded)
-            {
-                Logger.Info(string.Format("Employee [{0}] is added to database.", employee.Name));
-                Publisher.Instance.AddEmployeeCallback(employee);
-
-                if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
-                {
-                    using (var access = new AccessDB())
-                    {
-                        teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
-                        teamInDB.ScrumMasterEmail = employee.Email;
-                        access.SaveChanges();
-                    }
-
-                    Publisher.Instance.ScrumMasterUpdatedCallback(teamInDB);
-                }
-            }
-            else
-            {
-                Logger.Info(string.Format("Employee [{0}] cannot be added to database.", employee.Name));
-            }
-        }
-
         public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
         {
             EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
