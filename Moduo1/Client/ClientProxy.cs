@@ -11,7 +11,7 @@ namespace Client
 {
     public class ClientProxy : DuplexClientBase<EmployeeCommon.IEmployeeService>, EmployeeCommon.IEmployeeService, IDisposable
     {
-        EmployeeCommon.IEmployeeService factory;
+        private EmployeeCommon.IEmployeeService factory;
 
         public ClientProxy(InstanceContext callbackContext, Binding binding, EndpointAddress remoteAddress) :
          base(callbackContext, binding, remoteAddress)
@@ -29,7 +29,7 @@ namespace Client
             {
                 retval = factory.SignIn(username, password); 
             }
-            catch(Exception e)
+            catch (Exception)
             {
 
 
@@ -43,7 +43,7 @@ namespace Client
             {
                 factory.SignOut(username);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -56,7 +56,7 @@ namespace Client
             {
                 factory.ChangeEmployeeData(username, name, surname, email, password);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -69,7 +69,7 @@ namespace Client
             {
                 factory.SetWorkingHours(username, beginH, beginM, endH, endM);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -82,7 +82,7 @@ namespace Client
             {
                 factory.AskForPartnership(companyName);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -96,7 +96,7 @@ namespace Client
             {
                 retVal = factory.AddNewEmployee(e);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -111,7 +111,7 @@ namespace Client
 
                 factory.ChangeEmployeeType(username, type);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -124,7 +124,7 @@ namespace Client
             {
                 factory.SendApprovedUserStories(projectName, userStories);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -137,7 +137,7 @@ namespace Client
             {
                 factory.CreateNewProject(p);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -150,7 +150,7 @@ namespace Client
             {
                 factory.ProjectApprovedByCeo(p);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
 
@@ -163,11 +163,11 @@ namespace Client
             {
                 this.Close();
             }
-            catch(CommunicationException)
+            catch (CommunicationException)
             {
                 this.Abort();
             }
-            catch(TimeoutException)
+            catch (TimeoutException)
             {
                 this.Abort();
             }
@@ -178,7 +178,7 @@ namespace Client
         {
             try
             {
-                factory.SendProject(outscCompany,p);
+                factory.SendProject(outscCompany, p);
             }
             catch (Exception)
             {

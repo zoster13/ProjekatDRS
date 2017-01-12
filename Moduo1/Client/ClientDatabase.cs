@@ -10,13 +10,13 @@ namespace Client
 {
     public class ClientDatabase
     {
-        public object Employees_lock = new object();
-        public object AllEmployees_lock = new object();
-        public object Projects_lock = new object();
-        public object ProjectsForApproval_lock = new object();
-        public object ProjectsForSending_lock = new object();
-        public object NamesOfCompanies_lock = new object();
-        public object Companies_lock = new object();
+        //public object Employees_lock = new object();
+        //public object AllEmployees_lock = new object();
+        //public object Projects_lock = new object();
+        //public object ProjectsForApproval_lock = new object();
+        //public object ProjectsForSending_lock = new object();
+        //public object NamesOfCompanies_lock = new object();
+        //public object Companies_lock = new object();
 
         private BindingList<Employee> employees;
         private BindingList<Employee> allEmployees;
@@ -30,7 +30,7 @@ namespace Client
 
         private static ClientDatabase instance; //singletone
 
-        private string username=string.Empty; //da pamti username ulogovanog radnika
+        private string username = string.Empty; //da pamti username ulogovanog radnika
 
         private MainWindow main;
 

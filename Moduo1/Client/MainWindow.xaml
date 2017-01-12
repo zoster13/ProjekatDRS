@@ -320,7 +320,7 @@
                                     <TextBox x:Name="textBoxEditName" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
                                     <TextBox x:Name="textBoxEditSurname" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
                                     <TextBox x:Name="textBoxEditEmail" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,93,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
-                                    <Button x:Name="buttonEditdata" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Content="Edit data" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="135" Height="22" Click="editData_Click"/>
+                                    <Button x:Name="buttonEditdata" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Content="Edit data" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="135" Height="22" Click="EditData_Click"/>
                                     <Label x:Name="workHoursLabel1" Content="Working hours:" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="92" Height="28"/>
                                     <Label x:Name="workHoursLabel2" Content="To: " HorizontalAlignment="Left" Margin="73,204,0,0" VerticalAlignment="Top" Height="28"/>
                                     <TextBox x:Name="workBeginHour" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,171,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="40"/>
@@ -334,7 +334,7 @@
                                     <Label Content="min" HorizontalAlignment="Left" Margin="228,204,0,0" VerticalAlignment="Top" Height="28" Width="34"/>
                                 </Grid>
                                 <Grid Background="White" Margin="32,265,31,87">
-                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" VerticalAlignment="Top" Width="132" Click="editPassword_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
+                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" VerticalAlignment="Top" Width="132" Click="EditPassword_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                 </Grid>
                                 <Grid Background="White" Margin="32,297,393,4">
                                     <Label x:Name="oldPasswordLabel" Content="Type in current password: " HorizontalAlignment="Left" Height="24" Margin="10,34,0,0" VerticalAlignment="Top" Width="157"/>
@@ -344,7 +344,7 @@
                                 </Grid>
                                 <Grid Background="White" Margin="433,348,31,4">
                                     <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,10,0,0" VerticalAlignment="Top" Width="100" Click="SaveChanges_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
-                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,10,0,0" VerticalAlignment="Top" Width="100" Click="cancel_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
+                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,10,0,0" VerticalAlignment="Top" Width="100" Click="Cancel_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                 </Grid>
                             </Grid>
                             <TabItem.Header>
@@ -407,7 +407,7 @@
         </TabControl>
         <Label x:Name="label1" Content="Hiring Company Employee" FontWeight="Bold" FontSize="32" HorizontalAlignment="Left" Height="53" Margin="228,21,0,0" VerticalAlignment="Top" Width="444" Foreground="#FF1F3270" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label Content="© Miljana e333/ Zvezdana e335" HorizontalAlignment="Left" Margin="712,574,0,0" VerticalAlignment="Top" Width="180" Foreground="#FF1F3277"/>
-        <Button x:Name="signOutButton" Content="SignOut" HorizontalAlignment="Left" Margin="816,2,0,0" VerticalAlignment="Top" Width="50" Height="24" Visibility="Hidden" Click="signOutButton_Click" Background="#FFFAFBFE" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="0"/>
+        <Button x:Name="signOutButton" Content="SignOut" HorizontalAlignment="Left" Margin="816,2,0,0" VerticalAlignment="Top" Width="50" Height="24" Visibility="Hidden" Click="SignOutButton_Click" Background="#FFFAFBFE" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="0"/>
         <Button x:Name="closeButton" Content="X" HorizontalAlignment="Center" Height="24" Margin="869,2,1,0" VerticalAlignment="Top" Width="30" Background="#FFFAFBFE" BorderBrush="#FFACACAC" Foreground="#FF1F3270" FontWeight="Bold" Click="CloseButtonClick" BorderThickness="0"/>
     </Grid>
 </Window>

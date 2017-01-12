@@ -26,8 +26,8 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        ClientDatabase clientDB = ClientDatabase.Instance();
-        ClientProxy proxy;
+        private ClientDatabase clientDB = ClientDatabase.Instance();
+        private ClientProxy proxy;
 
         public MainWindow()
         {
@@ -121,7 +121,7 @@ namespace Client
  
         }
 
-        private void signOutButton_Click(object sender, RoutedEventArgs e)
+        private void SignOutButton_Click(object sender, RoutedEventArgs e)
         {
             proxy.SignOut(clientDB.Username.Trim());
 
@@ -132,17 +132,17 @@ namespace Client
             tabControl.SelectedIndex = 0;
         }
 
-        private void editPassword_Click(object sender, RoutedEventArgs e)
+        private void EditPassword_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = true;
             //passBoxNewPass.IsEnabled = true;
             //passBoxConfirmNewPass.IsEnabled = true;
         }
 
-        private void editData_Click(object sender, RoutedEventArgs e)
+        private void EditData_Click(object sender, RoutedEventArgs e)
         {
-            lock (clientDB.Employees_lock)
-            {
+            //lock (clientDB.Employees_lock)
+            //{
                 foreach (Employee em in clientDB.Employees)
                 {
                     if (em.Username == clientDB.Username)
@@ -164,9 +164,11 @@ namespace Client
                         workEndHour.Text = em.EndHour.ToString();
                         workEndMinute.IsEnabled = true;
                         workEndMinute.Text = em.EndMinute.ToString();
+
+                        break;
                     }
                 }
-            }
+            //}
         }
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
@@ -204,7 +206,7 @@ namespace Client
             workEndMinute.Text = "";
         }
 
-        private void cancel_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = false;
             passBoxOldPass.Password = "";
@@ -275,77 +277,77 @@ namespace Client
 
         public void SyncClientDb(EmployeeCommon.CurrentData data)
         {
-            lock (clientDB.Employees_lock)
-            {
+            //lock (clientDB.Employees_lock)
+            //{
                 if (clientDB.Employees.Count != 0)
                 {
                     clientDB.Employees.Clear();
                 }
                 clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
-            }
+            //}
             employeesDataGrid.DataContext = clientDB.Employees;
 
-            lock (clientDB.AllEmployees_lock)
-            {
+            //lock (clientDB.AllEmployees_lock)
+            //{
                 if (clientDB.AllEmployees.Count != 0)
                 {
                     clientDB.AllEmployees.Clear();
                 }
                 clientDB.AllEmployees = new BindingList<Employee>(data.AllEmployeesData);
-            }
+            //}
             dataGridCEO.DataContext = clientDB.AllEmployees;
 
 
-            lock (clientDB.ProjectsForApproval_lock)
-            {
+            //lock (clientDB.ProjectsForApproval_lock)
+            //{
                 if (clientDB.ProjectsForApproval.Count != 0)
                 {
                     clientDB.ProjectsForApproval.Clear();
                 }
                 clientDB.ProjectsForApproval = new BindingList<Project>(data.ProjectsForApprovalData);
-            }
+            //}
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
 
-            lock (clientDB.NamesOfCompanies_lock)
-            {
+            //lock (clientDB.NamesOfCompanies_lock)
+            //{
                 if (clientDB.NamesOfCompanies.Count != 0)
                 {
                     clientDB.NamesOfCompanies.Clear();
                 }
                 clientDB.NamesOfCompanies = new BindingList<string>(data.NamesOfCompaniesData);
-            }
+            //}
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
 
-            lock (clientDB.Companies_lock)
-            {
+            //lock (clientDB.Companies_lock)
+            //{
                 if (clientDB.Companies.Count != 0)
                 {
                     clientDB.Companies.Clear();
                 }
                 clientDB.Companies = new BindingList<PartnerCompany>(data.CompaniesData);
-            }
+            //}
             companiesDataGrid.DataContext = clientDB.Companies;         
             //WorkCompaniesDataGrid.DataContext = clientDB.Companies;
             comboBoxCompanies.DataContext = clientDB.Companies;
 
-            lock (clientDB.ProjectsForSending_lock)
-            {
+            //lock (clientDB.ProjectsForSending_lock)
+           // {
                 if (clientDB.ProjectsForSending.Count != 0)
                 {
                     clientDB.ProjectsForSending.Clear();
                 }
                 clientDB.ProjectsForSending = new BindingList<Project>(data.ProjectsForSendingData);
-            }
+            //}
             approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
 
-            lock (clientDB.Projects_lock) 
-            {
+            //lock (clientDB.Projects_lock) 
+            //{
                 if (clientDB.Projects.Count != 0) 
                 {
                     clientDB.Projects.Clear();
                 }
                 clientDB.Projects = new BindingList<Project>(data.ProjectsInDevelopmentData);
-            }
+            //}
             comboBoxProjects.DataContext = clientDB.Projects; // koje projekte prikazujemo ovde?
             ProjectsComboBox.DataContext = clientDB.Projects;
           
@@ -355,8 +357,8 @@ namespace Client
 
         public void FillHomeLabels()
         {
-            lock (clientDB.Employees_lock)
-            {
+            //lock (clientDB.Employees_lock)
+            //{
                 foreach (Employee em in clientDB.Employees)
                 {
                     if (em.Username == clientDB.Username)
@@ -402,7 +404,7 @@ namespace Client
                         break;
                     }
                 }
-            }
+            //}
         }
 
 
@@ -462,7 +464,7 @@ namespace Client
         {
             if (approvedprojectsInDevelopmentDataGrid.SelectedItem != null)
             {
-                proxy.SendProject(( (PartnerCompany)comboBoxCompanies.SelectedItem ).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
+                proxy.SendProject(((PartnerCompany)comboBoxCompanies.SelectedItem).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
                 //proxy.SendProject((string)WorkCompaniesDataGrid.SelectedItem, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
             }
 
@@ -480,14 +482,14 @@ namespace Client
             // i da bude vizuelni feedback, npr crvene ivice, ako klijent ne ukuca kako treba
             //p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
             DateTime dateTimeOut;
-            if (DateTime.TryParse(ProjectStartDateTextBox.Text, out dateTimeOut)) //tako nesto raditi kada se text promeni ili slicno...
+            if (DateTime.TryParse(ProjectStartDateTextBox.Text, out dateTimeOut)) 
             {
-                p.StartDate = dateTimeOut;
+                p.StartDate = dateTimeOut; //tako nesto raditi kada se text promeni ili slicno...
             }
 
-            if (DateTime.TryParse(ProjectDeadlineTextBox.Text, out dateTimeOut)) //tako nesto raditi kada se text promeni ili slicno...
+            if (DateTime.TryParse(ProjectDeadlineTextBox.Text, out dateTimeOut)) 
             {
-                p.Deadline = dateTimeOut;
+                p.Deadline = dateTimeOut; //tako nesto raditi kada se text promeni ili slicno...
             }
             //p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
 
@@ -505,10 +507,10 @@ namespace Client
             {
                 Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
 
-                lock (clientDB.ProjectsForApproval_lock)
-                {
+                //lock (clientDB.ProjectsForApproval_lock)
+                //{
                     proxy.ProjectApprovedByCeo(proj);
-                }
+                //}
             }              
         }
 
@@ -587,7 +589,7 @@ namespace Client
 
             UserStoriesForApprovalListBox.Items.Clear();
 
-            proxy.SendApprovedUserStories(p.Name,p.UserStories);
+            proxy.SendApprovedUserStories(p.Name, p.UserStories);
         }
 
         private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -595,7 +597,7 @@ namespace Client
             if (ProjectsComboBox.SelectedItem != null) 
             {
                 Project p = (Project)ProjectsComboBox.SelectedItem;
-                BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories.FindAll(u=>u.IsApprovedByPO==false));
+                BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories.FindAll(u => u.IsApprovedByPO == false));
                 
                 foreach (UserStory us in userStories)
                 {
@@ -604,7 +606,7 @@ namespace Client
                     {
                         Content = us.Title,
                         IsChecked = false,
-                        ToolTip=tTip //srediti vreme trajanja i pokazivanja
+                        ToolTip = tTip //srediti vreme trajanja i pokazivanja
                     };
                     UserStoriesForApprovalListBox.Items.Add(userStory);
                 }
