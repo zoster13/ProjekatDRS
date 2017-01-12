@@ -274,7 +274,7 @@ namespace Server
                 UserStory userStory1 = access.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
                 userStory1.ProgressStatus = ProgressStatus.STARTED;
 
-                foreach(var task in userStory.Tasks)
+                foreach (var task in userStory.Tasks)
                 {
                     Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
                     taskInDB.ProgressStatus = ProgressStatus.STARTED;
@@ -339,6 +339,7 @@ namespace Server
                 access.SaveChanges();
             }
 
+            //Poziv metode iz ICommona...
         }
         
         #endregion IEmployeeService Methods
@@ -362,6 +363,8 @@ namespace Server
             {
                 proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
             }
+
+            //DODATI CALLBACK DA SE VRATI SVIM ONLINE KORISNICIMA NOVA HITING KOMPANIJA
         }
 
         public void ResponseToProjectRequest(bool accepted, Project project)

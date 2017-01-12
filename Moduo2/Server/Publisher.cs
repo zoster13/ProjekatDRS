@@ -337,16 +337,34 @@ namespace Server
 
         public void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName)
         {
-            string teamleader = string.Empty;
             Project proj;
 
             using (var access = new AccessDB())
             {
-                proj = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
+                proj = access.Projects
+                    .Include("UserStories")
+                    .FirstOrDefault(p => p.Name.Equals(projectName));
 
-                teamleader = proj.Team.Name;
+                foreach (var userStory in commUserStories)
+                {
+                    UserStory usInDB = proj.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
+
+                    if(usInDB != null)
+                    {
+                        if(userStory.IsAccepted)
+                        {
+                            usInDB.AcceptStatus = AcceptStatus.ACCEPTED;
+                        }
+                        else
+                        {
+                            usInDB.AcceptStatus = AcceptStatus.DECLINED;
+                        }
+                    }
+
+                    access.SaveChanges();
+                }
             }
-
+            
             Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(proj.Team.TeamLeaderEmail));
 
             if (teamLeader != null)
