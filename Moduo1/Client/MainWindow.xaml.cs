@@ -46,6 +46,7 @@ namespace Client
             comboBoxCompanies.DataContext = clientDB.Companies;
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
             approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
+            ProjectsComboBox.DataContext = clientDB.Projects;
 
             
 
@@ -345,7 +346,8 @@ namespace Client
                 }
                 clientDB.Projects = new BindingList<Project>(data.ProjectsInDevelopmentData);
             }
-            comboBoxProjects.DataContext = clientDB.Projects; // koje projekte prikazujemo ovde? 
+            comboBoxProjects.DataContext = clientDB.Projects; // koje projekte prikazujemo ovde?
+            ProjectsComboBox.DataContext = clientDB.Projects;
           
 
             FillHomeLabels();
@@ -561,7 +563,7 @@ namespace Client
         private void ApproveUserStoriesButton_Click(object sender, RoutedEventArgs e)
         {
             Project p = (Project)comboBoxProjects.SelectedItem;
-            List<CheckBox> forRemove = new List<CheckBox>();
+            //List<CheckBox> forRemove = new List<CheckBox>();
             //napraviti listu userStorija za odobravanje koji ce se slati
             foreach (CheckBox cb in UserStoriesForApprovalListBox.Items)
             {
@@ -572,25 +574,27 @@ namespace Client
                         if (us.Title.Equals(cb.Content))
                         {
                             us.IsApprovedByPO = true;
-                            forRemove.Add(cb);
+                            //forRemove.Add(cb);
                         }
                     }
                 }
             }
 
-            foreach (CheckBox cb in forRemove) 
-            {
-                UserStoriesForApprovalListBox.Items.Remove(cb);
-            }
+            //foreach (CheckBox cb in forRemove) 
+            //{
+            //    UserStoriesForApprovalListBox.Items.Remove(cb);
+            //}
+
+            UserStoriesForApprovalListBox.Items.Clear();
 
             proxy.SendApprovedUserStories(p.Name,p.UserStories);
         }
 
         private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (comboBoxProjects.SelectedItem != null) 
+            if (ProjectsComboBox.SelectedItem != null) 
             {
-                Project p = (Project)comboBoxProjects.SelectedItem;
+                Project p = (Project)ProjectsComboBox.SelectedItem;
                 BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories.FindAll(u=>u.IsApprovedByPO==false));
                 
                 foreach (UserStory us in userStories)

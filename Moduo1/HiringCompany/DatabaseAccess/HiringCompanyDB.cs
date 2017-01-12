@@ -116,7 +116,9 @@ namespace HiringCompany.DatabaseAccess
                 // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
+                    //var projects = access.projects.Include("UserStories"); //mozda mora ovako da se radi sa include
                     var projectsForS = from proj in access.projects
+                    //var projectsForS = from proj in projects
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
 
@@ -278,7 +280,10 @@ namespace HiringCompany.DatabaseAccess
                 // get all projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
-                    var projectsInDev = from proj in access.projects
+                    var projects = access.projects.Include("UserStories"); //mozda mora ovako da se radi sa include
+
+                    //var projectsInDev = from proj in access.projects
+                    var projectsInDev = from proj in projects
                                         where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
                                         select proj;
 
