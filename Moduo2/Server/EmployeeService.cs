@@ -48,7 +48,6 @@ namespace Server
             //lateOnJobTimer.Enabled = true;        
         }
 
-
         #region IEmployeeService Methods
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace Server
             else
             {
                 Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
-                Publisher.Instance.LogInCallback(employee, false);
+                Publisher.Instance.LogInCallback(new Employee(), false);
             }
         }
 
@@ -144,25 +143,64 @@ namespace Server
             }
         }
         
+        /// <summary>
+        /// Azuriranje izmjenjenih podataka zaposlenog u bazi
+        /// </summary>
+        /// <param name="employee"></param>
         public void EditEmployeeData(Employee employee)
         {
-            
+            EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
+            InternalDatabase.Instance.UpdateOnlineEmployee(employee);
 
-
-                //Update u mdf bazi
-                EmployeeServiceDatabase.Instance.UpdateEmployee(employee);
-            
-            //Update u internoj bazi
-            Employee thisEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
-            thisEmployee.Name = employee.Name;
-            thisEmployee.Surname = employee.Surname;
-            thisEmployee.WorkingHoursStart = employee.WorkingHoursStart;
-            thisEmployee.WorkingHoursEnd = employee.WorkingHoursEnd;
-            thisEmployee.Email = employee.Email;
-
-            Logger.Info(string.Format("Employee [{0}] is edited.", employee.Email));
+            Logger.Info(string.Format("Employee [{0}] personal data are updated.", employee.Email));
             Publisher.Instance.EditEmployeeCallback(employee);
         }
+
+        /// <summary>
+        /// Vracanje liste svih ulogovanih zaposlenih
+        /// </summary>
+        /// <returns></returns>
+        public List<Employee> GetAllOnlineEmployees()
+        {
+            return InternalDatabase.Instance.OnlineEmployees;
+        }
+
+        /// <summary>
+        /// Vracanje liste svih zaposlenih
+        /// </summary>
+        /// <returns></returns>
+        public List<Employee> GetAllEmployees()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Employees.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Vracanje liste svih timova
+        /// </summary>
+        /// <returns></returns>
+        public List<Team> GetAllTeams()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Teams.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Vracanje liste svih partnerskih kompanija 
+        /// </summary>
+        /// <returns></returns>
+        public List<HiringCompany> GetAllHiringCompanies()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.HiringCompanies.ToList();
+            }
+        }
+
 
         public void ProjectTeamAssign(Project project)
         {
@@ -189,35 +227,7 @@ namespace Server
                 Publisher.Instance.ProjectTeamAssignCallback(project);
             }
         }
-
-        public List<Employee> GetAllOnlineEmployees()
-        {
-            return InternalDatabase.Instance.OnlineEmployees;
-        }
-
-        public List<Employee> GetAllEmployees()
-        {
-            using (var access = new AccessDB())
-            {
-                return access.Employees.ToList();
-            }
-        }
-
-        public List<Team> GetAllTeams()
-        {
-            using(var access = new AccessDB())
-            {
-                return access.Teams.ToList();
-            }
-        }
-
-        public List<HiringCompany> GetAllHiringCompanies()
-        {
-            using (var access = new AccessDB())
-            {
-                return access.HiringCompanies.ToList();
-            }
-        }
+        
 
         public void AddEmployee(Employee employee)
         {
