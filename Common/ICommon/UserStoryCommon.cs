@@ -19,6 +19,14 @@ namespace ICommon
         {
         }
 
+        public UserStoryCommon(string t, string desc, string acceptanceC, bool isApprovedByPO)
+        {
+            title = t;
+            desc = description;
+            acceptanceC = acceptanceCriteria;
+            isAccepted = isApprovedByPO;
+        }
+
         [DataMember]
         public string Title
         {

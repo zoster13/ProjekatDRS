@@ -36,7 +36,7 @@ namespace HiringCompany.Services
 
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
         // i srediti raspored kad se ovo ukljucuje i iskljucuje i slicno
-        private void NotifyOnLate( object sender, ElapsedEventArgs e )
+        private void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.NotifyOnLate()"));
@@ -69,7 +69,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public bool SignIn( string username, string password )
+        public bool SignIn(string username, string password)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.SignIn(), " +
@@ -90,7 +90,7 @@ namespace HiringCompany.Services
                     {
                         hiringCompanyDB.ConnectionChannelsClients.Add(username, callbackClient);
 
-                        lock (hiringCompanyDB.OnlineEmployees_lock) 
+                        lock (hiringCompanyDB.OnlineEmployees_lock)
                         {
                             hiringCompanyDB.OnlineEmployees.Add(employee);
                         }
@@ -123,13 +123,13 @@ namespace HiringCompany.Services
             return true;
         }
 
-        public void SignOut( string username )
+        public void SignOut(string username)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.SignOut(), " +
                                               "params: string username={0}", username));
 
-        
+
             lock (hiringCompanyDB.OnlineEmployees_lock)
             {
                 Employee em = hiringCompanyDB.OnlineEmployees.Find(e => e.Username.Equals(username));
@@ -153,7 +153,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void ChangeEmployeeData( string username, string name, string surname, string email, string password )
+        public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.ChangeEmployeeData(), " +
@@ -215,7 +215,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void SetWorkingHours( string username, int beginH, int beginM, int endH, int endM )
+        public void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.SetWorkingHours(), " +
@@ -274,7 +274,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void AskForPartnership( string outsorcingCompanyName )
+        public void AskForPartnership(string outsorcingCompanyName)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.AskForPartnership(), " +
@@ -306,7 +306,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public bool AddNewEmployee( Employee em )
+        public bool AddNewEmployee(Employee em)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.AddNewEmployee()"));
@@ -324,7 +324,7 @@ namespace HiringCompany.Services
             return retVal;
         }
 
-        public void ChangeEmployeeType( string username, EmployeeType type )
+        public void ChangeEmployeeType(string username, EmployeeType type)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.ChangeEmployeeType(), " +
@@ -376,21 +376,126 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void SendApprovedUserStories(string projectName,List<UserStory> userStories)
+        public void SendApprovedUserStories(string projectName, List<UserStory> userStories)
         {
-            //promeniti u bazi polje isApproved za sve odobrene userStories
-            //pozvati outsComp metodu i proslediti listu userStories
-            
+
+            Project proj = new Project();
+            try
+            {
+                using (var access = new AccessDB())
+                {
+                    proj = access.projects.Include("UserStories").SingleOrDefault(project => project.Name.Equals(projectName));
+                    if (proj != null)
+                    {
+                        int i = 0;
+                        if (proj.UserStories.Count == userStories.Count)
+                        {
+                            for (; i < proj.UserStories.Count; i++)
+                            {
+                                proj.UserStories[i].IsApprovedByPO = userStories[i].IsApprovedByPO;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("nece valjati :D ");
+                        }
+
+                        access.SaveChanges();
+                    }
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine(
+                        "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
+
+            string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[proj.OutsourcingCompany]);
+
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            EndpointAddress endpointAddress = new EndpointAddress(new Uri(outsorcingSvcEndpoint));
+
+            List<UserStoryCommon> userStoriesForSend = new List<UserStoryCommon>();
+            foreach (var us in userStories)
+            {
+                userStoriesForSend.Add(new UserStoryCommon(us.Title, us.Description, us.AcceptanceCriteria, us.IsApprovedByPO));
+            }
+
+            // i onda kasnije kad pozivamo neke motede uvek proveravmao da li smo partneri
+
+            using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
+            {
+                outsorcingProxy.SendEvaluatedUserstoriesToOutsourcingCompany(userStoriesForSend, projectName);
+            }
+
+            try
+            {
+                using (var access = new AccessDB())
+                {
+                    proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
+                    access.SaveChanges();
+
+                    //var projects = access.projects.Include("UserStories");
+                    //var project = from pr in access.projects
+                    //              where pr.Name.Equals(proj.Name)
+                    //              select pr;
+
+                    //if (project != null)
+                    //{
+
+                    //    project.UserStories.RemoveRange(project.UserStories.Where(u => u.IsApprovedByPO == false));
+                    //    //7var us = access.userstories.First(u => u.IsApprovedByPO == false )
+
+                    //    //access.userstories.Remove()
+
+                    //    access.SaveChanges();
+                    //}
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine(
+                        "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                    }
+                }
+            }
+
+
         }
 
-        public void CreateNewProject( Project p )
+        public void CreateNewProject(Project p)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.CreateNewProject(), "));
 
             hiringCompanyDB.AddNewProject(p); // onaj neki lock
 
-            string notification = ( string.Format("Project {0} is waiting for approval.", p.Name));
+            string notification = (string.Format("Project {0} is waiting for approval.", p.Name));
 
             using (Notifier notifier = new Notifier())
             {
@@ -401,7 +506,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void ProjectApprovedByCeo( Project p )
+        public void ProjectApprovedByCeo(Project p)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.ProjectApprovedByCeo()"));
@@ -446,7 +551,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        public void SendProject( string outscCompany, Project p )
+        public void SendProject(string outscCompany, Project p)
         {
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: EmployeeService.SendProject(), " +
@@ -472,9 +577,9 @@ namespace HiringCompany.Services
 
             using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
-                outsorcingProxy.SendProjectToOutsourcingCompany(hiringCompanyDB.CompanyName, proj);  
+                outsorcingProxy.SendProjectToOutsourcingCompany(hiringCompanyDB.CompanyName, proj);
             }
-        
+
             messageToLog.AppendLine("finished successfully.");
             Program.Logger.Info(messageToLog);
         }

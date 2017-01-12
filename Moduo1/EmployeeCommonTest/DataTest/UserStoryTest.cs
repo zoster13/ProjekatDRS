@@ -16,7 +16,6 @@ namespace EmployeeCommonTest.DataTest
         private string title = "UserStoryOne";
         private string description = "blabla";
         private string acceptanceCriteria = "blaa";
-        private int storyPoints = 8;
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -62,12 +61,5 @@ namespace EmployeeCommonTest.DataTest
             Assert.AreEqual(acceptanceCriteria, userStoryTest.AcceptanceCriteria);
         }
 
-        [Test]
-        public void StoryPointsTest()
-        {
-            userStoryTest.StoryPoints = storyPoints;
-
-            Assert.AreEqual(storyPoints, userStoryTest.StoryPoints);
-        }
     }
 }

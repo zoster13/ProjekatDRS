@@ -15,5 +15,8 @@ namespace HiringCompany.DatabaseAccess
         public DbSet<Employee> employees { get; set; }
         public DbSet<Project> projects { get; set; }
         public DbSet<PartnerCompany> companies { get; set; }
+        //public DbSet<UserStory> userstories { get; set; }
+    
+    
     }
 }
