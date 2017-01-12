@@ -200,8 +200,8 @@ namespace Server
         {
             AddTeam(team);
             AddEmployee(teamLeader);
-         
-               
+
+            Publisher.Instance.AddTeamAndTLCallback(team, teamLeader);   
         }
 
         /// <summary>
