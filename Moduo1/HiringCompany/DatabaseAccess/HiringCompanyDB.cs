@@ -13,41 +13,64 @@ namespace HiringCompany.DatabaseAccess
     public class HiringCompanyDB
     {
         private static HiringCompanyDB myDB;
+
         // add lock before every adding, replacing, updating query
         // and add lock for every in-memory list, map..
 
+        // problem i sa ovim lockovanjem. ne treba tako da se radi...kada sam guglala,
+        // izbacilo je hiljadu drugih nacina -> nigde nije radjeno sa lock-om. 
+        // https://stackoverflow.com/questions/9415955/c-sharp-working-with-entity-framework-in-a-multi-threaded-server
+        // cak pisu i da ne treba sa tim da se radi. jos nesto, zeka i aleksandra su lockovali samo
+        // na pisanju, ali treba i na citanju. To mi bas nije imalo smisla sto su radili pa sam proverila i treba da se stiti i citanje
+        // ako stitimo citanje, teze je da dodjem do podataka koje treba da vratim :S, vidi dole AllEmployes
+
+
+        // lock objects for synchronizing access to ServiceDB.mdf
+        private object allEmployees_lock = new object();
+        private object projects_lock = new object();
+        private object partnerCompanies_lock=new object();
+
+        // lock objects for synchronizing access to data about active communication channels
+        private object channelsCompanies_lock=new object();
+        private object channelsClients_lock=new object();
+
+        //  lock objects for synchronizing access to in-memory data
         private object onlineEmployees_lock = new object();
-        private object allEmployees_lock = new object(); 
         private object projectsForApproval_lock = new object(); 
         private object partnerCompaniesAddresses_lock = new object();
-        private object dbAccess_lock = new object(); // LOKOVATI SVUDA GDE SE KORISTI DB ACCESS!!!!!!!
+        private object dbAccess_lock = new object(); // verovatno nam ne treba, zato sto svaku tabelu stitimo zasebno tamo gde se koristi
+
 
         // in-memory data
         // videti gde cuvati ove podatke, mozda na pocetku setup delu iscitati iz fajla sve, neki fajl ili slicno.. 
         //mzftn123fakultet@gmail.com
         //miljanazvezdana123
-        private string companyName = "HiringCompany";
+        private string companyName = "HiringCompany";  
         private List<Employee> onlineEmployees;
         
-        // ["companyName", "ipaddress:port"]
+        // [Key="companyName", Value="ipaddress:port" ]
         private Dictionary<string, string> possiblePartnersAddresses; 
         private Dictionary<string, string> partnerCompaniesAddresses; 
 
-        private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; // treba zakljucavati
-        private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
+        private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; 
+        private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; 
 
 
         private HiringCompanyDB()
         {
+
             onlineEmployees = new List<Employee>();
+
             possiblePartnersAddresses = new Dictionary<string, string>();
+            partnerCompaniesAddresses = new Dictionary<string, string>();
+
             connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
             connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();
-            partnerCompaniesAddresses = new Dictionary<string, string>();
+     
 
             // u fajlu cuvati, i onda iscitati na pocetku programa
             possiblePartnersAddresses.Add("cekic", "10.1.212.114:9998"); 
-            possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // oni ce nam reci podatke
+            possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // outs company ce nam reci podatke
 
             List<string> pCompaniesName = new List<string>();
             using (var access = new AccessDB())
@@ -61,7 +84,6 @@ namespace HiringCompany.DatabaseAccess
                 partnerCompaniesAddresses.Add(cName, possiblePartnersAddresses[cName]);
                 possiblePartnersAddresses.Remove(cName);
             }
-
         }
 
         public static HiringCompanyDB Instance()
@@ -73,21 +95,37 @@ namespace HiringCompany.DatabaseAccess
             return myDB;
         }
 
-        public object OnlineEmployees_lock
-        {
-            get { return onlineEmployees; }
-        }
-
         public object AllEmployees_lock
         {
             get { return allEmployees_lock; }
         }
+        public object Projects_lock
+        {
+            get { return projects_lock;}
+        }
+        public object PartnerCompanies_lock
+        {
+            get { return partnerCompanies_lock;}
+        }
 
+        public object ChannelsCompanies_lock
+        {
+            get { return channelsCompanies_lock; }
+        }
+
+        public object ChannelsClients_lock
+        {
+            get { return channelsClients_lock;}
+        }
+
+        public object OnlineEmployees_lock
+        {
+            get { return onlineEmployees; }
+        }
         public object ProjectsForApproval_lock
         {
             get { return projectsForApproval_lock; }
         }
-
         public object PartnerCompaniesAddresses_lock
         {
             get { return partnerCompaniesAddresses_lock; }
@@ -104,6 +142,7 @@ namespace HiringCompany.DatabaseAccess
             set { companyName = value; }
         }
        
+        // da li ovde streba da stitim u geteru? msm mozda neka druga nit bas tad dodaje nekog employee u online
         public List<Employee> OnlineEmployees
         {
             get { return onlineEmployees; }
@@ -116,12 +155,18 @@ namespace HiringCompany.DatabaseAccess
             {
                 using (var access = new AccessDB())
                 {
-                    // zakljucati ovde
-                    var employees = from em in access.Employees
+                    List<Employee> retVal = new List<Employee>();
 
-                                    select em;
+                    lock (allEmployees_lock)
+                    {
+                        var employees = from em in access.Employees
 
-                    return employees.ToList();
+                                        select em;
+                        retVal = employees.ToList();
+                    }
+
+                    return retVal;
+                    // return employees.ToList();
                 }
             }
         }
@@ -144,9 +189,13 @@ namespace HiringCompany.DatabaseAccess
             {
                 using (var access = new AccessDB())
                 {
-
-                    return access.Companies.ToList();
-
+                    List<PartnerCompany> retVal=new List<PartnerCompany>();
+                    lock (partnerCompanies_lock)
+                    {
+                        retVal = access.Companies.ToList();
+                    }
+                    return retVal;
+                   // return access.Companies.ToList();
                 }
             }
         }
@@ -157,12 +206,18 @@ namespace HiringCompany.DatabaseAccess
             {
                 using (var access = new AccessDB())
                 {
-                    // get all Projects that are not yet approved by CEO
-                    var projectsForA = from proj in access.Projects
-                                       where proj.IsAcceptedCEO == false
-                                       select proj;
+                    List<Project> retVal=new List<Project>();
+                    lock (projects_lock)
+                    {
+                        // get all Projects that are not yet approved by CEO
+                        var projectsForA = from proj in access.Projects
+                                           where proj.IsAcceptedCEO == false
+                                           select proj;
+                        retVal = projectsForA.ToList();
+                    }
 
-                    return projectsForA.ToList();
+                    return retVal;
+                    // return projectsForA.ToList();
                 }
             }
         }
@@ -173,18 +228,28 @@ namespace HiringCompany.DatabaseAccess
                 // get all Projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
-                    var projectsForS = from proj in access.Projects
-                                       where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
-                                       select proj;
-                   
-                    return projectsForS.ToList();
+                    List<Project> retVal=new List<Project>();
+                    lock (projects_lock)
+                    {
+                        var projectsForS = from proj in access.Projects
+                                           where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
+                                           select proj;
+
+                        retVal = projectsForS.ToList();
+                    }
+                    return retVal;
+                    //return projectsForS.ToList();
                 }
             }
         }
 
+        // treba lock ovde?
         public Dictionary<string, IEmployeeServiceCallback> ConnectionChannelsClients
         {
-            get { return connectionChannelsClients; }
+            get
+            {
+                return connectionChannelsClients;
+            }
             set { connectionChannelsClients = value; }
         }
         public Dictionary<string, OutsorcingCompProxy> ConnectionChannelsCompanies
@@ -252,8 +317,12 @@ namespace HiringCompany.DatabaseAccess
                     int i = 0;
                     if (!access.Companies.Any(c => c.Name == company.Name))
                     {
-                        access.Companies.Add(company);
-                        i = access.SaveChanges();
+                        lock (partnerCompanies_lock)
+                        {
+                            access.Companies.Add(company);
+                            i = access.SaveChanges();
+                        }
+
                     }
 
                     if (i > 0)
@@ -289,8 +358,12 @@ namespace HiringCompany.DatabaseAccess
                     int i = 0;
                     if (!access.Projects.Any(p => p.Id == project.Id))
                     {
-                        access.Projects.Add(project);
-                        i = access.SaveChanges();
+                        lock (projects_lock)
+                        {
+                            access.Projects.Add(project);
+                            i = access.SaveChanges();
+                        }
+
                     }
 
                     if (i > 0)
@@ -324,7 +397,7 @@ namespace HiringCompany.DatabaseAccess
                 // get all Projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
-                    var projects = access.Projects.Include("UserStories"); //mozda mora ovako da se radi sa include
+                    var projects = access.Projects.Include("UserStories"); 
 
                     var projectsInDev = from proj in projects
                                         where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
