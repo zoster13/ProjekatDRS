@@ -40,7 +40,14 @@ namespace Server.ServerProxy
 
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.SendUserStoriesToHiringCompany(userStories, projectName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+            }
         }
     }
 }
