@@ -121,6 +121,21 @@ namespace Client
                     {
                         LocalClientDatabase.Instance.CurrentEmployee = employee;
 
+                        foreach (var notif in employee.Notifications)
+                        {
+                            LocalClientDatabase.Instance.Notifications.Add(notif);
+                        }
+
+                        foreach (var notif in employee.Notifications)
+                        {
+                            LocalClientDatabase.Instance.Notifications.Add(notif);
+                        }
+
+                        foreach (var myProject in employee.Team.Projects)
+                        {
+                            LocalClientDatabase.Instance.MyTeamProjects.Add(myProject);
+                        }
+
                         logInButton.IsEnabled = false;
                         emailBox.Text = "";
                         passwordBox.Password = "";

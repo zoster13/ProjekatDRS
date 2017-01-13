@@ -37,10 +37,10 @@ namespace Client
 
         private LocalClientDatabase()
         {
-            //binding.OpenTimeout = new TimeSpan(1, 0, 0);
-            //binding.CloseTimeout = new TimeSpan(1, 0, 0);
-            //binding.SendTimeout = new TimeSpan(1, 0, 0);
-            //binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
 
             employees = new BindingList<Employee>();
             developers = new BindingList<Employee>();

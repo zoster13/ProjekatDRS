@@ -16,6 +16,7 @@ namespace ClientCommon.Data
         private string title;
         private string description;
         private int difficulty;
+        private string acceptanceCriteria;
         private ProgressStatus progressStatus;
         private AcceptStatus acceptStatus;
         private DateTime deadline;
@@ -30,6 +31,7 @@ namespace ClientCommon.Data
             deadline = DateTime.Now;
             title = string.Empty;
             description = string.Empty;
+            acceptanceCriteria = string.Empty;
             difficulty = 2;
             project = new Project();
             tasks = new List<Task>();
@@ -62,6 +64,13 @@ namespace ClientCommon.Data
         {
             get { return difficulty; }
             set { difficulty = value; }
+        }
+
+        [DataMember]
+        public string AcceptanceCriteria
+        {
+            get { return acceptanceCriteria; }
+            set { acceptanceCriteria = value; }
         }
 
         [DataMember]

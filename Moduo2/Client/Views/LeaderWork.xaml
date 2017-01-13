@@ -71,13 +71,13 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid x:Name="gridAddTask" Background="White" Margin="106,10,10,10" Grid.Column="1">
-                        <Label x:Name="labelTitle2" Content="Make task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="93,10,-25,0" VerticalAlignment="Top" Width="199"/>
-                        <ComboBox x:Name="comboBoxStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,73,0,0" VerticalAlignment="Top" Width="229"/>
-                        <Label x:Name="labelTask1" Content="User story: (must be accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="17,47,-7,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
+                        <Label x:Name="labelTitle2" Content="Make task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="93,1,-23,0" VerticalAlignment="Top" Width="199"/>
+                        <ComboBox x:Name="comboBoxStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,78,0,0" VerticalAlignment="Top" Width="229"/>
+                        <Label x:Name="labelTask1" Content="User story: (must be accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="17,51,-5,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
                         <Label x:Name="labelTaskContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,137,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxTaskContent" HorizontalAlignment="Left" Height="81" Margin="21,163,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="229" TextChanged="textBoxTaskContent_TextChanged" />
-                        <Label x:Name="labelTaskTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,111,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxTaskTitle" HorizontalAlignment="Left" Height="21" Margin="67,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" TextChanged="textBoxTaskTitle_TextChanged" />
+                        <TextBox x:Name="textBoxTaskContent" HorizontalAlignment="Left" Height="74" Margin="21,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="229" TextChanged="textBoxTaskContent_TextChanged" />
+                        <Label x:Name="labelTaskTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,108,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxTaskTitle" HorizontalAlignment="Left" Height="21" Margin="67,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" TextChanged="textBoxTaskTitle_TextChanged" />
                         <Button x:Name="buttonTaskAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="185,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskAdd_Click"/>
                     </Grid>
                     <Grid x:Name="gridStartStory" Background="White" Margin="10,191,292,10" Grid.ColumnSpan="2">
@@ -114,13 +114,15 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid x:Name="gridAddUserStory" Background="White" Margin="376,10,10,10">
-                        <Label x:Name="labelTitle1" Content="Make userstory" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,10,0,0" VerticalAlignment="Top" Width="123"/>
-                        <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,73,0,0" VerticalAlignment="Top" Width="280"/>
-                        <Label x:Name="labelProject" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,47,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <Label x:Name="labelUserStoryTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,111,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxUserStoryTitle" HorizontalAlignment="Left" Height="21" Margin="67,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="textBoxUserStoryTitle_TextChanged" />
-                        <Label x:Name="labelUserStoryContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,137,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxUserStoryContent" HorizontalAlignment="Left" Height="81" Margin="21,163,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxUserStoryContent_TextChanged" />
+                        <Label x:Name="labelTitle1" Content="Make userstory" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,-2,0,0" VerticalAlignment="Top" Width="123"/>
+                        <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,46,0,0" VerticalAlignment="Top" Width="280"/>
+                        <Label x:Name="labelProject" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,22,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <Label x:Name="labelUserStoryTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,71,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxUserStoryTitle" HorizontalAlignment="Left" Height="21" Margin="67,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="textBoxUserStoryTitle_TextChanged" />
+                        <Label x:Name="labelUserStoryContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,96,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxUserStoryContent" HorizontalAlignment="Left" Height="81" Margin="21,119,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxUserStoryContent_TextChanged" />
+                        <Label x:Name="labelUserStoryAccCrit" Content="Acceptance Criteria:: " HorizontalAlignment="Left" Height="26" Margin="21,196,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
+                        <TextBox x:Name="textBoxUserStoryAccCrit" HorizontalAlignment="Left" Height="26" Margin="21,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxUserStoryAccCrit_TextChanged" />
                         <Label x:Name="labelUserStoryDifficulty" Content="Difficulty: " HorizontalAlignment="Left" Height="26" Margin="21,263,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
                         <TextBox x:Name="textBoxUserStoryDifficulty" HorizontalAlignment="Left" Height="24" Margin="90,265,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="40" TextChanged="textBoxUserStoryDifficulty_TextChanged"/>
                         <Button x:Name="buttonUserStoryAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="279,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonUserStoryAdd_Click"/>

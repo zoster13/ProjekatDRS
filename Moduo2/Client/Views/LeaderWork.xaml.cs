@@ -29,7 +29,7 @@ namespace Client.Views
 
         private void textBoxUserStoryTitle_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "")
+            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
                 buttonUserStoryAdd.IsEnabled = true;
             }
@@ -41,7 +41,7 @@ namespace Client.Views
 
         private void textBoxUserStoryContent_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "")
+            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
                 buttonUserStoryAdd.IsEnabled = true;
             }
@@ -56,7 +56,19 @@ namespace Client.Views
             if (buttonUserStoryAdd == null)
                 return;
 
-            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "")
+            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
+            {
+                buttonUserStoryAdd.IsEnabled = true;
+            }
+            else
+            {
+                buttonUserStoryAdd.IsEnabled = false;
+            }
+        }
+
+        private void textBoxUserStoryAccCrit_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
                 buttonUserStoryAdd.IsEnabled = true;
             }
@@ -131,11 +143,12 @@ namespace Client.Views
                         UserStoryCommon commStory = new UserStoryCommon();
                         commStory.Title = userStory.Title;
                         commStory.Description = userStory.Description;
+                        commStory.AcceptanceCriteria = "acceptance criteria";
 
                         storiesToSend.Add(commStory);
                     }
 
-                    //LocalClientDatabase.Instance.proxy.SendUserStories(storiesToSend, project.Name);
+                    LocalClientDatabase.Instance.proxy.SendUserStories(storiesToSend, project.Name);
                 }
                 else
                 {
@@ -308,5 +321,7 @@ namespace Client.Views
                 textTaskDescription.Text = task.Description;
             }
         }
+
+        
     }
 }
