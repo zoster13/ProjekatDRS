@@ -259,10 +259,11 @@ namespace HiringCompany
             Program.Logger.Info(messageToLog);
 
             IEmployeeServiceCallback clientChannel;
+            ICommunicationObject cObject;
             if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))           
             {
                 // klijent povezan sa serverom
-                ICommunicationObject cObject = clientChannel as ICommunicationObject;
+                cObject = clientChannel as ICommunicationObject;
                 if (cObject != null)
                 {
                     if (cObject.State == CommunicationState.Opened)
@@ -272,12 +273,14 @@ namespace HiringCompany
                     else
                     {
                         hiringCompanyDB.ConnectionChannelsClients.Remove(clientUsername);
+                        messageToLog = (string.Format("NotifySpecialClient() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                        Program.Logger.Info(messageToLog);
                     }
                 }
             }
             else 
             {
-                messageToLog = (string.Format("NotifySpecialClient() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                messageToLog = (string.Format("Client is not available currently."));
                 Program.Logger.Info(messageToLog);
 
                 // cuvaj u bazi, napraviti metodu u ovom notifieru koja se poziva iz sign in, koaj ce citati sve notifikacije iz baze i slati klijentu

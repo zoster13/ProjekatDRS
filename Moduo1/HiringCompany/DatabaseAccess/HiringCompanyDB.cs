@@ -74,6 +74,7 @@ namespace HiringCompany.DatabaseAccess
             get { return companyName; }
             set { companyName = value; }
         }
+       
         public List<Employee> OnlineEmployees
         {
             get { return onlineEmployees; }

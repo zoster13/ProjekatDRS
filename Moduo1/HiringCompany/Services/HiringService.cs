@@ -161,6 +161,8 @@ namespace HiringCompany.Services
 
         public void SendClosedUserStory(string projectName, string title)
         {
+
+            // napraviti onu proveru da li su svi user storiji zatvoreni da bi znali koje projekte da zatvaramo
            string messageToLog=string.Empty;
             messageToLog=(string.Format("Method: HiringService.SendClosedUserStory(), " +
                                                   "params: Project.Name={0}, UserStory.Title={1} ", projectName, title));
