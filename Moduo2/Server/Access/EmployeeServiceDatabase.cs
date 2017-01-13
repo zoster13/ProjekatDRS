@@ -11,7 +11,7 @@ namespace Server.Access
         private static object lockObjectEmployees;
         private static object lockObjectTeams;
         private static object lockObjectNotifications;
-        
+
         public static IEmployeeServiceDatabase Instance
         {
             get
@@ -71,8 +71,8 @@ namespace Server.Access
             {
                 Team newTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(newTeamName));
                 Employee employeeInDB = access.Employees.FirstOrDefault(e => e.Email.Equals(employee.Email));
-                
-                lock(lockObjectEmployees)
+
+                lock (lockObjectEmployees)
                 {
                     employeeInDB.Team = newTeam;
                     employeeInDB.Type = EmployeeType.TEAMLEADER;
@@ -84,27 +84,29 @@ namespace Server.Access
 
         public Employee GetEmployee(string email)
         {
+            Employee employeeInDB = null;
+
             using (var access = new AccessDB())
             {
-                return access.Employees
+                employeeInDB = access.Employees
                     .Include("Team")
+                    .Include("Notifications")
                     .FirstOrDefault(e => e.Email.Equals(email));
+
+                employeeInDB.Team = access.Teams
+                    .Include("Projects")
+                    .FirstOrDefault(t => t.Name.Equals(employeeInDB.Team.Name));
+
+
+                foreach (Project proj in employeeInDB.Team.Projects)
+                {
+                    proj.UserStories = access.UserStories
+                        .Include("Tasks")
+                        .Where(us => us.Project == proj).ToList();
+                }
             }
 
-            //using (var access = new AccessDB())
-            //{
-            //    var employee = from em in access.Employees
-            //                   where em.Email.Equals(email)
-            //                   select em;
-            //    try
-            //    {
-            //        return employee.ToList().First();
-            //    }
-            //    catch
-            //    {
-            //        return null;
-            //    }
-            //}
+            return employeeInDB;
         }
 
         public bool AddTeam(Team team)

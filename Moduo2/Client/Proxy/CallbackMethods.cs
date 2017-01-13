@@ -131,5 +131,10 @@ namespace Client
                 mainWindow.AddTeamAndTLCallbackResult(team, teamLeader);
             });
         }
+
+        public void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

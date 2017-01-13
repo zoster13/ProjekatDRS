@@ -54,5 +54,8 @@ namespace ClientCommon
         //delegiranje zahtjeva
         [OperationContract(IsOneWay = true)]
         void SendNotificationToCEO(Notification notification);
+
+        [OperationContract(IsOneWay = true)]
+        void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany);
     }
 }

@@ -58,38 +58,38 @@ namespace Server
         public void LogIn(string email, string password)
         {
             Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
-
-            if (employee != null)
-            {
-                if (password.Equals(employee.Password))
+            
+                if (employee != null)
                 {
-                    if (!InternalDatabase.Instance.OnlineEmployees.Contains(employee))
+                    if (password.Equals(employee.Password))
                     {
-                        lock (InternalDatabase.Instance.LockerOnlineEmployees)
+                        if (!InternalDatabase.Instance.OnlineEmployees.Contains(employee))
                         {
-                            InternalDatabase.Instance.OnlineEmployees.Add(employee);
-                            Logger.Info(string.Format("Employee [{0}] is loged in.", email));
-                        }
+                            lock (InternalDatabase.Instance.LockerOnlineEmployees)
+                            {
+                                InternalDatabase.Instance.OnlineEmployees.Add(employee);
+                                Logger.Info(string.Format("Employee [{0}] is loged in.", email));
+                            }
 
-                        Publisher.Instance.LogInCallback(employee, true);
+                            Publisher.Instance.LogInCallback(employee, true);
+                        }
+                        else
+                        {
+                            Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
+                            Publisher.Instance.LogInCallback(employee, false);
+                        }
                     }
                     else
                     {
-                        Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
+                        Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
                         Publisher.Instance.LogInCallback(employee, false);
                     }
                 }
                 else
                 {
-                    Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
-                    Publisher.Instance.LogInCallback(employee, false);
+                    Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
+                    Publisher.Instance.LogInCallback(new Employee(), false);
                 }
-            }
-            else
-            {
-                Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
-                Publisher.Instance.LogInCallback(new Employee(), false);
-            }
         }
 
         /// <summary>
@@ -502,14 +502,14 @@ namespace Server
                     access.HiringCompanies.Add(newHiringCompany);
                     access.SaveChanges();
                 }
+
+                Publisher.Instance.ResponseToPartnershipRequestCallback(newHiringCompany);
             }
 
             using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
             {
                 proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
             }
-
-            //DODATI CALLBACK DA SE VRATI SVIM ONLINE KORISNICIMA NOVA HITING KOMPANIJA
         }
 
         public void ResponseToProjectRequest(bool accepted, Project project)

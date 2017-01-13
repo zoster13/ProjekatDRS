@@ -400,6 +400,24 @@ namespace Server
             }
         }
 
+        public void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany)
+        {
+            foreach (ICallbackMethods sub in employeeChannels.Values)
+            {
+                try
+                {
+                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    {
+                        sub.ResponseToPartnershipRequestCallback(hiringCompany);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
+
         #endregion ICallbackMethods
     }
 }
