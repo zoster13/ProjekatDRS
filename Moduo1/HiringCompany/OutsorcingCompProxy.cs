@@ -36,7 +36,15 @@ namespace HiringCompany
 
         public void SendEvaluatedUserstoriesToOutsourcingCompany(List<UserStoryCommon> userStories, string projectName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.SendEvaluatedUserstoriesToOutsourcingCompany(userStories, projectName);
+            }
+            catch (Exception )
+            {
+
+                throw;
+            }
         }
 
         public void SendProjectToOutsourcingCompany(string hiringCompanyName, ProjectCommon p)
@@ -48,7 +56,7 @@ namespace HiringCompany
             catch (Exception) 
             {
                 // srediti ako nihov server otkaze
-                throw;
+                //throw;
             }
         }
 

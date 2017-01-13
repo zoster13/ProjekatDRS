@@ -17,10 +17,12 @@ namespace EmployeeCommon.Data
         private string description;
         private string acceptanceCriteria;
         private bool isApprovedByPO;
+        private bool isClosed;
 
         public UserStory() 
         {
             isApprovedByPO = false;
+            isClosed = false;
         }
 
         public UserStory(string title, string description, string acceptanceCriteria) 
@@ -29,6 +31,7 @@ namespace EmployeeCommon.Data
             this.description = description;
             this.acceptanceCriteria = acceptanceCriteria;
             isApprovedByPO = false;
+            isClosed = false;
         }
 
         [Key]
@@ -65,6 +68,13 @@ namespace EmployeeCommon.Data
         {
             get { return isApprovedByPO; }
             set { isApprovedByPO = value; }
+        }
+
+        [DataMember]
+        public bool IsClosed 
+        {
+            get { return isClosed; }
+            set { isClosed = value; }
         }
     }
 }

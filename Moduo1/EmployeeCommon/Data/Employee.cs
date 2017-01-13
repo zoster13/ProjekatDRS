@@ -42,6 +42,7 @@ namespace EmployeeCommon.Data
             startMinute = eStartMinute;
             endHour = eEndHour;
             endMinute = eEndMinute;
+            notifications = new List<Notification>();
         }
 
         [DataMember]
@@ -114,6 +115,13 @@ namespace EmployeeCommon.Data
         {
             get { return endMinute; }
             set { endMinute = value; }
+        }
+
+        [DataMember]
+        public List<Notification> Notifications
+        {
+            get { return notifications; }
+            set { notifications = value; }
         }
     }
 }

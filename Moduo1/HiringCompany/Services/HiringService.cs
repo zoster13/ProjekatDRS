@@ -32,7 +32,7 @@ namespace HiringCompany.Services
             string notification = string.Empty;
             if (accepted)
             {
-                hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // zasto brisemo? kako cemo onda kasnije da im posaljemo projekte ako im izbrisemo adresu?
+                //hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // zasto brisemo? kako cemo onda kasnije da im posaljemo projekte ako im izbrisemo adresu?
                 //// bacati exc ako ime ne postoji
                 hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName));
                 notification = "Company <" + outsourcingCompName + "> accepted request for partnership.";
@@ -159,6 +159,37 @@ namespace HiringCompany.Services
                 notifier.NotifySpecialClient(proj.ProductOwner, notification);
             }
 
+        }
+
+
+        public void SendClosedUserStory(string projectName, string title)
+        {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: HiringService.SendClosedUserStory(), " +
+                                                  "params: Project.Name={0}, UserStory.Title={1} ", projectName, title));
+
+            string notification = string.Format("User story <{0}> for project <{1}> is closed.", title, projectName);
+
+            Project proj = new Project();
+            using (var access = new AccessDB())
+            {
+                proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
+                if (proj != null)
+                {
+                    UserStory us=proj.UserStories.Find(u => u.Title.Equals(title));
+                    us.IsClosed = true;
+                    access.SaveChanges();
+
+                    messageToLog.AppendLine("Updated Project.UserStories data in .mdf database.");
+                }
+
+            }
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+                notifier.NotifySpecialClient(proj.ProductOwner, notification);
+            }
         }
     }
 }

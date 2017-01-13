@@ -14,5 +14,8 @@ namespace ICommon
 
         [OperationContract]
         void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName);
+
+        [OperationContract]
+        void SendClosedUserStory(string projectName, string title);
     }
 }
