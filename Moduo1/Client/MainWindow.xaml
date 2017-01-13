@@ -282,13 +282,13 @@
                                 <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,333,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
                                 <Label x:Name="DateTimeFormatLabel" Content="" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
                                 <Grid HorizontalAlignment="Left" Height="410" Margin="392,10,0,0" VerticalAlignment="Top" Width="468" Background="White">
-                                    <ComboBox x:Name="ProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,30,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
+                                    <ComboBox x:Name="WorkPOProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,30,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
                                     <Button x:Name="ApproveUserStoriesButton" Content="Approve User Stories" HorizontalAlignment="Left" Margin="23,376,0,0" VerticalAlignment="Top" Width="184" Height="23" Click="ApproveUserStoriesButton_Click"/>
                                     <ListBox x:Name="UserStoriesForApprovalListBox" HorizontalAlignment="Left" Height="286" Margin="23,71,0,0" VerticalAlignment="Top" Width="352">
                                     </ListBox>
                                 </Grid>
-                                <Label Content="Scrum Master:" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="83"/>
-                                <ComboBox x:Name="SMcomboBox" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="156"/>
+                                <Label Content="Scrum Master:" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="83"/>                           
+                                <ComboBox x:Name= "ScrumMasterComboBox" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="156"></ComboBox>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="0,10,-228,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">

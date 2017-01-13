@@ -45,7 +45,7 @@ namespace Client
             comboBoxCompanies.DataContext = clientDB.Companies;
             dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
             approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
-            ProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment; // i ovog, naziv?
+            WorkPOProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment; // i ovog, naziv?
 
 
             foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
@@ -86,7 +86,8 @@ namespace Client
         {
             SetUpConnection();
 
-            if (proxy.InnerChannel.State == CommunicationState.Opened)
+            if (proxy.State == CommunicationState.Opened)
+            //if (proxy.InnerChannel.State == CommunicationState.Opened)
             {
                 bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
 
@@ -96,7 +97,7 @@ namespace Client
                     tabControl.SelectedIndex = 1;
                     tabControl1.SelectedIndex = 0;
                     comboBoxProjects.SelectedItem = null;
-                    ProjectsComboBox.SelectedItem = null;
+                    WorkPOProjectsComboBox.SelectedItem = null;
 
                     signOutButton.Visibility = System.Windows.Visibility.Visible;
                     clientDB.Username = usernameBox.Text.Trim();
@@ -249,7 +250,7 @@ namespace Client
 
         private void CreateProjectButton_Click( object sender, RoutedEventArgs e )
         {
-            Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username, (string)SMcomboBox.SelectedItem);
+            Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username, (string)ScrumMasterComboBox.SelectedItem);
 
             // i da bude vizuelni feedback da li je datum validan, npr crvene ivice, ako klijent ne ukuca kako treba
             //p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
@@ -275,9 +276,9 @@ namespace Client
 
         private void ProjectsComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
         {
-            if (ProjectsComboBox.SelectedItem != null)
+            if (WorkPOProjectsComboBox.SelectedItem != null)
             {
-                Project p = (Project)ProjectsComboBox.SelectedItem;
+                Project p = (Project)WorkPOProjectsComboBox.SelectedItem;
                 BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories.FindAll(u => u.IsApprovedByPO == false));
 
                 foreach (UserStory us in userStories)
@@ -296,7 +297,7 @@ namespace Client
 
         private void ApproveUserStoriesButton_Click( object sender, RoutedEventArgs e )
         {
-            Project p = (Project)comboBoxProjects.SelectedItem;
+            Project p = (Project)WorkPOProjectsComboBox.SelectedItem;
             //List<CheckBox> forRemove = new List<CheckBox>();
             //napraviti listu userStorija za odobravanje koji ce se slati
             foreach (CheckBox cb in UserStoriesForApprovalListBox.Items)
@@ -692,7 +693,7 @@ namespace Client
             clientDB.ProjectsInDevelopment = new BindingList<Project>(data.ProjectsInDevelopmentData);
             //}
             comboBoxProjects.DataContext = clientDB.ProjectsInDevelopment; 
-            ProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment;
+            WorkPOProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment;
 
 
             FillHomeLabels();
@@ -701,7 +702,8 @@ namespace Client
                 if (em.Type == EmployeeType.SM)
                 {
                     //Za dodavanje SM u comboBox koji se koristi kad se pravi novi projekat
-                    SMcomboBox.Items.Add(em.Username);
+                    ScrumMasterComboBox.Items.Add(em.Username);
+                    
                 }
             }
         }
