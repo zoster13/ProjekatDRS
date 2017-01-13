@@ -33,9 +33,12 @@ namespace HiringCompany.Services
             string notification = string.Empty;
             if (accepted)
             {
-                //hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // zasto brisemo? kako cemo onda kasnije da im posaljemo projekte ako im izbrisemo adresu?
+              
                 //// bacati exc ako ime ne postoji
-                hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName));
+                hiringCompanyDb.PartnerCompaniesAddresses.Add(outsourcingCompName.Trim(), hiringCompanyDb.PossiblePartnersAddresses[outsourcingCompName]);
+                hiringCompanyDb.PossiblePartnersAddresses.Remove(outsourcingCompName.Trim());
+               
+                hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName)); // adding to db
                 notification = "Company <" + outsourcingCompName + "> accepted request for partnership.";
             }
             else

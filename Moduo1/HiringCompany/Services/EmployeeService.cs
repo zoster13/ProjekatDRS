@@ -311,7 +311,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
             //ovde namestiti da iz baze-mape, ili iz nekog konfig fajla iscitamo adresu te kompanije
 
-            string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outsorcingCompanyName]);
+            string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PossiblePartnersAddresses[outsorcingCompanyName]);
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -629,7 +629,6 @@ namespace HiringCompany.Services
 
         public void SendProject(string outscCompany, Project p)
         {
-            // ovde prvo treba da proverimo da li smo partneri!!!!!!!!!!!!!!!!!! ?
 
             string messageToLog = string.Empty;
             messageToLog=(string.Format("Method: EmployeeService.SendProject(), " +
@@ -637,10 +636,7 @@ namespace HiringCompany.Services
 
             Program.Logger.Info(messageToLog);
 
-            ProjectCommon proj = new ProjectCommon(p.Name, p.Description, p.StartDate, p.Deadline);
-
-            
-            // potom namestiti da iz baze-mape, ili fajla iscitamo adresu te kompanije
+            ProjectCommon proj = new ProjectCommon(p.Name, p.Description, p.StartDate, p.Deadline);          
 
             string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outscCompany]);
 

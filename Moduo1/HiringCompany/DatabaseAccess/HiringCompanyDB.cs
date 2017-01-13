@@ -29,7 +29,11 @@ namespace HiringCompany.DatabaseAccess
         //miljanazvezdana123
         private string companyName = "HiringCompany";
         private List<Employee> onlineEmployees;
-        private Dictionary<string, string> partnerCompaniesAddresses; // ["companyName", "ipaddress:port"]
+        
+        // ["companyName", "ipaddress:port"]
+        private Dictionary<string, string> possiblePartnersAddresses; 
+        private Dictionary<string, string> partnerCompaniesAddresses; 
+
         private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; // treba zakljucavati
         private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
 
@@ -37,11 +41,38 @@ namespace HiringCompany.DatabaseAccess
         private HiringCompanyDB()
         {
             onlineEmployees = new List<Employee>();
-            partnerCompaniesAddresses = new Dictionary<string, string>();
+            possiblePartnersAddresses = new Dictionary<string, string>();
             connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
             connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();
+            partnerCompaniesAddresses = new Dictionary<string, string>();
 
-            partnerCompaniesAddresses.Add("cekic", "10.1.212.114:9998"); // u fajlu cuvati
+            // u fajlu cuvati, i onda iscitati na pocetku programa
+            possiblePartnersAddresses.Add("cekic", "10.1.212.114:9998"); 
+            possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // oni ce nam reci podatke
+
+            List<string> pCompaniesName = new List<string>();
+            using (var access = new AccessDB())
+            {
+                pCompaniesName = (from comp in access.Companies
+                                  select comp.Name).ToList();
+            }
+
+            foreach (string cName in pCompaniesName)
+            {
+                partnerCompaniesAddresses.Add(cName, possiblePartnersAddresses[cName]);
+                possiblePartnersAddresses.Remove(cName);
+            }
+
+        }
+
+
+        public static HiringCompanyDB Instance()
+        {
+            if (myDB == null)
+            {
+                myDB = new HiringCompanyDB();
+            }
+            return myDB;
         }
 
         public object OnlineEmployees_lock
@@ -97,12 +128,17 @@ namespace HiringCompany.DatabaseAccess
             }
         }
 
+        public Dictionary<string, string> PossiblePartnersAddresses
+        {
+            get { return possiblePartnersAddresses; }
+            set { possiblePartnersAddresses = value; }
+        }
+
         public Dictionary<string, string> PartnerCompaniesAddresses
         {
             get { return partnerCompaniesAddresses; }
             set { partnerCompaniesAddresses = value; }
         }
-
         public List<PartnerCompany> PartnerCompanies
         {
             get
@@ -178,14 +214,6 @@ namespace HiringCompany.DatabaseAccess
             set { connectionChannelsCompanies = value; }
         }
 
-        public static HiringCompanyDB Instance()
-        {
-            if (myDB == null)
-            {
-                myDB = new HiringCompanyDB();
-            }               
-            return myDB;
-        }
 
         // valjda treba da ima neka metoda za brisanje employee-a? 
 

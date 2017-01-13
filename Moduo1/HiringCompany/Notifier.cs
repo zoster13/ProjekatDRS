@@ -299,13 +299,12 @@ namespace HiringCompany
             cData.ProjectsInDevelopmentData = hiringCompanyDB.ProjectsInDevelopment;
 
             cData.CompaniesData = hiringCompanyDB.PartnerCompanies;
-            cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
+            cData.NamesOfCompaniesData = hiringCompanyDB.PossiblePartnersAddresses.Keys.ToList();
         }
 
         // nemam pojma kako se ovaj notifier ponasa sa visi niti, ali ne znam ni baza kako se ponasa bla bla
         public void Dispose() 
         {
-            // throw new NotImplementedException();
         }
     }
 }
