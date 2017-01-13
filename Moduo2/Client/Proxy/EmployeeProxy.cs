@@ -284,12 +284,28 @@ namespace Client
 
         public List<UserStory> GetUserStories()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return factory.GetUserStories();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to GetUserStories: {0}", e.Message);
+                return null;
+            }
         }
 
         public List<Task> GetAllTasks()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return factory.GetAllTasks();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to GetAllTasks: {0}", e.Message);
+                return null;
+            }
         }
     }
 }

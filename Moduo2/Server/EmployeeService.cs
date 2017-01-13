@@ -305,7 +305,7 @@ namespace Server
         {
             using (var access = new AccessDB())
             {
-                return access.Projects.ToList();
+                return access.Projects.Include("Team").ToList();
             }
         }
 
@@ -337,6 +337,7 @@ namespace Server
 
             if (teamLeader != null)
             {
+                project.Team.Projects = new List<Project>();
                 Publisher.Instance.ProjectTeamAssignCallback(project);
             }
         }

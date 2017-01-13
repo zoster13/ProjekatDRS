@@ -60,7 +60,7 @@ namespace ClientCommon.Data
             set { scrumMasterEmail = value; }
         }
 
-        [DataMember]
+        [IgnoreDataMember]
         public List<Project> Projects
         {
             get { return projects; }

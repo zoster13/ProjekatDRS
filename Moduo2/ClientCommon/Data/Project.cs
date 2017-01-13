@@ -84,7 +84,7 @@ namespace ClientCommon.Data
             set { progressStatus = value; }
         }
 
-        [DataMember]
+        [IgnoreDataMember]
         public List<UserStory> UserStories
         {
             get { return userStories; }

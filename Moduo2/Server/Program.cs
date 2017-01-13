@@ -55,20 +55,20 @@ namespace Server
             Console.WriteLine("Press <enter> to stop service...");
 
             ////DB Test
-            Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
-            EmployeeServiceDatabase.Instance.AddEmployee(em1);
+            //Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
+            //EmployeeServiceDatabase.Instance.AddEmployee(em1);
 
             //OutsourcingService os = new OutsourcingService();
             //os.AskForPartnership("HiringCompany1");
 
-            //Console.ReadKey();
+            Console.ReadKey();
 
-            //Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat1", "bla");
-            //Publisher.Instance.SendNotificationToCEO(notif);
+            Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat5", "bla");
+            Publisher.Instance.SendNotificationToCEO(notif);
 
             Console.ReadKey();
 
-            Notification notif1 = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat3", "bla");
+            Notification notif1 = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat4", "bla");
             Publisher.Instance.SendNotificationToCEO(notif1);
 
             Console.ReadKey();

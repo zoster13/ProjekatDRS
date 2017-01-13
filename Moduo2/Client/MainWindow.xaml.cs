@@ -191,44 +191,61 @@ namespace Client
             {
                 LocalClientDatabase.Instance.AllProjects.Add(proj);
 
-                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                if (proj.Team.Name.Equals(LocalClientDatabase.Instance.CurrentEmployee.Team.Name))
                 {
-                    if (proj.ProgressStatus == ProgressStatus.STARTED)
+                    if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                    {
+                        if (proj.ProgressStatus == ProgressStatus.STARTED)
+                        {
+                            LocalClientDatabase.Instance.MyTeamProjects.Add(proj);
+                        }
+                    }
+                    else
                     {
                         LocalClientDatabase.Instance.MyTeamProjects.Add(proj);
                     }
                 }
-                else
-                {
-                    LocalClientDatabase.Instance.MyTeamProjects.Add(proj);
-                }
             }
-
-
-
 
             foreach (var us in myUserStories)
             {
-                //var proj = LocalClientDatabase.Instance.MyProjects();
+                var proj = LocalClientDatabase.Instance.MyTeamProjects.FirstOrDefault(p => p.Name.Equals(us.Project.Name));
 
-                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                if(proj != null)
                 {
-                    if (us.ProgressStatus == ProgressStatus.STARTED)
+                    if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                    {
+                        if (us.ProgressStatus == ProgressStatus.STARTED)
+                        {
+                            LocalClientDatabase.Instance.UserStories.Add(us);
+                        }
+                    }
+                    else
                     {
                         LocalClientDatabase.Instance.UserStories.Add(us);
                     }
-                }
-                else
-                {
-                    LocalClientDatabase.Instance.UserStories.Add(us);
                 }
             }
 
             foreach (var task in allTasks)
             {
-                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                var userStory = LocalClientDatabase.Instance.UserStories.FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
+
+                if (userStory != null)
                 {
-                    if (task.ProgressStatus == ProgressStatus.STARTED)
+                    if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                    {
+                        if (task.ProgressStatus == ProgressStatus.STARTED)
+                        {
+                            LocalClientDatabase.Instance.AllTasks.Add(task);
+
+                            if (task.AssignStatus == AssignStatus.ASSIGNED && task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
+                            {
+                                LocalClientDatabase.Instance.MyTasks.Add(task);
+                            }
+                        }
+                    }
+                    else
                     {
                         LocalClientDatabase.Instance.AllTasks.Add(task);
 
@@ -236,15 +253,6 @@ namespace Client
                         {
                             LocalClientDatabase.Instance.MyTasks.Add(task);
                         }
-                    }
-                }
-                else
-                {
-                    LocalClientDatabase.Instance.AllTasks.Add(task);
-
-                    if (task.AssignStatus == AssignStatus.ASSIGNED && task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
-                    {
-                        LocalClientDatabase.Instance.MyTasks.Add(task);
                     }
                 }
             }

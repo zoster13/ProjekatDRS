@@ -181,9 +181,6 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                Employee ceo = access.Employees.FirstOrDefault(e => e.Id == notification.Emoloyee.Id);
-                notification.Emoloyee = ceo;
-
                 lock (lockObjectNotifications)
                 {
                     access.Notifications.Add(notification);

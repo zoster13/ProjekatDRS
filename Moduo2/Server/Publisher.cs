@@ -316,18 +316,20 @@ namespace Server
             using (var access = new AccessDB())
             {
                 allEmployees = access.Employees.ToList();
+
+                foreach (Employee emp in allEmployees)
+                {
+                    if (emp.Type.Equals(EmployeeType.CEO))
+                    {
+                        emp.Team = null;
+                        notification.Emoloyee = emp;
+                        EmployeeServiceDatabase.Instance.AddNotification(notification);
+                    }
+                }
             }
             
             //Sacauvaj notifikaciju u bazu
-            foreach (Employee emp in allEmployees)
-            {
-                if (emp.Type.Equals(EmployeeType.CEO))
-                {
-                    Employee ceo = EmployeeServiceDatabase.Instance.GetEmployee(emp.Email);
-                    notification.Emoloyee = ceo;
-                    EmployeeServiceDatabase.Instance.AddNotification(notification);
-                }
-            }
+            
 
             //Obavjesti CEO ako je online da je dobio notif
             foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)
