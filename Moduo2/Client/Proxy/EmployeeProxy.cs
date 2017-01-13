@@ -268,5 +268,18 @@ namespace Client
                 Console.WriteLine("Error while trying to ResponseToProjectRequest: {0}", e.Message);
             }
         }
+
+        public List<Project> GetAllProjects()
+        {
+            try
+            {
+                return factory.GetAllProjects();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error while trying to GetAllProjects: {0}", e.Message);
+                return null;
+            }
+        }
     }
 }

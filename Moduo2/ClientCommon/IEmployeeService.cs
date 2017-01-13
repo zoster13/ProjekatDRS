@@ -51,6 +51,9 @@ namespace ClientCommon
         List<Employee> GetAllOnlineEmployees();
 
         [OperationContract]
+        List<Project> GetAllProjects();
+
+        [OperationContract]
         List<Employee> GetAllEmployees();
 
         [OperationContract]

@@ -298,6 +298,18 @@ namespace Server
         }
 
         /// <summary>
+        /// Vracanje svih projekata
+        /// </summary>
+        /// <returns></returns>
+        public List<Project> GetAllProjects()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Projects.ToList();
+            }
+        }
+
+        /// <summary>
         /// Dodjeljivanje projekta timu
         /// </summary>
         /// <param name="project"></param>
@@ -539,7 +551,6 @@ namespace Server
             //    proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
             //}
         }
-
         #endregion
     }
 }
