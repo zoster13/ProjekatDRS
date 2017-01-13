@@ -47,6 +47,7 @@
     <Compile Include="Data\CurrentData.cs" />
     <Compile Include="Data\Employee.cs" />
     <Compile Include="Data\EmployeeType.cs" />
+    <Compile Include="Data\Notification.cs" />
     <Compile Include="IEmployeeService.cs" />
     <Compile Include="IEmployeeServiceCallback.cs" />
     <Compile Include="Data\PartnerCompany.cs" />

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmployeeCommon
+namespace EmployeeCommon.Data
 {
     [DataContract]
     public class UserStory

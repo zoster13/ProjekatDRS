@@ -33,6 +33,8 @@ namespace HiringCompany
 
             List<string> channelsForRemove = new List<string>();
 
+
+            // moramo dodati lockove na connection channels
             foreach (var clientChannel in hiringCompanyDB.ConnectionChannelsClients)
             {
                 ICommunicationObject cObject = clientChannel.Value as ICommunicationObject;

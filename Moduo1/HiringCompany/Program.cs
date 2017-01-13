@@ -52,8 +52,8 @@ dodati mozda datetime kad posaljes notifikaciju -> client app
 
             // --------------------- service for clients--------------------------------
            
-            //string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
-            string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; 
+            string addressEmployees = "net.tcp://10.1.212.113:9999/EmployeeService"; 
+            //string addressEmployees = "net.tcp://localhost:9999/EmployeeService"; 
             ServiceHost hostEmployees = new ServiceHost(typeof(EmployeeService));
             NetTcpBinding bindingEmployees = new NetTcpBinding();
 
@@ -69,8 +69,8 @@ dodati mozda datetime kad posaljes notifikaciju -> client app
 
             // --------------------- service for outsorcing companies--------------------------------
 
-            //string addressCompanies = "net.tcp://10.1.212.113:9998/HiringService"; 
-            string addressCompanies = "net.tcp://localhost:9998/HiringService"; 
+            string addressCompanies = "net.tcp://10.1.212.113:9998/HiringService"; 
+            //string addressCompanies = "net.tcp://localhost:9998/HiringService"; 
             ServiceHost hostCompanies = new ServiceHost(typeof(HiringService));
             NetTcpBinding bindingCompanies = new NetTcpBinding();
 
