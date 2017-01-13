@@ -281,5 +281,15 @@ namespace Client
                 return null;
             }
         }
+
+        public List<UserStory> GetUserStories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Task> GetAllTasks()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -19,7 +19,6 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
-            //database = new LocalClientDatabase();
             DataContext = LocalClientDatabase.Instance;
 
             workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
@@ -30,89 +29,6 @@ namespace Client
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
             LocalClientDatabase.Instance.proxy.LogIn(emailBox.Text, passwordBox.Password);
-        }
-
-        private void logOutButton_Click(object sender, RoutedEventArgs e)
-        {
-            LocalClientDatabase.Instance.proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee);
-        }
-
-        private void editPassword_Click(object sender, RoutedEventArgs e)
-        {
-            oldPasswordLabel.IsEnabled = true;
-            newPasswordLabel.IsEnabled = true;
-            passBoxOldPass.IsEnabled = true;
-            passBoxNewPass.IsEnabled = true;
-        }
-
-        private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (emailBox.Text == "" || passwordBox.Password == "")
-            {
-                logInButton.IsEnabled = false;
-            }
-            else
-            {
-                logInButton.IsEnabled = true;
-            }
-        }
-
-        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (emailBox.Text == "" || passwordBox.Password == "")
-            {
-                logInButton.IsEnabled = false;
-            }
-            else
-            {
-                logInButton.IsEnabled = true;
-            }
-        }
-
-        public void LoadCommonData()
-        {
-            LocalClientDatabase.Instance.Employees.Clear();
-            LocalClientDatabase.Instance.Teams.Clear();
-            LocalClientDatabase.Instance.HiringCompanies.Clear();
-
-            var onlineEmployees = LocalClientDatabase.Instance.proxy.GetAllOnlineEmployees();
-            var allEmployees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
-            var teams = LocalClientDatabase.Instance.proxy.GetAllTeams();
-            var hiringCompanies = LocalClientDatabase.Instance.proxy.GetAllHiringCompanies();
-            var allProjects = LocalClientDatabase.Instance.proxy.GetAllProjects();
-
-            //var employee = LocalClientDatabase.Instance.proxy.GetCurrentEmployee(); // vraca i notifikacije ako to radi
-            // var notifications = LocalClientDatabase.Instance.proxy.GetNotifications(); // ako gornja pravi problem
-            //var myUserStories = LocalClientDatabase.Instance.proxy.GetUserStories(); // za sve projekte tima strpaj u jednu listu
-            // var allTasks = LocalClientDatabase.Instance.proxy.GetNAllTasks(); // sve taskove strpati u jednu listu
-
-            foreach (var employee in allEmployees)
-            {
-                if (employee.Type == EmployeeType.DEVELOPER)
-                {
-                    LocalClientDatabase.Instance.Developers.Add(employee);
-                }
-            }
-
-            foreach (var employee in onlineEmployees)
-            {
-                LocalClientDatabase.Instance.Employees.Add(employee);
-            }
-
-            foreach (var team in teams)
-            {
-                LocalClientDatabase.Instance.Teams.Add(team);
-            }
-
-            foreach (var hiringCompany in hiringCompanies)
-            {
-                LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
-            }
-
-            foreach (var proj in allProjects)
-            {
-                LocalClientDatabase.Instance.AllProjects.Add(proj);
-            }
         }
 
         public void LogInCallbackResult(Employee employee, bool loggedIn)
@@ -133,24 +49,6 @@ namespace Client
                         foreach (var notif in employee.Notifications)
                         {
                             LocalClientDatabase.Instance.Notifications.Add(notif);
-                        }
-
-                        if (employee.Team != null)
-                        {
-                            foreach (var myProject in employee.Team.Projects)
-                            {
-                                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
-                                {
-                                    if (myProject.ProgressStatus == ProgressStatus.STARTED)
-                                    {
-                                        FillProjects(myProject);
-                                    }
-                                }
-                                else
-                                {
-                                    FillProjects(myProject);
-                                }
-                            }
                         }
 
                         logInButton.IsEnabled = false;
@@ -184,61 +82,6 @@ namespace Client
                 logInButton.IsEnabled = false;
                 emailBox.Text = "";
                 passwordBox.Password = "";
-            }
-        }
-
-        public void FillProjects(Project project)
-        {
-            LocalClientDatabase.Instance.MyTeamProjects.Add(project);
-
-            foreach (var us in project.UserStories)
-            {
-                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
-                {
-                    if (us.ProgressStatus == ProgressStatus.STARTED)
-                    {
-                        FillUserStories(us);
-                    }
-                }
-                else
-                {
-                    FillUserStories(us);
-                }
-            }
-        }
-
-        public void FillUserStories(UserStory us)
-        {
-            LocalClientDatabase.Instance.UserStories.Add(us);
-
-            foreach (var task in us.Tasks)
-            {
-                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
-                {
-                    if (task.ProgressStatus == ProgressStatus.STARTED)
-                    {
-                        LocalClientDatabase.Instance.AllTasks.Add(task);
-                        if (task.AssignStatus == AssignStatus.ASSIGNED)
-                        {
-                            if (task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
-                            {
-                                LocalClientDatabase.Instance.MyTasks.Add(task);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    LocalClientDatabase.Instance.AllTasks.Add(task);
-
-                    if (task.AssignStatus == AssignStatus.ASSIGNED)
-                    {
-                        if (task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
-                        {
-                            LocalClientDatabase.Instance.MyTasks.Add(task);
-                        }
-                    }
-                }
             }
         }
 
@@ -300,6 +143,111 @@ namespace Client
             SetHome();
             MakeNotifInvisible();
             CountNewNotifications();
+        }
+        public void LoadCommonData()
+        {
+            LocalClientDatabase.Instance.Employees.Clear();
+            LocalClientDatabase.Instance.Teams.Clear();
+            LocalClientDatabase.Instance.HiringCompanies.Clear();
+            LocalClientDatabase.Instance.AllProjects.Clear();
+            LocalClientDatabase.Instance.UserStories.Clear();
+            LocalClientDatabase.Instance.AllTasks.Clear();
+            LocalClientDatabase.Instance.MyTasks.Clear();
+            LocalClientDatabase.Instance.Developers.Clear();
+
+            var onlineEmployees = LocalClientDatabase.Instance.proxy.GetAllOnlineEmployees();
+            var allEmployees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
+            var teams = LocalClientDatabase.Instance.proxy.GetAllTeams();
+            var hiringCompanies = LocalClientDatabase.Instance.proxy.GetAllHiringCompanies();
+            var allProjects = LocalClientDatabase.Instance.proxy.GetAllProjects();
+
+            var myUserStories = LocalClientDatabase.Instance.proxy.GetUserStories(); ;
+            var allTasks = LocalClientDatabase.Instance.proxy.GetAllTasks();
+
+            foreach (var employee in allEmployees)
+            {
+                if (employee.Type == EmployeeType.DEVELOPER)
+                {
+                    LocalClientDatabase.Instance.Developers.Add(employee);
+                }
+            }
+
+            foreach (var employee in onlineEmployees)
+            {
+                LocalClientDatabase.Instance.Employees.Add(employee);
+            }
+
+            foreach (var team in teams)
+            {
+                LocalClientDatabase.Instance.Teams.Add(team);
+            }
+
+            foreach (var hiringCompany in hiringCompanies)
+            {
+                LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+            }
+
+            foreach (var proj in allProjects)
+            {
+                LocalClientDatabase.Instance.AllProjects.Add(proj);
+
+                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                {
+                    if (proj.ProgressStatus == ProgressStatus.STARTED)
+                    {
+                        LocalClientDatabase.Instance.MyTeamProjects.Add(proj);
+                    }
+                }
+                else
+                {
+                    LocalClientDatabase.Instance.MyTeamProjects.Add(proj);
+                }
+            }
+
+
+
+
+            foreach (var us in myUserStories)
+            {
+                //var proj = LocalClientDatabase.Instance.MyProjects();
+
+                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                {
+                    if (us.ProgressStatus == ProgressStatus.STARTED)
+                    {
+                        LocalClientDatabase.Instance.UserStories.Add(us);
+                    }
+                }
+                else
+                {
+                    LocalClientDatabase.Instance.UserStories.Add(us);
+                }
+            }
+
+            foreach (var task in allTasks)
+            {
+                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                {
+                    if (task.ProgressStatus == ProgressStatus.STARTED)
+                    {
+                        LocalClientDatabase.Instance.AllTasks.Add(task);
+
+                        if (task.AssignStatus == AssignStatus.ASSIGNED && task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
+                        {
+                            LocalClientDatabase.Instance.MyTasks.Add(task);
+                        }
+                    }
+                }
+                else
+                {
+                    LocalClientDatabase.Instance.AllTasks.Add(task);
+
+                    if (task.AssignStatus == AssignStatus.ASSIGNED && task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
+                    {
+                        LocalClientDatabase.Instance.MyTasks.Add(task);
+                    }
+                }
+            }
         }
 
         public void SetHome()
@@ -399,6 +347,14 @@ namespace Client
             //tasks
 
             workDev.textTaskDescription.Text = "";
+        }
+
+        private void editPassword_Click(object sender, RoutedEventArgs e)
+        {
+            oldPasswordLabel.IsEnabled = true;
+            newPasswordLabel.IsEnabled = true;
+            passBoxOldPass.IsEnabled = true;
+            passBoxNewPass.IsEnabled = true;
         }
 
         public void LogOutCallbackResult(Employee employee)
@@ -505,8 +461,6 @@ namespace Client
                         messageBoxCanvas.notificationText.Text = notification.Message;
                         break;
                 }
-
-                
 
                 CountNewNotifications();
             }
@@ -733,6 +687,11 @@ namespace Client
             }
         }
 
+        private void logOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            LocalClientDatabase.Instance.proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee);
+        }
+
         private void emailBox_GotFocus(object sender, RoutedEventArgs e)
         {
             errorLogInBox.Text = "";
@@ -774,6 +733,30 @@ namespace Client
         public void ResponseToPartnershipRequestCallbackResult(HiringCompany hiringCompany)
         {
             LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+        }
+
+        private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (emailBox.Text == "" || passwordBox.Password == "")
+            {
+                logInButton.IsEnabled = false;
+            }
+            else
+            {
+                logInButton.IsEnabled = true;
+            }
+        }
+
+        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (emailBox.Text == "" || passwordBox.Password == "")
+            {
+                logInButton.IsEnabled = false;
+            }
+            else
+            {
+                logInButton.IsEnabled = true;
+            }
         }
     }
 }

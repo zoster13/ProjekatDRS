@@ -96,23 +96,23 @@ namespace Server.Access
                     .Include("Notifications")
                     .FirstOrDefault(e => e.Email.Equals(email));
 
-                if (employeeInDB.Type == EmployeeType.CEO)
-                {
-                    return employeeInDB;
-                }
-                else
-                {
-                    employeeInDB.Team = access.Teams
-                        .Include("Projects")
-                        .FirstOrDefault(t => t.Name.Equals(employeeInDB.Team.Name));
+                //if (employeeInDB.Type == EmployeeType.CEO)
+                //{
+                //    return employeeInDB;
+                //}
+                //else
+                //{
+                //    employeeInDB.Team = access.Teams
+                //        .Include("Projects")
+                //        .FirstOrDefault(t => t.Name.Equals(employeeInDB.Team.Name));
 
-                   foreach (Project proj in employeeInDB.Team.Projects)
-                    {
-                        proj.UserStories = access.UserStories
-                            .Include("Tasks")
-                            .Where(us => us.Project.Name.Equals(proj.Name)).ToList();
-                    }
-                }
+                //   foreach (Project proj in employeeInDB.Team.Projects)
+                //    {
+                //        proj.UserStories = access.UserStories
+                //            .Include("Tasks")
+                //            .Where(us => us.Project.Name.Equals(proj.Name)).ToList();
+                //    }
+                //}
             }
 
             return employeeInDB;

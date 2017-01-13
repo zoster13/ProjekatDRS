@@ -495,10 +495,10 @@ namespace Server
                 access.SaveChanges();
             }
 
-            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            {
-                proxy.SendUserStoriesToHiringCompany(userStories, projectName);
-            }
+            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            //{
+            //    proxy.SendUserStoriesToHiringCompany(userStories, projectName);
+            //}
         }
         
         #endregion IEmployeeService Methods
@@ -550,6 +550,22 @@ namespace Server
             //{
             //    proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
             //}
+        }
+
+        public List<UserStory> GetUserStories()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.UserStories.Include("Project").ToList();
+            }
+        }
+
+        public List<Task> GetAllTasks()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Tasks.Include("UserStory").ToList();
+            }
         }
         #endregion
     }

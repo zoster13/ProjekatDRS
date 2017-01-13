@@ -63,6 +63,12 @@ namespace ClientCommon
         List<HiringCompany> GetAllHiringCompanies();
 
         [OperationContract]
+        List<UserStory> GetUserStories();
+
+        [OperationContract]
+        List<Task> GetAllTasks();
+
+        [OperationContract]
         void AddEmployee(Employee employee);
 
         //[OperationContract]
