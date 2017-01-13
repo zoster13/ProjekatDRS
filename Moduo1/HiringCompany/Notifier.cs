@@ -29,7 +29,7 @@ namespace HiringCompany
         {
 
             string messageToLog = string.Empty;
-            messageToLog=(string.Format("Method: Notifier.SyncAll()"));
+            messageToLog = (string.Format("\nMethod: Notifier.SyncAll()"));
             Program.Logger.Info(messageToLog);
 
             PopulateCurrentData();
@@ -49,7 +49,7 @@ namespace HiringCompany
                     else
                     {
                         channelsForRemove.Add(clientChannel.Key);
-                        messageToLog=(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientChannel.Key, cObject.State.ToString()));
+                        messageToLog = (string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientChannel.Key, cObject.State.ToString()));
                         Program.Logger.Info(messageToLog);
                     }
                 }
@@ -58,18 +58,18 @@ namespace HiringCompany
             foreach (string key in channelsForRemove)
             {
                 hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-                messageToLog=(string.Format("removed channel with key {0}", key));
+                messageToLog = (string.Format("removed channel with key {0}", key));
                 Program.Logger.Info(messageToLog);
             }
 
-            messageToLog=("finished successfully");
+            messageToLog = ("finished successfully");
             Program.Logger.Info(messageToLog);
         }
 
         public void SyncSpecialClients(EmployeeType type, string notification)
         {
             string messageToLog = string.Empty;
-            messageToLog=(string.Format("Method: Notifier.SyncSpecialClients() EmployeeType={0}",type)); 
+            messageToLog = (string.Format("\nMethod: Notifier.SyncSpecialClients() EmployeeType={0}", type));
             Program.Logger.Info(messageToLog);
 
             PopulateCurrentData();
@@ -91,8 +91,8 @@ namespace HiringCompany
                 foreach (var clientUsername in clients)
                 {
 
-                   IEmployeeServiceCallback clientChannel;
-                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))                   
+                    IEmployeeServiceCallback clientChannel;
+                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))
                     {
                         // klijent povezan sa serverom
                         ICommunicationObject cObject = clientChannel as ICommunicationObject;
@@ -111,13 +111,28 @@ namespace HiringCompany
                             else
                             {
                                 forRemove.Add(clientUsername);
-                                messageToLog=(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                                messageToLog = (string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
                                 Program.Logger.Info(messageToLog);
                             }
                         }
                     }
                     else
-                    { // treba ovde cuvati notifikaciju u bazi, i kasnije ih na sign in slati
+                    {                       
+                        if (!notification.Equals(""))
+                        {
+                            using (var access = new AccessDB())
+                            {
+                                var e = from ems in access.Employees.Include("Notifications")
+                                        where ems.Username.Equals(clientUsername)
+                                        select ems;
+
+                                var em = e.ToList().FirstOrDefault();
+                                em.Notifications.Add(new Notification(DateTime.Now.ToShortDateString(), notification));
+                                access.SaveChanges();
+                                messageToLog = ("Notification added to .mdf.");
+                                Program.Logger.Info(messageToLog);
+                            }
+                        }
 
                     }
                 }
@@ -125,11 +140,11 @@ namespace HiringCompany
                 foreach (string key in forRemove)
                 {
                     hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-                    messageToLog=(string.Format("removed channel with key {0}", key));
+                    messageToLog = (string.Format("removed channel with key {0}", key));
                     Program.Logger.Info(messageToLog);
                 }
 
-                messageToLog=("finished successfully");
+                messageToLog = ("finished successfully");
                 Program.Logger.Info(messageToLog);
 
             }
@@ -137,12 +152,12 @@ namespace HiringCompany
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -150,21 +165,21 @@ namespace HiringCompany
                     }
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 // videti sta je ovde bilo greska
                 Console.WriteLine(e);
 
             }
-            messageToLog=("finished successfully");
+            messageToLog = ("finished successfully");
             Program.Logger.Info(messageToLog);
         }
 
         public void NotifySpecialClients(EmployeeType type, string notification)
         {
-             string messageToLog = string.Empty;
-             messageToLog = (string.Format("Method: Notifier.NotifySpecialClients(), EmployeeType={0}", type));
-             Program.Logger.Info(messageToLog);
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: Notifier.NotifySpecialClients(), EmployeeType={0}", type));
+            Program.Logger.Info(messageToLog);
 
             PopulateCurrentData();
 
@@ -178,7 +193,7 @@ namespace HiringCompany
                             select x.Username;
 
                     clients = c.ToList();
-                   
+
                 }
 
                 List<string> forRemove = new List<string>();
@@ -187,7 +202,7 @@ namespace HiringCompany
                 {
 
                     IEmployeeServiceCallback clientChannel;
-                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))                  
+                    if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))
                     {
                         // klijent povezan sa serverom
                         ICommunicationObject cObject = clientChannel as ICommunicationObject;
@@ -195,30 +210,44 @@ namespace HiringCompany
                         {
                             if (cObject.State == CommunicationState.Opened)
                             {
-                                    clientChannel.Notify(notification);                               
+                                clientChannel.Notify(notification);
                             }
                             else
                             {
                                 forRemove.Add(clientUsername);
-                                messageToLog=(string.Format("NotifySpecialClients() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                                messageToLog = (string.Format("NotifySpecialClients() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
                                 Program.Logger.Info(messageToLog);
                             }
                         }
                     }
                     else
                     { // treba cuvati notifikaciju u bazi
+                        if (!notification.Equals(""))
+                        {
+                            using (var access = new AccessDB())
+                            {
+                                var e = from ems in access.Employees.Include("Notifications")
+                                        where ems.Username.Equals(clientUsername)
+                                        select ems;
 
+                                var em = e.ToList().FirstOrDefault();
+                                em.Notifications.Add(new Notification(DateTime.Now.ToShortDateString(), notification));
+                                access.SaveChanges();
+                                messageToLog = ("Notification added to .mdf.");
+                                Program.Logger.Info(messageToLog);
+                            }
+                        }
                     }
                 }
 
                 foreach (string key in forRemove)
                 {
                     hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-                    messageToLog=(string.Format("removed channel with key {0}", key));
+                    messageToLog = (string.Format("removed channel with key {0}", key));
                     Program.Logger.Info(messageToLog);
                 }
 
-                messageToLog=("finished successfully");
+                messageToLog = ("finished successfully");
                 Program.Logger.Info(messageToLog);
 
             }
@@ -226,39 +255,39 @@ namespace HiringCompany
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
                     }
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 // videti sta je ovde bilo greska
             }
 
 
-            messageToLog=("finished successfully");
+            messageToLog = ("finished successfully");
             Program.Logger.Info(messageToLog);
 
 
         }
-       
+
         public void NotifySpecialClient(string clientUsername, string notification)
         {
             string messageToLog = string.Empty;
-            messageToLog = (string.Format("Method: Notifier.SyncSpecialClient() clientUsername={0}", clientUsername));
+            messageToLog = (string.Format("\nMethod: Notifier.SyncSpecialClient() clientUsername={0}", clientUsername));
             Program.Logger.Info(messageToLog);
 
             IEmployeeServiceCallback clientChannel;
             ICommunicationObject cObject;
-            if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))           
+            if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))
             {
                 // klijent povezan sa serverom
                 cObject = clientChannel as ICommunicationObject;
@@ -276,13 +305,25 @@ namespace HiringCompany
                     }
                 }
             }
-            else 
+            else
             {
                 messageToLog = (string.Format("Client is not available currently."));
                 Program.Logger.Info(messageToLog);
+                if (!notification.Equals(""))
+                {
+                    using (var access = new AccessDB())
+                    {
+                        var e = from ems in access.Employees.Include("Notifications")
+                                where ems.Username.Equals(clientUsername)
+                                select ems;
 
-                // cuvaj u bazi, napraviti metodu u ovom notifieru koja se poziva iz sign in, koaj ce citati sve notifikacije iz baze i slati klijentu
-            
+                        var em = e.ToList().FirstOrDefault();
+                        em.Notifications.Add(new Notification(DateTime.Now.ToShortDateString(), notification));
+                        access.SaveChanges();
+                        messageToLog = ("Notification added to .mdf.");
+                        Program.Logger.Info(messageToLog);
+                    }
+                }
             }
 
         }
@@ -301,7 +342,7 @@ namespace HiringCompany
         }
 
         // nemam pojma kako se ovaj notifier ponasa sa visi niti, ali ne znam ni baza kako se ponasa bla bla
-        public void Dispose() 
+        public void Dispose()
         {
         }
     }

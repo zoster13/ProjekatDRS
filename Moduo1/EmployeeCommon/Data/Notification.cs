@@ -14,7 +14,7 @@ namespace EmployeeCommon.Data
     {
         private int id; // database key
         private string content;
-        private string assignedUser_username;
+        private string assignedUser_username; // visak
         private string timestamp;
 
         public Notification()
@@ -22,10 +22,11 @@ namespace EmployeeCommon.Data
 
         }
 
-        public Notification(string assignedUser_username, string timestamp)
+        public Notification(/*string assignedUser_username,*/ string timestamp, string content)
         {
-            this.assignedUser_username = assignedUser_username;
+            //this.assignedUser_username = assignedUser_username;
             this.timestamp = timestamp;
+            this.content = content;
         }
 
         [Key]

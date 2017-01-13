@@ -20,7 +20,7 @@ namespace HiringCompany.Services
         {
 
            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: HiringService.ResponseForPartnershipRequest(), " +
+            messageToLog=(string.Format("\nMethod: HiringService.ResponseForPartnershipRequest(), " +
                                                   "params: bool accepted={0}, string outsorcingCompName={0}", accepted, outsourcingCompName));
             Program.Logger.Info(messageToLog);
 
@@ -53,7 +53,7 @@ namespace HiringCompany.Services
         public void ResponseForProjectRequest(string outsourcingCompanyName, ProjectCommon p)
         {
            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
+            messageToLog=(string.Format("\nMethod: HiringService.ResponseForProjectRequest(), " +
                                                   "params: string outsorcingCompName={0}, Project.Name={1}", outsourcingCompanyName,p.Name));
             Program.Logger.Info(messageToLog);
             string notification = string.Empty;
@@ -116,7 +116,7 @@ namespace HiringCompany.Services
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
         {
            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
+            messageToLog=(string.Format("\nMethod: HiringService.ResponseForProjectRequest(), " +
                                                   "params: Project.Name={0}, userStories.Count={1} ",  projectName,userStories.Count));
 
 
@@ -159,7 +159,7 @@ namespace HiringCompany.Services
         public void SendClosedUserStory(string projectName, string title)
         {
            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: HiringService.SendClosedUserStory(), " +
+            messageToLog=(string.Format("\nMethod: HiringService.SendClosedUserStory(), " +
                                                   "params: Project.Name={0}, UserStory.Title={1} ", projectName, title));
             Program.Logger.Info(messageToLog);
 

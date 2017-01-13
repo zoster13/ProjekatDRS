@@ -1,23 +1,82 @@
-2017-01-12 23:30:09,292 INFO - Method: Notifier.SyncAll()
-finished successfully
-
-2017-01-12 23:30:51,382 INFO - Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
-2017-01-12 23:30:56,157 INFO - finished successfully.
-2017-01-12 23:30:56,988 INFO - Method: Notifier.SyncAll()
-finished successfully
-
-2017-01-12 23:30:57,004 INFO - returned true
-2017-01-12 23:31:09,758 INFO - Method: Notifier.SyncAll()
-finished successfully
-
-2017-01-12 23:33:49,307 INFO - Method: Notifier.SyncAll()
-finished successfully
-
-2017-01-12 23:35:01,180 INFO - Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
-2017-01-12 23:35:05,698 INFO - finished successfully.
-2017-01-12 23:35:06,376 INFO - Method: Notifier.SyncAll()
-finished successfully
-
-2017-01-12 23:35:06,382 INFO - returned true
-2017-01-12 23:36:03,703 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
-2017-01-12 23:36:08,273 INFO - finished successfully.
+2017-01-13 03:14:08,941 INFO - Method: EmployeeService.SignIn(), params: string username=rzekanovic, string password=rzekanovic
+2017-01-13 03:14:15,866 INFO - finished successfully.
+2017-01-13 03:14:15,877 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:14:16,459 INFO - finished successfully
+2017-01-13 03:14:16,570 INFO - Notifications data cleared in .mdf.
+2017-01-13 03:14:16,601 INFO - returned true
+2017-01-13 03:14:33,385 INFO - Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-13 03:14:33,391 INFO - finished successfully.
+2017-01-13 03:14:33,431 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:14:33,663 INFO - finished successfully
+2017-01-13 03:14:33,691 INFO - Notifications data cleared in .mdf.
+2017-01-13 03:14:33,699 INFO - returned true
+2017-01-13 03:15:24,087 INFO - Method: EmployeeService.ChangeEmployeeType(), params: string username=rzekanovic, string EmployeeType=rzekanovic
+2017-01-13 03:15:24,394 INFO - employee type changed in .mdf database.
+2017-01-13 03:15:24,399 INFO - employee type changed in OnlineEmployees list
+2017-01-13 03:15:24,403 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:15:24,450 INFO - finished successfully
+2017-01-13 03:15:24,456 INFO - employee type changed in OnlineEmployees list
+2017-01-13 03:16:34,684 INFO - Method: EmployeeService.CreateNewProject(), Project.Name=projnotif
+2017-01-13 03:16:34,814 INFO - Method: Notifier.SyncSpecialClients() EmployeeType=CEO
+2017-01-13 03:16:35,027 INFO - Notification added to .mdf.
+2017-01-13 03:16:35,034 INFO - finished successfully
+2017-01-13 03:16:35,040 INFO - finished successfully
+2017-01-13 03:16:35,045 INFO - finished successfully.
+2017-01-13 03:17:17,916 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 03:17:17,940 INFO - finished successfully.
+2017-01-13 03:17:17,947 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:17:18,039 INFO - finished successfully
+2017-01-13 03:17:18,063 INFO - Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-13 03:17:18,183 INFO - Notifications data cleared in .mdf.
+2017-01-13 03:17:18,190 INFO - returned true
+2017-01-13 03:17:24,039 INFO - Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 03:17:24,045 INFO - finished successfully.
+2017-01-13 03:17:24,053 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:17:24,105 INFO - finished successfully
+2017-01-13 03:17:24,114 INFO - finished successfully.
+2017-01-13 03:18:10,331 INFO - Method: EmployeeService.ProjectApprovedByCeo(), Project.Name=projnotif
+2017-01-13 03:18:10,419 INFO - project propertu IsAcceptedCEO updated in .mdf database.
+2017-01-13 03:18:10,423 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:18:10,463 INFO - finished successfully
+2017-01-13 03:18:10,467 INFO - Method: Notifier.SyncSpecialClient() clientUsername=rzekanovic
+2017-01-13 03:18:10,490 INFO - finished successfully.
+2017-01-13 03:18:27,102 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 03:18:27,111 INFO - finished successfully.
+2017-01-13 03:18:27,116 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:18:27,169 INFO - finished successfully
+2017-01-13 03:18:27,181 INFO - Notifications data cleared in .mdf.
+2017-01-13 03:18:27,187 INFO - returned true
+2017-01-13 03:19:46,120 INFO - Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 03:19:46,131 INFO - finished successfully.
+2017-01-13 03:19:46,160 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:19:46,217 INFO - finished successfully
+2017-01-13 03:19:46,221 INFO - finished successfully.
+2017-01-13 03:22:25,092 INFO - Method: EmployeeService.CreateNewProject(), Project.Name=drugitestnotif
+2017-01-13 03:22:47,611 INFO - Method: Notifier.SyncSpecialClients() EmployeeType=CEO
+2017-01-13 03:23:39,793 INFO - Notification added to .mdf.
+2017-01-13 03:24:22,503 INFO - finished successfully
+2017-01-13 03:24:22,510 INFO - finished successfully
+2017-01-13 03:24:22,517 INFO - finished successfully.
+2017-01-13 03:24:44,922 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 03:24:44,930 INFO - finished successfully.
+2017-01-13 03:24:44,937 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:24:44,985 INFO - finished successfully
+2017-01-13 03:24:44,994 INFO - Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-13 03:24:45,009 INFO - Notifications data cleared in .mdf.
+2017-01-13 03:24:45,013 INFO - returned true
+2017-01-13 03:25:08,073 INFO - Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 03:25:08,076 INFO - finished successfully.
+2017-01-13 03:25:08,083 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:25:08,139 INFO - finished successfully
+2017-01-13 03:25:08,146 INFO - finished successfully.
+2017-01-13 03:25:15,270 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 03:25:15,286 INFO - finished successfully.
+2017-01-13 03:25:15,294 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:25:15,351 INFO - finished successfully
+2017-01-13 03:25:15,364 INFO - Notifications data cleared in .mdf.
+2017-01-13 03:25:15,375 INFO - returned true
+2017-01-13 03:25:17,410 INFO - Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 03:25:17,421 INFO - finished successfully.
+2017-01-13 03:25:17,432 INFO - Method: Notifier.SyncAll()
+2017-01-13 03:25:17,468 INFO - finished successfully
+2017-01-13 03:25:17,473 INFO - finished successfully.

@@ -15,9 +15,20 @@ using ICommon;
 namespace HiringCompany
 {
 
-    /*scrum master za projekat - napraviti da se jednom setuje i ne moze da se promeni
+    /*
+     * lockere dodati u baziina kanale i ostalo
+i da proverimo za tooltip
 
-cekic treba da se skloni iz work-> partner Companies ako smo vec partneri
+lockere za sve dodati u bazi i tu ih i koristiti
+6 meseci provera passworda
+80% user storija
+
+problem sa biranjem skram mastera..ima ih vise istog imena
+
+ labelu kod POwork za date time pomeriti da bude u linij sa poljem za datum
+     * 
+     * 
+     * scrum master za projekat - napraviti da se jednom setuje i ne moze da se promeni
 
 cuvati notifikacije u bazi
 

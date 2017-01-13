@@ -41,8 +41,8 @@ namespace HiringCompany.Services
          *  i izracuna se sat najkasnijeg dolaska, i kad prodje taj sat vise nema potrebe da se vrti onaj timer*/
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.NotifyOnLate()"));
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.NotifyOnLate()"));
 
             string _senderEmailAddress = "mzftn123fakultet@gmail.com"; // i ovo cuvati u nekom fajlu
             string _senderPassword = "miljanazvezdana123";
@@ -68,7 +68,7 @@ namespace HiringCompany.Services
                 }
             }
 
-            messageToLog=("finished successfully.");
+            messageToLog = ("finished successfully.");
             Program.Logger.Info(messageToLog);
         }
 
@@ -84,7 +84,7 @@ namespace HiringCompany.Services
         public bool SignIn(string username, string password)
         {
             string messageToLog = string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.SignIn(), " +
+            messageToLog = (string.Format("\nMethod: EmployeeService.SignIn(), " +
                                               "params: string username={0}, string password={0}", username, password));
             Program.Logger.Info(messageToLog);
 
@@ -106,22 +106,57 @@ namespace HiringCompany.Services
                         lock (hiringCompanyDB.OnlineEmployees_lock)
                         {
                             hiringCompanyDB.OnlineEmployees.Add(employee);
-                            messageToLog=("finished successfully.");
+                            messageToLog = ("finished successfully.");
                             Program.Logger.Info(messageToLog);
                         }
-
-                        // ovde procitati sve iz baze notifikacije za tog klijenta, i pozvati za svaku send notif, 
-                        // i ako se posalju, brisemo ih iz baze
-
+                        
                         using (Notifier notifier = new Notifier())
                         {
                             notifier.SyncAll();
                         }
 
+                        Employee toNotifEmployee = new Employee();
+                        using (var access = new AccessDB())
+                        {
+                            var e = from ems in access.Employees.Include("Notifications")
+                                    where ems.Username.Equals(username)
+                                    select ems;
+
+                            var em = e.ToList().FirstOrDefault();
+                            toNotifEmployee = em;
+                        }
+
+                        using (Notifier notifier = new Notifier())
+                        {
+                            foreach (var notif in toNotifEmployee.Notifications)
+                            {
+                                notifier.NotifySpecialClient(username, string.Format("{0}: {1}", notif.Timestamp, notif.Content));
+                            }
+                        }
+                        using (var access = new AccessDB())
+                        {
+                            var e = from ems in access.Employees.Include("Notifications")
+                                    where ems.Username.Equals(username)
+                                    select ems;
+
+                            var em = e.ToList().FirstOrDefault();
+                            em.Notifications.Clear(); // proveriti  -> ne izbrise skroz iz table, samo raskine vezu. msm radi ono sto treba, ali ostaju visak u bazi te notifikacijestorij
+                            access.SaveChanges();
+
+                            // http://michaelsync.net/2012/06/26/tip-ef-codefirst-deleting-child-records mozda ovako nesto? ili videti sa zekom ako su to radili
+                            // http://stackoverflow.com/questions/11654398/how-do-i-delete-related-objects-in-entity-framework-code-first-database mi nemamo foreign key vezu
+                            //http://michaelsync.net/2012/06/26/tip-ef-codefirst-deleting-child-records
+                            //access.Employees.RemoveRange(em.Notifications);
+
+                            messageToLog = ("Notifications data cleared in .mdf.");
+                            Program.Logger.Info(messageToLog);
+
+                             access.SaveChanges();
+                        }
                     }
                     else
                     {
-                        messageToLog=("Channel associated with username already exists.");
+                        messageToLog = ("Channel associated with username already exists.");
                         Program.Logger.Info(messageToLog);
                         // taj kanal vec postoji, tj. nije izbrisan iz ConnectionChannelsClients,
                         // iako klijent svaki put kad se loguje pravi novi kanal, nesto nije u redu...
@@ -133,20 +168,20 @@ namespace HiringCompany.Services
             }
             else
             {
-                messageToLog=("Employee equals null, or password was wrong. returned false");
+                messageToLog = ("Employee equals null, or password was wrong. returned false");
                 Program.Logger.Info(messageToLog);
                 return false;
             }
 
-            messageToLog=("returned true");
+            messageToLog = ("returned true");
             Program.Logger.Info(messageToLog);
             return true;
         }
 
         public void SignOut(string username)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.SignOut(), " +
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.SignOut(), " +
                                               "params: string username={0}", username));
             Program.Logger.Info(messageToLog);
 
@@ -157,12 +192,12 @@ namespace HiringCompany.Services
                 {
                     hiringCompanyDB.OnlineEmployees.Remove(em);
                     hiringCompanyDB.ConnectionChannelsClients.Remove(username);
-                    messageToLog=("finished successfully.");
+                    messageToLog = ("finished successfully.");
                     Program.Logger.Info(messageToLog);
                 }
                 else
                 {
-                    messageToLog=("employee does not exist.");
+                    messageToLog = ("employee does not exist.");
                     Program.Logger.Info(messageToLog);
                 }
             }
@@ -177,8 +212,8 @@ namespace HiringCompany.Services
 
         public void ChangeEmployeeData(string username, string name, string surname, string email, string password)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.ChangeEmployeeData(), " +
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.ChangeEmployeeData(), " +
                                               "params: string username={0}, string name={1}," +
                                                   " string surname={2}, string email={3}, string password={4}",
                                                   username, name, surname, email, password));
@@ -197,7 +232,7 @@ namespace HiringCompany.Services
                         em.Email = email != "" ? email : em.Email;
                         em.Password = password != "" ? password : em.Password;
                         access.SaveChanges();
-                        messageToLog=("updated employee data in .mdf database.");
+                        messageToLog = ("updated employee data in .mdf database.");
                         Program.Logger.Info(messageToLog);
                     }
                 }
@@ -206,12 +241,12 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -229,7 +264,7 @@ namespace HiringCompany.Services
                     em.Surname = surname != "" ? surname : em.Surname;
                     em.Email = email != "" ? email : em.Email;
                     em.Password = password != "" ? password : em.Password;
-                    messageToLog=("updated employee data in OnlineEmployees list.");
+                    messageToLog = ("updated employee data in OnlineEmployees list.");
                     Program.Logger.Info(messageToLog);
                 }
             }
@@ -244,8 +279,8 @@ namespace HiringCompany.Services
 
         public void SetWorkingHours(string username, int beginH, int beginM, int endH, int endM)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.SetWorkingHours(), " +
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.SetWorkingHours(), " +
                                               "params: string username={0}, int beginH={1}, int beginM={2}," +
                                                   "int endH={3}, int endM={4}", username, beginH, beginM, endH, endM));
 
@@ -261,7 +296,7 @@ namespace HiringCompany.Services
                         em.EndHour = endH;
                         em.EndMinute = endM;
                         access.SaveChanges();
-                        messageToLog=("updated working hours data in .mdf database.");
+                        messageToLog = ("updated working hours data in .mdf database.");
                     }
                 }
             }
@@ -269,11 +304,11 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -290,7 +325,7 @@ namespace HiringCompany.Services
                     em.StartMinute = beginM;
                     em.EndHour = endH;
                     em.EndMinute = endM;
-                    messageToLog=("updated working hours data in OnlineEmployees list.");
+                    messageToLog = ("updated working hours data in OnlineEmployees list.");
                 }
             }
 
@@ -299,14 +334,14 @@ namespace HiringCompany.Services
                 notifier.SyncAll();
             }
 
-            messageToLog=("returned.");
+            messageToLog = ("returned.");
             Program.Logger.Info(messageToLog);
         }
 
         public void AskForPartnership(string outsorcingCompanyName)
         {
             string messageToLog = string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.AskForPartnership(), " +
+            messageToLog = (string.Format("\nMethod: EmployeeService.AskForPartnership(), " +
                                               "params: string outsorcingCompanuName={0}", outsorcingCompanyName));
             Program.Logger.Info(messageToLog);
             //ovde namestiti da iz baze-mape, ili iz nekog konfig fajla iscitamo adresu te kompanije
@@ -324,7 +359,7 @@ namespace HiringCompany.Services
             using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
                 outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);
-                messageToLog=("called method for sending partnership request on OutsorcingCompProxy successfully.");
+                messageToLog = ("called method for sending partnership request on OutsorcingCompProxy successfully.");
             }
 
             Program.Logger.Info(messageToLog);
@@ -332,8 +367,8 @@ namespace HiringCompany.Services
 
         public bool AddNewEmployee(Employee em)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: bool EmployeeService.AddNewEmployee(), Employee.Username={0}",em.Username));
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: bool EmployeeService.AddNewEmployee(), Employee.Username={0}", em.Username));
             Program.Logger.Info(messageToLog);
 
             bool retVal = hiringCompanyDB.AddNewEmployee(em);
@@ -343,7 +378,7 @@ namespace HiringCompany.Services
                 notifier.SyncAll();
             }
 
-            messageToLog=(string.Format("returned {0}.", retVal));
+            messageToLog = (string.Format("returned {0}.", retVal));
             Program.Logger.Info(messageToLog);
 
             return retVal;
@@ -351,8 +386,8 @@ namespace HiringCompany.Services
 
         public void ChangeEmployeeType(string username, EmployeeType type)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.ChangeEmployeeType(), " +
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.ChangeEmployeeType(), " +
                                               "params: string username={0}, string EmployeeType={0}", username, type.ToString()));
             Program.Logger.Info(messageToLog);
             try
@@ -364,7 +399,7 @@ namespace HiringCompany.Services
                     {
                         em.Type = type;
                         access.SaveChanges();
-                        messageToLog=("employee type changed in .mdf database.");
+                        messageToLog = ("employee type changed in .mdf database.");
                         Program.Logger.Info(messageToLog);
                     }
                 }
@@ -373,12 +408,12 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -393,7 +428,7 @@ namespace HiringCompany.Services
                 if (em != null)
                 {
                     em.Type = type;
-                    messageToLog=("employee type changed in OnlineEmployees list");
+                    messageToLog = ("employee type changed in OnlineEmployees list");
                     Program.Logger.Info(messageToLog);
                 }
             }
@@ -408,8 +443,8 @@ namespace HiringCompany.Services
         public void SendApprovedUserStories(string projectName, List<UserStory> userStories)
         {
             string messageToLog = string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.SendApprovedUserStories(), " +
-                                              "params: string projectName={0};  userStories.Count={1}", projectName,userStories.Count));
+            messageToLog = (string.Format("\nMethod: EmployeeService.SendApprovedUserStories(), " +
+                                              "params: string projectName={0};  userStories.Count={1}", projectName, userStories.Count));
             Program.Logger.Info(messageToLog);
             Project proj = new Project();
             try
@@ -433,23 +468,23 @@ namespace HiringCompany.Services
 
                                 string dbAfterChange = string.Format("dbAfterChange: {0}.{1}.IsApprovedByPo={3}", proj.Name, proj.UserStories[i].Title, proj.UserStories[i].IsApprovedByPO);
 
-                                messageToLog=(dbBeforeChange);
+                                messageToLog = (dbBeforeChange);
                                 Program.Logger.Info(messageToLog);
-                                messageToLog=(receivedUserStory);
+                                messageToLog = (receivedUserStory);
                                 Program.Logger.Info(messageToLog);
-                                messageToLog=(dbAfterChange);
+                                messageToLog = (dbAfterChange);
                                 Program.Logger.Info(messageToLog);
                             }
                         }
                         else
                         {
-                            messageToLog=("Unsuccessful idea! :( ");
+                            messageToLog = ("Unsuccessful idea! :( ");
                             Program.Logger.Info(messageToLog);
                         }
 
                         access.SaveChanges();
 
-                        messageToLog=("changed user stories data in .mdf database.");
+                        messageToLog = ("changed user stories data in .mdf database.");
                         Program.Logger.Info(messageToLog);
                     }
                 }
@@ -458,12 +493,12 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -491,7 +526,7 @@ namespace HiringCompany.Services
             using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
                 outsorcingProxy.SendEvaluatedUserstoriesToOutsourcingCompany(userStoriesForSend, projectName);
-                messageToLog=("called method for sending approved user stories on OutsorcingCompProxy successfully.");
+                messageToLog = ("called method for sending approved user stories on OutsorcingCompProxy successfully.");
                 Program.Logger.Info(messageToLog);
             }
 
@@ -505,7 +540,7 @@ namespace HiringCompany.Services
                     proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
                     access.SaveChanges();
 
-                    messageToLog=("Removed user stories that were not approved in .mdf database.");
+                    messageToLog = ("Removed user stories that were not approved in .mdf database.");
                     Program.Logger.Info(messageToLog);
                 }
             }
@@ -513,12 +548,12 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -529,34 +564,34 @@ namespace HiringCompany.Services
 
             using (Notifier notifier = new Notifier())
             {
-                notifier.SyncAll();               
+                notifier.SyncAll();
             }
 
         }
 
         public void CreateNewProject(Project p)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.CreateNewProject(), Project.Name={0}", p.Name));
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.CreateNewProject(), Project.Name={0}", p.Name));
             Program.Logger.Info(messageToLog);
 
             hiringCompanyDB.AddNewProject(p); // lockovanje? bolje raditi interno u AddNewProjet metodi, kad smo je vec napravili
 
-            string notification = string.Format("Project <{0}> is waiting for approval. Description: {1}", p.Name,p.Description); 
+            string notification = string.Format("Project <{0}> is waiting for approval. Description: {1}", p.Name, p.Description);
 
             using (Notifier notifier = new Notifier())
             {
                 notifier.SyncSpecialClients(EmployeeType.CEO, notification);
             }
 
-            messageToLog=("finished successfully.");
+            messageToLog = ("finished successfully.");
             Program.Logger.Info(messageToLog);
         }
 
         public void ProjectApprovedByCeo(Project p)
         {
-            string messageToLog=string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.ProjectApprovedByCeo(), Project.Name={0}", p.Name));
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("\nMethod: EmployeeService.ProjectApprovedByCeo(), Project.Name={0}", p.Name));
             Program.Logger.Info(messageToLog);
 
             try
@@ -571,7 +606,7 @@ namespace HiringCompany.Services
                     pr.IsAcceptedCEO = true;
                     access.SaveChanges();
 
-                    messageToLog=("project propertu IsAcceptedCEO updated in .mdf database.");
+                    messageToLog = ("project propertu IsAcceptedCEO updated in .mdf database.");
                     Program.Logger.Info(messageToLog);
                 }
             }
@@ -579,12 +614,12 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = (string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = (string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -600,7 +635,7 @@ namespace HiringCompany.Services
                 notifier.NotifySpecialClient(p.ProductOwner, notification);
             }
 
-            messageToLog=("finished successfully.");
+            messageToLog = ("finished successfully.");
             Program.Logger.Info(messageToLog);
         }
 
@@ -608,12 +643,12 @@ namespace HiringCompany.Services
         {
 
             string messageToLog = string.Empty;
-            messageToLog=(string.Format("Method: EmployeeService.SendProject(), " +
+            messageToLog = (string.Format("\nMethod: EmployeeService.SendProject(), " +
                                               "params: string outscCompany={0}, Project.Name={1}", outscCompany, p.Name));
 
             Program.Logger.Info(messageToLog);
 
-            ProjectCommon proj = new ProjectCommon(p.Name, p.Description, p.StartDate, p.Deadline);          
+            ProjectCommon proj = new ProjectCommon(p.Name, p.Description, p.StartDate, p.Deadline);
 
             string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", hiringCompanyDB.PartnerCompaniesAddresses[outscCompany]);
 
@@ -629,7 +664,7 @@ namespace HiringCompany.Services
             using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
                 outsorcingProxy.SendProjectToOutsourcingCompany(hiringCompanyDB.CompanyName, proj);
-                messageToLog=("called method for sending project on OutsorcingCompProxy successfully.");
+                messageToLog = ("called method for sending project on OutsorcingCompProxy successfully.");
                 Program.Logger.Info(messageToLog);
             }
 
@@ -640,7 +675,7 @@ namespace HiringCompany.Services
         public void CloseProject(string projectName)
         {
             string messageToLog = string.Empty;
-            messageToLog = (string.Format("Method: EmployeeService.CloseProject(), " +
+            messageToLog = (string.Format("\nMethod: EmployeeService.CloseProject(), " +
                                                   "params: Project.Name={0}", projectName));
 
             Program.Logger.Info(messageToLog);
