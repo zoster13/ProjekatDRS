@@ -49,13 +49,28 @@ namespace Server
         #region ICallbackMethods
         public void LogInCallback(Employee employee, bool loggedIn)
         {
-            //if (loggedIn)
-            //{
+            if (loggedIn)
+            {
                 employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
                 employeeChannels.Add(employee.Email, employee.Channel);
-            //}
-            
-            PublishLogInChanges(employee, loggedIn);
+                PublishLogInChanges(employee, loggedIn);
+            }
+            else
+            {
+                ICallbackMethods callback = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
+
+                try
+                {
+                    if (((IClientChannel)callback).State == CommunicationState.Opened)
+                    {
+                        callback.LogInCallback(employee, loggedIn);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
         }
 
         //private void Publisher_Faulted(object sender, EventArgs e)

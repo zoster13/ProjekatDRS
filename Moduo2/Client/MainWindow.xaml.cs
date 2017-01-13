@@ -110,8 +110,6 @@ namespace Client
         {
             if (loggedIn)
             {
-                if (employee != null)
-                {
                     lock (LocalClientDatabase.Instance.Locker)
                     {
                         LocalClientDatabase.Instance.Employees.Add(employee);
@@ -127,37 +125,34 @@ namespace Client
                         emailBox.Text = "";
                         passwordBox.Password = "";
 
-                        switch (LocalClientDatabase.Instance.CurrentEmployee.Type)
-                        {
-                            case EmployeeType.CEO:
-                                CEOWorkspace();
-                                break;
-                            case EmployeeType.DEVELOPER:
-                                DeveloperWorkspace();
-                                break;
-                            case EmployeeType.TEAMLEADER:
-                                TeamLeaderWorkspace();
-                                break;
-                            case EmployeeType.SCRUMMASTER:
-                                ScrumMasterWorkspace();
-                                break;
-                            case EmployeeType.HR:
-                                HRWorkspace();
-                                break;
-                        }
+                    switch (LocalClientDatabase.Instance.CurrentEmployee.Type)
+                    {
+                        case EmployeeType.CEO:
+                            CEOWorkspace();
+                            break;
+                        case EmployeeType.DEVELOPER:
+                            DeveloperWorkspace();
+                            break;
+                        case EmployeeType.TEAMLEADER:
+                            TeamLeaderWorkspace();
+                            break;
+                        case EmployeeType.SCRUMMASTER:
+                            ScrumMasterWorkspace();
+                            break;
+                        case EmployeeType.HR:
+                            HRWorkspace();
+                            break;
                     }
                 }
-                else
-                {
-                    errorLogInBox.Text = "Wrong e-mail or password.";
-
-                    logInButton.IsEnabled = false;
-                    emailBox.Text = "";
-                    passwordBox.Password = "";
-                }
             }
+            else
+            {
+                errorLogInBox.Text = "Wrong e-mail or password.";
 
-            
+                logInButton.IsEnabled = false;
+                emailBox.Text = "";
+                passwordBox.Password = "";
+            }
         }
 
         public void CEOWorkspace()
