@@ -57,5 +57,9 @@ namespace ClientCommon
 
         [OperationContract(IsOneWay = true)]
         void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany);
+
+        [OperationContract(IsOneWay = true)]
+        void SendProjectToTeamMembers(Project project);
+
     }
 }

@@ -362,6 +362,8 @@ namespace Server
                     .Include("Team")
                     .FirstOrDefault(p => p.Name.Equals(projectName));
 
+                proj.ProgressStatus = ProgressStatus.STARTED;
+
                 foreach (var userStory in commUserStories)
                 {
                     UserStory usInDB = proj.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
@@ -382,6 +384,7 @@ namespace Server
                 }
             }
             
+            //Posalji UserStorije TL
             Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(proj.Team.TeamLeaderEmail));
 
             if (teamLeader != null)
@@ -398,6 +401,8 @@ namespace Server
                     Console.WriteLine("Error: {0}", e.Message);
                 }
             }
+
+            SendProjectToTeamMembers(proj);
         }
 
         public void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany)
@@ -414,6 +419,28 @@ namespace Server
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
+
+        public void SendProjectToTeamMembers(Project project)
+        {
+            //Posalji online zaposlenima tog tima taj projekta
+            foreach (Employee employee in InternalDatabase.Instance.OnlineEmployees)
+            {
+                if (employee.Team.Name.Equals(project.Team.Name) && employee.Type == EmployeeType.DEVELOPER)
+                {
+                    try
+                    {
+                        if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                        {
+                            employee.Channel.SendProjectToTeamMembers(project);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }

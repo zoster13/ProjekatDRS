@@ -19,7 +19,6 @@ namespace Server
 
         public void SendEvaluatedUserstoriesToOutsourcingCompany(List<UserStoryCommon> userStories, string projectName)
         {
-            // promeniti statuse user storija u bazi na accepted ili declined po elementima iz dobijene liste
             Publisher.Instance.ReceiveUserStoriesCallback(userStories, projectName);
         }
 
