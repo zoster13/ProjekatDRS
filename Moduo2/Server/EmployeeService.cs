@@ -252,15 +252,6 @@ namespace Server
             }
         }
 
-        //public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
-        //{
-        //    EmployeeServiceDatabase.Instance.UpdateEmployeeFunctionAndTeam(employee, newTeamName);
-        //    Logger.Info(string.Format("Employe [{0}] is updated your function and team.", employee.Name));
-
-        //    Publisher.Instance.UpdateEmployeeFunctionAndTeamCallback(employee);
-        //    Publisher.Instance.NotifyJustMe(employee);
-        //}
-
         /// <summary>
         /// Vracanje liste svih ulogovanih zaposlenih
         /// </summary>
@@ -336,6 +327,12 @@ namespace Server
             }
         }
 
+
+        /// <summary>
+        /// Provjera da li zaposleni kasni na posao
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
             string _senderEmailAddress = "blok4.moduo2@gmail.com";

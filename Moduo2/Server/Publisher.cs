@@ -73,11 +73,6 @@ namespace Server
             }
         }
 
-        //private void Publisher_Faulted(object sender, EventArgs e)
-        //{
-        //    Console.WriteLine("asda");
-        //}
-
         public void PublishLogInChanges(Employee employee, bool loggedIn)
         {
             foreach (ICallbackMethods sub in employeeChannels.Values)
@@ -194,24 +189,6 @@ namespace Server
                     if (((IClientChannel)sub).State == CommunicationState.Opened)
                     {
                         sub.AddEmployeeCallback(employee);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
-        }
-
-        public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
-        {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
-            {
-                try
-                {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
-                    {
-                        sub.UpdateEmployeeFunctionAndTeamCallback(employee);
                     }
                 }
                 catch (Exception e)

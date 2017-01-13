@@ -486,6 +486,7 @@ namespace Client
             }
         }
 
+        /*
         public void UpdateEmployeeFunctionAndTeamCallbackResult(Employee employee)
         {
             bool flag = false;
@@ -514,6 +515,7 @@ namespace Client
                 }
             }
         }
+        */
 
         public int CountNewNotifications()
         {

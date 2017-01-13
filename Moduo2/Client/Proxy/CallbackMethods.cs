@@ -57,14 +57,7 @@ namespace Client
                 mainWindow.AddEmployeeCallbackResult(employee);
             });
         }
-
-        public void UpdateEmployeeFunctionAndTeamCallback(Employee employee)
-        {
-            App.Current.Dispatcher.Invoke((Action)delegate
-            {
-                mainWindow.UpdateEmployeeFunctionAndTeamCallbackResult(employee);
-            });
-        }
+        
 
         public void NotifyJustMe(Employee employee)
         {

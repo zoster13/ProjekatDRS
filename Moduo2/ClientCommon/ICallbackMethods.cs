@@ -31,9 +31,6 @@ namespace ClientCommon
         void AddEmployeeCallback(Employee employee);
 
         [OperationContract(IsOneWay = true)]
-        void UpdateEmployeeFunctionAndTeamCallback(Employee employee);
-
-        [OperationContract(IsOneWay = true)]
         void NotifyJustMe(Employee employee);
 
         [OperationContract(IsOneWay = true)]
