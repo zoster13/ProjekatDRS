@@ -77,6 +77,14 @@ namespace Client
 
             var onlineEmployees = LocalClientDatabase.Instance.proxy.GetAllOnlineEmployees();
             var allEmployees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
+            var teams = LocalClientDatabase.Instance.proxy.GetAllTeams();
+            var hiringCompanies = LocalClientDatabase.Instance.proxy.GetAllHiringCompanies();
+            var allProjects = LocalClientDatabase.Instance.proxy.GetAllProjects();
+
+            //var employee = LocalClientDatabase.Instance.proxy.GetCurrentEmployee(); // vraca i notifikacije ako to radi
+            // var notifications = LocalClientDatabase.Instance.proxy.GetNotifications(); // ako gornja pravi problem
+            //var myUserStories = LocalClientDatabase.Instance.proxy.GetUserStories(); // za sve projekte tima strpaj u jednu listu
+            // var allTasks = LocalClientDatabase.Instance.proxy.GetNAllTasks(); // sve taskove strpati u jednu listu
 
             foreach (var employee in allEmployees)
             {
@@ -91,19 +99,20 @@ namespace Client
                 LocalClientDatabase.Instance.Employees.Add(employee);
             }
 
-            var teams = LocalClientDatabase.Instance.proxy.GetAllTeams();
-
             foreach (var team in teams)
             {
                 LocalClientDatabase.Instance.Teams.Add(team);
             }
 
-            //var hiringCompanies = proxy.GetAllHiringCompanies();
+            foreach (var hiringCompany in hiringCompanies)
+            {
+                LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+            }
 
-            //foreach (var hiringCompany in hiringCompanies)
-            //{
-            //    LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
-            //}
+            foreach (var proj in allProjects)
+            {
+                LocalClientDatabase.Instance.AllProjects.Add(proj);
+            }
         }
 
         public void LogInCallbackResult(Employee employee, bool loggedIn)
@@ -126,14 +135,22 @@ namespace Client
                             LocalClientDatabase.Instance.Notifications.Add(notif);
                         }
 
-                        foreach (var notif in employee.Notifications)
+                        if (employee.Team != null)
                         {
-                            LocalClientDatabase.Instance.Notifications.Add(notif);
-                        }
-
-                        foreach (var myProject in employee.Team.Projects)
-                        {
-                            LocalClientDatabase.Instance.MyTeamProjects.Add(myProject);
+                            foreach (var myProject in employee.Team.Projects)
+                            {
+                                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                                {
+                                    if (myProject.ProgressStatus == ProgressStatus.STARTED)
+                                    {
+                                        FillProjects(myProject);
+                                    }
+                                }
+                                else
+                                {
+                                    FillProjects(myProject);
+                                }
+                            }
                         }
 
                         logInButton.IsEnabled = false;
@@ -167,6 +184,61 @@ namespace Client
                 logInButton.IsEnabled = false;
                 emailBox.Text = "";
                 passwordBox.Password = "";
+            }
+        }
+
+        public void FillProjects(Project project)
+        {
+            LocalClientDatabase.Instance.MyTeamProjects.Add(project);
+
+            foreach (var us in project.UserStories)
+            {
+                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                {
+                    if (us.ProgressStatus == ProgressStatus.STARTED)
+                    {
+                        FillUserStories(us);
+                    }
+                }
+                else
+                {
+                    FillUserStories(us);
+                }
+            }
+        }
+
+        public void FillUserStories(UserStory us)
+        {
+            LocalClientDatabase.Instance.UserStories.Add(us);
+
+            foreach (var task in us.Tasks)
+            {
+                if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
+                {
+                    if (task.ProgressStatus == ProgressStatus.STARTED)
+                    {
+                        LocalClientDatabase.Instance.AllTasks.Add(task);
+                        if (task.AssignStatus == AssignStatus.ASSIGNED)
+                        {
+                            if (task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
+                            {
+                                LocalClientDatabase.Instance.MyTasks.Add(task);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    LocalClientDatabase.Instance.AllTasks.Add(task);
+
+                    if (task.AssignStatus == AssignStatus.ASSIGNED)
+                    {
+                        if (task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
+                        {
+                            LocalClientDatabase.Instance.MyTasks.Add(task);
+                        }
+                    }
+                }
             }
         }
 
@@ -692,6 +764,16 @@ namespace Client
             }
 
             MessageBox.Show("A new team has been added!\n It can be seen in the Teams pannel.");
+        }
+
+        public void SendProjectToTeamMembersResult(Project project)
+        {
+            LocalClientDatabase.Instance.MyTeamProjects.Add(project);
+        }
+
+        public void ResponseToPartnershipRequestCallbackResult(HiringCompany hiringCompany)
+        {
+            LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
         }
     }
 }
