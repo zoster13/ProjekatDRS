@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EmployeeCommon;
 using System.ComponentModel;
+using EmployeeCommon.Data;
 
 namespace Client
 {

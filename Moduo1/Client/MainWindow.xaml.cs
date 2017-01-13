@@ -18,6 +18,7 @@ using System.Reflection;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using EmployeeCommon.Data;
 
 namespace Client
 {
@@ -62,8 +63,8 @@ namespace Client
 
         private void SetUpConnection()
         {
-            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -85,7 +86,7 @@ namespace Client
         {
             SetUpConnection();
 
-            if (proxy.State == CommunicationState.Opened)
+            if (proxy.InnerChannel.State == CommunicationState.Opened)
             {
                 bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
 
@@ -617,7 +618,7 @@ namespace Client
             this.Close();
         }
 
-        public void SyncClientDb( EmployeeCommon.CurrentData data )
+        public void SyncClientDb( CurrentData data )
         {
             //lock (clientDB.Employees_lock)
             //{

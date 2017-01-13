@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ICommon;
+using EmployeeCommon.Data;
 
 namespace HiringCompany.DatabaseAccess
 {
@@ -187,7 +188,7 @@ namespace HiringCompany.DatabaseAccess
 
         // valjda treba da ima neka metoda za brisanje employee-a? 
 
-        public bool AddNewEmployee(EmployeeCommon.Employee employee)
+        public bool AddNewEmployee(Employee employee)
         {
             bool retVal = false;
             try

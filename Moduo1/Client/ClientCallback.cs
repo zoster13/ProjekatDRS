@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using EmployeeCommon.Data;
 
 namespace Client
 {
@@ -28,7 +29,7 @@ namespace Client
                     }));
         }
 
-        public void SyncData(EmployeeCommon.CurrentData data)
+        public void SyncData(CurrentData data)
         {
             //lock (clientDB.Employees_lock) //mislim da nam ovde ne treba lock jer se u Main.SyncClientDb(data) metodi svakako koristi lock
             //{
