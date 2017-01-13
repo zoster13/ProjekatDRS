@@ -103,7 +103,7 @@
                         </TabItem>
                         <TabItem Header="Projects" Margin="0,10,-71,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
-                                <DataGrid x:Name="DataGridUserStories" HorizontalAlignment="Left" Margin="365,66,0,0" 
+                                <DataGrid x:Name="DataGridUserStories" TextOptions.TextFormattingMode="Ideal" HorizontalAlignment="Left" Margin="365,66,0,0" 
                                           VerticalAlignment="Top" Height="326" Width="468" Background="#FFDDDDDD"
                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
@@ -121,7 +121,9 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Width="*" Header="Title" Binding="{Binding Title}" Foreground="#FF16253E" FontWeight="Bold"/>
                                         <DataGridTextColumn Width="*" Header="Description" Binding="{Binding Description}" Foreground="#FF16253E" FontWeight="Bold"/>
-                                        <DataGridTextColumn Width="*" Header="AcceptanceCriteria" Binding="{Binding AcceptanceCriteria}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                        <DataGridTextColumn Width="1.3*" Header="AcceptanceCriteria" Binding="{Binding AcceptanceCriteria}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                        <DataGridTextColumn Width="100" Header="IsApprovedByPO" Binding="{Binding IsApprovedByPO}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                        <DataGridTextColumn Width="*" Header="IsClosed" Binding="{Binding IsClosed}" Foreground="#FF16253E" FontWeight="Bold"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <TextBox x:Name="textBoxProjects" HorizontalAlignment="Left" Height="259" Margin="37,132,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="299"/>
@@ -216,7 +218,7 @@
                                     </TabItem>
                                     <TabItem x:Name="tabItemProjects" Header="Projects" Height="39" Margin="-1,-1,-3,1">
                                         <Grid Background="#FFF7F7F7">
-                                            <DataGrid x:Name="projectsForApprovalDataGrid" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Height="230" Width="249" Background="#FFDDDDDD"
+                                            <DataGrid x:Name="projectsForApprovalDataGrid" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Height="230" Width="262" Background="#FFDDDDDD"
                                                       IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -232,6 +234,7 @@
                                                 </DataGrid.RowStyle>
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
+                                                    <DataGridTextColumn Width="1.2*" Header="Description" Binding="{Binding Description}" Foreground="#FF16253E" FontWeight="Bold"/>
                                                     <DataGridTextColumn Width="*" Header="StartDate" Binding="{Binding StartDate}" Foreground="#FF16253E" FontWeight="Bold"/>
                                                     <DataGridTextColumn Width="*" Header="Deadline" Binding="{Binding Deadline}" Foreground="#FF16253E" FontWeight="Bold"/>
                                                 </DataGrid.Columns>

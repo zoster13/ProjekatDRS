@@ -80,3 +80,421 @@
 2017-01-13 03:25:17,432 INFO - Method: Notifier.SyncAll()
 2017-01-13 03:25:17,468 INFO - finished successfully
 2017-01-13 03:25:17,473 INFO - finished successfully.
+2017-01-13 16:13:48,030 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:13:48,066 INFO - finished successfully.
+2017-01-13 16:13:48,067 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:13:48,411 INFO - finished successfully
+2017-01-13 16:13:48,442 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:13:48,442 INFO - returned true
+2017-01-13 16:14:26,201 INFO - 
+Method: EmployeeService.CreateNewProject(), Project.Name=prvi
+2017-01-13 16:14:26,220 INFO - 
+Method: Notifier.SyncSpecialClients() EmployeeType=CEO
+2017-01-13 16:14:26,243 INFO - Notification added to .mdf.
+2017-01-13 16:14:26,251 INFO - Notification added to .mdf.
+2017-01-13 16:14:26,251 INFO - finished successfully
+2017-01-13 16:14:26,252 INFO - finished successfully
+2017-01-13 16:14:26,252 INFO - finished successfully.
+2017-01-13 16:14:44,843 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 16:14:44,848 INFO - finished successfully.
+2017-01-13 16:14:44,849 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:14:44,894 INFO - finished successfully
+2017-01-13 16:14:44,897 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-13 16:14:44,910 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:14:44,910 INFO - returned true
+2017-01-13 16:15:54,184 INFO - 
+Method: EmployeeService.ProjectApprovedByCeo(), Project.Name=prvi
+2017-01-13 16:15:54,198 INFO - project propertu IsAcceptedCEO updated in .mdf database.
+2017-01-13 16:15:54,198 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:15:54,224 INFO - finished successfully
+2017-01-13 16:15:54,224 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 16:15:54,232 INFO - finished successfully.
+2017-01-13 16:16:56,517 INFO - 
+Method: EmployeeService.SignOut(), params: string username=amisic
+2017-01-13 16:16:56,518 INFO - finished successfully.
+2017-01-13 16:16:56,518 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:16:56,533 INFO - finished successfully
+2017-01-13 16:16:56,534 INFO - finished successfully.
+2017-01-13 16:16:59,290 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 16:16:59,290 INFO - finished successfully.
+2017-01-13 16:16:59,290 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:16:59,298 INFO - finished successfully
+2017-01-13 16:16:59,299 INFO - finished successfully.
+2017-01-13 16:30:00,132 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-13 16:30:00,173 INFO - Employee equals null, or password was wrong. returned false
+2017-01-13 16:30:07,398 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:30:07,401 INFO - finished successfully.
+2017-01-13 16:30:07,403 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:30:07,672 INFO - finished successfully
+2017-01-13 16:30:07,708 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:30:07,709 INFO - returned true
+2017-01-13 16:30:11,466 INFO - 
+Method: HiringService.ResponseForProjectRequest(), params: Project.Name=prvi, userStories.Count=2 
+2017-01-13 16:30:11,491 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 16:30:11,492 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:30:11,513 INFO - finished successfully
+2017-01-13 16:30:11,515 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 16:37:57,919 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:37:57,961 INFO - finished successfully.
+2017-01-13 16:37:57,963 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:37:58,289 INFO - finished successfully
+2017-01-13 16:37:58,323 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:37:58,323 INFO - returned true
+2017-01-13 16:38:10,379 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=us1 
+2017-01-13 16:39:39,578 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:39:39,616 INFO - finished successfully.
+2017-01-13 16:39:39,618 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:39:39,960 INFO - finished successfully
+2017-01-13 16:39:39,993 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:39:39,994 INFO - returned true
+2017-01-13 16:39:50,804 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 16:39:50,829 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 16:40:36,789 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:40:36,836 INFO - finished successfully.
+2017-01-13 16:40:36,838 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:40:37,188 INFO - finished successfully
+2017-01-13 16:40:37,221 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:40:37,221 INFO - returned true
+2017-01-13 16:41:59,464 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:41:59,507 INFO - finished successfully.
+2017-01-13 16:41:59,509 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:41:59,853 INFO - finished successfully
+2017-01-13 16:41:59,884 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:41:59,885 INFO - returned true
+2017-01-13 16:42:10,591 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 16:43:02,858 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 16:46:06,199 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 16:46:06,241 INFO - finished successfully.
+2017-01-13 16:46:06,243 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:46:06,585 INFO - finished successfully
+2017-01-13 16:46:06,621 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:46:06,621 INFO - returned true
+2017-01-13 16:46:21,034 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 16:46:49,307 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 16:52:35,594 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:52:35,634 INFO - finished successfully.
+2017-01-13 16:52:35,636 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:52:35,966 INFO - finished successfully
+2017-01-13 16:52:36,007 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:52:36,007 INFO - returned true
+2017-01-13 16:52:47,308 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 16:52:47,338 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 16:53:51,996 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 16:53:52,036 INFO - finished successfully.
+2017-01-13 16:53:52,037 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 16:53:52,356 INFO - finished successfully
+2017-01-13 16:53:52,390 INFO - Notifications data cleared in .mdf.
+2017-01-13 16:53:52,391 INFO - returned true
+2017-01-13 16:54:00,435 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 16:54:00,467 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:00:54,712 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:00:54,751 INFO - finished successfully.
+2017-01-13 17:00:54,753 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:00:55,091 INFO - finished successfully
+2017-01-13 17:00:55,124 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:00:55,124 INFO - returned true
+2017-01-13 17:02:04,814 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:02:04,852 INFO - finished successfully.
+2017-01-13 17:02:04,854 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:02:05,186 INFO - finished successfully
+2017-01-13 17:02:05,219 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:02:05,220 INFO - returned true
+2017-01-13 17:02:17,164 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 17:04:16,025 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:06:34,366 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:06:34,408 INFO - finished successfully.
+2017-01-13 17:06:34,410 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:06:34,728 INFO - finished successfully
+2017-01-13 17:06:34,760 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:06:34,760 INFO - returned true
+2017-01-13 17:06:42,153 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 17:06:42,181 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:06:56,379 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:06:56,399 INFO - finished successfully
+2017-01-13 17:06:57,170 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:06:57,652 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:08:57,089 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:08:57,126 INFO - finished successfully.
+2017-01-13 17:08:57,128 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:08:57,450 INFO - finished successfully
+2017-01-13 17:08:57,485 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:08:57,486 INFO - returned true
+2017-01-13 17:09:08,859 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 17:09:08,886 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:09:11,526 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:09:11,542 INFO - finished successfully
+2017-01-13 17:09:11,544 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:09:11,559 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=druga 
+2017-01-13 17:09:11,565 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:10:33,760 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 17:10:33,845 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:10:33,845 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:10:33,897 INFO - finished successfully
+2017-01-13 17:10:33,897 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:33,897 INFO - Client is not available currently.
+2017-01-13 17:10:33,944 INFO - Notification added to .mdf.
+2017-01-13 17:10:33,944 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:33,944 INFO - Client is not available currently.
+2017-01-13 17:10:33,944 INFO - Notification added to .mdf.
+2017-01-13 17:10:33,944 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=druga 
+2017-01-13 17:10:33,944 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:10:33,944 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:10:33,960 INFO - finished successfully
+2017-01-13 17:10:33,960 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:33,960 INFO - Client is not available currently.
+2017-01-13 17:10:33,960 INFO - Notification added to .mdf.
+2017-01-13 17:10:33,960 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:33,960 INFO - Client is not available currently.
+2017-01-13 17:10:33,960 INFO - Notification added to .mdf.
+2017-01-13 17:10:52,656 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:10:52,661 INFO - finished successfully.
+2017-01-13 17:10:52,662 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:10:52,917 INFO - finished successfully
+2017-01-13 17:10:52,919 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:52,932 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:52,936 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:52,939 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:10:52,948 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:10:52,949 INFO - returned true
+2017-01-13 17:13:33,858 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=proba 
+2017-01-13 17:13:39,305 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:13:50,299 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:13:50,366 INFO - finished successfully
+2017-01-13 17:13:51,010 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:13:51,011 INFO - Client is not available currently.
+2017-01-13 17:13:51,067 INFO - Notification added to .mdf.
+2017-01-13 17:14:00,679 INFO - 
+Method: HiringService.SendClosedUserStory(), params: Project.Name=prvi, UserStory.Title=druga 
+2017-01-13 17:14:08,974 INFO - Updated Project.UserStories data in .mdf database.
+2017-01-13 17:14:25,757 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:14:25,767 INFO - finished successfully
+2017-01-13 17:14:26,187 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:14:26,187 INFO - Client is not available currently.
+2017-01-13 17:14:26,195 INFO - Notification added to .mdf.
+2017-01-13 17:14:27,780 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:14:27,781 INFO - Client is not available currently.
+2017-01-13 17:14:27,786 INFO - Notification added to .mdf.
+2017-01-13 17:14:42,833 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:14:42,839 INFO - finished successfully.
+2017-01-13 17:14:42,840 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:14:43,093 INFO - finished successfully
+2017-01-13 17:14:43,095 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:14:43,110 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:14:43,113 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:14:43,123 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:14:43,124 INFO - returned true
+2017-01-13 17:15:56,056 INFO - 
+Method: EmployeeService.CloseProject(), params: Project.Name=prvi
+2017-01-13 17:16:07,681 INFO - Updated Project.IsClosed data in .mdf database.
+2017-01-13 17:16:12,757 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:16:12,788 INFO - finished successfully
+2017-01-13 17:16:13,939 INFO - 
+Method: Notifier.NotifySpecialClients(), EmployeeType=CEO
+2017-01-13 17:16:13,969 INFO - Notification added to .mdf.
+2017-01-13 17:16:13,974 INFO - Notification added to .mdf.
+2017-01-13 17:16:13,975 INFO - finished successfully
+2017-01-13 17:16:13,975 INFO - finished successfully
+2017-01-13 17:17:00,742 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 17:17:00,744 INFO - finished successfully.
+2017-01-13 17:17:00,745 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:17:00,794 INFO - finished successfully
+2017-01-13 17:17:00,796 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-13 17:17:00,805 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:17:00,805 INFO - returned true
+2017-01-13 17:17:22,367 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-13 17:17:22,369 INFO - finished successfully.
+2017-01-13 17:17:22,369 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:17:22,430 INFO - finished successfully
+2017-01-13 17:17:22,432 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-13 17:17:22,436 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-13 17:17:22,444 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:17:22,444 INFO - returned true
+2017-01-13 17:17:30,213 INFO - 
+Method: EmployeeService.SignOut(), params: string username=mvujakovic
+2017-01-13 17:17:30,214 INFO - finished successfully.
+2017-01-13 17:17:30,214 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:17:30,227 INFO - finished successfully
+2017-01-13 17:17:30,227 INFO - finished successfully.
+2017-01-13 17:17:35,233 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 17:17:35,233 INFO - finished successfully.
+2017-01-13 17:17:35,234 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:17:35,246 INFO - finished successfully
+2017-01-13 17:17:35,246 INFO - finished successfully.
+2017-01-13 17:17:43,620 INFO - 
+Method: EmployeeService.SignOut(), params: string username=amisic
+2017-01-13 17:17:43,620 INFO - finished successfully.
+2017-01-13 17:17:43,621 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:17:43,637 INFO - finished successfully
+2017-01-13 17:17:43,637 INFO - finished successfully.
+2017-01-13 17:30:58,377 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 17:30:58,417 INFO - finished successfully.
+2017-01-13 17:30:58,419 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:30:58,779 INFO - finished successfully
+2017-01-13 17:30:58,810 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:30:58,810 INFO - returned true
+2017-01-13 17:31:19,984 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-13 17:31:19,985 INFO - finished successfully.
+2017-01-13 17:31:19,985 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:31:20,006 INFO - finished successfully
+2017-01-13 17:31:20,006 INFO - finished successfully.
+2017-01-13 17:40:14,027 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-13 17:40:14,069 INFO - finished successfully.
+2017-01-13 17:40:14,071 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:40:14,419 INFO - finished successfully
+2017-01-13 17:40:14,448 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:40:14,449 INFO - returned true
+2017-01-13 17:40:29,764 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-13 17:40:29,766 INFO - finished successfully.
+2017-01-13 17:40:29,767 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:40:29,820 INFO - finished successfully
+2017-01-13 17:40:29,825 INFO - Notifications data cleared in .mdf.
+2017-01-13 17:40:29,826 INFO - returned true
+2017-01-13 17:40:37,733 INFO - 
+Method: EmployeeService.ProjectApprovedByCeo(), Project.Name=NazivProjektaDa bude mnogo dugacak blaaa
+2017-01-13 17:40:37,748 INFO - project propertu IsAcceptedCEO updated in .mdf database.
+2017-01-13 17:40:37,749 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:40:37,761 INFO - finished successfully
+2017-01-13 17:40:37,763 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=amisic
+2017-01-13 17:40:37,774 INFO - finished successfully.
+2017-01-13 17:41:15,874 INFO - 
+Method: EmployeeService.ChangeEmployeeType(), params: string username=pperic, string EmployeeType=pperic
+2017-01-13 17:41:15,888 INFO - employee type changed in .mdf database.
+2017-01-13 17:41:15,889 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:41:15,903 INFO - finished successfully
+2017-01-13 17:41:15,904 INFO - employee type changed in .mdf database.
+2017-01-13 17:41:20,606 INFO - 
+Method: EmployeeService.ChangeEmployeeType(), params: string username=pperic, string EmployeeType=pperic
+2017-01-13 17:41:20,611 INFO - employee type changed in .mdf database.
+2017-01-13 17:41:20,611 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:41:20,625 INFO - finished successfully
+2017-01-13 17:41:20,625 INFO - employee type changed in .mdf database.
+2017-01-13 17:42:15,335 INFO - 
+Method: EmployeeService.ChangeEmployeeType(), params: string username=pperic, string EmployeeType=pperic
+2017-01-13 17:42:15,340 INFO - employee type changed in .mdf database.
+2017-01-13 17:42:15,341 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:42:15,359 INFO - finished successfully
+2017-01-13 17:42:15,359 INFO - employee type changed in .mdf database.
+2017-01-13 17:42:19,884 INFO - 
+Method: EmployeeService.ChangeEmployeeType(), params: string username=pperic, string EmployeeType=pperic
+2017-01-13 17:42:19,889 INFO - employee type changed in .mdf database.
+2017-01-13 17:42:19,890 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 17:42:19,907 INFO - finished successfully
+2017-01-13 17:42:19,907 INFO - employee type changed in .mdf database.
+2017-01-13 18:15:41,603 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-13 18:15:41,643 INFO - finished successfully.
+2017-01-13 18:15:41,645 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 18:15:41,969 INFO - finished successfully
+2017-01-13 18:15:42,001 INFO - Notifications data cleared in .mdf.
+2017-01-13 18:15:42,002 INFO - returned true
+2017-01-13 18:16:31,622 INFO - 
+Method: EmployeeService.SignOut(), params: string username=mvujakovic
+2017-01-13 18:16:31,623 INFO - finished successfully.
+2017-01-13 18:16:31,624 INFO - 
+Method: Notifier.SyncAll()
+2017-01-13 18:16:31,638 INFO - finished successfully
+2017-01-13 18:16:31,639 INFO - finished successfully.

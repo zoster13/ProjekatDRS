@@ -53,8 +53,8 @@ namespace Client
 
         private void SetUpConnection()
         {
-            string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
-            //string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
+            //string employeeSvcEndpoint = "net.tcp://10.1.212.113:9999/EmployeeService";
+            string employeeSvcEndpoint = "net.tcp://localhost:9999/EmployeeService";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
@@ -163,7 +163,8 @@ namespace Client
                 BindingList<UserStory> userStories = new BindingList<UserStory>(p.UserStories);
                 DataGridUserStories.DataContext = userStories;
 
-                string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany + "\nProductOwner: " + p.ProductOwner;
+                string str = "Name: " + p.Name + "\nDescription: " + p.Description + "\nStartDate: " + p.StartDate.ToString() + "\nDeadline: " + p.Deadline.ToString() + "\nOutsourcingCompany: " + p.OutsourcingCompany
+                    + "\nProductOwner: " + p.ProductOwner + "\nScrumMaster: " + p.ScrumMaster + "\nIsApprovedCEO: " + p.IsAcceptedCEO + "\nIsAcceptedOutsCompany: " + p.IsAcceptedOutsCompany + "\nIsClosed: " + p.IsClosed;
                 textBoxProjects.Text = str;
             }
         }
@@ -203,6 +204,11 @@ namespace Client
         private void ApplyTypeChangeButton_Click( object sender, RoutedEventArgs e )
         {
             string usName = ( (Employee)dataGridCEO.SelectedItem ).Username;
+            //ne vredi da pravimo proveru da ne moze da se menja SM,jer isto tako ne bi trebao da se promeni PO jer je i on vezan za projekat
+            //PO treba da stizu notifikacije o projektu,a SM notifikacija kad bude provera za 80%
+            //svakako ce njihovi username-ovi biti vezani za ona polja u projektu i slace im se notifikacije,
+            //jedino sto nece moci da obrade to sto treba nakon notifikacije.
+            //Ako uvedemo provere,onda ce biti moguca provera samo iz HR i CEO u druge tipove 
             proxy.ChangeEmployeeType(usName, Extensions.StringToType((string)comboBoxNewPositionCEO.SelectedItem));
         }
 
@@ -262,6 +268,7 @@ namespace Client
             ProjectDescriptionTextBox.Text = "";
             ProjectStartDateTextBox.Text = "";
             ProjectDeadlineTextBox.Text = "";
+            ScrumMasterComboBox.Items.Clear();
         }
 
         private void ProjectsComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
@@ -304,6 +311,12 @@ namespace Client
             UserStoriesForApprovalListBox.Items.Clear();
 
             proxy.SendApprovedUserStories(p.Name, p.UserStories);
+        }
+
+        private void CloseProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Project p = (Project)ProjectsForClosingComboBox.SelectedItem;
+            proxy.CloseProject(p.Name);
         }
 
         #endregion
@@ -523,7 +536,7 @@ namespace Client
                 clientDB.Employees.Clear();
             }
             clientDB.Employees = new BindingList<Employee>(data.EmployeesData);
-            //}
+            
             employeesDataGrid.DataContext = clientDB.Employees;
 
             if (clientDB.AllEmployees.Count != 0)
@@ -592,12 +605,6 @@ namespace Client
                     ScrumMasterComboBox.Items.Add(em.Username);                   
                 }
             }                  
-        }
-
-        private void CloseProjectButton_Click(object sender, RoutedEventArgs e)
-        {
-            Project p = (Project)ProjectsForClosingComboBox.SelectedItem;
-            proxy.CloseProject(p.Name);
         }
     }
 }

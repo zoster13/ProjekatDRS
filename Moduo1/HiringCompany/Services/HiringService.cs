@@ -173,17 +173,21 @@ namespace HiringCompany.Services
                 if (proj != null)
                 {
                     UserStory us=proj.UserStories.Find(u => u.Title.Equals(title));
-                    us.IsClosed = true;
+                    us.IsClosed = true; 
                     access.SaveChanges();
                     notification = string.Format("User story <{0}> for project <{1}> is closed.", title, projectName);
                     messageToLog = ("Updated Project.UserStories data in .mdf database.");
-                    Program.Logger.Info(messageToLog);
+                    Program.Logger.Info(messageToLog);                   
+                }
+            }
 
-                    List<UserStory> notClosedUserStories = proj.UserStories.FindAll(u => u.IsClosed = false);
-                    if (notClosedUserStories.Count == 0) 
-                    {
-                        notification2 = string.Format("Project <{0}> can be closed, because all its user stories are closed.");                    
-                    }
+            using(var access=new AccessDB())
+            {
+                proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
+                List<UserStory> notClosedUserStories = proj.UserStories.FindAll(u => u.IsClosed == false); //ovo ne radi kod mene na kompu, sacuva mi u bazi da je u userStory
+                if (notClosedUserStories.Count == 0 && proj.UserStories.Count!=0)
+                {
+                    notification2 = string.Format("Project <{0}> can be closed, because all its user stories are closed.",projectName);
                 }
             }
 
@@ -191,7 +195,10 @@ namespace HiringCompany.Services
             {
                 notifier.SyncAll();               
                 notifier.NotifySpecialClient(proj.ProductOwner, notification);
-                notifier.NotifySpecialClient(proj.ProductOwner, notification2);
+                if (!notification2.Equals(String.Empty))
+                {
+                    notifier.NotifySpecialClient(proj.ProductOwner, notification2);
+                }               
             }
         }
     }
