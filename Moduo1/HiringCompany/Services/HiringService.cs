@@ -12,8 +12,10 @@ using ICommon;
 namespace HiringCompany.Services
 {
     /* [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
-   ConcurrencyMode = ConcurrencyMode.Reentrant)] */
+   ConcurrencyMode = ConcurrencyMode.Reentrant)]  // nema smisla ovo reentrant sad*/
     // mozda perCall, i concurrency na single?
+    // pitati njih na koji nacin oni pozivaju nas servis, da li per call?
+    // tj. da li u svakoj metodi ponovo otvaraju kanal, i kad se zavrsi disposuju ga?
 
     public class HiringService : IHiringService
     {
@@ -24,13 +26,12 @@ namespace HiringCompany.Services
 
             StringBuilder messageToLog = new StringBuilder();
             messageToLog.AppendLine(string.Format("Method: HiringService.ResponseForPartnershipRequest(), " +
-                                                  "params: bool accepted={0}, string outsorcingCompName={0}", accepted,
-                outsourcingCompName));
+                                                  "params: bool accepted={0}, string outsorcingCompName={0}", accepted, outsourcingCompName));
 
             string notification = string.Empty;
             if (accepted)
             {
-                hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim());
+                hiringCompanyDb.PartnerCompaniesAddresses.Remove(outsourcingCompName.Trim()); // zasto brisemo? kako cemo onda kasnije da im posaljemo projekte ako im izbrisemo adresu?
                 //// bacati exc ako ime ne postoji
                 hiringCompanyDb.AddNewPartnerCompany(new PartnerCompany(outsourcingCompName));
                 notification = "Company <" + outsourcingCompName + "> accepted request for partnership.";
@@ -38,6 +39,7 @@ namespace HiringCompany.Services
             else
             {
                 hiringCompanyDb.ConnectionChannelsCompanies.Remove(outsourcingCompName);
+               
                 // namestiti da ne pada ako posalju pogresno ime..
                 notification = "Company <" + outsourcingCompName + "> declined request for partnership.";
             }
@@ -47,13 +49,15 @@ namespace HiringCompany.Services
                 notifier.SyncAll();
                 notifier.SyncSpecialClients(EmployeeType.CEO, notification);
             }
-
-            messageToLog.AppendLine("finished successfully.");
             Program.Logger.Info(messageToLog);
         }
 
         public void ResponseForProjectRequest(string outsourcingCompanyName, ProjectCommon p)
         {
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
+                                                  "params: string outsorcingCompName={0}, Project.Name={1}", outsourcingCompanyName,p.Name));
+
             string notification = string.Empty;
 
             Project proj = new Project();
@@ -68,6 +72,7 @@ namespace HiringCompany.Services
                         {
                             proj.OutsourcingCompany = outsourcingCompanyName;
                             proj.IsAcceptedOutsCompany = true;
+                            messageToLog.AppendLine("updated Project.IsAcceptedOutsCompanu data in .mdf database.");
                             access.SaveChanges();
                         }
                     }
@@ -77,15 +82,14 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine(
-                        "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
+                            ve.ErrorMessage));
                     }
                 }
             }
@@ -119,7 +123,12 @@ namespace HiringCompany.Services
 
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
         {
-            string notification = string.Format("User stories for project <0>, are waiting to be approved.", projectName);
+            StringBuilder messageToLog = new StringBuilder();
+            messageToLog.AppendLine(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
+                                                  "params: Project.Name={0}, userStories.Count={1} ",  projectName,userStories.Count));
+
+
+            string notification = string.Format("{0} User stories for project <{1}>, are waiting to be approved.",userStories.Count, projectName);
             Project proj = new Project();
 
             List<UserStory> tempUserStories = new List<UserStory>();
@@ -137,6 +146,8 @@ namespace HiringCompany.Services
                 {
                     proj.UserStories = tempUserStories;
                     access.SaveChanges();
+
+                    messageToLog.AppendLine("Updated Project.UserStories data in .mdf database.");
                 }
 
             }

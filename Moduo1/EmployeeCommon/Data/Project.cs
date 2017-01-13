@@ -12,7 +12,7 @@ namespace EmployeeCommon
     [DataContract]
     public class Project
     {
-        private int id; //kljuc u bazi
+        private int id; // database key
         private string name;
         private string description;
         private DateTime startDate;

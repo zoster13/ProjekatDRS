@@ -28,9 +28,11 @@ namespace Client
         private BindingList<Project> projectsForApproval;
         private BindingList<Project> projectsForSending;
 
-        private static ClientDatabase instance; //singletone
+        // singletone
+        private static ClientDatabase instance; 
 
-        private string username = string.Empty; //da pamti username ulogovanog radnika
+        // current user data
+        private string username = string.Empty; 
         private string password = string.Empty;
 
         private MainWindow main;
@@ -68,7 +70,7 @@ namespace Client
             set { allEmployees = value; }
         }
 
-        public BindingList<Project> Projects 
+        public BindingList<Project> ProjectsInDevelopment 
         {
             get { return projects; }
             set { projects = value; }

@@ -75,7 +75,6 @@
 
                                 </DataGrid>
                                 <Label x:Name="labelOnlineEmployees" Content="Online employees:" HorizontalAlignment="Left" Height="28" Margin="39,0,0,0" VerticalAlignment="Top" Width="196" FontSize="13" FontWeight="SemiBold"/>
-
                             </Grid>
                         </TabItem>
                         <TabItem Header="Companies" Margin="49,10,-72,-10" Height="39" Focusable="True">
@@ -120,7 +119,6 @@
                                         </Style>
                                     </DataGrid.RowStyle>
                                     <DataGrid.Columns>
-
                                         <DataGridTextColumn Width="*" Header="Title" Binding="{Binding Title}" Foreground="#FF16253E" FontWeight="Bold"/>
                                         <DataGridTextColumn Width="*" Header="Description" Binding="{Binding Description}" Foreground="#FF16253E" FontWeight="Bold"/>
                                         <DataGridTextColumn Width="*" Header="AcceptanceCriteria" Binding="{Binding AcceptanceCriteria}" Foreground="#FF16253E" FontWeight="Bold"/>
@@ -163,18 +161,18 @@
                                                 <Label x:Name="labelNameCEO" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="10,47,0,0" VerticalAlignment="Top" Width="79"/>
                                                 <Label x:Name="labelSurameCEO" Content="Surname:" HorizontalAlignment="Left" Height="26" Margin="10,77,0,0" VerticalAlignment="Top" Width="79"/>
                                                 <Label x:Name="labelEmailCEO" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="10,104,0,0" VerticalAlignment="Top" Width="79"/>
+                                                <Label Content="Username:" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="65"/>
+                                                <Label x:Name="labelPasswordCEO" Content="Password:" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
                                                 <Label x:Name="labelTypeCEO" Content="Position:" HorizontalAlignment="Left" Height="26" Margin="10,205,0,0" VerticalAlignment="Top" Width="80"/>
                                                 <Label x:Name="labelTitleCEO" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="67,0,0,0" VerticalAlignment="Top" Width="157"/>
+                                                <Label x:Name="labelUsernameExists" Content="Username exists!" Visibility="Hidden" HorizontalAlignment="Left" Height="28" Margin="10,253,0,0" VerticalAlignment="Top" Width="87" Foreground="#FFEC0606" FontSize="11"/>
                                                 <TextBox x:Name="textBoxNameCEO" TabIndex="0" HorizontalAlignment="Left" Height="21" Margin="128,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="TextBoxNameCeoTextChanged"/>
-                                                <TextBox x:Name="textBoxEmailCEO" TabIndex="2" HorizontalAlignment="Left" Height="21" Margin="128,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
                                                 <TextBox x:Name="textBoxSurnameCEO" TabIndex="1" HorizontalAlignment="Left" Height="21" Margin="128,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="textBoxEmailCEO" TabIndex="2" HorizontalAlignment="Left" Height="21" Margin="128,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <TextBox x:Name="usernameTextBoxCEO" TabIndex="3" HorizontalAlignment="Left" Height="21" Margin="128,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
+                                                <PasswordBox x:Name="passwordBoxCEO" TabIndex="4" HorizontalAlignment="Left" Margin="128,171,0,0" VerticalAlignment="Top" Height="21" Width="134"/>
                                                 <ComboBox x:Name="comboBoxPositionCEO" HorizontalAlignment="Left" Height="24" Margin="128,207,0,0" VerticalAlignment="Top" Width="134"/>
                                                 <Button x:Name="buttonAddEmployeeCEO" Content="Add" HorizontalAlignment="Left" Height="25" Margin="201,256,0,0" VerticalAlignment="Top" Width="61" Click="AddEmployeeButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
-                                                <Label x:Name="labelPasswordCEO" Content="Password:" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="79" Height="26"/>
-                                                <PasswordBox x:Name="passwordBoxCEO" TabIndex="4" HorizontalAlignment="Left" Margin="128,171,0,0" VerticalAlignment="Top" Height="21" Width="134"/>
-                                                <Label Content="Username:" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Width="65"/>
-                                                <TextBox x:Name="usernameTextBoxCEO" TabIndex="3" HorizontalAlignment="Left" Height="21" Margin="128,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
-                                                <Label x:Name="labelUsernameExists" Content="Username exists!" Visibility="Hidden" HorizontalAlignment="Left" Height="28" Margin="10,253,0,0" VerticalAlignment="Top" Width="87" Foreground="#FFEC0606" FontSize="11"/>
                                             </Grid>
                                             <Grid HorizontalAlignment="Left" Height="101" Margin="10,200,0,0" VerticalAlignment="Top" Width="470" Background="White">
                                                 <Label x:Name="labelTitle1CEO" Content="Change Employee Position" FontSize="16" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="221" Margin="6,0,0,0"/>
@@ -262,25 +260,8 @@
                                                     </DataGrid.Columns>
                                                 </DataGrid>
                                                 <Label Content="Select project and company which will develope that project:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="386"/>
-                                                <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="388,264,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
-                                                <!--<DataGrid x:Name="WorkCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Height="229" Width="219" Background="#FFDDDDDD"
-                                                          IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
-                                                          AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
-                                                          AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
-                                                          VerticalGridLinesBrush="#FF7E97BF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                                                    <DataGrid.RowStyle>
-                                                        <Style TargetType="{x:Type DataGridRow}">
-                                                            <Style.Triggers>
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter Property="Background" Value="#ffffe6"/>
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </DataGrid.RowStyle>
-                                                    <DataGrid.Columns>
-                                                        <DataGridTextColumn Width="*"  Header="Name" Binding="{Binding Name}" Foreground="#FF16253E" FontWeight="Bold"/>
-                                                    </DataGrid.Columns>
-                                                </DataGrid>-->
+                                                <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="388,264,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28" Background="#FFF4F5F7" BorderBrush="#FFABADB3" 
+                                                        Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
                                                 <ComboBox x:Name="comboBoxCompanies" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="219" Height="36"/>
                                             </Grid>
                                         </Grid>
@@ -299,14 +280,12 @@
                                 <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,195,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,333,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
-                                <Label x:Name="DateTimeFormatLabel" Content="mm/dd/yyyy" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
+                                <Label x:Name="DateTimeFormatLabel" Content="" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
                                 <Grid HorizontalAlignment="Left" Height="410" Margin="392,10,0,0" VerticalAlignment="Top" Width="468" Background="White">
                                     <ComboBox x:Name="ProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,30,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
-
                                     <Button x:Name="ApproveUserStoriesButton" Content="Approve User Stories" HorizontalAlignment="Left" Margin="23,376,0,0" VerticalAlignment="Top" Width="184" Height="23" Click="ApproveUserStoriesButton_Click"/>
                                     <ListBox x:Name="UserStoriesForApprovalListBox" HorizontalAlignment="Left" Height="286" Margin="23,71,0,0" VerticalAlignment="Top" Width="352">
                                     </ListBox>
-
                                 </Grid>
                                 <Label Content="Scrum Master:" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="83"/>
                                 <ComboBox x:Name="SMcomboBox" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="156"/>
@@ -321,7 +300,8 @@
                                     <TextBox x:Name="textBoxEditName" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
                                     <TextBox x:Name="textBoxEditSurname" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,65,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
                                     <TextBox x:Name="textBoxEditEmail" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,93,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
-                                    <Button x:Name="buttonEditdata" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Content="Edit data" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="135" Height="22" Click="EditData_Click"/>
+                                    <Button x:Name="buttonEditdata" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Content="Edit data" HorizontalAlignment="Left"
+                                            Margin="10,10,0,0" VerticalAlignment="Top" Width="135" Height="22" Click="EditData_Click"/>
                                     <Label x:Name="workHoursLabel1" Content="Working hours:" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="92" Height="28"/>
                                     <Label x:Name="workHoursLabel2" Content="To: " HorizontalAlignment="Left" Margin="73,204,0,0" VerticalAlignment="Top" Height="28"/>
                                     <TextBox x:Name="workBeginHour" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="120,171,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="40"/>
@@ -355,52 +335,11 @@
                                 </StackPanel>
                             </TabItem.Header>
                         </TabItem>
-                        <!--TabItem Header="Settings" Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="68" Height="39" Focusable="False">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
-                                <Grid Background="White" Margin="32,10,31,222">
-                                    <Label x:Name="editNameLabel" Content="Name: " HorizontalAlignment="Left" Height="28" Margin="10,16,0,0" VerticalAlignment="Top" Width="92"/>
-                                    <Label x:Name="editSurameLabel" Content="Surname: " HorizontalAlignment="Left" Height="28" Margin="10,49,0,0" VerticalAlignment="Top" Width="92"/>
-                                    <Label x:Name="editEmailLabel" Content="E-mail address: " HorizontalAlignment="Left" Height="28" Margin="10,81,0,0" VerticalAlignment="Top" Width="92"/>
-                                    <Label x:Name="editUsernameLabel" Content="Username: " HorizontalAlignment="Left" Height="28" Margin="10,117,0,0" VerticalAlignment="Top" Width="92"/>
-                                    <TextBox x:Name="textBoxEditName" HorizontalAlignment="Left" Height="20" Margin="120,16,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
-                                    <TextBox x:Name="textBoxEditSurname" HorizontalAlignment="Left" Height="20" Margin="120,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
-                                    <TextBox x:Name="textBoxEditEmail" HorizontalAlignment="Left" Height="20" Margin="120,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
-                                    <TextBox x:Name="textBoxEditUsername" HorizontalAlignment="Left" Height="20" Margin="120,117,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="142"/>
-                                </Grid>
-                                <Grid Background="White" Margin="32,186,31,156">
-                                    <Label x:Name="workingHours1" Content="Working hours:       From: " HorizontalAlignment="Left" Height="28" Margin="10,14,0,0" VerticalAlignment="Top" Width="153"/>
-                                    <Label x:Name="workingHours2" Content="To: " HorizontalAlignment="Left" Height="28" Margin="297,14,0,0" VerticalAlignment="Top" Width="153"/>
-                                    <Label x:Name="format" Content="Format: ..... " HorizontalAlignment="Left" Height="28" Margin="494,14,0,0" VerticalAlignment="Top" Width="153"/>
-                                    <TextBox x:Name="textBoxEditToTime" HorizontalAlignment="Left" Height="20" Margin="330,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="129"/>
-                                    <TextBox x:Name="textBoxEditFromTime" HorizontalAlignment="Left" Height="20" Margin="163,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="129"/>
-                                </Grid>
-                                <Grid Background="White" Margin="32,253,31,99">
-                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="14,10,0,0" VerticalAlignment="Top" Width="132" Click="editPassword_Click"/>
-                                </Grid>
-                                <Grid Background="White" Margin="32,289,393,12">
-                                    <Label x:Name="oldPasswordLabel" IsEnabled="False" Content="Type in current password: " HorizontalAlignment="Left" Height="28" Margin="10,7,0,0" VerticalAlignment="Top" Width="157"/>
-                                    <Label x:Name="newPasswordLabel" IsEnabled="False" Content="Type in new password: " HorizontalAlignment="Left" Height="28" Margin="10,34,0,0" VerticalAlignment="Top" Width="138"/>
-                                    <Label x:Name="confirmNewPasswordLabel" IsEnabled="False" Content="Confirm new password: " HorizontalAlignment="Left" Height="28" Margin="10,61,0,0" VerticalAlignment="Top" Width="138"/>
-                                    <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,10,0,0" VerticalAlignment="Top" Width="159"/>
-                                    <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,37,0,0" VerticalAlignment="Top" Width="159"/>
-                                    <PasswordBox x:Name="passBoxConfirmNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,63,0,0" VerticalAlignment="Top" Width="159"/>
-                                </Grid>
-                                <Grid Background="White" Margin="433,340,31,12">
-                                    <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,10,0,0" VerticalAlignment="Top" Width="100"/>
-                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,10,0,0" VerticalAlignment="Top" Width="100"/>
-                                </Grid>
-                            </Grid-->
-                        <!-- TabItem.Header>
-                                <StackPanel>
-                                    <Image Name="img" Height="auto" Width="auto" Source="images/icon sett.png" />
-                                </StackPanel>
-                            </TabItem.Header-->
                     </TabControl>
                     <Button x:Name="NotificationsButton" HorizontalContentAlignment="Left" Content="Notifications" HorizontalAlignment="Left" Margin="708,0,0,0" VerticalAlignment="Top" Width="102" Height="24" Click="NotificationsButton_Click"
                             Background="#FFFAFBFE" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="0"/>
                     <ScrollViewer x:Name="scrollViewerNotifications" CanContentScroll="True" HorizontalAlignment="Left" VerticalScrollBarVisibility="Visible" Visibility="Collapsed" Height="248" Width="145" Margin="665,24,0,323">
                         <StackPanel x:Name="notificationsStackPanel"   Visibility="Visible"  HorizontalAlignment="Left" Height="248" VerticalAlignment="Bottom" Width="128" Background="#FFFDF8F8">
-
                         </StackPanel>
                     </ScrollViewer>
                     <Label x:Name="notificationCounter" Content="0"  HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Height="22" Margin="790,2,0,0" VerticalAlignment="Top" Width="20" FontSize="11" FontStretch="UltraCondensed" Foreground="#FF1F3277"/>

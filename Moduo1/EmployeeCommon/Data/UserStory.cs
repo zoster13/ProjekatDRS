@@ -12,7 +12,7 @@ namespace EmployeeCommon
     [DataContract]
     public class UserStory
     {
-        private int id; //kljuc u bazi
+        private int id; // database key
         private string title;
         private string description;
         private string acceptanceCriteria;

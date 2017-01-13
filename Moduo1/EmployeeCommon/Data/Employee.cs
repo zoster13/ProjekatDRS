@@ -36,7 +36,7 @@ namespace EmployeeCommon
             name = eName;
             surname = eSurname;
             email = eEmail;
-            startHour = eStartHour; //napraviti proveru opsega 0-24h,0-59min
+            startHour = eStartHour; // napraviti proveru opsega 0-24h,0-59min
             startMinute = eStartMinute;
             endHour = eEndHour;
             endMinute = eEndMinute;
@@ -45,7 +45,6 @@ namespace EmployeeCommon
         [DataMember]
         [Required]
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Username 
         {
             get { return username; }

@@ -17,7 +17,6 @@ namespace EmployeeCommon
         {
         }
 
-        // nije testiran 
         public PartnerCompany(string name)
         {
             this.name = name;

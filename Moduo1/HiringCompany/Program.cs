@@ -4,6 +4,7 @@ using HiringCompany.Services;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -16,17 +17,21 @@ namespace HiringCompany
 
     /*scrum master za projekat - napraviti da se jednom setuje i ne moze da se promeni
 
-da moze na enter da se sign inuje
-
-srediti loger sta se ispisuje, kad je upsesno kad ne, i koji su params
-
 cekic treba da se skloni iz work-> partner Companies ako smo vec partneri
 
 cuvati notifikacije u bazi
+
+      lockovanje baze
+
+        mozda bude problema sa datuom ako budemo hteli da ga parsiramo...
+ne znamo da li ce current culture biti ista na drugom kompu, videti sta cete
+dodati mozda datetime kad posaljes notifikaciju -> client app
+
+        tamo za notifikacije namestiti da tooltip traje duze i da je u text blocku mozda, kao u vs notifikacije fazon
 */
-    
-     // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
-     
+
+    // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
+
     public class Program
     {
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
