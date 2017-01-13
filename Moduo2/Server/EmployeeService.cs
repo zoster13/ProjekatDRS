@@ -481,7 +481,10 @@ namespace Server
                 access.SaveChanges();
             }
 
-            //Poziv metode iz ICommona...
+            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            {
+                proxy.SendUserStoriesToHiringCompany(userStories, projectName);
+            }
         }
         
         #endregion IEmployeeService Methods
