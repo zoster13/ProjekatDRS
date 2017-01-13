@@ -8,22 +8,34 @@ namespace ServerTest.Access
     [TestFixture]
     public class EmployeeServiceDatabaseTest
     {
-        private IEmployeeServiceDatabase dbInstanceMockTest;
-        private IEmployeeServiceDatabase dbInstanceTest;
-        bool result;
+        private IEmployeeServiceDatabase dbTest;
+        private bool result;
         
         [OneTimeSetUp]
         public void SetupTest()
         {
-            dbInstanceTest = EmployeeServiceDatabase.Instance;
+            dbTest = Substitute.For<IEmployeeServiceDatabase>();
+
+            dbTest.AddEmployee(Arg.Is<Employee>(e => e.Email == "marko@gmail.com")).Returns(true);
+            dbTest.AddEmployee(Arg.Is<Employee>(e => e.Email != "marko@gmail.com")).Returns(false);
         }
 
         [Test]
-        public void AddEmployeeTest()
+        public void AddEmployeeTestOk()
         {
-            Assert.DoesNotThrow(() => dbInstanceTest.AddEmployee(new Employee() { Email = "marko@gmail.com" }));
-            Assert.AreEqual(true, dbInstanceTest.AddEmployee(new Employee() { Email = "marko@gmail.com" }));
+            Employee employee = new Employee() { Email = "marko@gmail.com" };
+            result = dbTest.AddEmployee(employee);
+
+            Assert.IsTrue(result);
         }
 
+        [Test]
+        public void AddEmployeeTestFault()
+        {
+            Employee employee = new Employee() { Email = "ivan@gmail.com" };
+            result = dbTest.AddEmployee(employee);
+
+            Assert.IsFalse(result);
+        }
     }
 }

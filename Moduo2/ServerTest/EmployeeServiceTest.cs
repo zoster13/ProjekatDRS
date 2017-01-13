@@ -15,19 +15,75 @@ namespace ServerTest
     public class EmployeeServiceTest
     {
         private EmployeeService employeeServiceTest;
-        private Employee employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "mare@gmail.com", "mare123", new Team());
-            
+
+        Employee employeeTest;
+        Employee employeeTestSM;
+
+
         [OneTimeSetUp]
         public void SetupTest()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest = new EmployeeService());
+            employeeServiceTest = new EmployeeService();
+            EmployeeServiceDatabase.Instance = Substitute.For<IEmployeeServiceDatabase>();
 
-            //EmployeeServiceDatabase.Instance = Substitute.For<IEmployeeServiceDatabase>();
+            employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "marko@gmail.com", "mare123", new Team());
+            employeeTestSM = new Employee(EmployeeType.SCRUMMASTER, "Ivan", "Markovic", "ivan@gmail.com", "ivan123", new Team());
 
-            //EmployeeServiceDatabase.Instance.AddEmployee(Arg.Is<Employee>(x => x.Email == "mare@gmail.com").Returns(true));
+            //Mocking
+            EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => email == "marko@gmail.com")).Returns(employeeTest);
+            EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => email == "ivan@gmail.com")).Returns(employeeTestSM);
+
+            EmployeeServiceDatabase.Instance.AddEmployee(Arg.Is<Employee>(employeeTest)).Returns(true);
 
         }
-
         
+        [Test]
+        public void LogInTestOk()
+        {
+            employeeServiceTest.LogIn("marko@gmail.com", "mare123");
+        }
+
+        [Test]
+        public void LogInTestExist()
+        {
+            employeeServiceTest.LogIn("marko@gmail.com", "mare123");
+        }
+
+        [Test]
+        public void LogInTestFault1()
+        {
+            employeeServiceTest.LogIn("ivan@gmail.com", "ivan123");
+        }
+
+        [Test]
+        public void LogInTestFault2()
+        {
+            employeeServiceTest.LogIn("marko@gmail.com", "ivan123");
+        }
+
+        [Test]
+        public void LogOutTestOk()
+        {
+            employeeServiceTest.LogOut(employeeTest);
+        }
+
+        [Test]
+        public void AddEmployeeTestOk()
+        {
+            employeeServiceTest.AddEmployee(employeeTest);
+        }
+
+        [Test]
+        public void AddEmployeeTestOkSM()
+        {
+            employeeServiceTest.AddEmployee(employeeTestSM);
+        }
+
+        [Test]
+        public void AddEmployeeTestFault()
+        {
+            employeeServiceTest.AddEmployee(new Employee() { Email = "sanja@gmai.com" });
+        }
+
     }
 }
