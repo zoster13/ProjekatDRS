@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6C87204C-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientCommonTest", "ClientCommonTest\ClientCommonTest.csproj", "{C3465285-1CB3-4F28-B7F0-2A51F2D8EA63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTest", "ServerTest\ServerTest.csproj", "{7A07622C-C310-4345-B2E1-22641656C073}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +37,16 @@ Global
 		{C3465285-1CB3-4F28-B7F0-2A51F2D8EA63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3465285-1CB3-4F28-B7F0-2A51F2D8EA63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3465285-1CB3-4F28-B7F0-2A51F2D8EA63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A07622C-C310-4345-B2E1-22641656C073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A07622C-C310-4345-B2E1-22641656C073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A07622C-C310-4345-B2E1-22641656C073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A07622C-C310-4345-B2E1-22641656C073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C3465285-1CB3-4F28-B7F0-2A51F2D8EA63} = {6C87204C-F709-49EB-8F3B-4482152B0416}
+		{7A07622C-C310-4345-B2E1-22641656C073} = {6C87204C-F709-49EB-8F3B-4482152B0416}
 	EndGlobalSection
 EndGlobal

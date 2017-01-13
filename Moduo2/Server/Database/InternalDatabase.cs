@@ -26,13 +26,6 @@ namespace Server.Database
                 }
                 return instance;
             }
-            set
-            {
-                if (instance == null)
-                {
-                    instance = value;
-                }
-            }
         }
 
         public List<Employee> OnlineEmployees
