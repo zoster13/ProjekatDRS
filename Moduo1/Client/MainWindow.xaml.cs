@@ -708,5 +708,10 @@ namespace Client
             }
         }
 
+        private void CloseProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Project p = (Project)ProjectsForClosingComboBox.SelectedItem;
+            proxy.CloseProject(p.Name);
+        }
     }
 }

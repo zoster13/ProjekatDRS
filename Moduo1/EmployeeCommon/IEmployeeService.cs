@@ -51,5 +51,7 @@ namespace EmployeeCommon
         [OperationContract]
         void SendProject(string outscCompany, Project p);
 
+        [OperationContract]
+        void CloseProject(string projectName);
     }
 }

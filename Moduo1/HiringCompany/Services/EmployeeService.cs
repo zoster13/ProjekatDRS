@@ -662,5 +662,34 @@ namespace HiringCompany.Services
 
             Program.Logger.Info(messageToLog);
         }
+
+
+        public void CloseProject(string projectName)
+        {
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("Method: EmployeeService.CloseProject(), " +
+                                                  "params: Project.Name={0}", projectName));
+
+            Program.Logger.Info(messageToLog);
+
+            Project proj = new Project();
+            using (var access = new AccessDB())
+            {
+                proj = access.Projects.SingleOrDefault(project => project.Name.Equals(projectName));
+                proj.IsClosed = true;
+                access.SaveChanges();
+
+                messageToLog = ("Updated Project.IsClosed data in .mdf database.");
+                Program.Logger.Info(messageToLog);
+            }
+
+            string notification = string.Format("Project <{0}> is closed.", projectName);
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+                notifier.NotifySpecialClients(EmployeeType.CEO, notification);
+            }
+        }
     }
 }

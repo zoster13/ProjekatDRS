@@ -271,24 +271,30 @@
                         </TabItem>
                         <TabItem x:Name="PO_Work_TabItem" Header="PO Work" HorizontalAlignment="Right" Width="77" Visibility="Visible" Height="39" Focusable="True" Margin="-14.6,10,14.4,-9.8">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
-                                <Label x:Name="ProjectNameLabel" Content="Project name: " HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" Width="83" Height="28"/>
-                                <Label x:Name="ProjectDescriptionLabel" Content="Description: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="83"/>
-                                <Label x:Name="ProjectStartDateLabel" Content="Start date: " HorizontalAlignment="Left" Margin="10,195,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
-                                <Label x:Name="ProjectDeadlineLabel" Content="Deadline: " HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
-                                <TextBox x:Name="ProjectNameTextBox" HorizontalAlignment="Left" Height="23" Margin="98,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <TextBox x:Name="ProjectDescriptionTextBox" HorizontalAlignment="Left" Height="92" Margin="98,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,195,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
-                                <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,333,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
+                                <Label x:Name="ProjectNameLabel" Content="Project name: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="83" Height="28"/>
+                                <Label x:Name="ProjectDescriptionLabel" Content="Description: " HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="83"/>
+                                <Label x:Name="ProjectStartDateLabel" Content="Start date: " HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
+                                <Label x:Name="ProjectDeadlineLabel" Content="Deadline: " HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
+                                <TextBox x:Name="ProjectNameTextBox" HorizontalAlignment="Left" Height="23" Margin="98,15,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <TextBox x:Name="ProjectDescriptionTextBox" HorizontalAlignment="Left" Height="92" Margin="98,43,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,168,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
+                                <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,227,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
                                 <Label x:Name="DateTimeFormatLabel" Content="" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
                                 <Grid HorizontalAlignment="Left" Height="410" Margin="392,10,0,0" VerticalAlignment="Top" Width="468" Background="White">
-                                    <ComboBox x:Name="WorkPOProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,30,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
+                                    <ComboBox x:Name="WorkPOProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,44,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
                                     <Button x:Name="ApproveUserStoriesButton" Content="Approve User Stories" HorizontalAlignment="Left" Margin="23,376,0,0" VerticalAlignment="Top" Width="184" Height="23" Click="ApproveUserStoriesButton_Click"/>
-                                    <ListBox x:Name="UserStoriesForApprovalListBox" HorizontalAlignment="Left" Height="286" Margin="23,71,0,0" VerticalAlignment="Top" Width="352">
+                                    <ListBox x:Name="UserStoriesForApprovalListBox" HorizontalAlignment="Left" Height="274" Margin="23,83,0,0" VerticalAlignment="Top" Width="352">
                                     </ListBox>
+                                    <Label Content="User stories for approval:" HorizontalAlignment="Left" Margin="23,10,0,0" VerticalAlignment="Top" Width="184" FontSize="14" FontWeight="Bold"/>
                                 </Grid>
-                                <Label Content="Scrum Master:" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="83"/>                           
-                                <ComboBox x:Name= "ScrumMasterComboBox" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="156"></ComboBox>
+                                <Label Content="Scrum Master:" HorizontalAlignment="Left" Margin="10,196,0,0" VerticalAlignment="Top" Width="83"/>
+                                <ComboBox x:Name= "ScrumMasterComboBox" HorizontalAlignment="Left" Margin="98,200,0,0" VerticalAlignment="Top" Width="156"></ComboBox>
+                                <Grid Background="White" HorizontalAlignment="Left" Height="142" Margin="10,278,0,0" VerticalAlignment="Top" Width="363">
+                                    <Label Content="Projects that can be closed:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="193" FontSize="14" FontWeight="Bold"/>
+                                    <ComboBox x:Name="ProjectsForClosingComboBox" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Width="193"/>
+                                    <Button x:Name="CloseProjectButton" Content="Mark project as closed" HorizontalAlignment="Left" Margin="207,109,0,0" VerticalAlignment="Top" Width="146" Height="23" Click="CloseProjectButton_Click"/>
+                                </Grid>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="0,10,-228,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">

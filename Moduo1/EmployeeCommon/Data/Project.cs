@@ -24,12 +24,14 @@ namespace EmployeeCommon.Data
         private string scrumMaster;
         private bool isAcceptedCEO;
         private bool isAcceptedOutsCompany;
+        private bool isClosed;
 
         public Project() 
         {
             userStories=new List<UserStory>();
             isAcceptedCEO = false;
             isAcceptedOutsCompany = false;
+            isClosed = false;
         }
 
         public Project(string name, string description, string po, string sm)
@@ -38,6 +40,11 @@ namespace EmployeeCommon.Data
             this.description = description;
             this.productOwner = po;
             this.scrumMaster = sm;
+            userStories = new List<UserStory>();
+            isAcceptedCEO = false;
+            isAcceptedOutsCompany = false;
+            isClosed = false;
+
         }
 
         [Key]
@@ -116,6 +123,13 @@ namespace EmployeeCommon.Data
         {
             get { return isAcceptedOutsCompany; }
             set { isAcceptedOutsCompany = value; }
+        }
+
+        [DataMember]
+        public bool IsClosed
+        {
+            get { return isClosed; }
+            set { isClosed = value; }
         }
     }
 }
