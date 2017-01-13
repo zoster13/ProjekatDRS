@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EmployeeCommon;
 using HiringCompany.DatabaseAccess;
 using System.ServiceModel;
+using EmployeeCommon.Data;
 
 namespace HiringCompany
 {

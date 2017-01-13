@@ -30,7 +30,7 @@
                     <TextBox x:Name="usernameBox" HorizontalAlignment="Left" Text="" Height="25" Margin="445,178,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" TextChanged="UsernameTextChanged" Background="#FFFAFBFE" BorderThickness="0" GotFocus="UsernameBox_GotFocus"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left"   Height="25" Margin="445,207,0,0" VerticalAlignment="Top" Width="150" PasswordChanged="PasswordBoxPasswordChanged" Background="#FFFAFBFE" BorderThickness="0"/>
                     <Button x:Name="logInButton" IsDefault="True" Content="Sign In" IsEnabled="True" Margin="545,251,297,317" Click="LogInButton_Click" Background="#FFFAFBFE" FontWeight="Bold" Foreground="#FF1F3277" BorderBrush="#FFABADB3" BorderThickness="0"/>
-                    <Label x:Name="warningLabel" Content="" HorizontalAlignment="Center" Margin="228,345,215,190" VerticalAlignment="Center" Width="444" FontSize="14" Height="60" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="warningLabel" Content="" HorizontalAlignment="Center" Margin="184,339,188,196" VerticalAlignment="Center" Width="522" FontSize="14" Height="60" HorizontalContentAlignment="Center"/>
                 </Grid>
             </TabItem>
             <TabItem Height="0" Focusable="True">

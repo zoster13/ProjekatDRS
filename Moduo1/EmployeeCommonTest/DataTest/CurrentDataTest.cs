@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EmployeeCommon;
+using EmployeeCommon.Data;
 
 namespace EmployeeCommonTest.DataTest
 {
