@@ -187,5 +187,19 @@ namespace Client
 
             }
         }
+
+
+        public void CloseProject(string projectName)
+        {
+            try
+            {
+                factory.CloseProject(projectName);
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
     }
 }
