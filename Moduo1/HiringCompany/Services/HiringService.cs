@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using EmployeeCommon;
 using HiringCompany.DatabaseAccess;
 using ICommon;
+using EmployeeCommon.Data;
 
 namespace HiringCompany.Services
 {

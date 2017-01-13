@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeCommon.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +23,7 @@ namespace EmployeeCommon
         private int startMinute;
         private int endHour;
         private int endMinute;
+        private List<Notification> notifications;
 
         public Employee() 
         {
@@ -36,7 +38,7 @@ namespace EmployeeCommon
             name = eName;
             surname = eSurname;
             email = eEmail;
-            startHour = eStartHour; // napraviti proveru opsega 0-24h,0-59min
+            startHour = eStartHour; // napraviti proveru opsega 0-24h, 0-59min
             startMinute = eStartMinute;
             endHour = eEndHour;
             endMinute = eEndMinute;

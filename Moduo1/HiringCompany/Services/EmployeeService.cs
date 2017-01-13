@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using ICommon;
 using HiringCompany.Logger;
+using EmployeeCommon.Data;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 

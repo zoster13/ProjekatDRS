@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using EmployeeCommon;
+using EmployeeCommon.Data;
 
 namespace Client
 {
