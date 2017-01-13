@@ -27,10 +27,10 @@
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True">
                                 <Grid Background="White" Margin="54,33,411,140">
-                                    <TextBox x:Name="displayName" IsReadOnly="True" FontSize="20" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="39" Margin="25,20,0,0" TextWrapping="Wrap" Text="Name..." VerticalAlignment="Top" Width="261" RenderTransformOrigin="0.382,0.292"/>
-                                    <TextBox x:Name="displayTeam" IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,72,0,0" TextWrapping="Wrap" Text="Team..." VerticalAlignment="Top" Width="140"/>
-                                    <TextBox x:Name="displayType" IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,109,0,0" TextWrapping="Wrap" Text="Position..." VerticalAlignment="Top" Width="140"/>
-                                    <TextBox x:Name="displayEmail" IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,172,0,0" TextWrapping="Wrap" Text="e-mail..." VerticalAlignment="Top" Width="140"/>
+                                    <TextBox x:Name="displayName" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" FontSize="20" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="39" Margin="25,20,0,0" TextWrapping="Wrap" Text="Name..." VerticalAlignment="Top" Width="261" RenderTransformOrigin="0.382,0.292"/>
+                                    <TextBox x:Name="displayTeam" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,72,0,0" TextWrapping="Wrap" Text="Team..." VerticalAlignment="Top" Width="140"/>
+                                    <TextBox x:Name="displayType" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,109,0,0" TextWrapping="Wrap" Text="Position..." VerticalAlignment="Top" Width="140"/>
+                                    <TextBox x:Name="displayEmail" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,172,0,0" TextWrapping="Wrap" Text="e-mail..." VerticalAlignment="Top" Width="140"/>
                                 </Grid>
                             </Grid>
                         </TabItem>

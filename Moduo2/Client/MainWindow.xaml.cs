@@ -478,6 +478,11 @@ namespace Client
             {
                 LocalClientDatabase.Instance.Employees.Add(employee);
             }
+
+            if (employee.Email.Equals(LocalClientDatabase.Instance.CurrentEmployee.Email))
+            {
+                MessageBox.Show("Your changes have been saved!");
+            }
         }
 
         public void AddEmployeeCallbackResult(Employee employee)
