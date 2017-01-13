@@ -256,20 +256,23 @@ namespace Server
             }
         }
 
-        public void ReleaseUserStoryCallback(UserStory userStory)
+        public void ReleaseUserStoryCallback(List<Task> tasks)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            foreach (Employee employee in InternalDatabase.Instance.OnlineEmployees)
             {
-                try
+                if (employee.Team.Name.Equals(tasks[0].UserStory.Project.Team.Name) && employee.Type == EmployeeType.DEVELOPER)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.ReleaseUserStoryCallback(userStory);
+                        if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                        {
+                            employee.Channel.ReleaseUserStoryCallback(tasks);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }

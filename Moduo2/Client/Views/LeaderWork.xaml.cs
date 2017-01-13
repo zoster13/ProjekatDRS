@@ -93,8 +93,8 @@ namespace Client.Views
                     //userStory.Tasks = new List<ClientCommon.Data.Task>();
 
                     userStory.AcceptStatus = AcceptStatus.PENDING;
-                    userStory.ProgressStatus = ProgressStatus.INPREP; 
-
+                    userStory.ProgressStatus = ProgressStatus.INPREP;
+                    userStory.Project = project;
                     
                     comboBoxProjects.Items.Refresh();
                     comboBoxProjects.SelectedItem = null;
@@ -102,7 +102,12 @@ namespace Client.Views
                     textBoxUserStoryContent.Text = "";
                     textBoxUserStoryDifficulty.Text = "2";
 
-                    //project.UserStories.Add(userStory);
+                    if(project.UserStories == null)
+                    {
+                        project.UserStories = new List<UserStory>();
+                    }
+
+                    project.UserStories.Add(userStory);
 
                     LocalClientDatabase.Instance.UserStories.Add(userStory);
 
@@ -197,6 +202,13 @@ namespace Client.Views
                     task.AssignStatus = AssignStatus.UNASSIGNED;
                     task.ProgressStatus = ProgressStatus.PENDING;
 
+                    if(userStory.Tasks == null)
+                    {
+                        userStory.Tasks = new List<ClientCommon.Data.Task>();
+                    }
+
+                    userStory.Tasks.Add(task);
+
                     LocalClientDatabase.Instance.AllTasks.Add(task);
 
                     LocalClientDatabase.Instance.proxy.AddTask(task);
@@ -231,7 +243,13 @@ namespace Client.Views
                         task.ProgressStatus = ProgressStatus.STARTED;
                     }
 
+                    dataGridUserStories.Items.Refresh();
+                    dataGridUserStories1.Items.Refresh();
+                    dataGridTasks.Items.Refresh();
+
                     LocalClientDatabase.Instance.proxy.ReleaseUserStory(userStory);
+
+                    MessageBox.Show("User story has been sent to team developers!");
                 }
                 else
                 {
@@ -246,19 +264,21 @@ namespace Client.Views
             {
                 ClientCommon.Data.Task task = comboBoxAllTasks.SelectedItem as ClientCommon.Data.Task;
 
-                if(task.AssignStatus == AssignStatus.UNASSIGNED)
+                if(task.AssignStatus == AssignStatus.UNASSIGNED && task.ProgressStatus == ProgressStatus.STARTED)
                 {
                     task.AssignStatus = AssignStatus.ASSIGNED;
                     task.ProgressStatus = ProgressStatus.STARTED;
-                    task.EmployeeName = LocalClientDatabase.Instance.CurrentEmployee.Name + " " + LocalClientDatabase.Instance.CurrentEmployee.Surname;
+                    task.EmployeeName = LocalClientDatabase.Instance.CurrentEmployee.Name;
 
                     LocalClientDatabase.Instance.MyTasks.Add(task);
 
                     LocalClientDatabase.Instance.proxy.TaskClaimed(task);
+
+                    MessageBox.Show("You have successfully claimed a task!");
                 }
                 else
                 {
-                    MessageBox.Show("This task has already been claimed!");
+                    MessageBox.Show("This task is not ready for claiming yet\n or it has already been claimed! Chack status.");
                 }
             }
         }
@@ -316,12 +336,10 @@ namespace Client.Views
         {
             if (dataGridTasks.SelectedItem != null)
             {
-                ClientCommon.Data.Task task = dataGridUserStories.SelectedItem as ClientCommon.Data.Task;
+                ClientCommon.Data.Task task = dataGridTasks.SelectedItem as ClientCommon.Data.Task;
 
                 textTaskDescription.Text = task.Description;
             }
         }
-
-        
     }
 }

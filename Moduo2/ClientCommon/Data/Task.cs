@@ -75,17 +75,15 @@ namespace ClientCommon.Data
         }
 
         [DataMember]
-        public string ProjectName
-        {
-            get { return ProjectName; }
-            set { ProjectName = value; }
-        }
-
-        [DataMember]
         public string EmployeeName
         {
             get { return employeeName; }
             set { employeeName = value; }
+        }
+
+        public override string ToString()
+        {
+            return Title;
         }
     }
 }

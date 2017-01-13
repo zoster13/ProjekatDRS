@@ -100,11 +100,11 @@ namespace Client
             });
         }
 
-        public void ReleaseUserStoryCallback(UserStory userStory)
+        public void ReleaseUserStoryCallback(List<Task> tasks)
         {
             App.Current.Dispatcher.Invoke((Action)delegate
             {
-                mainWindow.ReleaseUserStoryCallbackResult(userStory);
+                mainWindow.ReleaseUserStoryCallbackResult(tasks);
             });
         }
 

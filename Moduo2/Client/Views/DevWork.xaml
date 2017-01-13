@@ -16,8 +16,8 @@
                     </Grid>
                     <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
-                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Title}"/>
                             <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
                             <DataGridTextColumn Header="Progress Status" Binding="{Binding ProgressStatus}"/>
                             <DataGridTextColumn Header="Assign Status" Binding="{Binding AssignStatus}"/>
@@ -40,11 +40,9 @@
                     </Grid>
                     <DataGrid x:Name="dataGridMyTasks" ItemsSource="{Binding MyTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
-                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
-                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Title}"/>
                             <DataGridTextColumn Header="Progress Status" Binding="{Binding ProgressStatus}"/>
-                            <DataGridTextColumn Header="Assign Status" Binding="{Binding AssignStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid x:Name="gridMarkAsCompleted" Background="White" Margin="461,10,10,10">
@@ -59,7 +57,7 @@
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="dataGridUserStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="358">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header=" Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header=" Name" Binding="{Binding Title}"/>
                             <DataGridTextColumn Header=" Project" Binding="{Binding Project.Name}"/>
                             <DataGridTextColumn Header=" Difficulty" Binding="{Binding Difficulty}"/>
                             <DataGridTextColumn Header=" Deadline" Binding="{Binding Deadline}"/>

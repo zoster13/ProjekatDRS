@@ -36,11 +36,13 @@ namespace Client.Views
                 {
                     task.AssignStatus = AssignStatus.ASSIGNED;
                     task.ProgressStatus = ProgressStatus.STARTED;
-                    task.EmployeeName = LocalClientDatabase.Instance.CurrentEmployee.Name + " " + LocalClientDatabase.Instance.CurrentEmployee.Surname;
+                    task.EmployeeName = LocalClientDatabase.Instance.CurrentEmployee.Name;
 
                     LocalClientDatabase.Instance.MyTasks.Add(task);
 
                     LocalClientDatabase.Instance.proxy.TaskClaimed(task);
+
+                    MessageBox.Show("You have successfully claimed a task!");
                 }
                 else
                 {
@@ -85,7 +87,7 @@ namespace Client.Views
             {
                 ClientCommon.Data.Task task = dataGridTasks.SelectedItem as ClientCommon.Data.Task;
 
-                textMyTaskDescription.Text = task.Description;
+                textTaskDescription.Text = task.Description;
             }
         }
 

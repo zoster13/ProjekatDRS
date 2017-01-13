@@ -16,10 +16,10 @@
                     </Grid>
                     <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
-                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
-                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Title}"/>
                             <DataGridTextColumn Header="Progress Status" Binding="{Binding ProgressStatus}"/>
+                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
                             <DataGridTextColumn Header="Assign Status" Binding="{Binding AssignStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -35,11 +35,9 @@
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="dataGridMyTasks" ItemsSource="{Binding MyTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="437">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Project" Binding="{Binding ProjectName}"/>
-                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Description}"/>
-                            <DataGridTextColumn Header="Employee" Binding="{Binding EmployeeName}"/>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="User Story" Binding="{Binding UserStory.Title}"/>
                             <DataGridTextColumn Header="Progress Status" Binding="{Binding ProgressStatus}"/>
-                            <DataGridTextColumn Header="Assign Status" Binding="{Binding AssignStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid x:Name="gridMarkAsCompleted1" Background="White" Margin="461,10,10,10">
@@ -58,7 +56,8 @@
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="357*"/>
-                        <ColumnDefinition Width="383*"/>
+                        <ColumnDefinition Width="112*"/>
+                        <ColumnDefinition Width="271*"/>
                     </Grid.ColumnDefinitions>
                     <DataGrid x:Name="dataGridUserStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="438" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
@@ -70,7 +69,7 @@
                             <DataGridTextColumn Header=" Progress Status" Binding="{Binding ProgressStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid x:Name="gridAddTask" Background="White" Margin="106,10,10,10" Grid.Column="1">
+                    <Grid x:Name="gridAddTask" Background="White" Margin="106,10,10,10" Grid.Column="1" Grid.ColumnSpan="2">
                         <Label x:Name="labelTitle2" Content="Make task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="93,1,-23,0" VerticalAlignment="Top" Width="199"/>
                         <ComboBox x:Name="comboBoxStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,78,0,0" VerticalAlignment="Top" Width="229"/>
                         <Label x:Name="labelTask1" Content="User story: (must be accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="17,51,-5,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
@@ -80,7 +79,7 @@
                         <TextBox x:Name="textBoxTaskTitle" HorizontalAlignment="Left" Height="21" Margin="67,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" TextChanged="textBoxTaskTitle_TextChanged" />
                         <Button x:Name="buttonTaskAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="185,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskAdd_Click"/>
                     </Grid>
-                    <Grid x:Name="gridStartStory" Background="White" Margin="10,191,292,10" Grid.ColumnSpan="2">
+                    <Grid x:Name="gridStartStory" Background="White" Margin="10,191,21,10" Grid.ColumnSpan="2">
                         <Button x:Name="buttonUserStoryDescription" Content="Userstory Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="buttonUserStoryDescription_Click" />
                         <TextBox x:Name="textUserStoryDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="418" />
                     </Grid>
@@ -95,6 +94,7 @@
                             <DataGridTextColumn Header=" Difficulty" Binding="{Binding Difficulty}"/>
                             <DataGridTextColumn Header=" Deadline" Binding="{Binding Deadline}"/>
                             <DataGridTextColumn Header=" Accept Status" Binding="{Binding AcceptStatus}"/>
+                            <DataGridTextColumn Header=" Accept Status" Binding="{Binding ProgressStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid  Background="White" Margin="385,10,10,10">

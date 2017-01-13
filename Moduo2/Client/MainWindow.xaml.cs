@@ -218,11 +218,21 @@ namespace Client
                         if (us.ProgressStatus == ProgressStatus.STARTED)
                         {
                             LocalClientDatabase.Instance.UserStories.Add(us);
+                            if (proj.UserStories == null)
+                            {
+                                proj.UserStories = new List<UserStory>();
+                            }
+                            proj.UserStories.Add(us);
                         }
                     }
                     else
                     {
                         LocalClientDatabase.Instance.UserStories.Add(us);
+                        if (proj.UserStories == null)
+                        {
+                            proj.UserStories = new List<UserStory>();
+                        }
+                        proj.UserStories.Add(us);
                     }
                 }
             }
@@ -239,6 +249,12 @@ namespace Client
                         {
                             LocalClientDatabase.Instance.AllTasks.Add(task);
 
+                            if (userStory.Tasks == null)
+                            {
+                                userStory.Tasks = new List<Task>();
+                            }
+                            userStory.Tasks.Add(task);
+
                             if (task.AssignStatus == AssignStatus.ASSIGNED && task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
                             {
                                 LocalClientDatabase.Instance.MyTasks.Add(task);
@@ -248,6 +264,12 @@ namespace Client
                     else
                     {
                         LocalClientDatabase.Instance.AllTasks.Add(task);
+
+                        if (userStory.Tasks == null)
+                        {
+                            userStory.Tasks = new List<Task>();
+                        }
+                        userStory.Tasks.Add(task);
 
                         if (task.AssignStatus == AssignStatus.ASSIGNED && task.EmployeeName == LocalClientDatabase.Instance.CurrentEmployee.Name)
                         {
@@ -629,23 +651,24 @@ namespace Client
             MessageBox.Show("CEO has assigned a new project to your team. It can be seen in the Work pannel in Projects.");
         }
 
-        public void ReleaseUserStoryCallbackResult(UserStory userStory)
+        public void ReleaseUserStoryCallbackResult(List<Task> tasks)
         {
             if(LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER || LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.TEAMLEADER)
             {
-                LocalClientDatabase.Instance.UserStories.Add(userStory);
-                foreach (var task in userStory.Tasks)
+                LocalClientDatabase.Instance.UserStories.Add(tasks[0].UserStory);
+                foreach (var task in tasks)
                 {
                     LocalClientDatabase.Instance.AllTasks.Add(task);
                 }
 
-                MessageBox.Show("A user story for project " + userStory.Project.Name + " has arived.\n You can claim tasks.");
+                MessageBox.Show("A user story for project " + tasks[0].UserStory.Project.Name + " has arived.\n You can claim tasks.");
             }
         }
 
         public void ReceiveUserStoriesCallbackResult(List<UserStoryCommon> commStories, string projName)
         {
             var project = LocalClientDatabase.Instance.MyTeamProjects.FirstOrDefault(p => p.Name.Equals(projName));
+            project.ProgressStatus = ProgressStatus.STARTED;
 
             if (project != null)
             {
@@ -668,6 +691,10 @@ namespace Client
 
                 workLeader.dataGridUserStories.Items.Refresh();
                 workLeader.dataGridUserStories1.Items.Refresh();
+                workLeader.dataGridProjects.Items.Refresh();
+                workLeader.dataGridProjects1.Items.Refresh();
+
+                MessageBox.Show("Feedbak for users stories has been received from a hiring company!");
             }
         }
 
@@ -682,6 +709,9 @@ namespace Client
                     task1.ProgressStatus = ProgressStatus.STARTED;
                 }
             }
+
+            workLeader.dataGridTasks.Items.Refresh();
+            workDev.dataGridTasks.Items.Refresh();
         }
 
         public void TaskCompletedCallbackResult(Task task)
@@ -736,6 +766,7 @@ namespace Client
         public void SendProjectToTeamMembersResult(Project project)
         {
             LocalClientDatabase.Instance.MyTeamProjects.Add(project);
+            MessageBox.Show("A new project has started!\n User stories are being prepared.");
         }
 
         public void ResponseToPartnershipRequestCallbackResult(HiringCompany hiringCompany)

@@ -43,7 +43,7 @@ namespace ClientCommon
         void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName);
 
         [OperationContract(IsOneWay = true)]
-        void ReleaseUserStoryCallback(UserStory userStory);
+        void ReleaseUserStoryCallback(List<Task> tasks);
 
         [OperationContract(IsOneWay = true)]
         void TaskClaimedCallback(Task task);

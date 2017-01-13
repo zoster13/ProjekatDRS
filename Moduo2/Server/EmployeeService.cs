@@ -391,7 +391,7 @@ namespace Server
             // dodaje user story u bazu, ne treba callback
             using (var access = new AccessDB())
             {
-                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
+                Project proj = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
 
                 userStory.Project = proj;
                 access.UserStories.Add(userStory);
@@ -412,7 +412,8 @@ namespace Server
 
             using (var access = new AccessDB())
             {
-                UserStory userStory = access.UserStories.FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
+                UserStory userStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
+                userStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(userStory.Project.Name));
                 task.UserStory = userStory;
 
                 access.Tasks.Add(task);
@@ -428,23 +429,21 @@ namespace Server
             // kako bi oni mogli da preuzimaju taskove
             using (var access = new AccessDB())
             {
-                UserStory userStory1 = access.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
+                UserStory userStory1 = access.UserStories.Include("Tasks").Include("Project").FirstOrDefault(us => us.Title.Equals(userStory.Title));
+                userStory1.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(userStory1.Project.Name));
                 userStory1.ProgressStatus = ProgressStatus.STARTED;
+                userStory1.Deadline = userStory.Deadline;
 
-                foreach (var task in userStory.Tasks)
+                foreach (var task in userStory1.Tasks)
                 {
                     Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
                     taskInDB.ProgressStatus = ProgressStatus.STARTED;
-
-                    access.Tasks.Add(task);
-                    //access.SaveChanges(); // ne znam da li treba
                 }
-
-                access.UserStories.Add(userStory1);
+                userStory.Tasks = userStory1.Tasks;
                 access.SaveChanges();
             }
 
-            Publisher.Instance.ReleaseUserStoryCallback(userStory);
+            Publisher.Instance.ReleaseUserStoryCallback(userStory.Tasks);
         }
 
         public void TaskClaimed(Task task)
@@ -454,7 +453,9 @@ namespace Server
 
             using (var access = new AccessDB())
             {
-                Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
+                Task taskInDB = access.Tasks.Include("UserStory").FirstOrDefault(t => t.Title.Equals(task.Title));
+                taskInDB.UserStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
+                taskInDB.UserStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(taskInDB.UserStory.Project.Name));
 
                 taskInDB.AssignStatus = AssignStatus.ASSIGNED;
                 taskInDB.ProgressStatus = ProgressStatus.STARTED;
@@ -491,7 +492,7 @@ namespace Server
 
             using (var access = new AccessDB())
             {
-                Project projectInDB = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
+                Project projectInDB = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
                 projectInDB.ProgressStatus = ProgressStatus.PENDING;
                 access.SaveChanges();
             }
