@@ -148,7 +148,9 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                Employee employeeInDB = access.Employees.FirstOrDefault(e => e.Email.Equals(employee.Email));
+                Employee employeeInDB = access.Employees
+                    .Include("Team")
+                    .FirstOrDefault(e => e.Email.Equals(employee.Email));
 
                 lock (lockObjectEmployees)
                 {
