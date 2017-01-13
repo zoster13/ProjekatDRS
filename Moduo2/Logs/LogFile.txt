@@ -264,3 +264,62 @@
 2017-01-13 09:26:18,596 INFO - Employee [hrDodao] is loged out.
 2017-01-13 09:26:25,452 INFO - Employee [hr] is loged out.
 2017-01-13 09:26:32,236 INFO - Employee [laza] is loged out.
+2017-01-13 12:17:45,312 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:18:08,262 INFO - Team [cloud] is added to database.
+2017-01-13 12:18:08,272 INFO - Employee [l] is added to database.
+2017-01-13 12:18:27,277 INFO - Team [saas] is added to database.
+2017-01-13 12:18:27,288 INFO - Employee [ll] is added to database.
+2017-01-13 12:18:37,310 INFO - Employee [s] is added to database.
+2017-01-13 12:18:47,473 INFO - Employee [ss] is added to database.
+2017-01-13 12:20:16,393 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:20:27,873 INFO - Team [cloud] is added to database.
+2017-01-13 12:20:27,878 INFO - Employee [l] is added to database.
+2017-01-13 12:20:38,820 INFO - Team [saas] is added to database.
+2017-01-13 12:20:38,827 INFO - Employee [ll] is added to database.
+2017-01-13 12:20:48,618 INFO - Employee [s] is added to database.
+2017-01-13 12:21:00,260 INFO - Employee [ss] is added to database.
+2017-01-13 12:21:09,591 INFO - Employee [e] is added to database.
+2017-01-13 12:21:17,310 INFO - Employee [ee] is added to database.
+2017-01-13 12:24:56,732 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:25:53,990 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-13 12:26:42,482 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:28:36,041 INFO - Employee [l] is loged in.
+2017-01-13 12:29:20,720 INFO - Employee [ll] is loged in.
+2017-01-13 12:37:30,464 INFO - Employee [l] is loged in.
+2017-01-13 12:37:59,248 INFO - Employee [l] is loged in.
+2017-01-13 12:50:51,938 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:51:16,417 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-13 12:51:25,279 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:51:44,459 INFO - Employee [ll] is loged in.
+2017-01-13 12:54:03,756 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 12:54:25,971 INFO - Team [cloud] is added to database.
+2017-01-13 12:54:25,978 INFO - Employee [l] is added to database.
+2017-01-13 12:54:34,302 INFO - Team [saas] is added to database.
+2017-01-13 12:54:34,309 INFO - Employee [ll] is added to database.
+2017-01-13 12:54:43,090 INFO - Employee [d] is added to database.
+2017-01-13 12:54:53,508 INFO - Employee [dd] is added to database.
+2017-01-13 12:55:01,481 INFO - Employee [s] is added to database.
+2017-01-13 12:55:11,023 INFO - Employee [ss] is added to database.
+2017-01-13 12:55:48,658 INFO - Employee [l] is loged in.
+2017-01-13 13:01:32,539 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 13:06:01,750 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 13:10:16,638 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-13 13:14:39,438 INFO - Employee [ll] is loged in.
+2017-01-13 13:15:23,812 INFO - Employee [ll] is loged out.
+2017-01-13 13:15:37,894 INFO - Employee [ll] is loged in.
+2017-01-13 13:16:14,104 INFO - Employee [ll] is loged out.
+2017-01-13 13:16:20,416 INFO - Employee [ll] is loged in.
+2017-01-13 13:17:23,552 INFO - Employee [ll] is loged out.
+2017-01-13 13:17:29,511 INFO - Employee [ll] is loged in.
+2017-01-13 13:18:39,079 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-13 13:18:41,870 INFO - Employee [ll] is loged out.
+2017-01-13 13:18:48,946 INFO - Employee [ll] is loged in.
+2017-01-13 13:19:52,192 INFO - Employee [ll] is loged out.
+2017-01-13 13:22:24,098 INFO - Employee [l] is loged in.
+2017-01-13 13:25:36,838 INFO - Employee [l] is loged in.
+2017-01-13 13:27:53,489 INFO - Employee [l] is loged in.
+2017-01-13 13:30:13,608 INFO - Employee [l] is loged in.
+2017-01-13 13:31:10,558 INFO - Employee [l] is loged in.
+2017-01-13 13:32:00,316 INFO - Employee [ll] is loged in.
+2017-01-13 13:32:58,404 INFO - Employee [ll] is loged out.
+2017-01-13 13:33:01,505 INFO - Employee [l] is loged in.

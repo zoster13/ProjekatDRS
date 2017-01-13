@@ -88,7 +88,7 @@ namespace Server.Access
         public Employee GetEmployee(string email)
         {
             Employee employeeInDB = null;
-
+            
             using (var access = new AccessDB())
             {
                 employeeInDB = access.Employees
@@ -96,16 +96,22 @@ namespace Server.Access
                     .Include("Notifications")
                     .FirstOrDefault(e => e.Email.Equals(email));
 
-                employeeInDB.Team = access.Teams
-                    .Include("Projects")
-                    .FirstOrDefault(t => t.Name.Equals(employeeInDB.Team.Name));
-
-
-                foreach (Project proj in employeeInDB.Team.Projects)
+                if (employeeInDB.Type == EmployeeType.CEO)
                 {
-                    proj.UserStories = access.UserStories
-                        .Include("Tasks")
-                        .Where(us => us.Project == proj).ToList();
+                    return employeeInDB;
+                }
+                else
+                {
+                    employeeInDB.Team = access.Teams
+                        .Include("Projects")
+                        .FirstOrDefault(t => t.Name.Equals(employeeInDB.Team.Name));
+
+                   foreach (Project proj in employeeInDB.Team.Projects)
+                    {
+                        proj.UserStories = access.UserStories
+                            .Include("Tasks")
+                            .Where(us => us.Project.Name.Equals(proj.Name)).ToList();
+                    }
                 }
             }
 

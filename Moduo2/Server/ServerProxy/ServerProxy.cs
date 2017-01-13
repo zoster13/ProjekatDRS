@@ -30,7 +30,7 @@ namespace Server.ServerProxy
         {
             try
             {
-                factory.ResponseForProjectRequest(outsourcingCompanyName, p);
+                //factory.ResponseForProjectRequest(outsourcingCompanyName, p);
             }
             catch (Exception e)
             {

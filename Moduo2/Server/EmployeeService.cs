@@ -325,7 +325,9 @@ namespace Server
                 Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(project.Team.Name));
 
                 proj.Team = team;
+                project.Team = team;
                 proj.AssignStatus = AssignStatus.ASSIGNED;
+                project.AssignStatus = AssignStatus.ASSIGNED;
 
                 access.SaveChanges();
             }
@@ -531,13 +533,11 @@ namespace Server
         {
             if (accepted)
             {
-                Project newProject = new Project();
-                newProject = project;
-                newProject.Team = null;
+                project.Team = null;
 
                 using (var access = new AccessDB())
                 {
-                    access.Projects.Add(newProject);
+                    access.Projects.Add(project);
                     access.SaveChanges();
                 }
             }

@@ -46,14 +46,14 @@ namespace Client
             developers = new BindingList<Employee>();
             teams = new BindingList<Team>();
             hiringCompanies = new BindingList<HiringCompany>();
-            notifications = new BindingList<Notification>();
-            allProjects = new BindingList<Project>();
-            myTeamProjects = new BindingList<Project>();
+            notifications = new BindingList<Notification>(); // treba, uradjeno
+            allProjects = new BindingList<Project>();   // ceu trebaju svi projekti
+            myTeamProjects = new BindingList<Project>(); // treba
 
-            userStories = new BindingList<UserStory>();
+            userStories = new BindingList<UserStory>(); // treba
 
-            allTasks = new BindingList<Task>();
-            myTasks = new BindingList<Task>();
+            allTasks = new BindingList<Task>(); //treba
+            myTasks = new BindingList<Task>(); //treba
 
             currentEmployee = new Employee();
             currentNotification = new Notification();

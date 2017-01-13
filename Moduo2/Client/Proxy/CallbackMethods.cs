@@ -134,12 +134,18 @@ namespace Client
 
         public void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.ResponseToPartnershipRequestCallbackResult(hiringCompany);
+            });
         }
 
         public void SendProjectToTeamMembers(Project project)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.SendProjectToTeamMembersResult(project);
+            });
         }
     }
 }
