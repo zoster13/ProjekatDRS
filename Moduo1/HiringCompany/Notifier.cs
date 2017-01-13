@@ -243,10 +243,10 @@ namespace HiringCompany
 
 
         }
+       
         public void NotifySpecialClient(string clientUsername, string notification)
         {
-            // probati da izvuces kanal, ako ga ima poslati notifiakciju, ako je nema, sacuvati je u bazi i poslati je kad se korisnik prijavi..
-            // kas se korisniku posalju notifikacije, onda mozemo da ih izbrisemo iz baze?
+
 
             IEmployeeServiceCallback clientChannel;
             if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))           

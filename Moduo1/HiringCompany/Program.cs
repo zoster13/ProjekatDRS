@@ -28,6 +28,10 @@ ne znamo da li ce current culture biti ista na drugom kompu, videti sta cete
 dodati mozda datetime kad posaljes notifikaciju -> client app
 
         tamo za notifikacije namestiti da tooltip traje duze i da je u text blocku mozda, kao u vs notifikacije fazon
+     * 
+     * 
+     * RESITI DA AKO PADNE KLIJENT BUDE DISPOSOVANO SVE NJEGOVO!!!! ako se desi exception na klijentskoj strani 
+     * da server ne padne, tj da uradi sign out tog klijenta
 */
 
     // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
