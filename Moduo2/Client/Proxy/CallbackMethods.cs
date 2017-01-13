@@ -136,5 +136,10 @@ namespace Client
         {
             throw new NotImplementedException();
         }
+
+        public void SendProjectToTeamMembers(Project project)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

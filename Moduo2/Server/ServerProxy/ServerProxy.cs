@@ -38,6 +38,11 @@ namespace Server.ServerProxy
             }
         }
 
+        public void SendClosedUserStory(string projectName, string title)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
         {
             try
