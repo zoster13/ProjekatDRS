@@ -482,6 +482,7 @@ namespace Client
             if (employee.Email.Equals(LocalClientDatabase.Instance.CurrentEmployee.Email))
             {
                 MessageBox.Show("Your changes have been saved!");
+                tabControl1.SelectedIndex = 0;
             }
         }
 
