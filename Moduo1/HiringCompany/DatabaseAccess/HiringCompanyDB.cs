@@ -16,7 +16,6 @@ namespace HiringCompany.DatabaseAccess
         // add lock before every adding, replacing, updating query
         // and add lock for every in-memory list, map..
 
-        // da ne budu public objekti
         private object onlineEmployees_lock = new object();
         private object allEmployees_lock = new object(); 
         private object projectsForApproval_lock = new object(); 
@@ -64,7 +63,6 @@ namespace HiringCompany.DatabaseAccess
             }
 
         }
-
 
         public static HiringCompanyDB Instance()
         {
@@ -139,6 +137,7 @@ namespace HiringCompany.DatabaseAccess
             get { return partnerCompaniesAddresses; }
             set { partnerCompaniesAddresses = value; }
         }
+
         public List<PartnerCompany> PartnerCompanies
         {
             get
@@ -163,14 +162,6 @@ namespace HiringCompany.DatabaseAccess
                                        where proj.IsAcceptedCEO == false
                                        select proj;
 
-                    //if (projectsForA.ToList() == null) // videti gde jos treba ova provera
-                    //{
-                    //    return new List<Project>();
-                    //}
-                    //else
-                    //{
-                    //    return projectsForA.ToList();
-                    //}
                     return projectsForA.ToList();
                 }
             }
@@ -182,22 +173,10 @@ namespace HiringCompany.DatabaseAccess
                 // get all Projects that are approved by CEO, and not assigned to any Outsorcing Company
                 using (var access = new AccessDB())
                 {
-                    //var projects = access.projects.Include("UserStories"); //mozda mora ovako da se radi sa include
-                  
-                    //var projectsForS = from proj in projects
-
                     var projectsForS = from proj in access.Projects
                                        where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == false
                                        select proj;
-
-                    //if (projectsForS.ToList() == null) // videti gde jos treba ova provera
-                    //{
-                    //    return new List<Project>();
-                    //}
-                    //else
-                    //{
-                    //    return projectsForS.ToList();
-                    //}
+                   
                     return projectsForS.ToList();
                 }
             }
@@ -213,9 +192,6 @@ namespace HiringCompany.DatabaseAccess
             get { return connectionChannelsCompanies; }
             set { connectionChannelsCompanies = value; }
         }
-
-
-        // valjda treba da ima neka metoda za brisanje employee-a? 
 
         public bool AddNewEmployee(Employee employee)
         {
@@ -350,7 +326,6 @@ namespace HiringCompany.DatabaseAccess
                 {
                     var projects = access.Projects.Include("UserStories"); //mozda mora ovako da se radi sa include
 
-                    //var projectsInDev = from proj in access.Projects
                     var projectsInDev = from proj in projects
                                         where proj.IsAcceptedCEO == true && proj.IsAcceptedOutsCompany == true
                                         select proj;

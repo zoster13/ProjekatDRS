@@ -12,12 +12,6 @@ using EmployeeCommon.Data;
 
 namespace HiringCompany.Services
 {
-    /* [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single,
-   ConcurrencyMode = ConcurrencyMode.Reentrant)]  // nema smisla ovo reentrant sad*/
-    // mozda perCall, i concurrency na single?
-    // pitati njih na koji nacin oni pozivaju nas servis, da li per call?
-    // tj. da li u svakoj metodi ponovo otvaraju kanal, i kad se zavrsi disposuju ga?
-
     public class HiringService : IHiringService
     {
         private HiringCompanyDB hiringCompanyDb = HiringCompanyDB.Instance();
@@ -164,14 +158,13 @@ namespace HiringCompany.Services
 
         public void SendClosedUserStory(string projectName, string title)
         {
-
-            // napraviti onu proveru da li su svi user storiji zatvoreni da bi znali koje projekte da zatvaramo
            string messageToLog=string.Empty;
             messageToLog=(string.Format("Method: HiringService.SendClosedUserStory(), " +
                                                   "params: Project.Name={0}, UserStory.Title={1} ", projectName, title));
             Program.Logger.Info(messageToLog);
 
-            string notification = string.Format("User story <{0}> for project <{1}> is closed.", title, projectName);
+            string notification = string.Empty;
+            string notification2 = string.Empty;
 
             Project proj = new Project();
             using (var access = new AccessDB())
@@ -182,17 +175,23 @@ namespace HiringCompany.Services
                     UserStory us=proj.UserStories.Find(u => u.Title.Equals(title));
                     us.IsClosed = true;
                     access.SaveChanges();
-
-                    messageToLog=("Updated Project.UserStories data in .mdf database.");
+                    notification = string.Format("User story <{0}> for project <{1}> is closed.", title, projectName);
+                    messageToLog = ("Updated Project.UserStories data in .mdf database.");
                     Program.Logger.Info(messageToLog);
-                }
 
+                    List<UserStory> notClosedUserStories = proj.UserStories.FindAll(u => u.IsClosed = false);
+                    if (notClosedUserStories.Count == 0) 
+                    {
+                        notification2 = string.Format("Project <{0}> can be closed, because all its user stories are closed.");                    
+                    }
+                }
             }
 
             using (Notifier notifier = new Notifier())
             {
-                notifier.SyncAll();
+                notifier.SyncAll();               
                 notifier.NotifySpecialClient(proj.ProductOwner, notification);
+                notifier.NotifySpecialClient(proj.ProductOwner, notification2);
             }
         }
     }

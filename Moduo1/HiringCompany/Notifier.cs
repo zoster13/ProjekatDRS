@@ -178,9 +178,7 @@ namespace HiringCompany
                             select x.Username;
 
                     clients = c.ToList();
-
-                    
-                        //var Project =access.Projects.Include("UserStories").FirstOrDefault blabla(trazi se po imenu projekta)
+                   
                 }
 
                 List<string> forRemove = new List<string>();

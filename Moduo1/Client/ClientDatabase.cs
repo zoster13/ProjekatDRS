@@ -11,14 +11,6 @@ namespace Client
 {
     public class ClientDatabase
     {
-        //public object Employees_lock = new object();
-        //public object AllEmployees_lock = new object();
-        //public object Projects_lock = new object();
-        //public object ProjectsForApproval_lock = new object();
-        //public object ProjectsForSending_lock = new object();
-        //public object NamesOfCompanies_lock = new object();
-        //public object Companies_lock = new object();
-
         private BindingList<Employee> employees;
         private BindingList<Employee> allEmployees;
         private BindingList<Project> projects;
@@ -28,6 +20,7 @@ namespace Client
 
         private BindingList<Project> projectsForApproval;
         private BindingList<Project> projectsForSending;
+        private BindingList<Project> projectsForClosing;
 
         // singletone
         private static ClientDatabase instance; 
@@ -48,6 +41,7 @@ namespace Client
 
             projectsForApproval = new BindingList<Project>();
             projectsForSending = new BindingList<Project>();
+            projectsForClosing = new BindingList<Project>();
         }
 
         public static ClientDatabase Instance()
@@ -99,6 +93,12 @@ namespace Client
         {
             get { return projectsForSending; }
             set { projectsForSending = value; }
+        }
+
+        public BindingList<Project> ProjectsForClosing
+        {
+            get { return projectsForClosing; }
+            set { projectsForClosing = value; }
         }
 
         public string Username 

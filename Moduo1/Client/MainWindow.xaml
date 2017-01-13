@@ -79,7 +79,7 @@
                         </TabItem>
                         <TabItem Header="Companies" Margin="49,10,-72,-10" Height="39" Focusable="True">
                             <Grid Background="#FFF7F7F7" Margin="0,17,0,0" Focusable="True">
-                                <DataGrid x:Name="companiesDataGrid" HorizontalAlignment="Left" Margin="39,33,0,0" 
+                                <DataGrid x:Name="partnerCompaniesDataGrid" HorizontalAlignment="Left" Margin="39,33,0,0" 
                                           VerticalAlignment="Top" Height="359" Width="790" Background="#FFDDDDDD"
                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
@@ -192,7 +192,7 @@
                                     </TabItem>
                                     <TabItem x:Name="tabItemCompanies" Header="Partner Companies" Height="39">
                                         <Grid Background="#FFF7F7F7">
-                                            <DataGrid x:Name="dataGrid_NotPartnerCompanies" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Height="230" Width="252" Background="#FFDDDDDD"
+                                            <DataGrid x:Name="PossiblePartnerCompaniesDataGrid" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Height="230" Width="252" Background="#FFDDDDDD"
                                           IsReadOnly="True" CanUserAddRows="False" ItemsSource="{Binding}"
                                           AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False"
                                           AllowDrop="True"  CanUserSortColumns="False" HorizontalGridLinesBrush="#FF7E97BF"
@@ -262,7 +262,7 @@
                                                 <Label Content="Select project and company which will develope that project:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="386"/>
                                                 <Button x:Name="ProjectRequestButton" Content="Send project" HorizontalAlignment="Left" Margin="388,264,0,0" VerticalAlignment="Top" Width="92" Click="ProjectRequestButton_CLick" Height="28" Background="#FFF4F5F7" BorderBrush="#FFABADB3" 
                                                         Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1"/>
-                                                <ComboBox x:Name="comboBoxCompanies" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="219" Height="36"/>
+                                                <ComboBox x:Name="comboBoxPartnerCompanies" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="219" Height="36"/>
                                             </Grid>
                                         </Grid>
                                     </TabItem>
@@ -292,7 +292,7 @@
                                 <ComboBox x:Name= "ScrumMasterComboBox" HorizontalAlignment="Left" Margin="98,200,0,0" VerticalAlignment="Top" Width="156"></ComboBox>
                                 <Grid Background="White" HorizontalAlignment="Left" Height="142" Margin="10,278,0,0" VerticalAlignment="Top" Width="363">
                                     <Label Content="Projects that can be closed:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="193" FontSize="14" FontWeight="Bold"/>
-                                    <ComboBox x:Name="ProjectsForClosingComboBox" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Width="193"/>
+                                    <ComboBox x:Name="ProjectsForClosingComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top" Width="193"/>
                                     <Button x:Name="CloseProjectButton" Content="Mark project as closed" HorizontalAlignment="Left" Margin="207,109,0,0" VerticalAlignment="Top" Width="146" Height="23" Click="CloseProjectButton_Click"/>
                                 </Grid>
                             </Grid>

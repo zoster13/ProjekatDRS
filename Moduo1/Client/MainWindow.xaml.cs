@@ -37,17 +37,7 @@ namespace Client
 
             clientDB.Main = this;
 
-            comboBoxProjects.DataContext = clientDB.ProjectsInDevelopment;  // razlika izmedju ovog comboBox-a
-            employeesDataGrid.DataContext = clientDB.Employees;
-            companiesDataGrid.DataContext = clientDB.Companies;
-            dataGridCEO.DataContext = clientDB.AllEmployees;
-            projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
-            comboBoxCompanies.DataContext = clientDB.Companies;
-            dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
-            approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
-            WorkPOProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment; // i ovog, naziv?
-
-
+            //ako nesto e bude prikazivalo kako treba,mozda ovde moraju svi dataContexti da se dodaju
             foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
                 comboBoxNewPositionCEO.Items.Add(Extensions.TypeToString(type));
@@ -219,7 +209,7 @@ namespace Client
         // not partner companies tab
         private void PartnershipRequestCEOButton_Click( object sender, RoutedEventArgs e )
         {
-            proxy.AskForPartnership((string)dataGrid_NotPartnerCompanies.SelectedItem);
+            proxy.AskForPartnership((string)PossiblePartnerCompaniesDataGrid.SelectedItem);
         }
 
         // projects for approval, and for assinging to development company tab  
@@ -240,7 +230,7 @@ namespace Client
         {
             if (approvedprojectsInDevelopmentDataGrid.SelectedItem != null)
             {
-                proxy.SendProject(( (PartnerCompany)comboBoxCompanies.SelectedItem ).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
+                proxy.SendProject(( (PartnerCompany)comboBoxPartnerCompanies.SelectedItem ).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
             }
         }
 
@@ -298,8 +288,6 @@ namespace Client
         private void ApproveUserStoriesButton_Click( object sender, RoutedEventArgs e )
         {
             Project p = (Project)WorkPOProjectsComboBox.SelectedItem;
-            //List<CheckBox> forRemove = new List<CheckBox>();
-            //napraviti listu userStorija za odobravanje koji ce se slati
             foreach (CheckBox cb in UserStoriesForApprovalListBox.Items)
             {
                 if (cb.IsChecked == true)
@@ -309,17 +297,10 @@ namespace Client
                         if (us.Title.Equals(cb.Content))
                         {
                             us.IsApprovedByPO = true;
-                            //forRemove.Add(cb);
                         }
                     }
                 }
             }
-
-            //foreach (CheckBox cb in forRemove) 
-            //{
-            //    UserStoriesForApprovalListBox.Items.Remove(cb);
-            //}
-
             UserStoriesForApprovalListBox.Items.Clear();
 
             proxy.SendApprovedUserStories(p.Name, p.UserStories);
@@ -331,9 +312,6 @@ namespace Client
 
         private void EditData_Click( object sender, RoutedEventArgs e )
         {
-            //lock (clientDB.Employees_lock)
-            //{
-
             Employee em = clientDB.Employees.SingleOrDefault(employee => employee.Username.Equals(clientDB.Username));
             if (em != null)
             {
@@ -355,33 +333,6 @@ namespace Client
                 workEndMinute.IsEnabled = true;
                 workEndMinute.Text = em.EndMinute.ToString();
             }
-
-            //foreach (Employee em in clientDB.Employees)
-            //{
-            //    if (em.Username == clientDB.Username)
-            //    {
-            //        textBoxEditName.IsEnabled = true;
-            //        textBoxEditName.Text = em.Name;
-
-            //        textBoxEditSurname.IsEnabled = true;
-            //        textBoxEditSurname.Text = em.Surname;
-
-            //        textBoxEditEmail.IsEnabled = true;
-            //        textBoxEditEmail.Text = em.Email;
-
-            //        workBeginHour.IsEnabled = true;
-            //        workBeginHour.Text = em.StartHour.ToString();
-            //        workBeginMinute.IsEnabled = true;
-            //        workBeginMinute.Text = em.StartMinute.ToString();
-            //        workEndHour.IsEnabled = true;
-            //        workEndHour.Text = em.EndHour.ToString();
-            //        workEndMinute.IsEnabled = true;
-            //        workEndMinute.Text = em.EndMinute.ToString();
-
-            //        break;
-            //    }
-            //}
-            //}
         }
 
         private void EditPassword_Click( object sender, RoutedEventArgs e )
@@ -449,8 +400,6 @@ namespace Client
             passBoxOldPass.Password = "";
             passBoxNewPass.IsEnabled = false;
             passBoxNewPass.Password = "";
-            //passBoxConfirmNewPass.IsEnabled = false;
-            //passBoxConfirmNewPass.Password = "";
 
             textBoxEditName.IsEnabled = false;
             textBoxEditName.Text = "";
@@ -471,7 +420,6 @@ namespace Client
 
         #endregion
 
-        // da li da cuvamo notifikacije u bazi?
         private void NotificationsButton_Click( object sender, RoutedEventArgs e )
         {
             BrushConverter bc = new BrushConverter();
@@ -490,10 +438,8 @@ namespace Client
             tb.Text = message;
             tb.TextWrapping = TextWrapping.Wrap;
 
-            //tb.Height = 45;
-            //tb.Width = 128;
             tb.Height = double.NaN;
-            tb.Width = double.NaN; // auto?
+            tb.Width = double.NaN; // auto
 
             Border myBorder = new Border();
             BrushConverter bc = new BrushConverter();
@@ -511,9 +457,6 @@ namespace Client
 
         public void FillHomeLabels()
         {
-            //lock (clientDB.Employees_lock)
-            //{
-
             Employee em = clientDB.Employees.SingleOrDefault(employee => employee.Username.Equals(clientDB.Username));
             if (em != null)
             {
@@ -555,52 +498,6 @@ namespace Client
                     PO_Work_TabItem.Visibility = Visibility.Hidden;
                 }
             }
-
-
-            //foreach (Employee em in clientDB.Employees)
-            //{
-            //    if (em.Username == clientDB.Username)
-            //    {
-            //        homeLabelName.Content = em.Name;
-            //        homeLabelSurname.Content = em.Surname;
-            //        TextBlock tb = new TextBlock();
-            //        tb.Text = em.Email;
-            //        homeLabelEmail.Content = tb;
-            //        homeLabelPosition.Content = Extensions.TypeToString(em.Type);
-
-            //        nameSurnameLabel.Content = em.Name + " " + em.Surname;
-
-            //        if (em.Type.Equals(EmployeeType.CEO))
-            //        {
-            //            workTabItem.Visibility = Visibility.Visible;
-            //            tabItemCompanies.Visibility = Visibility.Visible;
-            //            tabItemProjects.Visibility = Visibility.Visible;
-            //            PO_Work_TabItem.Visibility = Visibility.Hidden;
-            //        }
-            //        else if (em.Type.Equals(EmployeeType.HR))
-            //        {
-            //            workTabItem.Visibility = Visibility.Visible;
-            //            tabItemCompanies.Visibility = Visibility.Hidden;
-            //            tabItemProjects.Visibility = Visibility.Hidden;
-            //            PO_Work_TabItem.Visibility = Visibility.Hidden;
-            //        }
-            //        else if (em.Type.Equals(EmployeeType.PO))
-            //        {
-            //            workTabItem.Visibility = Visibility.Hidden;
-            //            tabItemCompanies.Visibility = Visibility.Hidden;
-            //            tabItemProjects.Visibility = Visibility.Hidden;
-            //            PO_Work_TabItem.Visibility = Visibility.Visible;
-            //        }
-            //        else
-            //        {
-            //            workTabItem.Visibility = Visibility.Hidden;
-            //            tabItemCompanies.Visibility = Visibility.Hidden;
-            //            tabItemProjects.Visibility = Visibility.Hidden;
-            //            PO_Work_TabItem.Visibility = Visibility.Hidden;
-            //        }
-            //    }
-            //}
-            //}
         }
 
         private void Window_MouseDown( object sender, MouseButtonEventArgs e )
@@ -621,8 +518,6 @@ namespace Client
 
         public void SyncClientDb( CurrentData data )
         {
-            //lock (clientDB.Employees_lock)
-            //{
             if (clientDB.Employees.Count != 0)
             {
                 clientDB.Employees.Clear();
@@ -631,81 +526,72 @@ namespace Client
             //}
             employeesDataGrid.DataContext = clientDB.Employees;
 
-            //lock (clientDB.AllEmployees_lock)
-            //{
             if (clientDB.AllEmployees.Count != 0)
             {
                 clientDB.AllEmployees.Clear();
             }
             clientDB.AllEmployees = new BindingList<Employee>(data.AllEmployeesData);
-            //}
             dataGridCEO.DataContext = clientDB.AllEmployees;
 
-
-            //lock (clientDB.ProjectsForApproval_lock)
-            //{
             if (clientDB.ProjectsForApproval.Count != 0)
             {
                 clientDB.ProjectsForApproval.Clear();
             }
             clientDB.ProjectsForApproval = new BindingList<Project>(data.ProjectsForApprovalData);
-            //}
             projectsForApprovalDataGrid.DataContext = clientDB.ProjectsForApproval;
 
-            //lock (clientDB.NamesOfCompanies_lock)
-            //{
             if (clientDB.NamesOfCompanies.Count != 0)
             {
                 clientDB.NamesOfCompanies.Clear();
             }
             clientDB.NamesOfCompanies = new BindingList<string>(data.NamesOfCompaniesData);
-            //}
-            dataGrid_NotPartnerCompanies.DataContext = clientDB.NamesOfCompanies;
+            PossiblePartnerCompaniesDataGrid.DataContext = clientDB.NamesOfCompanies;
 
-            //lock (clientDB.Companies_lock)
-            //{
             if (clientDB.Companies.Count != 0)
             {
                 clientDB.Companies.Clear();
             }
             clientDB.Companies = new BindingList<PartnerCompany>(data.CompaniesData);
-            //}
-            companiesDataGrid.DataContext = clientDB.Companies;
-            //WorkCompaniesDataGrid.DataContext = clientDB.Companies;
-            comboBoxCompanies.DataContext = clientDB.Companies;
+            partnerCompaniesDataGrid.DataContext = clientDB.Companies;
+            comboBoxPartnerCompanies.DataContext = clientDB.Companies;
 
-            //lock (clientDB.ProjectsForSending_lock)
-            // {
             if (clientDB.ProjectsForSending.Count != 0)
             {
                 clientDB.ProjectsForSending.Clear();
             }
             clientDB.ProjectsForSending = new BindingList<Project>(data.ProjectsForSendingData);
-            //}
             approvedprojectsInDevelopmentDataGrid.DataContext = clientDB.ProjectsForSending;
 
-            //lock (clientDB.Projects_lock) 
-            //{
             if (clientDB.ProjectsInDevelopment.Count != 0)
             {
                 clientDB.ProjectsInDevelopment.Clear();
             }
             clientDB.ProjectsInDevelopment = new BindingList<Project>(data.ProjectsInDevelopmentData);
-            //}
             comboBoxProjects.DataContext = clientDB.ProjectsInDevelopment; 
             WorkPOProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment;
 
+            clientDB.ProjectsForClosing.Clear();
+            foreach(Project p in clientDB.ProjectsInDevelopment) //projectsInDevelopment su svi projekti(i zatvoreni i oni koji se rade trenutno)
+            {
+                if (p.UserStories.Count != 0 && p.IsClosed==false)
+                {
+                    List<UserStory> us = p.UserStories.FindAll(u => u.IsClosed == false);
+                    if (us.Count == 0)
+                    {
+                        clientDB.ProjectsForClosing.Add(p);
+                    }
+                }              
+            }      
+            ProjectsForClosingComboBox.DataContext = clientDB.ProjectsForClosing;
 
             FillHomeLabels();
             foreach (Employee em in clientDB.AllEmployees)
             {
                 if (em.Type == EmployeeType.SM)
                 {
-                    //Za dodavanje SM u comboBox koji se koristi kad se pravi novi projekat
-                    ScrumMasterComboBox.Items.Add(em.Username);
-                    
+                    ScrumMasterComboBox.Items.Add(em.Username);                   
                 }
-            }
+            }                  
         }
 
         private void CloseProjectButton_Click(object sender, RoutedEventArgs e)

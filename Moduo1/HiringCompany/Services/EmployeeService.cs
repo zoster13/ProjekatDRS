@@ -321,9 +321,6 @@ namespace HiringCompany.Services
 
             EndpointAddress endpointAddress = new EndpointAddress(new Uri(outsorcingSvcEndpoint));
 
-
-            // izbrisati iz liste, i dodati ako negde nesto treba
-            // i onda kasnije kad pozivamo neke motede uvek proveravmao da li smo partneri
             using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
                 outsorcingProxy.AskForPartnership(hiringCompanyDB.CompanyName);
@@ -491,8 +488,6 @@ namespace HiringCompany.Services
                 userStoriesForSend.Add(new UserStoryCommon(us.Title, us.Description, us.AcceptanceCriteria, us.IsApprovedByPO));
             }
 
-            // kada sve treba da proverimo da li smo partneri i ostalo?
-
             using (outsorcingProxy = new OutsorcingCompProxy(binding, endpointAddress))
             {
                 outsorcingProxy.SendEvaluatedUserstoriesToOutsourcingCompany(userStoriesForSend, projectName);
@@ -512,22 +507,6 @@ namespace HiringCompany.Services
 
                     messageToLog=("Removed user stories that were not approved in .mdf database.");
                     Program.Logger.Info(messageToLog);
-
-                    //var Projects = access.Projects.Include("UserStories");
-                    //var project = from pr in access.Projects
-                    //              where pr.Name.Equals(proj.Name)
-                    //              select pr;
-
-                    //if (project != null)
-                    //{
-
-                    //    project.UserStories.RemoveRange(project.UserStories.Where(u => u.IsApprovedByPO == false));
-                    //    //7var us = access.userstories.First(u => u.IsApprovedByPO == false )
-
-                    //    //access.userstories.Remove()
-
-                    //    access.SaveChanges();
-                    //}
                 }
             }
             catch (DbEntityValidationException e)
@@ -563,9 +542,7 @@ namespace HiringCompany.Services
 
             hiringCompanyDB.AddNewProject(p); // lockovanje? bolje raditi interno u AddNewProjet metodi, kad smo je vec napravili
 
-            // odrediti velicinu notifikacija otprilike, zbog size text blocka
             string notification = string.Format("Project <{0}> is waiting for approval. Description: {1}", p.Name,p.Description); 
-
 
             using (Notifier notifier = new Notifier())
             {
