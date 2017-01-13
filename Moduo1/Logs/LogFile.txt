@@ -1,0 +1,23 @@
+2017-01-12 23:30:09,292 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 23:30:51,382 INFO - Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-12 23:30:56,157 INFO - finished successfully.
+2017-01-12 23:30:56,988 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 23:30:57,004 INFO - returned true
+2017-01-12 23:31:09,758 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 23:33:49,307 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 23:35:01,180 INFO - Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-12 23:35:05,698 INFO - finished successfully.
+2017-01-12 23:35:06,376 INFO - Method: Notifier.SyncAll()
+finished successfully
+
+2017-01-12 23:35:06,382 INFO - returned true
+2017-01-12 23:36:03,703 INFO - Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-12 23:36:08,273 INFO - finished successfully.

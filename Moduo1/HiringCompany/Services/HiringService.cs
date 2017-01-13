@@ -25,9 +25,10 @@ namespace HiringCompany.Services
         public void ResponseForPartnershipRequest(bool accepted, string outsourcingCompName)
         {
 
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: HiringService.ResponseForPartnershipRequest(), " +
+           string messageToLog=string.Empty;
+            messageToLog=(string.Format("Method: HiringService.ResponseForPartnershipRequest(), " +
                                                   "params: bool accepted={0}, string outsorcingCompName={0}", accepted, outsourcingCompName));
+            Program.Logger.Info(messageToLog);
 
             string notification = string.Empty;
             if (accepted)
@@ -50,15 +51,14 @@ namespace HiringCompany.Services
                 notifier.SyncAll();
                 notifier.SyncSpecialClients(EmployeeType.CEO, notification);
             }
-            Program.Logger.Info(messageToLog);
         }
 
         public void ResponseForProjectRequest(string outsourcingCompanyName, ProjectCommon p)
         {
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
+           string messageToLog=string.Empty;
+            messageToLog=(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
                                                   "params: string outsorcingCompName={0}, Project.Name={1}", outsourcingCompanyName,p.Name));
-
+            Program.Logger.Info(messageToLog);
             string notification = string.Empty;
 
             Project proj = new Project();
@@ -73,8 +73,10 @@ namespace HiringCompany.Services
                         {
                             proj.OutsourcingCompany = outsourcingCompanyName;
                             proj.IsAcceptedOutsCompany = true;
-                            messageToLog.AppendLine("updated Project.IsAcceptedOutsCompanu data in .mdf database.");
                             access.SaveChanges();
+                            messageToLog=("updated Project.IsAcceptedOutsCompanu data in .mdf database.");
+                           
+                            Program.Logger.Info(messageToLog);
                         }
                     }
                 }
@@ -83,14 +85,16 @@ namespace HiringCompany.Services
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
+                        Program.Logger.Info(messageToLog);
                     }
                 }
             }
@@ -98,17 +102,7 @@ namespace HiringCompany.Services
             notification = p.IsAcceptedByOutsCompany ?
                 string.Format("Company <" + outsourcingCompanyName + "> accepted request for developing project <" + p.Name + ">.") :
                 string.Format("Company <" + outsourcingCompanyName + "> declined request for developing project <" + p.Name + ">.");
-            //if (p.IsAcceptedByOutsCompany)
-            //{
 
-            //    notification = "Company <" + outsourcingCompanyName + "> accepted request for developing project <" +
-            //                   p.Name + ">.";
-            //}
-            //else
-            //{
-            //    notification = "Company <" + outsourcingCompanyName + "> declined request for developing project <" +
-            //                   p.Name + ">.";
-            //}
 
             using (Notifier notifier = new Notifier())
             {
@@ -124,10 +118,12 @@ namespace HiringCompany.Services
 
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)
         {
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
+           string messageToLog=string.Empty;
+            messageToLog=(string.Format("Method: HiringService.ResponseForProjectRequest(), " +
                                                   "params: Project.Name={0}, userStories.Count={1} ",  projectName,userStories.Count));
 
+
+            Program.Logger.Info(messageToLog);
 
             string notification = string.Format("{0} User stories for project <{1}>, are waiting to be approved.",userStories.Count, projectName);
             Project proj = new Project();
@@ -148,7 +144,8 @@ namespace HiringCompany.Services
                     proj.UserStories = tempUserStories;
                     access.SaveChanges();
 
-                    messageToLog.AppendLine("Updated Project.UserStories data in .mdf database.");
+                    messageToLog=("Updated Project.UserStories data in .mdf database.");
+                    Program.Logger.Info(messageToLog);
                 }
 
             }
@@ -164,9 +161,10 @@ namespace HiringCompany.Services
 
         public void SendClosedUserStory(string projectName, string title)
         {
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: HiringService.SendClosedUserStory(), " +
+           string messageToLog=string.Empty;
+            messageToLog=(string.Format("Method: HiringService.SendClosedUserStory(), " +
                                                   "params: Project.Name={0}, UserStory.Title={1} ", projectName, title));
+            Program.Logger.Info(messageToLog);
 
             string notification = string.Format("User story <{0}> for project <{1}> is closed.", title, projectName);
 
@@ -180,7 +178,8 @@ namespace HiringCompany.Services
                     us.IsClosed = true;
                     access.SaveChanges();
 
-                    messageToLog.AppendLine("Updated Project.UserStories data in .mdf database.");
+                    messageToLog=("Updated Project.UserStories data in .mdf database.");
+                    Program.Logger.Info(messageToLog);
                 }
 
             }

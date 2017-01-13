@@ -27,13 +27,14 @@ namespace HiringCompany
 
         public void SyncAll()
         {
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: Notifier.SyncAll()"));
+
+            string messageToLog = string.Empty;
+            messageToLog=(string.Format("Method: Notifier.SyncAll()"));
+            Program.Logger.Info(messageToLog);
 
             PopulateCurrentData();
 
             List<string> channelsForRemove = new List<string>();
-
 
             // moramo dodati lockove na connection channels
             foreach (var clientChannel in hiringCompanyDB.ConnectionChannelsClients)
@@ -48,7 +49,8 @@ namespace HiringCompany
                     else
                     {
                         channelsForRemove.Add(clientChannel.Key);
-                        messageToLog.AppendLine(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientChannel.Key, cObject.State.ToString()));
+                        messageToLog=(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientChannel.Key, cObject.State.ToString()));
+                        Program.Logger.Info(messageToLog);
                     }
                 }
             }
@@ -56,18 +58,19 @@ namespace HiringCompany
             foreach (string key in channelsForRemove)
             {
                 hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-                messageToLog.AppendLine(string.Format("removed channel with key {0}", key));
+                messageToLog=(string.Format("removed channel with key {0}", key));
+                Program.Logger.Info(messageToLog);
             }
 
-            messageToLog.AppendLine("finished successfully");
+            messageToLog=("finished successfully");
             Program.Logger.Info(messageToLog);
         }
 
         public void SyncSpecialClients(EmployeeType type, string notification)
         {
-
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: Notifier.SyncSpecialClients()")); // dodati params, srediti loger i to
+            string messageToLog = string.Empty;
+            messageToLog=(string.Format("Method: Notifier.SyncSpecialClients() EmployeeType={0}",type)); 
+            Program.Logger.Info(messageToLog);
 
             PopulateCurrentData();
 
@@ -108,12 +111,13 @@ namespace HiringCompany
                             else
                             {
                                 forRemove.Add(clientUsername);
-                                messageToLog.AppendLine(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                                messageToLog=(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                                Program.Logger.Info(messageToLog);
                             }
                         }
                     }
                     else
-                    { // treba cuvati notifikaciju u bazi
+                    { // treba ovde cuvati notifikaciju u bazi, i kasnije ih na sign in slati
 
                     }
                 }
@@ -121,10 +125,11 @@ namespace HiringCompany
                 foreach (string key in forRemove)
                 {
                     hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-                    messageToLog.AppendLine(string.Format("removed channel with key {0}", key));
+                    messageToLog=(string.Format("removed channel with key {0}", key));
+                    Program.Logger.Info(messageToLog);
                 }
 
-                messageToLog.AppendLine("finished successfully");
+                messageToLog=("finished successfully");
                 Program.Logger.Info(messageToLog);
 
             }
@@ -132,14 +137,16 @@ namespace HiringCompany
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                    Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
+                        Program.Logger.Info(messageToLog);
                     }
                 }
             }
@@ -149,16 +156,15 @@ namespace HiringCompany
                 Console.WriteLine(e);
 
             }
-
-
-            messageToLog.AppendLine("finished successfully");
+            messageToLog=("finished successfully");
             Program.Logger.Info(messageToLog);
         }
 
         public void NotifySpecialClients(EmployeeType type, string notification)
         {
-            StringBuilder messageToLog = new StringBuilder();
-            messageToLog.AppendLine(string.Format("Method: Notifier.NotifySpecialClients()")); // dodati params, srediti loger i to
+             string messageToLog = string.Empty;
+             messageToLog = (string.Format("Method: Notifier.NotifySpecialClients(), EmployeeType={0}", type));
+             Program.Logger.Info(messageToLog);
 
             PopulateCurrentData();
 
@@ -196,7 +202,8 @@ namespace HiringCompany
                             else
                             {
                                 forRemove.Add(clientUsername);
-                                messageToLog.AppendLine(string.Format("SyncData() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                                messageToLog=(string.Format("NotifySpecialClients() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                                Program.Logger.Info(messageToLog);
                             }
                         }
                     }
@@ -209,10 +216,11 @@ namespace HiringCompany
                 foreach (string key in forRemove)
                 {
                     hiringCompanyDB.ConnectionChannelsClients.Remove(key);
-                    messageToLog.AppendLine(string.Format("removed channel with key {0}", key));
+                    messageToLog=(string.Format("removed channel with key {0}", key));
+                    Program.Logger.Info(messageToLog);
                 }
 
-                messageToLog.AppendLine("finished successfully");
+                messageToLog=("finished successfully");
                 Program.Logger.Info(messageToLog);
 
             }
@@ -220,11 +228,11 @@ namespace HiringCompany
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    messageToLog.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog=(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State));
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        messageToLog.AppendLine(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog=(string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage));
@@ -238,7 +246,7 @@ namespace HiringCompany
             }
 
 
-            messageToLog.AppendLine("finished successfully");
+            messageToLog=("finished successfully");
             Program.Logger.Info(messageToLog);
 
 
@@ -246,7 +254,9 @@ namespace HiringCompany
        
         public void NotifySpecialClient(string clientUsername, string notification)
         {
-
+            string messageToLog = string.Empty;
+            messageToLog = (string.Format("Method: Notifier.SyncSpecialClient() clientUsername={0}", clientUsername));
+            Program.Logger.Info(messageToLog);
 
             IEmployeeServiceCallback clientChannel;
             if (hiringCompanyDB.ConnectionChannelsClients.TryGetValue(clientUsername, out clientChannel))           
@@ -267,7 +277,11 @@ namespace HiringCompany
             }
             else 
             {
+                messageToLog = (string.Format("NotifySpecialClient() failed for client {0}: because clientChannel was in {1} state.", clientUsername, cObject.State.ToString()));
+                Program.Logger.Info(messageToLog);
+
                 // cuvaj u bazi, napraviti metodu u ovom notifieru koja se poziva iz sign in, koaj ce citati sve notifikacije iz baze i slati klijentu
+            
             }
 
         }
@@ -285,7 +299,8 @@ namespace HiringCompany
             cData.NamesOfCompaniesData = hiringCompanyDB.PartnerCompaniesAddresses.Keys.ToList();
         }
 
-        public void Dispose() // nemam pojma kako se ovaj notifier ponasa sa visi niti, ali ne znam ni baza kako se ponasa bla bla
+        // nemam pojma kako se ovaj notifier ponasa sa visi niti, ali ne znam ni baza kako se ponasa bla bla
+        public void Dispose() 
         {
             // throw new NotImplementedException();
         }

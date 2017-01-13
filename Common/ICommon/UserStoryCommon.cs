@@ -22,8 +22,8 @@ namespace ICommon
         public UserStoryCommon(string t, string desc, string acceptanceC, bool isApprovedByPO)
         {
             title = t;
-            desc = description;
-            acceptanceC = acceptanceCriteria;
+            description = desc;
+            acceptanceCriteria = acceptanceC;
             isAccepted = isApprovedByPO;
         }
 
