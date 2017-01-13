@@ -326,8 +326,7 @@ namespace Server
                 Publisher.Instance.ProjectTeamAssignCallback(project);
             }
         }
-
-
+        
         /// <summary>
         /// Provjera da li zaposleni kasni na posao
         /// </summary>
@@ -367,6 +366,11 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Dodavanje nove korisnicke price u bazu
+        /// </summary>
+        /// <param name="userStory"></param>
+        /// <param name="projectName"></param>
         public void AddUserStory(UserStory userStory, string projectName)
         {
             // dodaje user story u bazu, ne treba callback
@@ -382,6 +386,10 @@ namespace Server
             Logger.Info(string.Format("UserStory [{0}] is added to database.", userStory.Title));
         }
 
+        /// <summary>
+        /// Dodavanje novog taska u bazu
+        /// </summary>
+        /// <param name="task"></param>
         public void AddTask(Task task)
         {
             // izvuce se user story iz baze na osnovu user storija iz taska( story ima title) i doda se task
@@ -396,6 +404,8 @@ namespace Server
                 access.SaveChanges();
             }
         }
+
+
 
         public void ReleaseUserStory(UserStory userStory)
         {
@@ -475,6 +485,9 @@ namespace Server
         }
         
         #endregion IEmployeeService Methods
+
+
+
 
         #region Responses to Hiring company
 

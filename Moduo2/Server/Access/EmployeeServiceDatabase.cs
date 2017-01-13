@@ -86,18 +86,25 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                var employee = from em in access.Employees
-                               where em.Email.Equals(email)
-                               select em;
-                try
-                {
-                    return employee.ToList().First();
-                }
-                catch
-                {
-                    return null;
-                }
+                return access.Employees
+                    .Include("Team")
+                    .FirstOrDefault(e => e.Email.Equals(email));
             }
+
+            //using (var access = new AccessDB())
+            //{
+            //    var employee = from em in access.Employees
+            //                   where em.Email.Equals(email)
+            //                   select em;
+            //    try
+            //    {
+            //        return employee.ToList().First();
+            //    }
+            //    catch
+            //    {
+            //        return null;
+            //    }
+            //}
         }
 
         public bool AddTeam(Team team)
@@ -150,6 +157,7 @@ namespace Server.Access
                     employeeInDB.Surname = employee.Surname;
                     employeeInDB.WorkingHoursStart = employee.WorkingHoursStart;
                     employeeInDB.WorkingHoursEnd = employee.WorkingHoursEnd;
+                    employeeInDB.Password = employee.Password;
 
                     access.SaveChanges();
                 }
