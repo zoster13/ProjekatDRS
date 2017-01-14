@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using ClientCommon.Data;
+using NSubstitute;
+using NUnit.Framework;
 using Server.Access;
 using System.Linq;
 
@@ -8,11 +10,13 @@ namespace ServerTest.Access
     public class AccessDBTest
     {
         private AccessDB accessTest;
+        private Employee employeeTest;
 
         [OneTimeSetUp]
         public void SetupTest()
         {
             this.accessTest = new AccessDB();
+            employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "marko@gmail.com", "mare123", new Team());
         }
 
         [Test]

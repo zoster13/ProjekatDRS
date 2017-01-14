@@ -30,12 +30,11 @@ namespace ServerTest
             EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => email == "marko@gmail.com")).Returns(employeeTest);
             EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => email == "ivan@gmail.com")).Returns(employeeTestSM);
             EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => (email != "ivan@gmail.com" && email != "marko@gmail.com"))).Returns(emloyeeTestNull);
-
-
+            
             EmployeeServiceDatabase.Instance.AddEmployee(Arg.Is<Employee>(employeeTest)).Returns(true);
-
+            EmployeeServiceDatabase.Instance.AddEmployee(Arg.Is<Employee>(employeeTestSM)).Returns(true);
         }
-        
+
         //LogIn Tests
         [Test]
         public void LogInTestOk()

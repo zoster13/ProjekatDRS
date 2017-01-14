@@ -11,6 +11,7 @@ using System.Net;
 using System.ServiceModel;
 using Server.Logger;
 using ICommon;
+using ClientCommon.TempStructure;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -136,12 +137,7 @@ namespace Server
                 //Ako je SM, podesi timu ScrumMasterEmail
                 if (employee.Type.Equals(EmployeeType.SCRUMMASTER))
                 {
-                    using (var access = new AccessDB())
-                    {
-                        teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(employee.Team.Name));
-                        teamInDB.ScrumMasterEmail = employee.Email;
-                        access.SaveChanges();
-                    }
+                    teamInDB = EmployeeServiceDatabase.Instance.UpdateTeamScrumMaster(employee.Team.Name, employee.Email);
 
                     Publisher.Instance.ScrumMasterAddedCallback(employee, teamInDB);
                 }
@@ -267,10 +263,7 @@ namespace Server
         /// <returns></returns>
         public List<Employee> GetAllEmployees()
         {
-            using (var access = new AccessDB())
-            {
-                return access.Employees.ToList();
-            }
+            return EmployeeServiceDatabase.Instance.GetAllEmployees();
         }
 
         /// <summary>
@@ -279,10 +272,7 @@ namespace Server
         /// <returns></returns>
         public List<Team> GetAllTeams()
         {
-            using (var access = new AccessDB())
-            {
-                return access.Teams.ToList();
-            }
+            return EmployeeServiceDatabase.Instance.GetAllTeams();
         }
 
         /// <summary>
@@ -291,10 +281,7 @@ namespace Server
         /// <returns></returns>
         public List<HiringCompany> GetAllHiringCompanies()
         {
-            using (var access = new AccessDB())
-            {
-                return access.HiringCompanies.ToList();
-            }
+            return EmployeeServiceDatabase.Instance.GetAllHiringCompanies();
         }
 
         /// <summary>
@@ -303,10 +290,7 @@ namespace Server
         /// <returns></returns>
         public List<Project> GetAllProjects()
         {
-            using (var access = new AccessDB())
-            {
-                return access.Projects.Include("Team").ToList();
-            }
+            return EmployeeServiceDatabase.Instance.GetAllProjects();
         }
 
         /// <summary>
@@ -315,23 +299,9 @@ namespace Server
         /// <param name="project"></param>
         public void ProjectTeamAssign(Project project)
         {
-            // ako je tim lider online, treba mu poslati projekat (SAMO NJEMU), inace se stavlja u bazu
-            // mora se postaviti referenca projekta tj. izvuci tim iz baze
-
-            //Azuriraj tim projekta u bazi
-            using (var access = new AccessDB())
-            {
-                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(project.Name));
-                Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(project.Team.Name));
-
-                proj.Team = team;
-                project.Team = team;
-                proj.AssignStatus = AssignStatus.ASSIGNED;
-                project.AssignStatus = AssignStatus.ASSIGNED;
-
-                access.SaveChanges();
-            }
-
+            project.Team = EmployeeServiceDatabase.Instance.UpdateProjectsTeam(project.Name, project.Team.Name);
+            project.AssignStatus = AssignStatus.ASSIGNED;
+            
             //Obavjesti TL ako je online
             Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
 
@@ -343,6 +313,132 @@ namespace Server
         }
         
         /// <summary>
+        /// Dodavanje nove korisnicke price u bazu
+        /// </summary>
+        /// <param name="userStory"></param>
+        /// <param name="projectName"></param>
+        public void AddUserStory(UserStory userStory, string projectName)
+        {
+            EmployeeServiceDatabase.Instance.AddUserStory(userStory, projectName);
+
+            Logger.Info(string.Format("UserStory [{0}] is added to database.", userStory.Title));
+        }
+
+        /// <summary>
+        /// Dodavanje novog taska u bazu
+        /// </summary>
+        /// <param name="task"></param>
+        public void AddTask(Task task)
+        {
+            EmployeeServiceDatabase.Instance.AddTask(task);
+
+            Logger.Info(string.Format("Task [{0}] is added to database.", task.Title));
+        }
+
+
+        public void ReleaseUserStory(UserStory userStory)
+        {
+            // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima 
+            // kako bi oni mogli da preuzimaju taskove
+
+            userStory = EmployeeServiceDatabase.Instance.ReleaseUserStory(userStory);
+            Publisher.Instance.ReleaseUserStoryCallback(userStory.Tasks);
+        }
+
+        public void TaskClaimed(Task task)
+        {
+            task = EmployeeServiceDatabase.Instance.TaskClaimed(task);
+
+            Logger.Info(string.Format("Task [{0}] is claimed.", task.Title));
+            Publisher.Instance.TaskClaimedCallback(task);
+        }
+
+        public void TaskCompleted(Task task)
+        {
+            TaskAndUserStoryCompletedFlag retvalue = EmployeeServiceDatabase.Instance.TaskCompleted(task); 
+
+            Logger.Info(string.Format("Task [{0}] is completed.", retvalue.Task.Title));
+            Publisher.Instance.TaskCompletedCallback(retvalue.Task);
+
+            if (retvalue.UserStoryCompletedFlag)
+            {
+                using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+                {
+                    //proxy.SendClosedUserStory(taskInDB.UserStory.Project.Name, taskInDB.UserStory.Title);
+                }
+            }
+        }
+
+        public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
+        {
+            // salje listu user storija za projekat
+            // u nasu bazu abdejtuje status za projekat status pending
+            // ne treba callback
+            
+            EmployeeServiceDatabase.Instance.UpdateProjectStatus(projectName);
+
+            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            //{
+            //    proxy.SendUserStoriesToHiringCompany(userStories, projectName);
+            //}
+        }
+        
+        #endregion IEmployeeService Methods
+
+
+        
+        #region Responses to Hiring company
+
+        public void ResponseToPartnershipRequest(bool accepted, string hiringCompanyName)
+        {
+            if (accepted)
+            {
+                HiringCompany newHiringCompany = new HiringCompany(hiringCompanyName);
+
+                EmployeeServiceDatabase.Instance.AddHiringCompany(newHiringCompany);
+
+                Publisher.Instance.ResponseToPartnershipRequestCallback(newHiringCompany);
+            }
+
+            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            //{
+            //    proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
+            //}
+        }
+
+        public void ResponseToProjectRequest(bool accepted, Project project)
+        {
+            if (accepted)
+            {
+                project.Team = null;
+                EmployeeServiceDatabase.Instance.AddProject(project);
+            }
+
+            ProjectCommon prCommon = new ProjectCommon();
+            prCommon.Name = project.Name;
+            prCommon.IsAcceptedByOutsCompany = accepted;
+
+            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            //{
+            //    proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
+            //}
+        }
+
+        public List<UserStory> GetUserStories()
+        {
+            return EmployeeServiceDatabase.Instance.GetUserStories();
+        }
+
+        public List<Task> GetAllTasks()
+        {
+            return EmployeeServiceDatabase.Instance.GetAllTasks();
+        }
+        #endregion
+
+
+        #region Timers
+
+        /// <summary>
         /// Provjera da li zaposleni kasni na posao
         /// </summary>
         /// <param name="sender"></param>
@@ -353,10 +449,7 @@ namespace Server
             string _senderPassword = "ftnnovisad";
             Console.WriteLine("alarm...");
 
-            using (var access = new AccessDB())
-            {
-                allEmployees = access.Employees.ToList();
-            }
+            allEmployees = GetAllEmployees();
 
             foreach (Employee em in allEmployees)
             {
@@ -381,224 +474,6 @@ namespace Server
             }
         }
 
-        /// <summary>
-        /// Dodavanje nove korisnicke price u bazu
-        /// </summary>
-        /// <param name="userStory"></param>
-        /// <param name="projectName"></param>
-        public void AddUserStory(UserStory userStory, string projectName)
-        {
-            // dodaje user story u bazu, ne treba callback
-            using (var access = new AccessDB())
-            {
-                Project proj = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
-
-                userStory.Project = proj;
-                access.UserStories.Add(userStory);
-                access.SaveChanges();
-            }
-
-            Logger.Info(string.Format("UserStory [{0}] is added to database.", userStory.Title));
-        }
-
-        /// <summary>
-        /// Dodavanje novog taska u bazu
-        /// </summary>
-        /// <param name="task"></param>
-        public void AddTask(Task task)
-        {
-            // izvuce se user story iz baze na osnovu user storija iz taska( story ima title) i doda se task
-            // ne treba callback
-
-            using (var access = new AccessDB())
-            {
-                UserStory userStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
-                userStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(userStory.Project.Name));
-                task.UserStory = userStory;
-
-                access.Tasks.Add(task);
-                access.SaveChanges();
-            }
-        }
-
-
-
-        public void ReleaseUserStory(UserStory userStory)
-        {
-            // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima 
-            // kako bi oni mogli da preuzimaju taskove
-            using (var access = new AccessDB())
-            {
-                UserStory userStory1 = access.UserStories.Include("Tasks").Include("Project").FirstOrDefault(us => us.Title.Equals(userStory.Title));
-                userStory1.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(userStory1.Project.Name));
-                userStory1.ProgressStatus = ProgressStatus.STARTED;
-                userStory1.Deadline = userStory.Deadline;
-
-                foreach (var task in userStory1.Tasks)
-                {
-                    Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
-                    taskInDB.ProgressStatus = ProgressStatus.STARTED;
-                }
-                userStory.Tasks = userStory1.Tasks;
-                access.SaveChanges();
-            }
-
-            Publisher.Instance.ReleaseUserStoryCallback(userStory.Tasks);
-        }
-
-        public void TaskClaimed(Task task)
-        {
-            // rponaci task prema title i postaviti da je claimed i started, i postaviti ime employee-a
-            // callback TaskClaimedCallback(Task) za sve clanove tima, vratiti taj task
-
-            using (var access = new AccessDB())
-            {
-                Task taskInDB = access.Tasks.Include("UserStory").FirstOrDefault(t => t.Title.Equals(task.Title));
-                taskInDB.UserStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
-                taskInDB.UserStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(taskInDB.UserStory.Project.Name));
-
-                taskInDB.AssignStatus = AssignStatus.ASSIGNED;
-                taskInDB.ProgressStatus = ProgressStatus.STARTED;
-                taskInDB.EmployeeName = task.EmployeeName;
-
-                access.SaveChanges();
-            }
-
-            Logger.Info(string.Format("Task [{0}] is claimed.", task.Title));
-            Publisher.Instance.TaskClaimedCallback(task);
-        }
-
-        public void TaskCompleted(Task task)
-        {
-            Task taskInDB;
-            bool flag = true;
-            // slicno kao claimed
-            using (var access = new AccessDB())
-            {
-                taskInDB = access.Tasks.Include("UserStory").FirstOrDefault(t => t.Title.Equals(task.Title));
-                taskInDB.UserStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
-                taskInDB.UserStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(taskInDB.UserStory.Project.Name));
-
-                taskInDB.ProgressStatus = ProgressStatus.COMPLETED;
-
-                access.SaveChanges();
-
-                taskInDB.UserStory = access.UserStories.Include("Tasks").Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
-
-                foreach (var task1 in taskInDB.UserStory.Tasks)
-                {
-                    if (task1.ProgressStatus != ProgressStatus.COMPLETED)
-                    {
-                        flag = false;
-                    }
-                }
-
-                taskInDB.UserStory.ProgressStatus = ProgressStatus.COMPLETED;
-
-                access.SaveChanges();
-            }
-
-            
-
-            
-
-            Logger.Info(string.Format("Task [{0}] is completed.", task.Title));
-            Publisher.Instance.TaskCompletedCallback(task);
-
-            if (flag)
-            {
-                using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-                {
-                    //proxy.SendClosedUserStory(taskInDB.UserStory.Project.Name, taskInDB.UserStory.Title);
-                }
-            }
-        }
-
-        public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
-        {
-            // salje listu user storija za projekat
-            // u nasu bazu abdejtuje status za projekat status pending
-            // ne treba callback
-
-            using (var access = new AccessDB())
-            {
-                Project projectInDB = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
-                projectInDB.ProgressStatus = ProgressStatus.PENDING;
-                access.SaveChanges();
-            }
-
-            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            //{
-            //    proxy.SendUserStoriesToHiringCompany(userStories, projectName);
-            //}
-        }
-        
-        #endregion IEmployeeService Methods
-
-
-
-
-        #region Responses to Hiring company
-
-        public void ResponseToPartnershipRequest(bool accepted, string hiringCompanyName)
-        {
-            if (accepted)
-            {
-                HiringCompany newHiringCompany = new HiringCompany(hiringCompanyName);
-
-                using (var access = new AccessDB())
-                {
-                    access.HiringCompanies.Add(newHiringCompany);
-                    access.SaveChanges();
-                }
-
-                Publisher.Instance.ResponseToPartnershipRequestCallback(newHiringCompany);
-            }
-
-            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            //{
-            //    proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
-            //}
-        }
-
-        public void ResponseToProjectRequest(bool accepted, Project project)
-        {
-            if (accepted)
-            {
-                project.Team = null;
-
-                using (var access = new AccessDB())
-                {
-                    access.Projects.Add(project);
-                    access.SaveChanges();
-                }
-            }
-
-            ProjectCommon prCommon = new ProjectCommon();
-            prCommon.Name = project.Name;
-            prCommon.IsAcceptedByOutsCompany = accepted;
-
-            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            //{
-            //    proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
-            //}
-        }
-
-        public List<UserStory> GetUserStories()
-        {
-            using (var access = new AccessDB())
-            {
-                return access.UserStories.Include("Project").ToList();
-            }
-        }
-
-        public List<Task> GetAllTasks()
-        {
-            using (var access = new AccessDB())
-            {
-                return access.Tasks.Include("UserStory").ToList();
-            }
-        }
-        #endregion
+        #endregion Timers
     }
 }
