@@ -186,6 +186,7 @@ namespace Client
             {
                 newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, Extensions.StringToType((string)comboBoxPositionCEO.SelectedItem),
                     textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
+                newEmployee.DatePasswordChanged = DateTime.Now;
 
                 textBoxNameCEO.Text = "";
                 textBoxSurnameCEO.Text = "";
@@ -351,6 +352,7 @@ namespace Client
         private void EditPassword_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = true;
+            passBoxNewPass.IsEnabled = true;
         }
 
         // visak
@@ -360,17 +362,37 @@ namespace Client
 
         private void PassBoxOldPass_LostFocus(object sender, RoutedEventArgs e)
         {
+            //if (passBoxOldPass.Password != String.Empty)
+            //{
+            //    if (passBoxOldPass.Equals(clientDB.Password))
+            //    {
+            //        //passBoxNewPass.IsEnabled = true;
+            //        warningPasswordLabel.Content = "";
+            //    }
+            //    else
+            //    {
+            //        warningPasswordLabel.Content = "Current password incorrect!";
+            //    }
+            //}
+
+        }
+
+        private void passBoxNewPass_GotFocus(object sender, RoutedEventArgs e)
+        {
             if (passBoxOldPass.Password != String.Empty)
             {
-                if (passBoxOldPass.Equals(clientDB.Password))
+                if (passBoxOldPass.Password.Equals(clientDB.Password))
                 {
-                    passBoxNewPass.IsEnabled = true;
                     warningPasswordLabel.Content = "";
                 }
                 else
                 {
                     warningPasswordLabel.Content = "Current password incorrect!";
                 }
+            }
+            else
+            {
+                warningPasswordLabel.Content = "You must type in current password first!";
             }
         }
 

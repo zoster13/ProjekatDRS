@@ -330,7 +330,7 @@
                                     <Label x:Name="oldPasswordLabel" Content="Type in current password: " HorizontalAlignment="Left" Height="29" Margin="10,34,0,0" VerticalAlignment="Top" Width="157"/>
                                     <Label x:Name="newPasswordLabel" Content="Type in new password: " HorizontalAlignment="Left" Height="36" Margin="10,60,0,0" VerticalAlignment="Top" Width="148"/>
                                     <PasswordBox x:Name="passBoxOldPass" IsEnabled="False" HorizontalAlignment="Left" Height="19" Margin="167,39,0,0" VerticalAlignment="Top" Width="145" PasswordChanged="PassBoxOldPass_PasswordChanged" LostFocus="PassBoxOldPass_LostFocus"/>
-                                    <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="167,63,0,0" VerticalAlignment="Top" Width="145"/>
+                                    <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="167,63,0,0" VerticalAlignment="Top" Width="145" GotFocus="passBoxNewPass_GotFocus"/>
                                     <Label x:Name="warningPasswordLabel" Content="" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Width="302"/>
                                 </Grid>
                                 <Grid Background="White" Margin="433,348,31,4">
