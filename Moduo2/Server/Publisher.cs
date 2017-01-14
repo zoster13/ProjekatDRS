@@ -37,13 +37,6 @@ namespace Server
                 }
                 return instance;
             }
-            set
-            {
-                if (instance == null)
-                {
-                    instance = value;
-                }
-            }
         }
 
         #region ICallbackMethods
@@ -51,25 +44,56 @@ namespace Server
         {
             if (loggedIn)
             {
-                employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-
-                if (employee.Channel != null)
+                if (OperationContext.Current != null)
                 {
+                    employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
                     employeeChannels.Add(employee.Email, employee.Channel);
                     PublishLogInChanges(employee, loggedIn);
+                }
+                else
+                {
+                    return;
                 }
             }
             else
             {
-                ICallbackMethods callback = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
+                if (OperationContext.Current != null)
+                {
+                    ICallbackMethods callback = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
 
-                if (callback != null)
+                    if (callback != null)
+                    {
+                        try
+                        {
+                            if (((IClientChannel)callback).State == CommunicationState.Opened)
+                            {
+                                callback.LogInCallback(employee, loggedIn);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: {0}", e.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        public void PublishLogInChanges(Employee employee, bool loggedIn)
+        {
+            if (employeeChannels.Values.Count > 0)
+            {
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
                     try
                     {
-                        if (((IClientChannel)callback).State == CommunicationState.Opened)
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
                         {
-                            callback.LogInCallback(employee, loggedIn);
+                            sub.LogInCallback(employee, loggedIn);
                         }
                     }
                     catch (Exception e)
@@ -80,127 +104,113 @@ namespace Server
             }
         }
 
-        public void PublishLogInChanges(Employee employee, bool loggedIn)
-        {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
-            {
-                try
-                {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
-                    {
-                        sub.LogInCallback(employee, loggedIn);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
-        }
-
         public void LogOutCallback(Employee employee)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.LogOutCallback(employee);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.LogOutCallback(employee);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
 
-            employeeChannels.Remove(employee.Email);
+                employeeChannels.Remove(employee.Email);
+            }
         }
 
         public void TeamAddedCallback(Team team)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.TeamAddedCallback(team);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.TeamAddedCallback(team);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
 
         public void AddTeamAndTLCallback(Team team, Employee teamLeader)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.AddTeamAndTLCallback(team, teamLeader);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.AddTeamAndTLCallback(team, teamLeader);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
 
         public void TypeChangeCallback(Team team, EmployeeType newType)
         {
-            //try
-            //{
-            //    if (((IClientChannel)team.TeamLeader.Channel).State == CommunicationState.Opened)
-            //    {
-            //        team.TeamLeader.Channel.TypeChangeCallback(team,newType);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("Error: {0}", e.Message);
-            //}
         }
 
         public void EditEmployeeCallback(Employee employee)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.EditEmployeeCallback(employee);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.EditEmployeeCallback(employee);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
 
         public void AddEmployeeCallback(Employee employee)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.AddEmployeeCallback(employee);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.AddEmployeeCallback(employee);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
@@ -211,69 +221,13 @@ namespace Server
 
             if (onlineEmployee != null)
             {
-                try
-                {
-                    if (((IClientChannel)onlineEmployee.Channel).State == CommunicationState.Opened)
-                    {
-                        onlineEmployee.Channel.NotifyJustMe(employee);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
-        }
-
-        public void ScrumMasterAddedCallback(Employee employee, Team team)
-        {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
-            {
-                try
-                {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
-                    {
-                        sub.ScrumMasterAddedCallback(employee, team);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
-        }
-
-        public void ProjectTeamAssignCallback(Project project)
-        {
-            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
-
-            if (teamLeader != null)        
-            {
-                try
-                {
-                    if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
-                    {
-                        teamLeader.Channel.ProjectTeamAssignCallback(project);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
-                }
-            }
-        }
-
-        public void ReleaseUserStoryCallback(List<Task> tasks)
-        {
-            foreach (Employee employee in InternalDatabase.Instance.OnlineEmployees)
-            {
-                if (employee.Team.Name.Equals(tasks[0].UserStory.Project.Team.Name) && employee.Type == EmployeeType.DEVELOPER)
+                if (onlineEmployee.Channel != null)
                 {
                     try
                     {
-                        if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                        if (((IClientChannel)onlineEmployee.Channel).State == CommunicationState.Opened)
                         {
-                            employee.Channel.ReleaseUserStoryCallback(tasks);
+                            onlineEmployee.Channel.NotifyJustMe(employee);
                         }
                     }
                     catch (Exception e)
@@ -284,38 +238,112 @@ namespace Server
             }
         }
 
-        public void TaskClaimedCallback(Task task)
+        public void ScrumMasterAddedCallback(Employee employee, Team team)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.TaskClaimedCallback(task);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.ScrumMasterAddedCallback(employee, team);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
                     }
                 }
-                catch (Exception e)
+            }
+        }
+
+        public void ProjectTeamAssignCallback(Project project)
+        {
+            Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
+
+            if (teamLeader != null)        
+            {
+                if (teamLeader.Channel != null)
                 {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    try
+                    {
+                        if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
+                        {
+                            teamLeader.Channel.ProjectTeamAssignCallback(project);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
+                }
+            }
+        }
+
+        public void ReleaseUserStoryCallback(List<Task> tasks)
+        {
+            foreach (Employee employee in InternalDatabase.Instance.OnlineEmployees)
+            {
+                if (employee.Team.Name.Equals(tasks[0].UserStory.Project.Team.Name) && employee.Type == EmployeeType.DEVELOPER)
+                {
+                    if (employee.Channel != null)
+                    {
+                        try
+                        {
+                            if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                            {
+                                employee.Channel.ReleaseUserStoryCallback(tasks);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: {0}", e.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void TaskClaimedCallback(Task task)
+        {
+            if (employeeChannels.Values.Count > 0)
+            {
+                foreach (ICallbackMethods sub in employeeChannels.Values)
+                {
+                    try
+                    {
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.TaskClaimedCallback(task);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
 
         public void TaskCompletedCallback(Task task)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.TaskCompletedCallback(task);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.TaskCompletedCallback(task);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
@@ -331,18 +359,20 @@ namespace Server
             {
                 if (emp.Type.Equals(EmployeeType.CEO))
                 {
-                    try
+                    if (emp.Channel != null)
                     {
-                        if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+                        try
                         {
-                            emp.Channel.SendNotificationToCEO(notification);
+                            if (((IClientChannel)emp.Channel).State == CommunicationState.Opened)
+                            {
+                                emp.Channel.SendNotificationToCEO(notification);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: {0}", e.Message);
                         }
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Error: {0}", e.Message);
-                    }
-
                     break;
                 }
             }
@@ -357,16 +387,19 @@ namespace Server
 
             if (teamLeader != null)
             {
-                try
+                if (teamLeader.Channel != null)
                 {
-                    if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
+                    try
                     {
-                        teamLeader.Channel.ReceiveUserStoriesCallback(commUserStories, projectName);
+                        if (((IClientChannel)teamLeader.Channel).State == CommunicationState.Opened)
+                        {
+                            teamLeader.Channel.ReceiveUserStoriesCallback(commUserStories, projectName);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
 
@@ -375,18 +408,21 @@ namespace Server
 
         public void ResponseToPartnershipRequestCallback(HiringCompany hiringCompany)
         {
-            foreach (ICallbackMethods sub in employeeChannels.Values)
+            if (employeeChannels.Values.Count > 0)
             {
-                try
+                foreach (ICallbackMethods sub in employeeChannels.Values)
                 {
-                    if (((IClientChannel)sub).State == CommunicationState.Opened)
+                    try
                     {
-                        sub.ResponseToPartnershipRequestCallback(hiringCompany);
+                        if (((IClientChannel)sub).State == CommunicationState.Opened)
+                        {
+                            sub.ResponseToPartnershipRequestCallback(hiringCompany);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }
@@ -398,16 +434,19 @@ namespace Server
             {
                 if (employee.Team.Name.Equals(project.Team.Name) && employee.Type == EmployeeType.DEVELOPER)
                 {
-                    try
+                    if (employee.Channel != null)
                     {
-                        if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                        try
                         {
-                            employee.Channel.SendProjectToTeamMembers(project);
+                            if (((IClientChannel)employee.Channel).State == CommunicationState.Opened)
+                            {
+                                employee.Channel.SendProjectToTeamMembers(project);
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Error: {0}", e.Message);
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: {0}", e.Message);
+                        }
                     }
                 }
             }
