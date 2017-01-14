@@ -441,9 +441,8 @@ namespace Server.Access
                             usInDB.AcceptStatus = AcceptStatus.DECLINED;
                         }
                     }
-
-                    access.SaveChanges();
                 }
+                access.SaveChanges();
 
                 return proj;
             }

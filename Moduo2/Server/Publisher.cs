@@ -52,23 +52,30 @@ namespace Server
             if (loggedIn)
             {
                 employee.Channel = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
-                employeeChannels.Add(employee.Email, employee.Channel);
-                PublishLogInChanges(employee, loggedIn);
+
+                if (employee.Channel != null)
+                {
+                    employeeChannels.Add(employee.Email, employee.Channel);
+                    PublishLogInChanges(employee, loggedIn);
+                }
             }
             else
             {
                 ICallbackMethods callback = OperationContext.Current.GetCallbackChannel<ICallbackMethods>();
 
-                try
+                if (callback != null)
                 {
-                    if (((IClientChannel)callback).State == CommunicationState.Opened)
+                    try
                     {
-                        callback.LogInCallback(employee, loggedIn);
+                        if (((IClientChannel)callback).State == CommunicationState.Opened)
+                        {
+                            callback.LogInCallback(employee, loggedIn);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: {0}", e.Message);
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error: {0}", e.Message);
+                    }
                 }
             }
         }

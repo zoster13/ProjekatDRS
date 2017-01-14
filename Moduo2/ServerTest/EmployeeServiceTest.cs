@@ -86,12 +86,15 @@ namespace ServerTest
         {
             employeeServiceTest.AddEmployee(employeeTestSM);
         }
-
+        
         [Test]
         public void AddEmployeeTestFault()
         {
             employeeServiceTest.AddEmployee(new Employee() { Email = "sanja@gmai.com" });
         }
+
+
+        //EditEmployee Tests
 
     }
 }
