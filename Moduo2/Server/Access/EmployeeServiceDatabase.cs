@@ -157,7 +157,7 @@ namespace Server.Access
             }
         }
 
-        public void UpdateEmployee(Employee employee)
+        public bool UpdateEmployee(Employee employee)
         {
             using (var access = new AccessDB())
             {
@@ -165,16 +165,24 @@ namespace Server.Access
                     .Include("Team")
                     .FirstOrDefault(e => e.Email.Equals(employee.Email));
 
-                lock (lockObjectEmployees)
+                if (employeeInDB != null)
                 {
-                    employeeInDB.Email = employee.Email;
-                    employeeInDB.Name = employee.Name;
-                    employeeInDB.Surname = employee.Surname;
-                    employeeInDB.WorkingHoursStart = employee.WorkingHoursStart;
-                    employeeInDB.WorkingHoursEnd = employee.WorkingHoursEnd;
-                    employeeInDB.Password = employee.Password;
+                    lock (lockObjectEmployees)
+                    {
+                        employeeInDB.Email = employee.Email;
+                        employeeInDB.Name = employee.Name;
+                        employeeInDB.Surname = employee.Surname;
+                        employeeInDB.WorkingHoursStart = employee.WorkingHoursStart;
+                        employeeInDB.WorkingHoursEnd = employee.WorkingHoursEnd;
+                        employeeInDB.Password = employee.Password;
 
-                    access.SaveChanges();
+                        access.SaveChanges();
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
@@ -441,9 +449,8 @@ namespace Server.Access
                             usInDB.AcceptStatus = AcceptStatus.DECLINED;
                         }
                     }
-
-                    access.SaveChanges();
                 }
+                access.SaveChanges();
 
                 return proj;
             }

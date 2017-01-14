@@ -26,7 +26,7 @@ namespace EmployeeCommon.Data
         public static string TypeToString(this EmployeeType em)
         {
             string retVal = string.Empty;
-            switch(em)
+            switch (em)
             {
                 case EmployeeType.CEO:
                     retVal = "Chief Executive Officer";
@@ -46,7 +46,7 @@ namespace EmployeeCommon.Data
 
         public static EmployeeType StringToType(this string em)
         {
-            switch(em)
+            switch (em)
             {
                 case "Chief Executive Officer":
                     return EmployeeType.CEO;

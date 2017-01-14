@@ -40,7 +40,7 @@ namespace HiringCompany
             {
                 factory.SendEvaluatedUserstoriesToOutsourcingCompany(userStories, projectName);
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 throw;

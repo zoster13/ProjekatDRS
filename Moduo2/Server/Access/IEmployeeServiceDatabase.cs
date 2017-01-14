@@ -17,7 +17,7 @@ namespace Server.Access
 
         void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
 
-        void UpdateEmployee(Employee employee);
+        bool UpdateEmployee(Employee employee);
 
         void AddNotification(Notification notification);
 

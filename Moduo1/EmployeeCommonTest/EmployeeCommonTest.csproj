@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="DataTest\CurrentDataTest.cs" />
     <Compile Include="DataTest\EmployeeTest.cs" />
+    <Compile Include="DataTest\NotificationTest.cs" />
     <Compile Include="DataTest\PartnerCompanyTest.cs" />
     <Compile Include="DataTest\ProjectTest.cs" />
     <Compile Include="DataTest\UserStoryTest.cs" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmployeeCommon\EmployeeCommon.csproj">

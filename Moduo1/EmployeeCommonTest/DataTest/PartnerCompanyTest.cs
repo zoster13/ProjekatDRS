@@ -24,7 +24,17 @@ namespace EmployeeCommonTest.DataTest
         [Test]
         public void ConstructorTest()
         {
-            Assert.DoesNotThrow(() => new Employee());
+            Assert.DoesNotThrow(() => new PartnerCompany());
+        }
+
+        [Test]
+        public void ConstructorTestWithParameters()
+        {
+            Assert.DoesNotThrow(() => new PartnerCompany(name));
+
+            partnerCompanyTest = new PartnerCompany(name);
+
+            Assert.AreEqual(name, partnerCompanyTest.Name);
         }
 
         [Test]

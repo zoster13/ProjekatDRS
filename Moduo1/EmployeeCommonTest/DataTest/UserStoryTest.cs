@@ -17,6 +17,8 @@ namespace EmployeeCommonTest.DataTest
         private string title = "UserStoryOne";
         private string description = "blabla";
         private string acceptanceCriteria = "blaa";
+        private bool isApprovedByPO = false;
+        private bool isClosed = false;
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -28,6 +30,19 @@ namespace EmployeeCommonTest.DataTest
         public void ConstructorTest()
         {
             Assert.DoesNotThrow(() => new UserStory());
+        }
+
+        [Test]
+        public void ConstructorTestWithParameters()
+        {
+            Assert.DoesNotThrow(() => new UserStory(title, description, acceptanceCriteria));
+            userStoryTest = new UserStory(title, description, acceptanceCriteria);
+
+            Assert.AreEqual(title, userStoryTest.Title);
+            Assert.AreEqual(description, userStoryTest.Description);
+            Assert.AreEqual(acceptanceCriteria, userStoryTest.AcceptanceCriteria);
+            Assert.AreEqual(isApprovedByPO, userStoryTest.IsApprovedByPO);
+            Assert.AreEqual(isClosed, userStoryTest.IsClosed);
         }
 
         [Test]
@@ -62,5 +77,20 @@ namespace EmployeeCommonTest.DataTest
             Assert.AreEqual(acceptanceCriteria, userStoryTest.AcceptanceCriteria);
         }
 
+        [Test]
+        public void IsApprovedByPOTest()
+        {
+            userStoryTest.IsApprovedByPO = isApprovedByPO;
+
+            Assert.AreEqual(isApprovedByPO, userStoryTest.IsApprovedByPO);
+        }
+
+        [Test]
+        public void IsClosedTest()
+        {
+            userStoryTest.IsClosed = isClosed;
+
+            Assert.AreEqual(isClosed, userStoryTest.IsClosed);
+        }
     }
 }
