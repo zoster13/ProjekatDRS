@@ -1,23 +1,22 @@
-﻿using System;
-using TechTalk.SpecFlow;
-using Client;
-using ClientCommon;
-using System.ServiceModel;
-using NUnit.Framework;
+﻿using Client;
 using ClientCommon.Data;
+using NUnit.Framework;
+using System;
+using System.ServiceModel;
+using TechTalk.SpecFlow;
 
 namespace BDD
 {
     [Binding]
-    public class TeamProjectAssignSteps
+    public class AddingUserstorySteps
     {
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
         public EmployeeProxy proxy;
 
-        [Given(@"I have the service methods for assigning")]
-        public void GivenIHaveTheServiceMethodsForAssigning()
+        [Given(@"I have service methods for defining user stories")]
+        public void GivenIHaveServiceMethodsForDefiningUserStories()
         {
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
             binding.CloseTimeout = new TimeSpan(1, 0, 0);
@@ -29,21 +28,20 @@ namespace BDD
             //ScenarioContext.Current.Pending();
         }
         
-        [When(@"I choose a team and press button")]
-        public void WhenIChooseATeamAndPressButton()
+        [When(@"I enter userstory data")]
+        public void WhenIEnterUserstoryData()
         {
             //ScenarioContext.Current.Pending();
         }
-        
-        [Then(@"the project is sent to the team leader")]
-        public void ThenTheProjectIsSentToTheTeamLeader()
-        {
-            Project proj = new Project();
-            proj.Name = "projekat";
-            proj.Description = "projekat opis";
-            proj.HiringCompanyName = "kompanija";
 
-            Assert.DoesNotThrow(() => proxy.ProjectTeamAssign(proj));
+        [Then(@"the user story is added")]
+        public void ThenTheUserStoryIsAdded()
+        {
+            UserStory us = new UserStory();
+            us.Title = "us1";
+            us.Description = "us1 desc";
+            us.AcceptanceCriteria = "acc criteria";
+            Assert.DoesNotThrow(() => proxy.AddUserStory(us, "projekat"));
         }
     }
 }

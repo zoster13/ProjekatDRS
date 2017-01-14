@@ -46,27 +46,128 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="RequestsFromModule1Steps.cs" />
-    <Compile Include="RequestsFromModule1.feature.cs">
+    <Compile Include="AddingTasks.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RequestsFromModule1.feature</DependentUpon>
+      <DependentUpon>AddingTasks.feature</DependentUpon>
     </Compile>
+    <Compile Include="AddingTasksSteps.cs" />
+    <Compile Include="AddingUserstory.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddingUserstory.feature</DependentUpon>
+    </Compile>
+    <Compile Include="AddingUserstorySteps.cs" />
+    <Compile Include="AddNewEmployee.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddNewEmployee.feature</DependentUpon>
+    </Compile>
+    <Compile Include="AddNewEmployeeSteps.cs" />
+    <Compile Include="ClaimingTasks.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ClaimingTasks.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ClaimingTasksSteps.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="EditEmployeeData.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditEmployeeData.feature</DependentUpon>
+    </Compile>
+    <Compile Include="EditEmployeeDataSteps.cs" />
+    <Compile Include="LogIn.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogIn.feature</DependentUpon>
+    </Compile>
+    <Compile Include="LogInSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestForPartnership.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RequestForPartnership.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RequestForPartnershipSteps.cs" />
+    <Compile Include="RequestForProject.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RequestForProject.feature</DependentUpon>
+    </Compile>
+    <Compile Include="RequestForProjectSteps.cs" />
+    <Compile Include="ShowAllHiringCompanies.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShowAllHiringCompanies.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ShowAllHiringCompaniesSteps.cs" />
+    <Compile Include="ShowAllLoggedinEmployees.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShowAllLoggedinEmployees.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ShowAllLoggedinEmployeesSteps.cs" />
+    <Compile Include="ShowAllTeams.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShowAllTeams.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ShowAllTeamsSteps.cs" />
     <Compile Include="TeamProjectAssign.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TeamProjectAssign.feature</DependentUpon>
     </Compile>
+    <Compile Include="TeamProjectAssignSteps.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="RequestsFromModule1.feature">
+    <None Include="AddingTasks.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>RequestsFromModule1.feature.cs</LastGenOutput>
+      <LastGenOutput>AddingTasks.feature.cs</LastGenOutput>
+    </None>
+    <None Include="AddingUserstory.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddingUserstory.feature.cs</LastGenOutput>
+    </None>
+    <None Include="AddNewEmployee.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddNewEmployee.feature.cs</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="ClaimingTasks.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ClaimingTasks.feature.cs</LastGenOutput>
+    </None>
+    <None Include="EditEmployeeData.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EditEmployeeData.feature.cs</LastGenOutput>
+    </None>
+    <None Include="LogIn.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LogIn.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="RequestForPartnership.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RequestForPartnership.feature.cs</LastGenOutput>
+    </None>
+    <None Include="RequestForProject.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RequestForProject.feature.cs</LastGenOutput>
+    </None>
+    <None Include="ShowAllHiringCompanies.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ShowAllHiringCompanies.feature.cs</LastGenOutput>
+    </None>
+    <None Include="ShowAllLoggedinEmployees.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ShowAllLoggedinEmployees.feature.cs</LastGenOutput>
+    </None>
+    <None Include="ShowAllTeams.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ShowAllTeams.feature.cs</LastGenOutput>
+    </None>
     <None Include="TeamProjectAssign.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TeamProjectAssign.feature.cs</LastGenOutput>
