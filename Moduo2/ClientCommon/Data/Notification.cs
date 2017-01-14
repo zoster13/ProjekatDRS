@@ -10,12 +10,12 @@ namespace ClientCommon.Data
     [DataContract]
     public class Notification
     {
-        protected int id;
-        protected NotificationType type;
-        protected DateTime notificationStamp;
-        protected NotificationAcceptStatus statusAccept;
-        protected NotificationNewStatus statusNew;
-        protected string message;
+        private int id;
+        private NotificationType type;
+        private DateTime notificationStamp;
+        private NotificationAcceptStatus statusAccept;
+        private NotificationNewStatus statusNew;
+        private string message;
         private string hiringCompanyName;
         private string projectName;
         private string projectDescription;

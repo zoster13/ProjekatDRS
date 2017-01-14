@@ -13,7 +13,7 @@ namespace BDD
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
-        public EmployeeProxy proxy;
+        private EmployeeProxy proxy;
 
         [Given(@"I have a space for all hiring companies")]
         public void GivenIHaveASpaceForAllHiringCompanies()

@@ -13,7 +13,7 @@ namespace Client
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
         private NetTcpBinding binding = new NetTcpBinding();
-        public EmployeeProxy proxy;
+        public EmployeeProxy Proxy;
 
         private static LocalClientDatabase localDB;
         private BindingList<Employee> employees;
@@ -66,7 +66,7 @@ namespace Client
             notificationNumTB.Text = "1";
             notificationCanvas.Children.Add(notificationNumTB);
 
-            proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
+            Proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
         }
 
         public static LocalClientDatabase Instance
@@ -74,14 +74,18 @@ namespace Client
             get
             {
                 if (localDB == null)
+                {
                     localDB = new LocalClientDatabase();
+                }  
 
                 return localDB;
             }
             set
             {
                 if (localDB == null)
+                {
                     localDB = value;
+                }
             }
         }
 

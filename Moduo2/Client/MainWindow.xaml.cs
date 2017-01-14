@@ -27,9 +27,9 @@ namespace Client
             workScrum.Visibility = Visibility.Hidden;
         }
 
-        private void logInButton_Click(object sender, RoutedEventArgs e)
+        private void LogInButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalClientDatabase.Instance.proxy.LogIn(emailBox.Text, passwordBox.Password);
+            LocalClientDatabase.Instance.Proxy.LogIn(emailBox.Text, passwordBox.Password);
         }
 
         public void LogInCallbackResult(Employee employee, bool loggedIn)
@@ -157,14 +157,14 @@ namespace Client
             LocalClientDatabase.Instance.MyTasks.Clear();
             LocalClientDatabase.Instance.Developers.Clear();
 
-            var onlineEmployees = LocalClientDatabase.Instance.proxy.GetAllOnlineEmployees();
-            var allEmployees = LocalClientDatabase.Instance.proxy.GetAllEmployees();
-            var teams = LocalClientDatabase.Instance.proxy.GetAllTeams();
-            var hiringCompanies = LocalClientDatabase.Instance.proxy.GetAllHiringCompanies();
-            var allProjects = LocalClientDatabase.Instance.proxy.GetAllProjects();
+            var onlineEmployees = LocalClientDatabase.Instance.Proxy.GetAllOnlineEmployees();
+            var allEmployees = LocalClientDatabase.Instance.Proxy.GetAllEmployees();
+            var teams = LocalClientDatabase.Instance.Proxy.GetAllTeams();
+            var hiringCompanies = LocalClientDatabase.Instance.Proxy.GetAllHiringCompanies();
+            var allProjects = LocalClientDatabase.Instance.Proxy.GetAllProjects();
 
-            var myUserStories = LocalClientDatabase.Instance.proxy.GetUserStories(); ;
-            var allTasks = LocalClientDatabase.Instance.proxy.GetAllTasks();
+            var myUserStories = LocalClientDatabase.Instance.Proxy.GetUserStories();
+            var allTasks = LocalClientDatabase.Instance.Proxy.GetAllTasks();
 
             foreach (var employee in allEmployees)
             {
@@ -213,7 +213,7 @@ namespace Client
             {
                 var proj = LocalClientDatabase.Instance.MyTeamProjects.FirstOrDefault(p => p.Name.Equals(us.Project.Name));
 
-                if(proj != null)
+                if (proj != null)
                 {
                     if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
                     {
@@ -286,7 +286,9 @@ namespace Client
         {
             displayName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name + " " + LocalClientDatabase.Instance.CurrentEmployee.Surname;
             if (LocalClientDatabase.Instance.CurrentEmployee.Team != null)
+            {
                 displayTeam.Text = LocalClientDatabase.Instance.CurrentEmployee.Team.Name;
+            }
             displayType.Text = LocalClientDatabase.Instance.CurrentEmployee.Type.ToString();
             displayEmail.Text = LocalClientDatabase.Instance.CurrentEmployee.Email;
         }
@@ -382,7 +384,7 @@ namespace Client
             workDev.textTaskDescription.Text = "";
         }
 
-        private void editPassword_Click(object sender, RoutedEventArgs e)
+        private void EditPassword_Click(object sender, RoutedEventArgs e)
         {
             oldPasswordLabel.IsEnabled = true;
             newPasswordLabel.IsEnabled = true;
@@ -407,7 +409,7 @@ namespace Client
             if (employee.Email.Equals(LocalClientDatabase.Instance.CurrentEmployee.Email))
             {
                 tabControl.SelectedIndex = 0;
-                LocalClientDatabase.Instance.proxy.Abort();
+                LocalClientDatabase.Instance.Proxy.Abort();
                 LocalClientDatabase.NullifyInstance();
                 DataContext = LocalClientDatabase.Instance;
 
@@ -420,7 +422,7 @@ namespace Client
 
         public void TeamAddedCallbackResult(Team team)
         {
-            if(team != null)
+            if (team != null)
             {
                 LocalClientDatabase.Instance.Teams.Add(team);
                 MessageBox.Show("A new team has been added!\n It can be seen in the Teams pannel.");
@@ -431,12 +433,12 @@ namespace Client
             }
         }
 
-        private void cancelChanges_Click(object sender, RoutedEventArgs e)
+        private void CancelChanges_Click(object sender, RoutedEventArgs e)
         {
             SetSettings();
         }
 
-        private void saveChanges_Click(object sender, RoutedEventArgs e)
+        private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             LocalClientDatabase.Instance.CurrentEmployee.Name = textBoxEditName.Text;
             LocalClientDatabase.Instance.CurrentEmployee.Surname = textBoxEditSurname.Text;
@@ -454,10 +456,10 @@ namespace Client
 
             displayName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name + " " + LocalClientDatabase.Instance.CurrentEmployee.Surname;
  
-            LocalClientDatabase.Instance.proxy.EditEmployeeData(LocalClientDatabase.Instance.CurrentEmployee);
+            LocalClientDatabase.Instance.Proxy.EditEmployeeData(LocalClientDatabase.Instance.CurrentEmployee);
         }
 
-        private void buttonNotifDetail_Click(object sender, RoutedEventArgs e)
+        private void ButtonNotifDetail_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridNotifications.SelectedItem != null)
             {
@@ -613,7 +615,7 @@ namespace Client
 
             textBoxNotifNum.Text = countNew.ToString();
 
-            if(countNew > 0)
+            if (countNew > 0)
             {
                 textBoxNotifNum.Background = new SolidColorBrush(Colors.DarkOrange);
                 textBoxNotifNum.Foreground = new SolidColorBrush(Colors.White);
@@ -656,7 +658,7 @@ namespace Client
 
         public void ReleaseUserStoryCallbackResult(List<Task> tasks)
         {
-            if(LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER || LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.TEAMLEADER)
+            if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER || LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.TEAMLEADER)
             {
                 LocalClientDatabase.Instance.UserStories.Add(tasks[0].UserStory);
                 foreach (var task in tasks)
@@ -705,9 +707,9 @@ namespace Client
 
         public void TaskClaimedCallbackResult(Task task)
         {
-            foreach(var task1 in LocalClientDatabase.Instance.AllTasks)
+            foreach (var task1 in LocalClientDatabase.Instance.AllTasks)
             {
-                if(task1.Title == task.Title)
+                if (task1.Title == task.Title)
                 {
                     task1.AssignStatus = AssignStatus.ASSIGNED;
                     task1.EmployeeName = task.EmployeeName;
@@ -732,11 +734,11 @@ namespace Client
             var ustory = LocalClientDatabase.Instance.UserStories.FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
 
             bool flag = true;
-            if(ustory != null)
+            if (ustory != null)
             {
-                foreach(var task1 in ustory.Tasks)
+                foreach (var task1 in ustory.Tasks)
                 {
-                    if(task1.ProgressStatus != ProgressStatus.COMPLETED)
+                    if (task1.ProgressStatus != ProgressStatus.COMPLETED)
                     {
                         flag = false;
                     }
@@ -760,17 +762,17 @@ namespace Client
             workDev.dataGridMyTasks.Items.Refresh();
         }
 
-        private void logOutButton_Click(object sender, RoutedEventArgs e)
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalClientDatabase.Instance.proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee);
+            LocalClientDatabase.Instance.Proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee);
         }
 
-        private void emailBox_GotFocus(object sender, RoutedEventArgs e)
+        private void EmailBox_GotFocus(object sender, RoutedEventArgs e)
         {
             errorLogInBox.Text = "";
         }
 
-        private void passwordBox_GotFocus(object sender, RoutedEventArgs e)
+        private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
         {
             errorLogInBox.Text = "";
         }
@@ -789,7 +791,7 @@ namespace Client
 
             emp = LocalClientDatabase.Instance.Employees.FirstOrDefault(e => e.Email.Equals(leader.Email));
 
-            if(emp != null)
+            if (emp != null)
             {
                 emp.Type = EmployeeType.TEAMLEADER;
                 dataGridEmployees.Items.Refresh();
@@ -809,7 +811,7 @@ namespace Client
             LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
         }
 
-        private void usernameBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void UsernameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (emailBox.Text == "" || passwordBox.Password == "")
             {
@@ -821,7 +823,7 @@ namespace Client
             }
         }
 
-        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (emailBox.Text == "" || passwordBox.Password == "")
             {

@@ -4,8 +4,8 @@ namespace ClientCommon.TempStructure
 {
     public class TaskAndUserStoryCompletedFlag
     {
-        Task task;
-        bool userStoryCompletedFlag;
+        private Task task;
+        private bool userStoryCompletedFlag;
 
         public TaskAndUserStoryCompletedFlag()
         {

@@ -26,7 +26,7 @@ namespace Client.Views
             InitializeComponent();
         }
 
-        private void buttonTaskClaim_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskClaim_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxAllTasks.SelectedItem != null)
             {
@@ -40,7 +40,7 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.MyTasks.Add(task);
 
-                    LocalClientDatabase.Instance.proxy.TaskClaimed(task);
+                    LocalClientDatabase.Instance.Proxy.TaskClaimed(task);
 
                     MessageBox.Show("You have successfully claimed a task!");
                 }
@@ -51,7 +51,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonProjectDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridProjects.SelectedItem != null)
             {
@@ -61,7 +61,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonUserStoryDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonUserStoryDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridUserStories.SelectedItem != null)
             {
@@ -71,7 +71,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonMyTaskDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonMyTaskDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridMyTasks.SelectedItem != null)
             {
@@ -81,7 +81,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridTasks.SelectedItem != null)
             {
@@ -91,7 +91,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskComplete_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskComplete_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxMyTasks.SelectedItem != null)
             {
@@ -101,7 +101,7 @@ namespace Client.Views
                 {
                     task.ProgressStatus = ProgressStatus.COMPLETED;
 
-                    LocalClientDatabase.Instance.proxy.TaskCompleted(task);
+                    LocalClientDatabase.Instance.Proxy.TaskCompleted(task);
 
                     MessageBox.Show("Task completed!");
                 }

@@ -18,13 +18,13 @@
                                 <Label x:Name="labelType" Content="Type:" HorizontalAlignment="Left" Height="26" Margin="46,174,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelTeam" Content="Team:" HorizontalAlignment="Left" Height="26" Margin="427,114,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelPassword" Content="Password:" HorizontalAlignment="Left" Height="26" Margin="46,135,0,0" VerticalAlignment="Top" Width="79"/>
-                                <TextBox x:Name="textBoxName" HorizontalAlignment="Left" Height="21" Margin="130,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxName_TextChanged"/>
-                                <TextBox x:Name="textBoxEmail" HorizontalAlignment="Left" Height="21" Margin="130,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxEmail_TextChanged"/>
-                                <TextBox x:Name="textBoxSurname" HorizontalAlignment="Left" Height="21" Margin="149,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="textBoxSurname_TextChanged"/>
-                                <PasswordBox x:Name="passwordBoxNew" HorizontalAlignment="Left" Height="21" Margin="130,138,0,0" VerticalAlignment="Top" Width="153" PasswordChanged="passwordBoxNew_PasswordChanged" />
+                                <TextBox x:Name="textBoxName" HorizontalAlignment="Left" Height="21" Margin="130,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="TextBoxName_TextChanged"/>
+                                <TextBox x:Name="textBoxEmail" HorizontalAlignment="Left" Height="21" Margin="130,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="TextBoxEmail_TextChanged"/>
+                                <TextBox x:Name="textBoxSurname" HorizontalAlignment="Left" Height="21" Margin="149,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="TextBoxSurname_TextChanged"/>
+                                <PasswordBox x:Name="passwordBoxNew" HorizontalAlignment="Left" Height="21" Margin="130,138,0,0" VerticalAlignment="Top" Width="153" PasswordChanged="PasswordBoxNew_PasswordChanged" />
                                 <ComboBox x:Name="comboBoxType" HorizontalAlignment="Left" Height="24" Margin="149,175,0,0" VerticalAlignment="Top" Width="134"/>
                                 <ComboBox x:Name="comboBoxTeam" ItemsSource="{Binding Teams, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="511,115,0,0" VerticalAlignment="Top" Width="134"/>
-                                <Button x:Name="buttonNext1" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonNext1_Click"/>
+                                <Button x:Name="buttonNext1" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonNext1_Click"/>
                                 <Button x:Name="buttonBack1" Content="Back" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65"/>
                                 <Button x:Name="buttonAddEmployee1" IsEnabled="False" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65"/>
                             </Grid>
@@ -39,8 +39,8 @@
                                 <Label x:Name="labelTeamDeveloperType" Content="New developer..." HorizontalAlignment="Left" Height="26" Margin="24,63.534,0,0" VerticalAlignment="Top" Width="115" Grid.Row="1"/>
                                 <ComboBox x:Name="comboBoxTeamDeveloper" ItemsSource="{Binding Teams, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="24,125.534,0,0" VerticalAlignment="Top" Width="289" Grid.Row="1"/>
                                 <Button x:Name="buttonNext2" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,220.534,0,0" VerticalAlignment="Top" Width="65" Grid.Row="1"/>
-                                <Button x:Name="buttonBack2" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,220.534,0,0" VerticalAlignment="Top" Width="65" Click="buttonBack2_Click" Grid.Row="1"/>
-                                <Button x:Name="buttonAddEmployee2" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,220.534,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddEmployee2_Click" Grid.Row="1"/>
+                                <Button x:Name="buttonBack2" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,220.534,0,0" VerticalAlignment="Top" Width="65" Click="ButtonBack2_Click" Grid.Row="1"/>
+                                <Button x:Name="buttonAddEmployee2" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,220.534,0,0" VerticalAlignment="Top" Width="65" Click="ButtonAddEmployee2_Click" Grid.Row="1"/>
                             </Grid>
                         </TabItem>
                         <TabItem Height="0">
@@ -49,8 +49,8 @@
                                 <Label x:Name="labelTeamScrumType" Content="New scrum master..." HorizontalAlignment="Left" Height="26" Margin="24,71,0,0" VerticalAlignment="Top" Width="214"/>
                                 <ComboBox x:Name="comboBoxTeamScrum" ItemsSource="{Binding Teams, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,128,0,0" VerticalAlignment="Top" Width="303"/>
                                 <Button x:Name="buttonNext3" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65"/>
-                                <Button x:Name="buttonBack3" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonBack3_Click"/>
-                                <Button x:Name="buttonAddEmployee3" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddEmployee3_Click"/>
+                                <Button x:Name="buttonBack3" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonBack3_Click"/>
+                                <Button x:Name="buttonAddEmployee3" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonAddEmployee3_Click"/>
                             </Grid>
                         </TabItem>
                     </TabControl>
@@ -64,27 +64,27 @@
                             <Grid Background="White" Margin="6,13,5,7">
                                 <Label x:Name="labelTeamName" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="40,69,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelLeaderOptions" Content="Team leader options:" HorizontalAlignment="Left" Height="26" Margin="40,123,0,0" VerticalAlignment="Top" Width="157"/>
-                                <TextBox x:Name="textBoxTeamName" HorizontalAlignment="Left" Height="21" Margin="124,71,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" TextChanged="textBoxTeamName_TextChanged"/>
+                                <TextBox x:Name="textBoxTeamName" HorizontalAlignment="Left" Height="21" Margin="124,71,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" TextChanged="TextBoxTeamName_TextChanged"/>
                                 <RadioButton x:Name="radioButton1" IsChecked="True" Content="Choose from existing employees" HorizontalAlignment="Left" Height="20" Margin="65,154,0,0" VerticalAlignment="Top" Width="199"/>
                                 <RadioButton x:Name="radioButton2" Content="Add a new employee to be the leader" HorizontalAlignment="Left" Height="20" Margin="65,179,0,0" VerticalAlignment="Top" Width="235"/>
-                                <Button x:Name="buttonTeamNext1" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonTeamNext1_Click"/>
+                                <Button x:Name="buttonTeamNext1" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonTeamNext1_Click"/>
                                 <Button x:Name="buttonTeamBack1" Content="Back" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65"/>
                                 <Button x:Name="buttonAddTeam1" Content="Add" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65"/>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="16,5,-390,-6" RenderTransformOrigin="0.5,0.5" Height="0">
                             <Grid Background="White" Margin="6,13,5,7">
-                                <TextBox x:Name="textBoxLeaderName" HorizontalAlignment="Left" Height="21" Margin="130,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxLeaderName_TextChanged"/>
-                                <TextBox x:Name="textBoxLeaderEmail" HorizontalAlignment="Left" Height="21" Margin="130,149,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxLeaderEmail_TextChanged"/>
-                                <TextBox x:Name="textBoxLeaderSurname" HorizontalAlignment="Left" Height="21" Margin="149,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="textBoxLeaderSurname_TextChanged"/>
+                                <TextBox x:Name="textBoxLeaderName" HorizontalAlignment="Left" Height="21" Margin="130,79,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="TextBoxLeaderName_TextChanged"/>
+                                <TextBox x:Name="textBoxLeaderEmail" HorizontalAlignment="Left" Height="21" Margin="130,149,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="TextBoxLeaderEmail_TextChanged"/>
+                                <TextBox x:Name="textBoxLeaderSurname" HorizontalAlignment="Left" Height="21" Margin="149,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="TextBoxLeaderSurname_TextChanged"/>
                                 <Label x:Name="labelLeaderPassword" Content="Password:" HorizontalAlignment="Left" Height="26" Margin="46,177,0,0" VerticalAlignment="Top" Width="79" RenderTransformOrigin="0.468,4.769"/>
                                 <Label x:Name="labelLeaderName" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="46,76,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelLeaderSurame" Content="Surname:" HorizontalAlignment="Left" Height="26" Margin="46,111,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelLeaderEmail" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="46,146,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Button x:Name="buttonTeamNext2" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65"/>
-                                <Button x:Name="buttonTeamBack2" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonTeamBack2_Click"/>
-                                <Button x:Name="buttonAddTeam2" Content="Add" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="223,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddTeam2_Click"/>
-                                <PasswordBox x:Name="passwordBoxLeader" HorizontalAlignment="Left" Height="21" Margin="130,177,0,0" VerticalAlignment="Top" Width="153" PasswordChanged="passwordBoxLeader_PasswordChanged"/>
+                                <Button x:Name="buttonTeamBack2" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonTeamBack2_Click"/>
+                                <Button x:Name="buttonAddTeam2" Content="Add" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="223,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonAddTeam2_Click"/>
+                                <PasswordBox x:Name="passwordBoxLeader" HorizontalAlignment="Left" Height="21" Margin="130,177,0,0" VerticalAlignment="Top" Width="153" PasswordChanged="PasswordBoxLeader_PasswordChanged"/>
                             </Grid>
                         </TabItem>
                         <TabItem Margin="16,5,-390,-6" RenderTransformOrigin="0.5,0.5" Height="0">
@@ -92,8 +92,8 @@
                                 <ComboBox x:Name="comboBoxTeamLeader" ItemsSource="{Binding Developers, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="90,107,0,0" VerticalAlignment="Top" Width="169"/>
                                 <Label x:Name="labelLeaderNameExist" Content="Choose leader:" HorizontalAlignment="Left" Height="26" Margin="45,76,0,0" VerticalAlignment="Top" Width="120"/>
                                 <Button x:Name="buttonTeamNext3" Content="Next" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="132,228,0,0" VerticalAlignment="Top" Width="65"/>
-                                <Button x:Name="buttonTeamBack3" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonTeamBack3_Click"/>
-                                <Button x:Name="buttonAddTeam3" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65" Click="buttonAddTeam3_Click"/>
+                                <Button x:Name="buttonTeamBack3" Content="Back" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="43,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonTeamBack3_Click"/>
+                                <Button x:Name="buttonAddTeam3" IsEnabled="True" Content="Add" HorizontalAlignment="Left" Height="31" Margin="224,228,0,0" VerticalAlignment="Top" Width="65" Click="ButtonAddTeam3_Click"/>
                             </Grid>
                         </TabItem>
                     </TabControl>
@@ -116,7 +116,7 @@
                         <ComboBox x:Name="comboBoxTeams" ItemsSource="{Binding Teams, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,196,0,0" VerticalAlignment="Top" Width="323"/>
                         <Label x:Name="labelProject" Content="Project: (must be unassigned)" HorizontalAlignment="Left" Height="26" Margin="10,80,0,0" VerticalAlignment="Top" Width="199"/>
                         <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding AllProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,111,0,0" VerticalAlignment="Top" Width="323"/>
-                        <Button x:Name="buttonProjectAssign" IsEnabled="True" Content="Assign" HorizontalAlignment="Left" Height="31" Margin="268,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonProjectAssign_Click"/>
+                        <Button x:Name="buttonProjectAssign" IsEnabled="True" Content="Assign" HorizontalAlignment="Left" Height="31" Margin="268,258,0,0" VerticalAlignment="Top" Width="65" Click="ButtonProjectAssign_Click"/>
                     </Grid>
                 </Grid>
             </TabItem>

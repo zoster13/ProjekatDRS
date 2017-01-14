@@ -9,8 +9,8 @@ namespace Client
 {
     public class EmployeeProxy : DuplexChannelFactory<IEmployeeService>, IEmployeeService, IDisposable
     {
-        IEmployeeService factory;
-        CallbackMethods callbackMethods = null;
+        private IEmployeeService factory;
+        private CallbackMethods callbackMethods = null;
 
         public EmployeeProxy(NetTcpBinding binding, EndpointAddress epAddress, CallbackMethods callbackMethods) : base(callbackMethods, binding, epAddress)
         {

@@ -15,14 +15,14 @@
                     <TextBox x:Name="errorLogInBox" IsHitTestVisible="False" Focusable="False" Foreground="Red" Margin="489,322,98,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>
                     <Label x:Name="emailLabel" Content="E-mail address:" Height="37" Width="137" Margin="251,221,446,303"/>
                     <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261"/>
-                    <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="usernameBox_TextChanged" GotFocus="emailBox_GotFocus"/>
-                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" PasswordChanged="passwordBox_PasswordChanged" GotFocus="passwordBox_GotFocus" />
-                    <Button x:Name="logInButton" IsEnabled="False" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="logInButton_Click"/>
+                    <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="UsernameBox_TextChanged" GotFocus="EmailBox_GotFocus"/>
+                    <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" PasswordChanged="PasswordBox_PasswordChanged" GotFocus="PasswordBox_GotFocus" />
+                    <Button x:Name="logInButton" IsEnabled="False" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="LogInButton_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Height="0" Focusable="True">
                 <Grid>
-                    <Button x:Name="logOutButton" Content="Log Out" Margin="713,26,58,500" Click="logOutButton_Click"/>
+                    <Button x:Name="logOutButton" Content="Log Out" Margin="713,26,58,500" Click="LogOutButton_Click"/>
                     <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True">
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
                             <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True">
@@ -94,7 +94,7 @@
                                     <TextBox x:Name="textBoxEditFromTimeHours" HorizontalAlignment="Left" Height="20" Margin="160,17,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="53"/>
                                 </Grid>
                                 <Grid Background="White" Margin="32,222,31,130">
-                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="14,10,0,0" VerticalAlignment="Top" Width="132" Click="editPassword_Click"/>
+                                    <Button x:Name="editPassword" Content="Change password..." HorizontalAlignment="Left" Height="22" Margin="14,10,0,0" VerticalAlignment="Top" Width="132" Click="EditPassword_Click"/>
                                 </Grid>
                                 <Grid Background="White" Margin="32,264,393,37">
                                     <Label x:Name="oldPasswordLabel" IsEnabled="False" Content="Type in current password: " HorizontalAlignment="Left" Height="28" Margin="10,18,0,0" VerticalAlignment="Top" Width="157"/>
@@ -103,8 +103,8 @@
                                     <PasswordBox x:Name="passBoxNewPass" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="163,54,0,0" VerticalAlignment="Top" Width="159"/>
                                 </Grid>
                                 <Grid Background="White" Margin="433,305,31,37">
-                                    <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,16,0,0" VerticalAlignment="Top" Width="100" Click="saveChanges_Click"/>
-                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,16,0,0" VerticalAlignment="Top" Width="100" Click="cancelChanges_Click"/>
+                                    <Button x:Name="saveChanges" Content="Save Changes" HorizontalAlignment="Left" Height="22" Margin="35,16,0,0" VerticalAlignment="Top" Width="100" Click="SaveChanges_Click"/>
+                                    <Button x:Name="cancelChanges" Content="Cancel" HorizontalAlignment="Left" Height="22" Margin="181,16,0,0" VerticalAlignment="Top" Width="100" Click="CancelChanges_Click"/>
                                 </Grid>
                             </Grid>
                             <TabItem.Header>
@@ -135,7 +135,7 @@
                                     <viewNotif:AcceptDecline x:Name="acceptDeclineCanvas" Margin="10" Grid.RowSpan="3"/>
                                     <viewNotif:MessageBoxCustom x:Name="messageBoxCanvas" Margin="10" Grid.RowSpan="3"/>
                                 </Grid>
-                                <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Margin="237,358,0,0" Width="75" Click="buttonNotifDetail_Click" Height="27" VerticalAlignment="Top"/>
+                                <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Margin="237,358,0,0" Width="75" Click="ButtonNotifDetail_Click" Height="27" VerticalAlignment="Top"/>
                             </Grid>
                         </TabItem>
                     </TabControl>

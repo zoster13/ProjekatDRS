@@ -22,7 +22,7 @@ namespace Client.Views
     public partial class CEOWork : UserControl
     {
 
-        public LocalClientDatabase database = null;
+        //private LocalClientDatabase database = null;
 
         public CEOWork()
         {
@@ -31,7 +31,7 @@ namespace Client.Views
             //database = new LocalClientDatabase();
             DataContext = LocalClientDatabase.Instance;
 
-            foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
+            foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
                 if (type != EmployeeType.CEO && type != EmployeeType.TEAMLEADER)
                 {
@@ -41,7 +41,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxTeamName_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxTeamName_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxTeamName.Text != "")
             {
@@ -53,9 +53,9 @@ namespace Client.Views
             }
         }
 
-        private void buttonTeamNext1_Click(object sender, RoutedEventArgs e)
+        private void ButtonTeamNext1_Click(object sender, RoutedEventArgs e)
         {
-            if(radioButton1.IsChecked == true)
+            if (radioButton1.IsChecked == true)
             {
                 tabControlNewTeam.SelectedIndex = 2;
             }
@@ -65,29 +65,17 @@ namespace Client.Views
             }
         }
 
-        private void buttonTeamBack2_Click(object sender, RoutedEventArgs e)
+        private void ButtonTeamBack2_Click(object sender, RoutedEventArgs e)
         {
             tabControlNewTeam.SelectedIndex = 0;
         }
 
-        private void buttonTeamBack3_Click(object sender, RoutedEventArgs e)
+        private void ButtonTeamBack3_Click(object sender, RoutedEventArgs e)
         {
             tabControlNewTeam.SelectedIndex = 0;
         }
 
-        private void textBoxLeaderName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if(textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
-            {
-                buttonAddTeam2.IsEnabled = false;
-            }
-            else
-            {
-                buttonAddTeam2.IsEnabled = true;
-            }
-        }
-
-        private void textBoxLeaderEmail_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxLeaderName_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
             {
@@ -99,7 +87,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxLeaderSurname_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxLeaderEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
             {
@@ -111,7 +99,7 @@ namespace Client.Views
             }
         }
 
-        private void passwordBoxLeader_PasswordChanged(object sender, RoutedEventArgs e)
+        private void TextBoxLeaderSurname_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
             {
@@ -123,7 +111,19 @@ namespace Client.Views
             }
         }
 
-        private void textBoxName_TextChanged(object sender, TextChangedEventArgs e)
+        private void PasswordBoxLeader_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (textBoxLeaderName.Text == "" || textBoxLeaderSurname.Text == "" || textBoxLeaderEmail.Text == "" || passwordBoxLeader.Password == "")
+            {
+                buttonAddTeam2.IsEnabled = false;
+            }
+            else
+            {
+                buttonAddTeam2.IsEnabled = true;
+            }
+        }
+
+        private void TextBoxName_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
@@ -135,7 +135,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxSurname_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
@@ -147,20 +147,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
-            {
-                buttonNext1.IsEnabled = false;
-            }
-            else
-            {
-                buttonNext1.IsEnabled = true;
-            }
-        }
-
-
-        private void passwordBoxNew_PasswordChanged(object sender, RoutedEventArgs e)
+        private void TextBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
             {
@@ -173,7 +160,20 @@ namespace Client.Views
         }
 
 
-        private void buttonNext1_Click(object sender, RoutedEventArgs e)
+        private void PasswordBoxNew_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (textBoxName.Text == "" || textBoxSurname.Text == "" || textBoxEmail.Text == "" || passwordBoxNew.Password == "" || comboBoxType.SelectedItem != null)
+            {
+                buttonNext1.IsEnabled = false;
+            }
+            else
+            {
+                buttonNext1.IsEnabled = true;
+            }
+        }
+
+
+        private void ButtonNext1_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxType.SelectedItem != null)
             {
@@ -203,7 +203,7 @@ namespace Client.Views
                     employee.Type = EmployeeType.HR;
                     employee.PasswordTimeStamp = DateTime.Now;
 
-                    LocalClientDatabase.Instance.proxy.AddEmployee(employee);
+                    LocalClientDatabase.Instance.Proxy.AddEmployee(employee);
 
                     textBoxName.Text = "";
                     textBoxSurname.Text = "";
@@ -217,16 +217,16 @@ namespace Client.Views
             }
         }
 
-        private void buttonAddTeam2_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddTeam2_Click(object sender, RoutedEventArgs e)
         {
-            Employee em = new Employee() { Name = textBoxLeaderName.Text, Surname = textBoxLeaderSurname.Text, Email = textBoxLeaderEmail.Text, Password = passwordBoxLeader.Password , Type = EmployeeType.TEAMLEADER };
+            Employee em = new Employee() { Name = textBoxLeaderName.Text, Surname = textBoxLeaderSurname.Text, Email = textBoxLeaderEmail.Text, Password = passwordBoxLeader.Password, Type = EmployeeType.TEAMLEADER };
             Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = em.Email };
             em.Team = newTeam;
 
             //LocalClientDatabase.Instance.proxy.AddTeam(newTeam);
             //LocalClientDatabase.Instance.proxy.AddEmployee(em);
 
-            LocalClientDatabase.Instance.proxy.AddTeamAndTL(newTeam, em);
+            LocalClientDatabase.Instance.Proxy.AddTeamAndTL(newTeam, em);
             
             textBoxTeamName.Text = "";
 
@@ -241,9 +241,9 @@ namespace Client.Views
             tabControlNewTeam.SelectedIndex = 0;
         }
 
-        private void buttonAddTeam3_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddTeam3_Click(object sender, RoutedEventArgs e)
         {
-            if(comboBoxTeamLeader.SelectedItem != null)
+            if (comboBoxTeamLeader.SelectedItem != null)
             {
                 Employee emp = comboBoxTeamLeader.SelectedItem as Employee;
                 Team newTeam = new Team() { Name = textBoxTeamName.Text, TeamLeaderEmail = emp.Email };
@@ -254,7 +254,7 @@ namespace Client.Views
                 //LocalClientDatabase.Instance.proxy.UpdateEmployeeFunctionAndTeam(emp, newTeam.Name);
 
                 //LocalClientDatabase.Instance.proxy.AddTeamAndTL(newTeam, emp);
-                LocalClientDatabase.Instance.proxy.AddTeamAndUpdateDeveloperToTL(newTeam, emp);
+                LocalClientDatabase.Instance.Proxy.AddTeamAndUpdateDeveloperToTL(newTeam, emp);
             }
 
             textBoxTeamName.Text = "";
@@ -264,7 +264,7 @@ namespace Client.Views
             tabControlNewTeam.SelectedIndex = 0;
         }
 
-        private void buttonProjectAssign_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectAssign_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxProjects.SelectedItem != null && comboBoxTeams.SelectedItem != null)
             {
@@ -273,7 +273,7 @@ namespace Client.Views
 
                 if (project.AssignStatus == AssignStatus.UNASSIGNED)
                 {
-                    if(!team.ScrumMasterEmail.Equals(string.Empty))
+                    if (!team.ScrumMasterEmail.Equals(string.Empty))
                     {
                         foreach (var proj in LocalClientDatabase.Instance.AllProjects)
                         {
@@ -290,7 +290,7 @@ namespace Client.Views
                         comboBoxProjects.SelectedItem = null;
                         comboBoxTeams.SelectedItem = null;
 
-                        LocalClientDatabase.Instance.proxy.ProjectTeamAssign(project); 
+                        LocalClientDatabase.Instance.Proxy.ProjectTeamAssign(project); 
 
                         MessageBox.Show("The project has been successfully assigned!");
                     }
@@ -310,27 +310,27 @@ namespace Client.Views
             }
         }
 
-        private void buttonBack2_Click(object sender, RoutedEventArgs e)
+        private void ButtonBack2_Click(object sender, RoutedEventArgs e)
         {
             addEmployeeTabControl.SelectedIndex = 0;
         }
 
-        private void buttonBack3_Click(object sender, RoutedEventArgs e)
+        private void ButtonBack3_Click(object sender, RoutedEventArgs e)
         {
             addEmployeeTabControl.SelectedIndex = 0;
         }
 
-        private void buttonBack4_Click(object sender, RoutedEventArgs e)
+        private void ButtonBack4_Click(object sender, RoutedEventArgs e)
         {
             addEmployeeTabControl.SelectedIndex = 0;
         }
 
-        private void buttonAddEmployee2_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddEmployee2_Click(object sender, RoutedEventArgs e)
         {
             Employee employee = new Employee();
             Team team = new Team();
 
-            if(comboBoxTeamDeveloper.SelectedItem != null)
+            if (comboBoxTeamDeveloper.SelectedItem != null)
             {
                 team = comboBoxTeamDeveloper.SelectedItem as Team;
 
@@ -344,7 +344,7 @@ namespace Client.Views
                 employee.Team = team;
                 employee.PasswordTimeStamp = DateTime.Now;
 
-                LocalClientDatabase.Instance.proxy.AddEmployee(employee);
+                LocalClientDatabase.Instance.Proxy.AddEmployee(employee);
 
                 textBoxName.Text = "";
                 textBoxSurname.Text = "";
@@ -364,7 +364,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonAddEmployee3_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddEmployee3_Click(object sender, RoutedEventArgs e)
         {
             Employee employee = new Employee();
             Team team = new Team();
@@ -387,7 +387,7 @@ namespace Client.Views
                             employee.Team = team;
                             employee.PasswordTimeStamp = DateTime.Now;
 
-                            LocalClientDatabase.Instance.proxy.AddEmployee(employee);
+                            LocalClientDatabase.Instance.Proxy.AddEmployee(employee);
 
                             textBoxName.Text = "";
                             textBoxSurname.Text = "";

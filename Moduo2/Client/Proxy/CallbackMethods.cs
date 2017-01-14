@@ -11,7 +11,7 @@ namespace Client
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class CallbackMethods : ICallbackMethods
     {
-        MainWindow mainWindow;
+        private MainWindow mainWindow;
 
         public CallbackMethods()
         {

@@ -26,7 +26,7 @@ namespace Client.Views
             InitializeComponent();
         }
 
-        private void buttonProjectDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridProjects.SelectedItem != null)
             {
@@ -36,7 +36,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonUserStoryDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonUserStoryDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridUserStories.SelectedItem != null)
             {
@@ -46,7 +46,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridTasks.SelectedItem != null)
             {

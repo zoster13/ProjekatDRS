@@ -11,7 +11,7 @@
             <TabItem Header="All Tasks" Margin="446,1,-450,-1" Height="39">
                 <Grid Background="#FFE5E5E5">
                     <Grid  Background="White" Margin="10,191,297,10">
-                        <Button x:Name="buttonTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="buttonTaskDescription_Click"  />
+                        <Button x:Name="buttonTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonTaskDescription_Click"  />
                         <TextBox x:Name="textTaskDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="413" />
                     </Grid>
                     <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
@@ -27,7 +27,7 @@
                         <Label x:Name="labelTitle3" Content="Claim task" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="90,10,-20,0" VerticalAlignment="Top" Width="199"/>
                         <Label x:Name="labelTask11" Content="Task: (must be unassigned and started)" HorizontalAlignment="Left" Height="26" Margin="12,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
                         <ComboBox x:Name="comboBoxAllTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,73,0,0" VerticalAlignment="Top" Width="238"/>
-                        <Button x:Name="buttonTaskClaim" Content="Claim" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskClaim_Click"/>
+                        <Button x:Name="buttonTaskClaim" Content="Claim" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="ButtonTaskClaim_Click"/>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -44,10 +44,10 @@
                         <Label x:Name="labelTitle41" Content="Mark task as completed" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="42,10,0,0" VerticalAlignment="Top" Width="199"/>
                         <Label x:Name="labelTask211" Content="Task: (must be uncomleted)" HorizontalAlignment="Left" Height="26" Margin="12,47,0,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
                         <ComboBox x:Name="comboBoxMyTasks" ItemsSource="{Binding MyTasks, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="10,73,0,0" VerticalAlignment="Top" Width="238"/>
-                        <Button x:Name="buttonTaskComplete" Content="Complete" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskComplete_Click"/>
+                        <Button x:Name="buttonTaskComplete" Content="Complete" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="194,258,0,0" VerticalAlignment="Top" Width="65" Click="ButtonTaskComplete_Click"/>
                     </Grid>
                     <Grid  Background="White" Margin="10,191,293,10">
-                        <Button x:Name="buttonMyTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="buttonMyTaskDescription_Click" />
+                        <Button x:Name="buttonMyTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonMyTaskDescription_Click" />
                         <TextBox x:Name="textMyTaskDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="417" />
                     </Grid>
                 </Grid>
@@ -74,13 +74,13 @@
                         <ComboBox x:Name="comboBoxStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,78,0,0" VerticalAlignment="Top" Width="229"/>
                         <Label x:Name="labelTask1" Content="User story: (must be accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="17,51,-5,0" VerticalAlignment="Top" Width="257" RenderTransformOrigin="0.372,0.731"/>
                         <Label x:Name="labelTaskContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,137,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxTaskContent" HorizontalAlignment="Left" Height="74" Margin="21,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="229" TextChanged="textBoxTaskContent_TextChanged" />
+                        <TextBox x:Name="textBoxTaskContent" HorizontalAlignment="Left" Height="74" Margin="21,165,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="229" TextChanged="TextBoxTaskContent_TextChanged" />
                         <Label x:Name="labelTaskTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,108,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxTaskTitle" HorizontalAlignment="Left" Height="21" Margin="67,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" TextChanged="textBoxTaskTitle_TextChanged" />
-                        <Button x:Name="buttonTaskAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="185,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonTaskAdd_Click"/>
+                        <TextBox x:Name="textBoxTaskTitle" HorizontalAlignment="Left" Height="21" Margin="67,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="183" TextChanged="TextBoxTaskTitle_TextChanged" />
+                        <Button x:Name="buttonTaskAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="185,258,0,0" VerticalAlignment="Top" Width="65" Click="ButtonTaskAdd_Click"/>
                     </Grid>
                     <Grid x:Name="gridStartStory" Background="White" Margin="10,191,21,10" Grid.ColumnSpan="2">
-                        <Button x:Name="buttonUserStoryDescription" Content="Userstory Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="buttonUserStoryDescription_Click" />
+                        <Button x:Name="buttonUserStoryDescription" Content="Userstory Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonUserStoryDescription_Click" />
                         <TextBox x:Name="textUserStoryDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="418" />
                     </Grid>
                 </Grid>
@@ -101,7 +101,7 @@
                         <Label x:Name="labelTitle33" Content="Finish user story" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="102,10,0,0" VerticalAlignment="Top" Width="199"/>
                         <Label x:Name="labelTask" Content="User story: (must be in accepted and in prep)" HorizontalAlignment="Left" Height="26" Margin="22,94,0,0" VerticalAlignment="Top" Width="279" RenderTransformOrigin="0.372,0.731"/>
                         <ComboBox x:Name="comboBoxStories1" ItemsSource="{Binding UserStories, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="22,125,0,0" VerticalAlignment="Top" Width="280"/>
-                        <Button x:Name="buttonFinishStory" Content="Finish Story" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="247,258,0,0" VerticalAlignment="Top" Width="88" Click="buttonFinishStory_Click"/>
+                        <Button x:Name="buttonFinishStory" Content="Finish Story" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="247,258,0,0" VerticalAlignment="Top" Width="88" Click="ButtonFinishStory_Click"/>
                     </Grid>
                 </Grid>
             </TabItem>
@@ -118,17 +118,17 @@
                         <ComboBox x:Name="comboBoxProjects" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,46,0,0" VerticalAlignment="Top" Width="280"/>
                         <Label x:Name="labelProject" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,22,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
                         <Label x:Name="labelUserStoryTitle" Content="Title: " HorizontalAlignment="Left" Height="26" Margin="21,71,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxUserStoryTitle" HorizontalAlignment="Left" Height="21" Margin="67,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="textBoxUserStoryTitle_TextChanged" />
+                        <TextBox x:Name="textBoxUserStoryTitle" HorizontalAlignment="Left" Height="21" Margin="67,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234" TextChanged="TextBoxUserStoryTitle_TextChanged" />
                         <Label x:Name="labelUserStoryContent" Content="Content: " HorizontalAlignment="Left" Height="26" Margin="21,96,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxUserStoryContent" HorizontalAlignment="Left" Height="81" Margin="21,119,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxUserStoryContent_TextChanged" />
+                        <TextBox x:Name="textBoxUserStoryContent" HorizontalAlignment="Left" Height="81" Margin="21,119,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="TextBoxUserStoryContent_TextChanged" />
                         <Label x:Name="labelUserStoryAccCrit" Content="Acceptance Criteria:: " HorizontalAlignment="Left" Height="26" Margin="21,196,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxUserStoryAccCrit" HorizontalAlignment="Left" Height="26" Margin="21,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="textBoxUserStoryAccCrit_TextChanged" />
+                        <TextBox x:Name="textBoxUserStoryAccCrit" HorizontalAlignment="Left" Height="26" Margin="21,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="323" TextChanged="TextBoxUserStoryAccCrit_TextChanged" />
                         <Label x:Name="labelUserStoryDifficulty" Content="Difficulty: " HorizontalAlignment="Left" Height="26" Margin="21,263,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <TextBox x:Name="textBoxUserStoryDifficulty" HorizontalAlignment="Left" Height="24" Margin="90,265,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="40" TextChanged="textBoxUserStoryDifficulty_TextChanged"/>
-                        <Button x:Name="buttonUserStoryAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="279,258,0,0" VerticalAlignment="Top" Width="65" Click="buttonUserStoryAdd_Click"/>
+                        <TextBox x:Name="textBoxUserStoryDifficulty" HorizontalAlignment="Left" Height="24" Margin="90,265,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="40" TextChanged="TextBoxUserStoryDifficulty_TextChanged"/>
+                        <Button x:Name="buttonUserStoryAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="279,258,0,0" VerticalAlignment="Top" Width="65" Click="ButtonUserStoryAdd_Click"/>
                     </Grid>
                     <Grid  Background="White" Margin="10,170,385,10">
-                        <Button x:Name="buttonProjectDescription" Content="Project Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="buttonProjectDescription_Click"/>
+                        <Button x:Name="buttonProjectDescription" Content="Project Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonProjectDescription_Click"/>
                         <TextBox x:Name="textProjectDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="93" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="325" />
                     </Grid>
                 </Grid>
@@ -145,7 +145,7 @@
                         <Label x:Name="labelTitle44" Content="Send userstories" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="103,10,0,0" VerticalAlignment="Top" Width="158"/>
                         <ComboBox x:Name="comboBoxProjectsSend" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" HorizontalAlignment="Left" Height="24" Margin="21,96,0,0" VerticalAlignment="Top" Width="280"/>
                         <Label x:Name="labelProjectSend" Content="Project: (must be in prep)" HorizontalAlignment="Left" Height="26" Margin="21,63,0,0" VerticalAlignment="Top" Width="199" RenderTransformOrigin="0.372,0.731"/>
-                        <Button x:Name="buttonUserStorySend" Content="Send userstories for selected project" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="118,258,0,0" VerticalAlignment="Top" Width="220" Click="buttonUserStorySend_Click"/>
+                        <Button x:Name="buttonUserStorySend" Content="Send userstories for selected project" IsEnabled="True" HorizontalAlignment="Left" Height="31" Margin="118,258,0,0" VerticalAlignment="Top" Width="220" Click="ButtonUserStorySend_Click"/>
                     </Grid>
                 </Grid>
             </TabItem>

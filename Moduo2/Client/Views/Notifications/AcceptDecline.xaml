@@ -8,8 +8,8 @@
              d:DesignHeight="170" d:DesignWidth="320">
     <Grid Background="DarkGray">
         <TextBox x:Name="notificationText" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" HorizontalAlignment="Left" Height="110" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300"/>
-        <Button x:Name="buttonAccept" IsEnabled="False" Content="Accept" HorizontalAlignment="Left" Height="27" Margin="158,133,0,0" VerticalAlignment="Top" Width="70" Click="buttonAccept_Click"/>
-        <Button x:Name="buttonDecline" IsEnabled="False" Content="Decline" HorizontalAlignment="Left" Height="27" Margin="240,133,0,0" VerticalAlignment="Top" Width="70" Click="buttonDecline_Click"/>
+        <Button x:Name="buttonAccept" IsEnabled="False" Content="Accept" HorizontalAlignment="Left" Height="27" Margin="158,133,0,0" VerticalAlignment="Top" Width="70" Click="ButtonAccept_Click"/>
+        <Button x:Name="buttonDecline" IsEnabled="False" Content="Decline" HorizontalAlignment="Left" Height="27" Margin="240,133,0,0" VerticalAlignment="Top" Width="70" Click="ButtonDecline_Click"/>
 
     </Grid>
 </UserControl>

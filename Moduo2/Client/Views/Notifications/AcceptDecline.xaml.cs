@@ -21,7 +21,7 @@ namespace Client.Views.Notifications
     /// </summary>
     public partial class AcceptDecline : UserControl
     {
-        MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+        private MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
 
         public AcceptDecline()
         {
@@ -29,7 +29,7 @@ namespace Client.Views.Notifications
             mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
         }
 
-        private void buttonAccept_Click(object sender, RoutedEventArgs e)
+        private void ButtonAccept_Click(object sender, RoutedEventArgs e)
         {
             switch (LocalClientDatabase.Instance.CurrentNotification.Type)
             {
@@ -46,7 +46,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(true, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
+                        LocalClientDatabase.Instance.Proxy.ResponseToPartnershipRequest(true, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
                         MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been accepted!\n It can be seen in the Companies pannel.");
                     }
                     else
@@ -69,7 +69,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(true, project);
+                        LocalClientDatabase.Instance.Proxy.ResponseToProjectRequest(true, project);
                         
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been accepted!\n It can be seen in the Work pannel in Projects.");
                     }
@@ -81,7 +81,7 @@ namespace Client.Views.Notifications
             }
         }
 
-        private void buttonDecline_Click(object sender, RoutedEventArgs e)
+        private void ButtonDecline_Click(object sender, RoutedEventArgs e)
         {
             switch (LocalClientDatabase.Instance.CurrentNotification.Type)
             {
@@ -95,7 +95,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToPartnershipRequest(false, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
+                        LocalClientDatabase.Instance.Proxy.ResponseToPartnershipRequest(false, LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName);
 
                         MessageBox.Show("Partnership with hiring company  " + LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName + " has been declined!");
                     }
@@ -119,7 +119,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(false, project);
+                        LocalClientDatabase.Instance.Proxy.ResponseToProjectRequest(false, project);
 
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been declined!");
                     }

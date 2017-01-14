@@ -27,7 +27,7 @@ namespace Client.Views
             InitializeComponent();
         }
 
-        private void textBoxUserStoryTitle_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxUserStoryTitle_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
@@ -39,7 +39,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxUserStoryContent_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxUserStoryContent_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
@@ -51,10 +51,12 @@ namespace Client.Views
             }
         }
 
-        private void textBoxUserStoryDifficulty_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxUserStoryDifficulty_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (buttonUserStoryAdd == null)
+            {
                 return;
+            }  
 
             if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
@@ -66,7 +68,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxUserStoryAccCrit_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxUserStoryAccCrit_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxUserStoryTitle.Text != "" && textBoxUserStoryContent.Text != "" && textBoxUserStoryDifficulty.Text != "" && textBoxUserStoryAccCrit.Text != "")
             {
@@ -78,13 +80,13 @@ namespace Client.Views
             }
         }
 
-        private void buttonUserStoryAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonUserStoryAdd_Click(object sender, RoutedEventArgs e)
         {
-            if(comboBoxProjects.SelectedItem != null)
+            if (comboBoxProjects.SelectedItem != null)
             {
                 Project project = comboBoxProjects.SelectedItem as Project;
 
-                if(project.ProgressStatus == ProgressStatus.INPREP)
+                if (project.ProgressStatus == ProgressStatus.INPREP)
                 {
                     UserStory userStory = new UserStory();
                     userStory.Title = textBoxUserStoryTitle.Text;
@@ -103,7 +105,7 @@ namespace Client.Views
                     textBoxUserStoryAccCrit.Text = "";
                     textBoxUserStoryDifficulty.Text = "2";
 
-                    if(project.UserStories == null)
+                    if (project.UserStories == null)
                     {
                         project.UserStories = new List<UserStory>();
                     }
@@ -112,7 +114,7 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.UserStories.Add(userStory);
 
-                    LocalClientDatabase.Instance.proxy.AddUserStory(userStory, project.Name);
+                    LocalClientDatabase.Instance.Proxy.AddUserStory(userStory, project.Name);
 
                     MessageBox.Show("User story has been added!");
                 }
@@ -127,13 +129,13 @@ namespace Client.Views
             }
         }
 
-        private void buttonUserStorySend_Click(object sender, RoutedEventArgs e)
+        private void ButtonUserStorySend_Click(object sender, RoutedEventArgs e)
         {
-            if(comboBoxProjectsSend.SelectedItem != null)
+            if (comboBoxProjectsSend.SelectedItem != null)
             {
                 Project project = comboBoxProjectsSend.SelectedItem as Project;
 
-                if(project.ProgressStatus == ProgressStatus.INPREP)
+                if (project.ProgressStatus == ProgressStatus.INPREP)
                 {
                     List<UserStoryCommon> storiesToSend = new List<UserStoryCommon>();
 
@@ -154,7 +156,7 @@ namespace Client.Views
                         storiesToSend.Add(commStory);
                     }
 
-                    LocalClientDatabase.Instance.proxy.SendUserStories(storiesToSend, project.Name);
+                    LocalClientDatabase.Instance.Proxy.SendUserStories(storiesToSend, project.Name);
                 }
                 else
                 {
@@ -163,7 +165,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxTaskTitle_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxTaskTitle_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxTaskTitle.Text != "" && textBoxTaskContent.Text != "")
             {
@@ -175,7 +177,7 @@ namespace Client.Views
             }
         }
 
-        private void textBoxTaskContent_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBoxTaskContent_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (textBoxTaskTitle.Text != "" && textBoxTaskContent.Text != "")
             {
@@ -187,13 +189,13 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskAdd_Click(object sender, RoutedEventArgs e)
         {
-            if( comboBoxStories.SelectedItem != null)
+            if (comboBoxStories.SelectedItem != null)
             {
                 UserStory userStory = comboBoxStories.SelectedItem as UserStory;
 
-                if(userStory.AcceptStatus == AcceptStatus.ACCEPTED && userStory.ProgressStatus == ProgressStatus.INPREP)
+                if (userStory.AcceptStatus == AcceptStatus.ACCEPTED && userStory.ProgressStatus == ProgressStatus.INPREP)
                 {
                     ClientCommon.Data.Task task = new ClientCommon.Data.Task();
 
@@ -203,7 +205,7 @@ namespace Client.Views
                     task.AssignStatus = AssignStatus.UNASSIGNED;
                     task.ProgressStatus = ProgressStatus.PENDING;
 
-                    if(userStory.Tasks == null)
+                    if (userStory.Tasks == null)
                     {
                         userStory.Tasks = new List<ClientCommon.Data.Task>();
                     }
@@ -212,7 +214,7 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.AllTasks.Add(task);
 
-                    LocalClientDatabase.Instance.proxy.AddTask(task);
+                    LocalClientDatabase.Instance.Proxy.AddTask(task);
 
                     textBoxTaskTitle.Text = "";
                     textBoxTaskContent.Text = "";
@@ -227,7 +229,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonFinishStory_Click(object sender, RoutedEventArgs e)
+        private void ButtonFinishStory_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxStories1.SelectedItem != null)
             {
@@ -239,7 +241,7 @@ namespace Client.Views
                     userStory.Deadline = DateTime.Now;
                     userStory.Deadline = userStory.Deadline.AddDays(3);
 
-                    foreach(var task in userStory.Tasks)
+                    foreach (var task in userStory.Tasks)
                     {
                         task.ProgressStatus = ProgressStatus.STARTED;
                     }
@@ -248,7 +250,7 @@ namespace Client.Views
                     dataGridUserStories1.Items.Refresh();
                     dataGridTasks.Items.Refresh();
 
-                    LocalClientDatabase.Instance.proxy.ReleaseUserStory(userStory);
+                    LocalClientDatabase.Instance.Proxy.ReleaseUserStory(userStory);
 
                     MessageBox.Show("User story has been sent to team developers!");
                 }
@@ -259,13 +261,13 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskClaim_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskClaim_Click(object sender, RoutedEventArgs e)
         {
-            if(comboBoxAllTasks.SelectedItem != null)
+            if (comboBoxAllTasks.SelectedItem != null)
             {
                 ClientCommon.Data.Task task = comboBoxAllTasks.SelectedItem as ClientCommon.Data.Task;
 
-                if(task.AssignStatus == AssignStatus.UNASSIGNED && task.ProgressStatus == ProgressStatus.STARTED)
+                if (task.AssignStatus == AssignStatus.UNASSIGNED && task.ProgressStatus == ProgressStatus.STARTED)
                 {
                     task.AssignStatus = AssignStatus.ASSIGNED;
                     task.ProgressStatus = ProgressStatus.STARTED;
@@ -273,7 +275,7 @@ namespace Client.Views
 
                     LocalClientDatabase.Instance.MyTasks.Add(task);
 
-                    LocalClientDatabase.Instance.proxy.TaskClaimed(task);
+                    LocalClientDatabase.Instance.Proxy.TaskClaimed(task);
 
                     MessageBox.Show("You have successfully claimed a task!");
                 }
@@ -284,7 +286,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskComplete_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskComplete_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxMyTasks.SelectedItem != null)
             {
@@ -294,7 +296,7 @@ namespace Client.Views
                 {
                     task.ProgressStatus = ProgressStatus.COMPLETED;
 
-                    LocalClientDatabase.Instance.proxy.TaskCompleted(task);
+                    LocalClientDatabase.Instance.Proxy.TaskCompleted(task);
 
                     MessageBox.Show("Task completed!");
                 }
@@ -305,9 +307,9 @@ namespace Client.Views
             }
         }
 
-        private void buttonProjectDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonProjectDescription_Click(object sender, RoutedEventArgs e)
         {
-            if(dataGridProjects.SelectedItem != null)
+            if (dataGridProjects.SelectedItem != null)
             {
                 Project proj = dataGridProjects.SelectedItem as Project;
 
@@ -315,7 +317,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonUserStoryDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonUserStoryDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridUserStories.SelectedItem != null)
             {
@@ -325,7 +327,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonMyTaskDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonMyTaskDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridMyTasks.SelectedItem != null)
             {
@@ -335,7 +337,7 @@ namespace Client.Views
             }
         }
 
-        private void buttonTaskDescription_Click(object sender, RoutedEventArgs e)
+        private void ButtonTaskDescription_Click(object sender, RoutedEventArgs e)
         {
             if (dataGridTasks.SelectedItem != null)
             {
