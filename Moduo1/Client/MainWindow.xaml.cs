@@ -72,12 +72,12 @@ namespace Client
 
         #region LogIn, LogOut Handlers
 
-        private void LogInButton_Click( object sender, RoutedEventArgs e )
+        private void LogInButton_Click(object sender, RoutedEventArgs e)
         {
             SetUpConnection();
 
-            if (proxy.State == CommunicationState.Opened)
             //if (proxy.InnerChannel.State == CommunicationState.Opened)
+            if (proxy.State == CommunicationState.Opened)           
             {
                 bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
 
@@ -109,7 +109,7 @@ namespace Client
 
         }
 
-        private void SignOutButton_Click( object sender, RoutedEventArgs e )
+        private void SignOutButton_Click(object sender, RoutedEventArgs e)
         {
             proxy.SignOut(clientDB.Username.Trim());
 
@@ -120,13 +120,13 @@ namespace Client
             tabControl.SelectedIndex = 0;
         }
 
-        private void UsernameBox_GotFocus( object sender, RoutedEventArgs e )
+        private void UsernameBox_GotFocus(object sender, RoutedEventArgs e)
         {
 
             //  warningLabel.Visibility = Visibility.Hidden;
         }
 
-        private void UsernameTextChanged( object sender, TextChangedEventArgs e )
+        private void UsernameTextChanged(object sender, TextChangedEventArgs e)
         {
             warningLabel.Visibility = Visibility.Hidden;
             if (usernameBox.Text != "" && passwordBox.Password != "")
@@ -139,7 +139,7 @@ namespace Client
             }
         }
 
-        private void PasswordBoxPasswordChanged( object sender, RoutedEventArgs e )
+        private void PasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
         {
             if (usernameBox.Text != "" && passwordBox.Password != "")
             {
@@ -155,7 +155,7 @@ namespace Client
 
         #region Projects tab - Projects in development overview
 
-        private void ComboBoxProjects_SelectionChanged( object sender, SelectionChangedEventArgs e )
+        private void ComboBoxProjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBoxProjects.SelectedItem != null)
             {
@@ -174,15 +174,15 @@ namespace Client
         #region Work tab, for CEO and HR 
 
         // employees tab
-        private void TextBoxNameCeoTextChanged( object sender, TextChangedEventArgs e )
+        private void TextBoxNameCeoTextChanged(object sender, TextChangedEventArgs e)
         {
             labelUsernameExists.Visibility = Visibility.Hidden;
         }
 
-        private void AddEmployeeButton_Click( object sender, RoutedEventArgs e )
+        private void AddEmployeeButton_Click(object sender, RoutedEventArgs e)
         {
             Employee newEmployee;
-            if (( textBoxNameCEO.Text != "" ) && ( textBoxSurnameCEO.Text != "" ) && ( textBoxEmailCEO.Text != "" ) && ( usernameTextBoxCEO.Text != "" ) && ( passwordBoxCEO.Password != "" ))
+            if ((textBoxNameCEO.Text != "") && (textBoxSurnameCEO.Text != "") && (textBoxEmailCEO.Text != "") && (usernameTextBoxCEO.Text != "") && (passwordBoxCEO.Password != ""))
             {
                 newEmployee = new Employee(usernameTextBoxCEO.Text, passwordBoxCEO.Password, Extensions.StringToType((string)comboBoxPositionCEO.SelectedItem),
                     textBoxNameCEO.Text, textBoxSurnameCEO.Text, textBoxEmailCEO.Text, 0, 0, 0, 0);
@@ -201,9 +201,9 @@ namespace Client
             }
         }
 
-        private void ApplyTypeChangeButton_Click( object sender, RoutedEventArgs e )
+        private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e)
         {
-            string usName = ( (Employee)dataGridCEO.SelectedItem ).Username;
+            string usName = ((Employee)dataGridCEO.SelectedItem).Username;
             //ne vredi da pravimo proveru da ne moze da se menja SM,jer isto tako ne bi trebao da se promeni PO jer je i on vezan za projekat
             //PO treba da stizu notifikacije o projektu,a SM notifikacija kad bude provera za 80%
             //svakako ce njihovi username-ovi biti vezani za ona polja u projektu i slace im se notifikacije,
@@ -213,13 +213,13 @@ namespace Client
         }
 
         // not partner companies tab
-        private void PartnershipRequestCEOButton_Click( object sender, RoutedEventArgs e )
+        private void PartnershipRequestCEOButton_Click(object sender, RoutedEventArgs e)
         {
             proxy.AskForPartnership((string)PossiblePartnerCompaniesDataGrid.SelectedItem);
         }
 
         // projects for approval, and for assinging to development company tab  
-        private void ApproveProjectButton_CLick( object sender, RoutedEventArgs e )
+        private void ApproveProjectButton_CLick(object sender, RoutedEventArgs e)
         {
             if (projectsForApprovalDataGrid.SelectedItem != null)
             {
@@ -232,11 +232,11 @@ namespace Client
             }
         }
 
-        private void ProjectRequestButton_CLick( object sender, RoutedEventArgs e )
+        private void ProjectRequestButton_CLick(object sender, RoutedEventArgs e)
         {
             if (approvedprojectsInDevelopmentDataGrid.SelectedItem != null)
             {
-                proxy.SendProject(( (PartnerCompany)comboBoxPartnerCompanies.SelectedItem ).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
+                proxy.SendProject(((PartnerCompany)comboBoxPartnerCompanies.SelectedItem).Name, (Project)approvedprojectsInDevelopmentDataGrid.SelectedItem);
             }
         }
 
@@ -244,7 +244,7 @@ namespace Client
 
         #region work tab, for PO
 
-        private void CreateProjectButton_Click( object sender, RoutedEventArgs e )
+        private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
         {
             Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username, (string)ScrumMasterComboBox.SelectedItem);
 
@@ -271,7 +271,7 @@ namespace Client
             ScrumMasterComboBox.Items.Clear();
         }
 
-        private void ProjectsComboBox_SelectionChanged( object sender, SelectionChangedEventArgs e )
+        private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (WorkPOProjectsComboBox.SelectedItem != null)
             {
@@ -292,7 +292,7 @@ namespace Client
             }
         }
 
-        private void ApproveUserStoriesButton_Click( object sender, RoutedEventArgs e )
+        private void ApproveUserStoriesButton_Click(object sender, RoutedEventArgs e)
         {
             Project p = (Project)WorkPOProjectsComboBox.SelectedItem;
             foreach (CheckBox cb in UserStoriesForApprovalListBox.Items)
@@ -323,7 +323,7 @@ namespace Client
 
         #region settings tab
 
-        private void EditData_Click( object sender, RoutedEventArgs e )
+        private void EditData_Click(object sender, RoutedEventArgs e)
         {
             Employee em = clientDB.Employees.SingleOrDefault(employee => employee.Username.Equals(clientDB.Username));
             if (em != null)
@@ -348,17 +348,17 @@ namespace Client
             }
         }
 
-        private void EditPassword_Click( object sender, RoutedEventArgs e )
+        private void EditPassword_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = true;
         }
 
         // visak
-        private void PassBoxOldPass_PasswordChanged( object sender, RoutedEventArgs e )
+        private void PassBoxOldPass_PasswordChanged(object sender, RoutedEventArgs e)
         {
         }
 
-        private void PassBoxOldPass_LostFocus( object sender, RoutedEventArgs e )
+        private void PassBoxOldPass_LostFocus(object sender, RoutedEventArgs e)
         {
             if (passBoxOldPass.Password != String.Empty)
             {
@@ -374,7 +374,7 @@ namespace Client
             }
         }
 
-        private void SaveChanges_Click( object sender, RoutedEventArgs e )
+        private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             clientDB.Password = passBoxNewPass.Password;
             proxy.ChangeEmployeeData(clientDB.Username, textBoxEditName.Text, textBoxEditSurname.Text, textBoxEditEmail.Text, passBoxNewPass.Password);
@@ -407,7 +407,7 @@ namespace Client
             workEndMinute.Text = "";
         }
 
-        private void Cancel_Click( object sender, RoutedEventArgs e )
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             passBoxOldPass.IsEnabled = false;
             passBoxOldPass.Password = "";
@@ -433,7 +433,7 @@ namespace Client
 
         #endregion
 
-        private void NotificationsButton_Click( object sender, RoutedEventArgs e )
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e)
         {
             BrushConverter bc = new BrushConverter();
             NotificationsButton.Background = (Brush)bc.ConvertFrom("#FFFAFBFE");
@@ -445,7 +445,7 @@ namespace Client
                 : Visibility.Collapsed;
         }
 
-        public void NotifyEmployee( string message )
+        public void NotifyEmployee(string message)
         {
             TextBlock tb = new TextBlock();
             tb.Text = message;
@@ -513,12 +513,12 @@ namespace Client
             }
         }
 
-        private void Window_MouseDown( object sender, MouseButtonEventArgs e )
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
 
-        private void CloseButtonClick( object sender, RoutedEventArgs e )
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             if (!clientDB.Username.Equals(string.Empty))
             {
@@ -529,7 +529,7 @@ namespace Client
             this.Close();
         }
 
-        public void SyncClientDb( CurrentData data )
+        public void SyncClientDb(CurrentData data)
         {
             if (clientDB.Employees.Count != 0)
             {
@@ -584,9 +584,11 @@ namespace Client
             WorkPOProjectsComboBox.DataContext = clientDB.ProjectsInDevelopment;
 
             clientDB.ProjectsForClosing.Clear();
-            foreach(Project p in clientDB.ProjectsInDevelopment) //projectsInDevelopment su svi projekti(i zatvoreni i oni koji se rade trenutno)
+
+            //projectsInDevelopment su svi projekti(i zatvoreni i oni koji se rade trenutno)
+            foreach (Project p in clientDB.ProjectsInDevelopment) 
             {
-                if (p.UserStories.Count != 0 && p.IsClosed==false)
+                if (p.UserStories.Count != 0 && p.IsClosed == false)
                 {
                     List<UserStory> us = p.UserStories.FindAll(u => u.IsClosed == false);
                     if (us.Count == 0)

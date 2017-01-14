@@ -14,9 +14,9 @@ namespace EmployeeCommon
     {
         // All users
         [OperationContract(IsInitiating = true, IsTerminating = false)]
-        bool SignIn(string username,string password);
+        bool SignIn(string username, string password);
          
-        [OperationContract( IsInitiating = false, IsTerminating = true)] 
+        [OperationContract(IsInitiating = false, IsTerminating = true)] 
         void SignOut(string username);
 
         [OperationContract]
@@ -34,7 +34,7 @@ namespace EmployeeCommon
         bool AddNewEmployee(Employee e);
 
         [OperationContract]
-        void ChangeEmployeeType(string username,EmployeeType type);
+        void ChangeEmployeeType(string username, EmployeeType type);
 
         // CEO, PO, SM
         [OperationContract]

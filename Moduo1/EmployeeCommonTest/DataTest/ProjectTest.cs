@@ -21,6 +21,10 @@ namespace EmployeeCommonTest.DataTest
         private List<UserStory> userStories = new List<UserStory>();
         private string outsourcingCompany = "DMS";
         private string productOwner = "zklasnic";
+        private string scrumMaster = "rzekanovic";
+        private bool isAcceptedCEO = false;
+        private bool isAcceptedOutsCompany = false;
+        private bool isClosed = false;
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -32,6 +36,22 @@ namespace EmployeeCommonTest.DataTest
         public void ConstructorTest()
         {
             Assert.DoesNotThrow(() => new Project());
+        }
+
+        [Test]
+        public void ConstructorTestWithParameters()
+        {
+            Assert.DoesNotThrow(() => new Project(name, description, productOwner, scrumMaster));
+
+            projectTest = new Project(name, description, productOwner, scrumMaster);
+
+            Assert.AreEqual(name, projectTest.Name);
+            Assert.AreEqual(description, projectTest.Description);
+            Assert.AreEqual(productOwner, projectTest.ProductOwner);
+            Assert.AreEqual(scrumMaster, projectTest.ScrumMaster);
+            Assert.AreEqual(isAcceptedCEO, projectTest.IsAcceptedCEO);
+            Assert.AreEqual(isAcceptedOutsCompany, projectTest.IsAcceptedOutsCompany);
+            Assert.AreEqual(isClosed, projectTest.IsClosed);
         }
 
         [Test]
@@ -96,6 +116,38 @@ namespace EmployeeCommonTest.DataTest
             projectTest.ProductOwner = productOwner;
 
             Assert.AreEqual(productOwner, projectTest.ProductOwner);
+        }
+
+        [Test]
+        public void ScrumMasterTest()
+        {
+            projectTest.ScrumMaster = scrumMaster;
+
+            Assert.AreEqual(scrumMaster, projectTest.ScrumMaster);
+        }
+
+        [Test]
+        public void IsAcceptedCEOTest()
+        {
+            projectTest.IsAcceptedCEO = isAcceptedCEO;
+
+            Assert.AreEqual(isAcceptedCEO, projectTest.IsAcceptedCEO);
+        }
+
+        [Test]
+        public void IsAcceptedOutsCompanyTest()
+        {
+            projectTest.IsAcceptedOutsCompany = isAcceptedOutsCompany;
+
+            Assert.AreEqual(isAcceptedOutsCompany, projectTest.IsAcceptedOutsCompany);
+        }
+
+        [Test]
+        public void IsClosedTest()
+        {
+            projectTest.IsClosed = isClosed;
+
+            Assert.AreEqual(isClosed, projectTest.IsClosed);
         }
     }
 }

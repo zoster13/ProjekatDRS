@@ -30,7 +30,7 @@ namespace EmployeeCommon.Data
 
         }
 
-        public Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail,int eStartHour,int eStartMinute,int eEndHour,int eEndMinute) 
+        public Employee(string eUsername, string ePassword, EmployeeType eType, string eName, string eSurname, string eEmail, int eStartHour, int eStartMinute, int eEndHour, int eEndMinute) 
         {
             username = eUsername;
             password = ePassword;

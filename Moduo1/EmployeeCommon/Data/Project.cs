@@ -28,7 +28,7 @@ namespace EmployeeCommon.Data
 
         public Project() 
         {
-            userStories=new List<UserStory>();
+            userStories = new List<UserStory>();
             isAcceptedCEO = false;
             isAcceptedOutsCompany = false;
             isClosed = false;

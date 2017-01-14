@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EmployeeCommon.Data;
 
-namespace EmployeeCommonTest
+namespace EmployeeCommonTest.Data
 {
     [TestFixture]
     public class EmployeeTest
@@ -23,6 +23,7 @@ namespace EmployeeCommonTest
         private int startMinute = 20;
         private int endHour = 16;
         private int endMinute = 30;
+        private List<Notification> notifications = new List<Notification>();
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -55,7 +56,6 @@ namespace EmployeeCommonTest
             Assert.AreEqual(startMinute, employeeTest.StartMinute);
             Assert.AreEqual(endHour, employeeTest.EndHour);
             Assert.AreEqual(endMinute, employeeTest.EndMinute);
-
         }
 
         [Test]
@@ -136,6 +136,13 @@ namespace EmployeeCommonTest
             employeeTest.EndMinute = endMinute;
 
             Assert.AreEqual(endMinute, employeeTest.EndMinute);
+        }
+
+        [Test]
+        public void NotificationsTest()
+        {
+            employeeTest.Notifications = notifications;
+            Assert.AreEqual(notifications, employeeTest.Notifications);
         }
 
         #endregion

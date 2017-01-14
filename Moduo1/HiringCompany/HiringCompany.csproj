@@ -74,6 +74,8 @@
     <Compile Include="DatabaseAccess\AccessDB.cs" />
     <Compile Include="DatabaseAccess\DBConfiguration.cs" />
     <Compile Include="DatabaseAccess\HiringCompanyDB.cs" />
+    <Compile Include="DatabaseAccess\IHiringCompanyDB.cs" />
+    <Compile Include="DatabaseAccess\InternalDatabase.cs" />
     <Compile Include="Logger\LogHelper.cs" />
     <Compile Include="Notifier.cs" />
     <Compile Include="OutsorcingCompProxy.cs">
