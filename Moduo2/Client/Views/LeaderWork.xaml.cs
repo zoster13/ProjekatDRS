@@ -294,6 +294,8 @@ namespace Client.Views
                     task.ProgressStatus = ProgressStatus.COMPLETED;
 
                     LocalClientDatabase.Instance.proxy.TaskCompleted(task);
+
+                    MessageBox.Show("Task completed!");
                 }
                 else
                 {

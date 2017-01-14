@@ -470,18 +470,48 @@ namespace Server
 
         public void TaskCompleted(Task task)
         {
+            Task taskInDB;
+            bool flag = true;
             // slicno kao claimed
             using (var access = new AccessDB())
             {
-                Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
+                taskInDB = access.Tasks.Include("UserStory").FirstOrDefault(t => t.Title.Equals(task.Title));
+                taskInDB.UserStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
+                taskInDB.UserStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(taskInDB.UserStory.Project.Name));
 
                 taskInDB.ProgressStatus = ProgressStatus.COMPLETED;
 
                 access.SaveChanges();
+
+                taskInDB.UserStory = access.UserStories.Include("Tasks").Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
+
+                foreach (var task1 in taskInDB.UserStory.Tasks)
+                {
+                    if (task1.ProgressStatus != ProgressStatus.COMPLETED)
+                    {
+                        flag = false;
+                    }
+                }
+
+                taskInDB.UserStory.ProgressStatus = ProgressStatus.COMPLETED;
+
+                access.SaveChanges();
             }
+
+            
+
+            
 
             Logger.Info(string.Format("Task [{0}] is completed.", task.Title));
             Publisher.Instance.TaskCompletedCallback(task);
+
+            if (flag)
+            {
+                using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+                {
+                    //proxy.SendClosedUserStory(taskInDB.UserStory.Project.Name, taskInDB.UserStory.Title);
+                }
+            }
         }
 
         public void SendUserStories(List<UserStoryCommon> userStories, string projectName)

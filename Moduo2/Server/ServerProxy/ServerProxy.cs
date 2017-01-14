@@ -30,7 +30,7 @@ namespace Server.ServerProxy
         {
             try
             {
-                //factory.ResponseForProjectRequest(outsourcingCompanyName, p);
+                factory.ResponseForProjectRequest(outsourcingCompanyName, p);
             }
             catch (Exception e)
             {
@@ -40,7 +40,14 @@ namespace Server.ServerProxy
 
         public void SendClosedUserStory(string projectName, string title)
         {
-            throw new NotImplementedException();
+            try
+            {
+                factory.SendClosedUserStory(projectName, title);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.Message);
+            }
         }
 
         public void SendUserStoriesToHiringCompany(List<UserStoryCommon> userStories, string projectName)

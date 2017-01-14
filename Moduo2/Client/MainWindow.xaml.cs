@@ -215,7 +215,7 @@ namespace Client
                 {
                     if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
                     {
-                        if (us.ProgressStatus == ProgressStatus.STARTED)
+                        if (us.ProgressStatus == ProgressStatus.STARTED || us.ProgressStatus == ProgressStatus.COMPLETED)
                         {
                             LocalClientDatabase.Instance.UserStories.Add(us);
                             if (proj.UserStories == null)
@@ -245,7 +245,7 @@ namespace Client
                 {
                     if (LocalClientDatabase.Instance.CurrentEmployee.Type == EmployeeType.DEVELOPER)
                     {
-                        if (task.ProgressStatus == ProgressStatus.STARTED)
+                        if (task.ProgressStatus == ProgressStatus.STARTED || task.ProgressStatus == ProgressStatus.COMPLETED)
                         {
                             LocalClientDatabase.Instance.AllTasks.Add(task);
 
@@ -723,6 +723,34 @@ namespace Client
                     task1.ProgressStatus = ProgressStatus.COMPLETED;
                 }
             }
+
+            var ustory = LocalClientDatabase.Instance.UserStories.FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
+
+            bool flag = true;
+            if(ustory != null)
+            {
+                foreach(var task1 in ustory.Tasks)
+                {
+                    if(task1.ProgressStatus != ProgressStatus.COMPLETED)
+                    {
+                        flag = false;
+                    }
+                }
+            }
+
+            if (flag)
+            {
+                ustory.ProgressStatus = ProgressStatus.COMPLETED;
+
+                workDev.dataGridUserStories.Items.Refresh();
+                workLeader.dataGridUserStories.Items.Refresh();
+                workLeader.dataGridUserStories1.Items.Refresh();
+            }
+
+            workLeader.dataGridTasks.Items.Refresh();
+            workDev.dataGridTasks.Items.Refresh();
+            workLeader.dataGridMyTasks.Items.Refresh();
+            workDev.dataGridMyTasks.Items.Refresh();
         }
 
         private void logOutButton_Click(object sender, RoutedEventArgs e)

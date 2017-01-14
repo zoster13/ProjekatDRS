@@ -323,3 +323,19 @@
 2017-01-13 13:32:00,316 INFO - Employee [ll] is loged in.
 2017-01-13 13:32:58,404 INFO - Employee [ll] is loged out.
 2017-01-13 13:33:01,505 INFO - Employee [l] is loged in.
+2017-01-14 11:24:03,886 INFO - Employee [l] is loged in.
+2017-01-14 11:24:04,082 INFO - Employee [d] is loged in.
+2017-01-14 11:25:13,846 INFO - Employee [l] is loged in.
+2017-01-14 11:25:31,031 INFO - Employee [d] is loged in.
+2017-01-14 11:41:42,329 INFO - Employee [l] is loged in.
+2017-01-14 11:43:14,750 INFO - Employee [l] is loged in.
+2017-01-14 11:43:28,767 INFO - Employee [d] is loged in.
+2017-01-14 11:45:22,014 INFO - Task [t2] is completed.
+2017-01-14 11:53:21,869 INFO - Employee [l] is loged in.
+2017-01-14 11:53:29,324 INFO - Employee [d] is loged in.
+2017-01-14 11:57:54,753 INFO - Employee [l] is loged in.
+2017-01-14 11:58:20,603 INFO - Employee [d] is loged in.
+2017-01-14 11:58:37,209 INFO - Task [t1] is completed.
+2017-01-14 12:01:41,401 INFO - Employee [l] is loged in.
+2017-01-14 12:01:53,979 INFO - Employee [d] is loged in.
+2017-01-14 12:02:56,933 INFO - Task [t1] is completed.
