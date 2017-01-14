@@ -27,13 +27,26 @@ namespace HiringCompany.Services
         //private IHiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
         private InternalDatabase internalDatabase = InternalDatabase.Instance();
         private OutsorcingCompProxy outsorcingProxy;
+
         private System.Timers.Timer lateOnJobTimer = new System.Timers.Timer();
+
+        private System.Timers.Timer passwordExpired = new System.Timers.Timer();
+
+        private System.Timers.Timer userStoriesDeadlineWarning = new System.Timers.Timer();
 
         public EmployeeService()
         {
             lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
-            lateOnJobTimer.Interval = 15000;
+            lateOnJobTimer.Interval = 900000; //to je 15min
             //lateOnJobTimer.Enabled = true;
+
+            passwordExpired.Elapsed += new ElapsedEventHandler(NotifyPasswordExpired);
+            passwordExpired.Interval = 30000; //30s,ostavila samo za proveru,staviti ovo na neki mnogo veci broj
+            //passwordExpired.Enabled = true;
+
+            userStoriesDeadlineWarning.Elapsed += new ElapsedEventHandler(NotifyUserStoriesDeadline);
+            userStoriesDeadlineWarning.Interval = 30000; //samo za proveru,treba staviti da se jednom dnevno proverava
+            userStoriesDeadlineWarning.Enabled = true;
         }
 
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
@@ -65,6 +78,65 @@ namespace HiringCompany.Services
                             EnableSsl = true
                         };
                         client.Send(_senderEmailAddress, em.Email, "Obavestenje", "Zakasnili ste na posao!");
+                    }
+                }
+            }
+
+            messageToLog = "finished successfully.";
+            Program.Logger.Info(messageToLog);
+        }
+
+        private void NotifyPasswordExpired(object sender, ElapsedEventArgs e)
+        {
+            string notification = "Your password has expired, you have to change it.";
+            string messageToLog = string.Empty;
+            messageToLog = string.Format("\nMethod: EmployeeService.NotifyPasswordExpired()");
+
+            Console.WriteLine("alarm2...");
+            foreach (Employee em in HiringCompanyDB.Instance.AllEmployees())
+            {
+                DateTime current = DateTime.Now;
+
+                if (((em.DatePasswordChanged.Year == current.Year) && (em.DatePasswordChanged.Month > (current.Month + 5)))
+                    || (((current.Year - em.DatePasswordChanged.Year) == 1)
+                    && (em.DatePasswordChanged.Month < 8 || current.Month > 6 ||
+                    (em.DatePasswordChanged.Month > 7 && current.Month < 7 && (((12 - em.DatePasswordChanged.Month) + current.Month) > 5)))))
+                {
+                    using (Notifier notifier = new Notifier())
+                    {
+                        notifier.NotifySpecialClient(em.Username, notification);
+                    }
+                }
+            }
+
+            messageToLog = "finished successfully.";
+            Program.Logger.Info(messageToLog);
+        }
+
+        private void NotifyUserStoriesDeadline(object sender, ElapsedEventArgs e)
+        {
+            string notification = string.Empty;
+            string messageToLog = string.Empty;
+            messageToLog = string.Format("\nMethod: EmployeeService.NotifyUserStoriesDeadline()");
+
+            Console.WriteLine("alarm3...");
+            foreach (Project p in HiringCompanyDB.Instance.ProjectsInDevelopment())
+            {
+                DateTime current = DateTime.Now;
+                if (!p.IsClosed && p.UserStories.Count!=0 && p.IsAcceptedCEO && p.IsAcceptedOutsCompany)
+                {
+                    if (((current.Year == p.Deadline.Year) && (((current.Month == p.Deadline.Month) && ((p.Deadline.Day - current.Day)) < 11) || ((current.Month + 1 == p.Deadline.Month) && (p.Deadline.Day + (31 - current.Day)) < 11)))
+                        || (((current.Year + 1) == p.Deadline.Year) && (current.Month == 12 && p.Deadline.Month == 1) && ((p.Deadline.Day + (31 - current.Day)) < 11)))
+                    {
+                        List<UserStory> us = p.UserStories.FindAll(u => u.IsClosed == false);
+                        if ((p.UserStories.Count / 5) <= us.Count)
+                        {
+                            using (Notifier notifier = new Notifier())
+                            {
+                                notification = string.Format("More than 20% of user stories for project <{0}> is not closed.", p.Name);
+                                notifier.NotifySpecialClient(p.ScrumMaster, notification);
+                            }
+                        }                       
                     }
                 }
             }
@@ -232,6 +304,10 @@ namespace HiringCompany.Services
                         em.Surname = surname != "" ? surname : em.Surname;
                         em.Email = email != "" ? email : em.Email;
                         em.Password = password != "" ? password : em.Password;
+                        if (em.Password == password)
+                        {
+                            em.DatePasswordChanged = DateTime.Now;
+                        }
                         access.SaveChanges();
                         messageToLog = "updated employee data in .mdf database.";
                         Program.Logger.Info(messageToLog);

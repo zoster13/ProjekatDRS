@@ -24,6 +24,10 @@ namespace EmployeeCommon.Data
         private int endHour;
         private int endMinute;
         private List<Notification> notifications;
+        private int datePasswordChangedDay;
+        private int datePasswordChangedMonth;
+        private int datePasswordChangedYear;
+        private DateTime datePasswordChanged;
 
         public Employee() 
         {
@@ -122,6 +126,13 @@ namespace EmployeeCommon.Data
         {
             get { return notifications; }
             set { notifications = value; }
+        }
+
+        [DataMember]
+        public DateTime DatePasswordChanged
+        {
+            get { return datePasswordChanged; }
+            set { datePasswordChanged = value; }
         }
     }
 }

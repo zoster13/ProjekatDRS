@@ -650,3 +650,303 @@ Method: Notifier.SyncAll()
 Method: Notifier.SyncAll()
 2017-01-14 18:20:43,145 INFO - finished successfully
 2017-01-14 18:20:43,146 INFO - returned.
+2017-01-14 19:31:06,715 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 19:31:06,774 INFO - finished successfully.
+2017-01-14 19:31:06,776 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:31:07,104 INFO - finished successfully
+2017-01-14 19:31:07,137 INFO - Notifications data cleared in .mdf.
+2017-01-14 19:31:07,138 INFO - returned true
+2017-01-14 19:31:14,993 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-14 19:31:14,994 INFO - finished successfully.
+2017-01-14 19:31:14,995 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:31:15,003 INFO - finished successfully
+2017-01-14 19:31:15,003 INFO - finished successfully.
+2017-01-14 19:34:47,641 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:34:47,650 INFO - Client is not available currently.
+2017-01-14 19:34:47,719 INFO - Notification added to .mdf.
+2017-01-14 19:34:47,720 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:34:47,720 INFO - Client is not available currently.
+2017-01-14 19:34:47,725 INFO - Notification added to .mdf.
+2017-01-14 19:34:47,725 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:34:47,725 INFO - Client is not available currently.
+2017-01-14 19:34:47,730 INFO - Notification added to .mdf.
+2017-01-14 19:34:47,730 INFO - finished successfully.
+2017-01-14 19:35:02,598 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:35:02,599 INFO - Client is not available currently.
+2017-01-14 19:35:02,609 INFO - Notification added to .mdf.
+2017-01-14 19:35:02,610 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:35:02,611 INFO - Client is not available currently.
+2017-01-14 19:35:02,621 INFO - Notification added to .mdf.
+2017-01-14 19:35:02,622 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:35:02,623 INFO - Client is not available currently.
+2017-01-14 19:35:02,652 INFO - Notification added to .mdf.
+2017-01-14 19:35:02,652 INFO - finished successfully.
+2017-01-14 19:35:17,601 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:35:17,603 INFO - Client is not available currently.
+2017-01-14 19:35:17,622 INFO - Notification added to .mdf.
+2017-01-14 19:35:17,624 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:35:17,626 INFO - Client is not available currently.
+2017-01-14 19:35:17,642 INFO - Notification added to .mdf.
+2017-01-14 19:35:17,643 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:35:17,643 INFO - Client is not available currently.
+2017-01-14 19:35:17,651 INFO - Notification added to .mdf.
+2017-01-14 19:35:17,652 INFO - finished successfully.
+2017-01-14 19:35:32,602 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:35:32,604 INFO - Client is not available currently.
+2017-01-14 19:35:32,621 INFO - Notification added to .mdf.
+2017-01-14 19:35:32,623 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:35:32,626 INFO - Client is not available currently.
+2017-01-14 19:35:32,639 INFO - Notification added to .mdf.
+2017-01-14 19:35:32,641 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:35:32,642 INFO - Client is not available currently.
+2017-01-14 19:35:32,654 INFO - Notification added to .mdf.
+2017-01-14 19:35:32,655 INFO - finished successfully.
+2017-01-14 19:36:37,953 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 19:36:38,025 INFO - finished successfully.
+2017-01-14 19:36:38,026 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:36:38,352 INFO - finished successfully
+2017-01-14 19:36:38,382 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:36:38,396 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:36:38,400 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:36:38,403 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:36:38,419 INFO - Notifications data cleared in .mdf.
+2017-01-14 19:36:38,420 INFO - returned true
+2017-01-14 19:36:40,390 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:36:40,391 INFO - Client is not available currently.
+2017-01-14 19:36:40,426 INFO - Notification added to .mdf.
+2017-01-14 19:36:40,427 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:36:40,428 INFO - Client is not available currently.
+2017-01-14 19:36:40,439 INFO - Notification added to .mdf.
+2017-01-14 19:36:40,439 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:36:40,443 INFO - finished successfully.
+2017-01-14 19:36:55,390 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:36:55,392 INFO - Client is not available currently.
+2017-01-14 19:36:55,431 INFO - Notification added to .mdf.
+2017-01-14 19:36:55,432 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:36:55,433 INFO - Client is not available currently.
+2017-01-14 19:36:55,441 INFO - Notification added to .mdf.
+2017-01-14 19:36:55,441 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:36:55,447 INFO - finished successfully.
+2017-01-14 19:37:01,726 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-14 19:37:01,728 INFO - finished successfully.
+2017-01-14 19:37:01,728 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:37:01,791 INFO - finished successfully
+2017-01-14 19:37:01,793 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,796 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,799 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,802 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,805 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,809 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,813 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:37:01,823 INFO - Notifications data cleared in .mdf.
+2017-01-14 19:37:01,824 INFO - returned true
+2017-01-14 19:51:54,625 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 19:51:54,674 INFO - finished successfully.
+2017-01-14 19:51:54,685 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:51:55,026 INFO - finished successfully
+2017-01-14 19:51:55,057 INFO - Notifications data cleared in .mdf.
+2017-01-14 19:51:55,058 INFO - returned true
+2017-01-14 19:52:15,085 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:52:15,088 INFO - Client is not available currently.
+2017-01-14 19:52:15,135 INFO - Notification added to .mdf.
+2017-01-14 19:52:15,136 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:52:15,136 INFO - Client is not available currently.
+2017-01-14 19:52:15,141 INFO - Notification added to .mdf.
+2017-01-14 19:52:15,141 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:52:15,154 INFO - finished successfully.
+2017-01-14 19:52:45,079 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:52:45,081 INFO - Client is not available currently.
+2017-01-14 19:52:45,100 INFO - Notification added to .mdf.
+2017-01-14 19:52:45,102 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:52:45,104 INFO - Client is not available currently.
+2017-01-14 19:52:45,128 INFO - Notification added to .mdf.
+2017-01-14 19:52:45,129 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:52:45,147 INFO - finished successfully.
+2017-01-14 19:52:47,496 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-14 19:52:47,497 INFO - finished successfully.
+2017-01-14 19:52:47,497 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:52:47,506 INFO - finished successfully
+2017-01-14 19:52:47,506 INFO - finished successfully.
+2017-01-14 19:54:46,453 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 19:54:46,504 INFO - finished successfully.
+2017-01-14 19:54:46,506 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:54:46,839 INFO - finished successfully
+2017-01-14 19:54:46,871 INFO - Notifications data cleared in .mdf.
+2017-01-14 19:54:46,871 INFO - returned true
+2017-01-14 19:55:05,987 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:55:05,989 INFO - Client is not available currently.
+2017-01-14 19:55:06,039 INFO - Notification added to .mdf.
+2017-01-14 19:55:06,040 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:55:06,040 INFO - Client is not available currently.
+2017-01-14 19:55:06,045 INFO - Notification added to .mdf.
+2017-01-14 19:55:06,046 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:55:06,059 INFO - finished successfully.
+2017-01-14 19:55:17,235 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-14 19:55:17,236 INFO - finished successfully.
+2017-01-14 19:55:17,236 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:55:17,246 INFO - finished successfully
+2017-01-14 19:55:17,247 INFO - finished successfully.
+2017-01-14 19:59:35,187 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 19:59:35,235 INFO - finished successfully.
+2017-01-14 19:59:35,236 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:59:35,572 INFO - finished successfully
+2017-01-14 19:59:35,606 INFO - Notifications data cleared in .mdf.
+2017-01-14 19:59:35,606 INFO - returned true
+2017-01-14 19:59:49,882 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-14 19:59:49,883 INFO - finished successfully.
+2017-01-14 19:59:49,883 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 19:59:49,892 INFO - finished successfully
+2017-01-14 19:59:49,893 INFO - finished successfully.
+2017-01-14 19:59:54,709 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 19:59:54,717 INFO - Client is not available currently.
+2017-01-14 19:59:54,771 INFO - Notification added to .mdf.
+2017-01-14 19:59:54,772 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 19:59:54,772 INFO - Client is not available currently.
+2017-01-14 19:59:54,778 INFO - Notification added to .mdf.
+2017-01-14 19:59:54,778 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 19:59:54,779 INFO - Client is not available currently.
+2017-01-14 19:59:54,783 INFO - Notification added to .mdf.
+2017-01-14 19:59:54,784 INFO - finished successfully.
+2017-01-14 20:00:07,477 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 20:00:07,480 INFO - finished successfully.
+2017-01-14 20:00:07,480 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 20:00:07,496 INFO - finished successfully
+2017-01-14 20:00:07,499 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 20:00:07,520 INFO - Notifications data cleared in .mdf.
+2017-01-14 20:00:07,521 INFO - returned true
+2017-01-14 20:02:21,647 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-14 20:02:21,693 INFO - finished successfully.
+2017-01-14 20:02:21,695 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 20:02:22,035 INFO - finished successfully
+2017-01-14 20:02:22,069 INFO - Notifications data cleared in .mdf.
+2017-01-14 20:02:22,069 INFO - returned true
+2017-01-14 20:02:41,405 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 20:02:41,407 INFO - Client is not available currently.
+2017-01-14 20:02:41,463 INFO - Notification added to .mdf.
+2017-01-14 20:02:41,464 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 20:02:41,464 INFO - Client is not available currently.
+2017-01-14 20:02:41,469 INFO - Notification added to .mdf.
+2017-01-14 20:02:41,470 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=zklasnic
+2017-01-14 20:02:41,482 INFO - finished successfully.
+2017-01-14 20:02:50,970 INFO - 
+Method: EmployeeService.ChangeEmployeeData(), params: string username=zklasnic, string name=, string surname=, string email=, string password=345
+2017-01-14 20:02:50,984 INFO - updated employee data in .mdf database.
+2017-01-14 20:02:50,985 INFO - updated employee data in OnlineEmployees list.
+2017-01-14 20:02:50,986 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 20:02:50,997 INFO - finished successfully
+2017-01-14 20:02:50,998 INFO - updated employee data in OnlineEmployees list.
+2017-01-14 20:03:11,406 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-14 20:03:11,407 INFO - Client is not available currently.
+2017-01-14 20:03:11,434 INFO - Notification added to .mdf.
+2017-01-14 20:03:11,435 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-14 20:03:11,435 INFO - Client is not available currently.
+2017-01-14 20:03:11,443 INFO - Notification added to .mdf.
+2017-01-14 20:03:11,444 INFO - finished successfully.
+2017-01-14 20:03:27,310 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-14 20:03:27,310 INFO - finished successfully.
+2017-01-14 20:03:27,311 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 20:03:27,333 INFO - finished successfully
+2017-01-14 20:03:27,333 INFO - finished successfully.
+2017-01-14 20:37:30,339 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=rzekanovic
+2017-01-14 20:37:30,346 INFO - Client is not available currently.
+2017-01-14 20:37:30,433 INFO - Notification added to .mdf.
+2017-01-14 20:37:30,434 INFO - finished successfully.
+2017-01-14 20:38:00,267 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=rzekanovic
+2017-01-14 20:38:00,268 INFO - Client is not available currently.
+2017-01-14 20:38:00,303 INFO - Notification added to .mdf.
+2017-01-14 20:38:00,303 INFO - finished successfully.
+2017-01-14 20:38:13,427 INFO - 
+Method: EmployeeService.SignIn(), params: string username=rzekanovic, string password=rzekanovic
+2017-01-14 20:38:13,447 INFO - finished successfully.
+2017-01-14 20:38:13,448 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 20:38:13,754 INFO - finished successfully
+2017-01-14 20:38:13,756 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=rzekanovic
+2017-01-14 20:38:13,778 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=rzekanovic
+2017-01-14 20:38:13,789 INFO - Notifications data cleared in .mdf.
+2017-01-14 20:38:13,790 INFO - returned true
+2017-01-14 20:38:21,991 INFO - 
+Method: EmployeeService.SignOut(), params: string username=rzekanovic
+2017-01-14 20:38:21,992 INFO - finished successfully.
+2017-01-14 20:38:21,992 INFO - 
+Method: Notifier.SyncAll()
+2017-01-14 20:38:22,006 INFO - finished successfully
+2017-01-14 20:38:22,007 INFO - finished successfully.
