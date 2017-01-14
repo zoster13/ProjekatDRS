@@ -316,21 +316,6 @@ namespace Server
         //Delegiranje notifikacije od hiring kompanije
         public void SendNotificationToCEO(Notification notification)
         {
-            //using (var access = new AccessDB())
-            //{
-            //    allEmployees = access.Employees.ToList();
-
-            //    foreach (Employee emp in allEmployees)
-            //    {
-            //        if (emp.Type.Equals(EmployeeType.CEO))
-            //        {
-            //            emp.Team = null;
-            //            notification.Emoloyee = emp;
-            //            EmployeeServiceDatabase.Instance.AddNotification(notification);
-            //        }
-            //    }
-            //}
-
             //Sacauvaj notifikaciju u bazu
             EmployeeServiceDatabase.Instance.AddNotification(notification);
 
@@ -358,36 +343,7 @@ namespace Server
 
         public void ReceiveUserStoriesCallback(List<UserStoryCommon> commUserStories, string projectName)
         {
-            Project proj;
-
-            using (var access = new AccessDB())
-            {
-                proj = access.Projects
-                    .Include("UserStories")
-                    .Include("Team")
-                    .FirstOrDefault(p => p.Name.Equals(projectName));
-
-                proj.ProgressStatus = ProgressStatus.STARTED;
-
-                foreach (var userStory in commUserStories)
-                {
-                    UserStory usInDB = proj.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
-
-                    if(usInDB != null)
-                    {
-                        if(userStory.IsAccepted)
-                        {
-                            usInDB.AcceptStatus = AcceptStatus.ACCEPTED;
-                        }
-                        else
-                        {
-                            usInDB.AcceptStatus = AcceptStatus.DECLINED;
-                        }
-                    }
-
-                    access.SaveChanges();
-                }
-            }
+            Project proj = EmployeeServiceDatabase.Instance.UpdateUserStoriesStatus(commUserStories, projectName);
             
             //Posalji UserStorije TL
             Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(proj.Team.TeamLeaderEmail));

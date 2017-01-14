@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using ClientCommon.TempStructure;
+using System;
+using ICommon;
 
 namespace Server.Access
 {
@@ -408,6 +410,42 @@ namespace Server.Access
             using (var access = new AccessDB())
             {
                 return access.Tasks.Include("UserStory").ToList();
+            }
+        }
+
+        public Project UpdateUserStoriesStatus(List<UserStoryCommon> commUserStories, string projectName)
+        {
+            Project proj;
+
+            using (var access = new AccessDB())
+            {
+                proj = access.Projects
+                    .Include("UserStories")
+                    .Include("Team")
+                    .FirstOrDefault(p => p.Name.Equals(projectName));
+
+                proj.ProgressStatus = ProgressStatus.STARTED;
+
+                foreach (var userStory in commUserStories)
+                {
+                    UserStory usInDB = proj.UserStories.FirstOrDefault(us => us.Title.Equals(userStory.Title));
+
+                    if (usInDB != null)
+                    {
+                        if (userStory.IsAccepted)
+                        {
+                            usInDB.AcceptStatus = AcceptStatus.ACCEPTED;
+                        }
+                        else
+                        {
+                            usInDB.AcceptStatus = AcceptStatus.DECLINED;
+                        }
+                    }
+
+                    access.SaveChanges();
+                }
+
+                return proj;
             }
         }
     }

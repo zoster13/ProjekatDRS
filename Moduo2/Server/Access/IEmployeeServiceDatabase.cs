@@ -1,5 +1,6 @@
 ﻿using ClientCommon.Data;
 using ClientCommon.TempStructure;
+using ICommon;
 using System.Collections.Generic;
 
 namespace Server.Access
@@ -52,6 +53,8 @@ namespace Server.Access
         List<UserStory> GetUserStories();
 
         List<Task> GetAllTasks();
+
+        Project UpdateUserStoriesStatus(List<UserStoryCommon> commUserStories, string projectName);
 
     }
 }
