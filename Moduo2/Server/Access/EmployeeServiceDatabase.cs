@@ -67,22 +67,30 @@ namespace Server.Access
             }
         }
 
-        public void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
+        public bool UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName)
         {
             using (var access = new AccessDB())
             {
                 Team newTeam = access.Teams.FirstOrDefault(t => t.Name.Equals(newTeamName));
 
-                Employee employeeInDB = access.Employees
-                    .Include("Team")
-                    .FirstOrDefault(e => e.Email.Equals(employee.Email));
-
-                lock (lockObjectEmployees)
+                if (newTeam != null)
                 {
-                    employeeInDB.Team = newTeam;
-                    employeeInDB.Type = EmployeeType.TEAMLEADER;
+                    Employee employeeInDB = access.Employees
+                        .Include("Team")
+                        .FirstOrDefault(e => e.Email.Equals(employee.Email));
 
-                    access.SaveChanges();
+                    lock (lockObjectEmployees)
+                    {
+                        employeeInDB.Team = newTeam;
+                        employeeInDB.Type = EmployeeType.TEAMLEADER;
+
+                        access.SaveChanges();
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
@@ -272,7 +280,7 @@ namespace Server.Access
             }
         }
 
-        public void AddUserStory(UserStory userStory, string projectName)
+        public bool AddUserStory(UserStory userStory, string projectName)
         {
             using (var access = new AccessDB())
             {
@@ -280,11 +288,15 @@ namespace Server.Access
 
                 userStory.Project = proj;
                 access.UserStories.Add(userStory);
-                access.SaveChanges();
+                int i = access.SaveChanges();
+
+                if (i > 0)
+                    return true;
+                return false;
             }
         }
 
-        public void AddTask(Task task)
+        public bool AddTask(Task task)
         {
             using (var access = new AccessDB())
             {
@@ -293,7 +305,11 @@ namespace Server.Access
                 task.UserStory = userStory;
 
                 access.Tasks.Add(task);
-                access.SaveChanges();
+                int i = access.SaveChanges();
+
+                if (i > 0)
+                    return true;
+                return false;
             }
         }
 
@@ -376,14 +392,18 @@ namespace Server.Access
             }
         }
 
-        public void UpdateProjectStatus(string projectName)
+        public bool UpdateProjectStatus(string projectName)
         {
             using (var access = new AccessDB())
             {
                 Project projectInDB = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
                 projectInDB.ProgressStatus = ProgressStatus.PENDING;
 
-                access.SaveChanges();
+                int i = access.SaveChanges();
+
+                if (i > 0)
+                    return true;
+                return false;
             }
         }
 

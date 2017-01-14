@@ -15,7 +15,7 @@ namespace Server.Access
 
         Team GetTeam(string email);
 
-        void UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
+        bool UpdateEmployeeFunctionAndTeam(Employee employee, string newTeamName);
 
         bool UpdateEmployee(Employee employee);
 
@@ -34,9 +34,9 @@ namespace Server.Access
 
         Team UpdateProjectsTeam(string projectName, string teamName);
 
-        void AddUserStory(UserStory userStory, string projectName);
+        bool AddUserStory(UserStory userStory, string projectName);
 
-        void AddTask(Task task);
+        bool AddTask(Task task);
 
         UserStory ReleaseUserStory(UserStory userStory);
 
@@ -44,7 +44,7 @@ namespace Server.Access
 
         TaskAndUserStoryCompletedFlag TaskCompleted(Task task);
 
-        void UpdateProjectStatus(string projectName);
+        bool UpdateProjectStatus(string projectName);
 
         void AddHiringCompany(HiringCompany hiringCompany);
 

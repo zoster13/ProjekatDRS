@@ -167,6 +167,10 @@ namespace Server
                     }
                 }
             }
+            else
+            {
+                return;
+            }
         }
 
         public void TypeChangeCallback(Team team, EmployeeType newType)

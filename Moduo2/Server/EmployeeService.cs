@@ -311,7 +311,7 @@ namespace Server
                 Publisher.Instance.ProjectTeamAssignCallback(project);
             }
         }
-        
+
         /// <summary>
         /// Dodavanje nove korisnicke price u bazu
         /// </summary>
@@ -319,9 +319,16 @@ namespace Server
         /// <param name="projectName"></param>
         public void AddUserStory(UserStory userStory, string projectName)
         {
-            EmployeeServiceDatabase.Instance.AddUserStory(userStory, projectName);
+            bool added = EmployeeServiceDatabase.Instance.AddUserStory(userStory, projectName);
 
-            Logger.Info(string.Format("UserStory [{0}] is added to database.", userStory.Title));
+            if (added)
+            {
+                Logger.Info(string.Format("UserStory [{0}] is added to database.", userStory.Title));
+            }
+            else
+            {
+                Logger.Info(string.Format("UserStory [{0}] isn't added to database.", userStory.Title));
+            }
         }
 
         /// <summary>
@@ -330,9 +337,16 @@ namespace Server
         /// <param name="task"></param>
         public void AddTask(Task task)
         {
-            EmployeeServiceDatabase.Instance.AddTask(task);
+            bool added = EmployeeServiceDatabase.Instance.AddTask(task);
 
-            Logger.Info(string.Format("Task [{0}] is added to database.", task.Title));
+            if (added)
+            {
+                Logger.Info(string.Format("Task [{0}] is added to database.", task.Title));
+            }
+            else
+            {
+                Logger.Info(string.Format("Task [{0}] isn't added to database.", task.Title));
+            }
         }
 
 
@@ -375,12 +389,21 @@ namespace Server
             // u nasu bazu abdejtuje status za projekat status pending
             // ne treba callback
             
-            EmployeeServiceDatabase.Instance.UpdateProjectStatus(projectName);
+            bool updated = EmployeeServiceDatabase.Instance.UpdateProjectStatus(projectName);
 
-            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            //{
-            //    proxy.SendUserStoriesToHiringCompany(userStories, projectName);
-            //}
+            if(updated)
+            {
+                Logger.Info("Project status is updated to STARTED.");
+
+                using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+                {
+                    //proxy.SendUserStoriesToHiringCompany(userStories, projectName);
+                }
+            }
+            else
+            {
+                Logger.Info("Project status isn't updated to STARTED.");
+            }
         }
         
         #endregion IEmployeeService Methods
