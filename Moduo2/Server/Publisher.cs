@@ -316,23 +316,23 @@ namespace Server
         //Delegiranje notifikacije od hiring kompanije
         public void SendNotificationToCEO(Notification notification)
         {
-            using (var access = new AccessDB())
-            {
-                allEmployees = access.Employees.ToList();
+            //using (var access = new AccessDB())
+            //{
+            //    allEmployees = access.Employees.ToList();
 
-                foreach (Employee emp in allEmployees)
-                {
-                    if (emp.Type.Equals(EmployeeType.CEO))
-                    {
-                        emp.Team = null;
-                        notification.Emoloyee = emp;
-                        EmployeeServiceDatabase.Instance.AddNotification(notification);
-                    }
-                }
-            }
-            
+            //    foreach (Employee emp in allEmployees)
+            //    {
+            //        if (emp.Type.Equals(EmployeeType.CEO))
+            //        {
+            //            emp.Team = null;
+            //            notification.Emoloyee = emp;
+            //            EmployeeServiceDatabase.Instance.AddNotification(notification);
+            //        }
+            //    }
+            //}
+
             //Sacauvaj notifikaciju u bazu
-            
+            EmployeeServiceDatabase.Instance.AddNotification(notification);
 
             //Obavjesti CEO ako je online da je dobio notif
             foreach (Employee emp in InternalDatabase.Instance.OnlineEmployees)

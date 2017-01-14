@@ -1,7 +1,7 @@
 ﻿using ClientCommon.Data;
 using System.Linq;
-using System.Data.SqlClient;
-using System;
+using System.Collections.Generic;
+using ClientCommon.TempStructure;
 
 namespace Server.Access
 {
@@ -181,11 +181,233 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                lock (lockObjectNotifications)
+                List<Employee> allEmployees = access.Employees.Include("Team").ToList();
+
+                foreach (Employee emp in allEmployees)
                 {
-                    access.Notifications.Add(notification);
+                    if (emp.Type.Equals(EmployeeType.CEO))
+                    {
+                        emp.Team = null;
+                        notification.Emoloyee = emp;
+
+                        lock (lockObjectNotifications)
+                        {
+                            access.Notifications.Add(notification);
+                        }
+                        access.SaveChanges();
+                    }
                 }
+            }
+        }
+
+        //izmjestanje
+        public Team UpdateTeamScrumMaster(string teamName, string scrumMasterEmail)
+        {
+            using (var access = new AccessDB())
+            {
+                Team teamInDB = access.Teams.FirstOrDefault(t => t.Name.Equals(teamName));
+
+                teamInDB.ScrumMasterEmail = scrumMasterEmail;
                 access.SaveChanges();
+
+                return teamInDB;
+            }
+        }
+
+        public List<Employee> GetAllEmployees()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Employees.ToList();
+            }
+        }
+
+        public List<Team> GetAllTeams()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Teams.ToList();
+            }
+        }
+
+        public List<HiringCompany> GetAllHiringCompanies()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.HiringCompanies.ToList();
+            }
+        }
+
+        public List<Project> GetAllProjects()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Projects.Include("Team").ToList();
+            }
+        }
+
+        public Team UpdateProjectsTeam(string projectName, string teamName)
+        {
+            using (var access = new AccessDB())
+            {
+                Project proj = access.Projects.FirstOrDefault(p => p.Name.Equals(projectName));
+                Team team = access.Teams.FirstOrDefault(t => t.Name.Equals(teamName));
+
+                proj.Team = team;
+                proj.AssignStatus = AssignStatus.ASSIGNED;
+                
+                access.SaveChanges();
+
+                return team;
+            }
+        }
+
+        public void AddUserStory(UserStory userStory, string projectName)
+        {
+            using (var access = new AccessDB())
+            {
+                Project proj = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
+
+                userStory.Project = proj;
+                access.UserStories.Add(userStory);
+                access.SaveChanges();
+            }
+        }
+
+        public void AddTask(Task task)
+        {
+            using (var access = new AccessDB())
+            {
+                UserStory userStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(task.UserStory.Title));
+                userStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(userStory.Project.Name));
+                task.UserStory = userStory;
+
+                access.Tasks.Add(task);
+                access.SaveChanges();
+            }
+        }
+
+        public UserStory ReleaseUserStory(UserStory userStory)
+        {
+            using (var access = new AccessDB())
+            {
+                UserStory userStoryInDB = access.UserStories.Include("Tasks").Include("Project").FirstOrDefault(us => us.Title.Equals(userStory.Title));
+                userStoryInDB.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(userStoryInDB.Project.Name));
+
+                userStoryInDB.ProgressStatus = ProgressStatus.STARTED;
+                userStoryInDB.Deadline = userStory.Deadline;
+
+                foreach (var task in userStoryInDB.Tasks)
+                {
+                    Task taskInDB = access.Tasks.FirstOrDefault(t => t.Title.Equals(task.Title));
+                    taskInDB.ProgressStatus = ProgressStatus.STARTED;
+                }
+                //userStory.Tasks = userStoryInDB.Tasks;
+                access.SaveChanges();
+
+                return userStoryInDB;
+            }
+        }
+
+        public Task TaskClaimed(Task task)
+        {
+            // Prponaci task prema title i postaviti da je claimed i started, i postaviti ime employee-a
+            // callback TaskClaimedCallback(Task) za sve clanove tima, vratiti taj task
+
+            using (var access = new AccessDB())
+            {
+                Task taskInDB = access.Tasks.Include("UserStory").FirstOrDefault(t => t.Title.Equals(task.Title));
+                taskInDB.UserStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
+                taskInDB.UserStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(taskInDB.UserStory.Project.Name));
+
+                taskInDB.AssignStatus = AssignStatus.ASSIGNED;
+                taskInDB.ProgressStatus = ProgressStatus.STARTED;
+                taskInDB.EmployeeName = task.EmployeeName;
+
+                access.SaveChanges();
+
+                return taskInDB;
+            }
+        }
+
+        public TaskAndUserStoryCompletedFlag TaskCompleted(Task task)
+        {
+            TaskAndUserStoryCompletedFlag returnValue = new TaskAndUserStoryCompletedFlag();
+            returnValue.UserStoryCompletedFlag = true;
+
+            using (var access = new AccessDB())
+            {
+                Task taskInDB = access.Tasks.Include("UserStory").FirstOrDefault(t => t.Title.Equals(task.Title));
+                taskInDB.UserStory = access.UserStories.Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
+                taskInDB.UserStory.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(taskInDB.UserStory.Project.Name));
+
+                taskInDB.ProgressStatus = ProgressStatus.COMPLETED;
+
+                //access.SaveChanges();
+
+                taskInDB.UserStory = access.UserStories.Include("Tasks").Include("Project").FirstOrDefault(us => us.Title.Equals(taskInDB.UserStory.Title));
+
+                foreach (var task1 in taskInDB.UserStory.Tasks)
+                {
+                    if (task1.ProgressStatus != ProgressStatus.COMPLETED)
+                    {
+                        returnValue.UserStoryCompletedFlag = false;
+                        break;
+                    }
+                }
+
+                taskInDB.UserStory.ProgressStatus = ProgressStatus.COMPLETED;
+
+                access.SaveChanges();
+
+                returnValue.Task = taskInDB;
+
+                return returnValue;
+            }
+        }
+
+        public void UpdateProjectStatus(string projectName)
+        {
+            using (var access = new AccessDB())
+            {
+                Project projectInDB = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
+                projectInDB.ProgressStatus = ProgressStatus.PENDING;
+
+                access.SaveChanges();
+            }
+        }
+
+        public void AddHiringCompany(HiringCompany hiringCompany)
+        {
+            using (var access = new AccessDB())
+            {
+                access.HiringCompanies.Add(hiringCompany);
+                access.SaveChanges();
+            }
+        }
+
+        public void AddProject(Project project)
+        {
+            using (var access = new AccessDB())
+            {
+                access.Projects.Add(project);
+                access.SaveChanges();
+            }
+        }
+
+        public List<UserStory> GetUserStories()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.UserStories.Include("Project").ToList();
+            }
+        }
+
+        public List<Task> GetAllTasks()
+        {
+            using (var access = new AccessDB())
+            {
+                return access.Tasks.Include("UserStory").ToList();
             }
         }
     }

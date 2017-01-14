@@ -349,3 +349,151 @@
 2017-01-14 13:08:28,038 INFO - Employee [srdjan@gmail.com] is loged in.
 2017-01-14 13:08:45,447 INFO - UserStory [us1] is added to database.
 2017-01-14 13:08:59,628 INFO - UserStory [us2] is added to database.
+2017-01-14 14:54:30,673 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 14:54:50,742 INFO - Team [Network] is added to database.
+2017-01-14 14:54:50,743 INFO - Employee [n] is added to database.
+2017-01-14 14:58:35,622 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:01:52,527 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:02:07,246 INFO - Team [SaaS] is added to database.
+2017-01-14 15:02:07,247 INFO - Employee [s] is added to database.
+2017-01-14 15:02:40,865 INFO - Employee [sm] is added to database.
+2017-01-14 15:03:54,969 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-14 15:04:00,072 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:05:22,426 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:05:26,921 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-14 15:06:16,908 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:06:44,083 INFO - Team [saas] is added to database.
+2017-01-14 15:06:44,084 INFO - Employee [s] is added to database.
+2017-01-14 15:07:02,737 INFO - Employee [sm] is added to database.
+2017-01-14 15:25:22,562 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:28:07,444 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:28:46,926 INFO - Team [asasa] is added to database.
+2017-01-14 15:28:46,927 INFO - Employee [s] is added to database.
+2017-01-14 15:28:55,947 INFO - Employee [sv] is added to database.
+2017-01-14 15:31:16,692 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:31:28,294 INFO - Team [saas] is added to database.
+2017-01-14 15:31:28,295 INFO - Employee [t] is added to database.
+2017-01-14 15:31:36,548 INFO - Employee [s] is added to database.
+2017-01-14 15:35:04,066 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:35:19,138 INFO - Team [SaaS] is added to database.
+2017-01-14 15:35:19,139 INFO - Employee [t] is added to database.
+2017-01-14 15:35:31,343 INFO - Employee [s] is added to database.
+2017-01-14 15:36:29,186 INFO - Employee [t] is loged in.
+2017-01-14 15:37:47,353 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:46:54,082 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:47:03,012 INFO - Team [SaaS] is added to database.
+2017-01-14 15:47:03,013 INFO - Employee [s] is added to database.
+2017-01-14 15:48:38,793 INFO - Employee [m] is added to database.
+2017-01-14 15:51:37,036 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:51:46,509 INFO - Team [SaaS] is added to database.
+2017-01-14 15:51:46,511 INFO - Employee [s] is added to database.
+2017-01-14 15:51:55,982 INFO - Team [Cloud] is added to database.
+2017-01-14 15:51:55,982 INFO - Employee [c] is added to database.
+2017-01-14 15:52:09,312 INFO - Employee [m] is added to database.
+2017-01-14 15:53:50,388 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:56:27,077 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:56:36,518 INFO - Team [Saas] is added to database.
+2017-01-14 15:56:36,519 INFO - Employee [s] is added to database.
+2017-01-14 15:56:50,869 INFO - Employee [m] is added to database.
+2017-01-14 15:58:55,240 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 15:59:02,403 INFO - Team [SaaS] is added to database.
+2017-01-14 15:59:02,407 INFO - Employee [s] is added to database.
+2017-01-14 15:59:12,448 INFO - Employee [m] is added to database.
+2017-01-14 16:02:34,452 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 16:02:42,554 INFO - Team [Saas] is added to database.
+2017-01-14 16:02:42,555 INFO - Employee [s] is added to database.
+2017-01-14 16:02:51,778 INFO - Employee [m] is added to database.
+2017-01-14 16:05:41,955 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 16:05:50,525 INFO - Team [Saas] is added to database.
+2017-01-14 16:05:50,526 INFO - Employee [s] is added to database.
+2017-01-14 16:06:01,815 INFO - Employee [m] is added to database.
+2017-01-14 16:07:36,316 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 16:07:47,418 INFO - Team [SaaS] is added to database.
+2017-01-14 16:07:47,420 INFO - Employee [t] is added to database.
+2017-01-14 16:07:54,711 INFO - Employee [m] is added to database.
+2017-01-14 16:08:12,449 INFO - Employee [t] is loged in.
+2017-01-14 16:14:29,526 INFO - Employee [t] is loged in.
+2017-01-14 16:15:58,076 INFO - UserStory [us1] is added to database.
+2017-01-14 16:16:17,332 INFO - Employee [t] is loged out.
+2017-01-14 16:19:25,397 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 16:19:28,732 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-14 16:19:31,151 INFO - Employee [t] is loged in.
+2017-01-14 16:22:04,991 INFO - Employee [l] isn't loged in. There is no Employee in database with this credentials.
+2017-01-14 16:22:05,193 INFO - Employee [l] isn't loged in. There is no Employee in database with this credentials.
+2017-01-14 16:22:08,409 INFO - Employee [t] is loged in.
+2017-01-14 16:22:49,948 INFO - Task [task1] is added to database.
+2017-01-14 16:22:55,722 INFO - Employee [t] is loged out.
+2017-01-14 16:28:46,985 INFO - Employee [t] is loged in.
+2017-01-14 16:31:35,751 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 16:31:44,922 INFO - Employee [asd] is added to database.
+2017-01-14 16:31:51,385 INFO - Employee [asd] is loged in.
+2017-01-14 16:32:23,784 INFO - Task [task1] is claimed.
+2017-01-14 16:33:03,948 INFO - Task [task1] is completed.
+2017-01-14 16:37:51,704 INFO - Employee [sdf] isn't loged in. There is no Employee in database with this credentials.
+2017-01-14 16:37:54,199 INFO - Employee [asd] is loged in.
+2017-01-14 16:59:35,400 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 17:01:29,053 INFO - Employee [t] is loged in.
+2017-01-14 17:01:46,690 INFO - UserStory [us123] is added to database.
+2017-01-14 17:04:26,962 INFO - Employee [t] is loged in.
+2017-01-14 17:06:25,983 INFO - Employee [marko@gmail.com] isn't loged in. There is no Employee in database with this credentials.
+2017-01-14 17:06:50,676 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 17:07:06,189 INFO - Team [saas] is added to database.
+2017-01-14 17:07:06,190 INFO - Employee [t] is added to database.
+2017-01-14 17:07:12,846 INFO - Employee [m] is added to database.
+2017-01-14 17:08:01,272 INFO - Employee [t] is loged in.
+2017-01-14 17:08:11,045 INFO - UserStory [us1] is added to database.
+2017-01-14 17:10:25,249 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 17:10:36,583 INFO - Team [sass] is added to database.
+2017-01-14 17:10:36,584 INFO - Employee [t] is added to database.
+2017-01-14 17:10:46,827 INFO - Employee [m] is added to database.
+2017-01-14 17:11:24,747 INFO - Employee [t] is loged in.
+2017-01-14 17:11:35,114 INFO - UserStory [us1] is added to database.
+2017-01-14 17:12:03,101 INFO - Task [t1] is added to database.
+2017-01-14 17:12:07,006 INFO - Task [t2] is added to database.
+2017-01-14 17:12:36,830 INFO - Employee [d] is added to database.
+2017-01-14 17:12:38,951 INFO - Employee [marko@gmail.com] is loged out.
+2017-01-14 17:12:40,729 INFO - Employee [d] is loged in.
+2017-01-14 17:12:47,912 INFO - Task [t1] is claimed.
+2017-01-14 17:12:51,067 INFO - Task [t2] is claimed.
+2017-01-14 17:14:11,252 INFO - Task [t1] is completed.
+2017-01-14 17:14:49,763 INFO - Task [t2] is completed.
+2017-01-14 17:15:43,941 INFO - Employee [d] is loged in.
+2017-01-14 17:32:38,239 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 17:33:09,651 INFO - Team [SaaS] is added to database.
+2017-01-14 17:33:09,652 INFO - Employee [l] is added to database.
+2017-01-14 17:33:21,236 INFO - Team [Cloud] is added to database.
+2017-01-14 17:33:21,237 INFO - Employee [ll] is added to database.
+2017-01-14 17:33:29,833 INFO - Employee [m] is added to database.
+2017-01-14 17:33:43,126 INFO - Employee [mm] is added to database.
+2017-01-14 17:33:55,334 INFO - Employee [l] is loged in.
+2017-01-14 17:34:03,436 INFO - Employee [ll] is loged in.
+2017-01-14 17:38:46,630 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 17:38:54,863 INFO - Employee [l] is loged in.
+2017-01-14 17:39:02,044 INFO - Employee [ll] is loged in.
+2017-01-14 17:40:01,670 INFO - UserStory [us1] is added to database.
+2017-01-14 17:41:26,570 INFO - Task [t1] is added to database.
+2017-01-14 17:41:30,392 INFO - Task [t2] is added to database.
+2017-01-14 17:41:50,778 INFO - Employee [d] is added to database.
+2017-01-14 17:41:57,584 INFO - Employee [d] is loged in.
+2017-01-14 17:42:26,668 INFO - Employee [dd] is added to database.
+2017-01-14 17:42:35,182 INFO - Employee [d] is loged out.
+2017-01-14 17:42:39,474 INFO - Employee [dd] is loged in.
+2017-01-14 17:42:48,727 INFO - Task [t1] is claimed.
+2017-01-14 17:42:54,301 INFO - Task [t2] is claimed.
+2017-01-14 17:43:00,562 INFO - Task [t1] is completed.
+2017-01-14 17:45:07,094 INFO - Employee [dd] is loged in.
+2017-01-14 17:46:21,608 INFO - Task [t2] is completed.
+2017-01-14 17:47:09,259 INFO - Employee [dd] is loged out.
+2017-01-14 17:48:00,284 INFO - Employee [marko@gmail.com] is loged in.
+2017-01-14 17:48:31,414 INFO - Team [saas] is added to database.
+2017-01-14 17:48:31,415 INFO - Employee [l] is added to database.
+2017-01-14 17:48:40,756 INFO - Employee [m] is added to database.
+2017-01-14 17:48:48,939 INFO - Employee [d] is added to database.
+2017-01-14 17:49:23,665 INFO - Employee [l] is loged in.
+2017-01-14 17:49:44,113 INFO - UserStory [us1] is added to database.
+2017-01-14 17:49:53,025 INFO - UserStory [us2] is added to database.
+2017-01-14 17:50:15,938 INFO - Task [t1] is added to database.
+2017-01-14 17:50:46,142 INFO - Employee [d] is loged in.
+2017-01-14 17:50:52,104 INFO - Task [t1] is claimed.
+2017-01-14 17:50:57,108 INFO - Task [t1] is completed.
+2017-01-14 17:52:21,941 INFO - Employee [d] is loged in.
