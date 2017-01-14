@@ -11,7 +11,15 @@ namespace Client
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class CallbackMethods : ICallbackMethods
     {
-        MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+        MainWindow mainWindow;
+
+        public CallbackMethods()
+        {
+            if (System.Windows.Application.Current != null)
+            {
+                mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
+            }
+        }
         
         public void EditEmployeeCallback(Employee employee)
         {

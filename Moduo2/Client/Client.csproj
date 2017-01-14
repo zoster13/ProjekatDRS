@@ -51,6 +51,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="TechTalk.SpecFlow">
+      <HintPath>..\packages\SpecFlow.2.1.0\lib\net45\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -62,6 +65,9 @@
     </ApplicationDefinition>
     <Compile Include="Views\CEOWork.xaml.cs">
       <DependentUpon>CEOWork.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScrumWork.xaml.cs">
+      <DependentUpon>ScrumWork.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DevWork.xaml.cs">
       <DependentUpon>DevWork.xaml</DependentUpon>
@@ -93,6 +99,10 @@
     <Page Include="Views\CEOWork.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScrumWork.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DevWork.xaml">
       <SubType>Designer</SubType>
@@ -129,6 +139,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

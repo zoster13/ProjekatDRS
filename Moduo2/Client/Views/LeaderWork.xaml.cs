@@ -236,7 +236,7 @@ namespace Client.Views
                 {
                     userStory.ProgressStatus = ProgressStatus.STARTED;
                     userStory.Deadline = DateTime.Now;
-                    userStory.Deadline.AddDays(3);
+                    userStory.Deadline = userStory.Deadline.AddDays(3);
 
                     foreach(var task in userStory.Tasks)
                     {

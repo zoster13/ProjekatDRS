@@ -107,6 +107,11 @@ namespace Client.Views.Notifications
                 case NotificationType.PROJECT_REQUEST:
                     if (LocalClientDatabase.Instance.CurrentNotification.StatusAccept == NotificationAcceptStatus.PENDING)
                     {
+                        Project project = new Project();
+                        project.Name = LocalClientDatabase.Instance.CurrentNotification.ProjectName;
+                        project.HiringCompanyName = LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName;
+                        project.Description = LocalClientDatabase.Instance.CurrentNotification.ProjectDescription;
+
                         LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.DECLINED;
                         mainWindow.dataGridNotifications.Items.Refresh();
 
@@ -114,7 +119,7 @@ namespace Client.Views.Notifications
                         buttonAccept.IsEnabled = false;
                         buttonDecline.IsEnabled = false;
 
-                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(false, null);
+                        LocalClientDatabase.Instance.proxy.ResponseToProjectRequest(false, project);
 
                         MessageBox.Show("Project named: " + LocalClientDatabase.Instance.CurrentNotification.ProjectName + " has been declined!");
                     }

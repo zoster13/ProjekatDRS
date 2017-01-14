@@ -24,6 +24,7 @@ namespace Client
             workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
             workLeader.Visibility = Visibility.Hidden;
             workDev.Visibility = Visibility.Hidden;
+            workScrum.Visibility = Visibility.Hidden;
         }
 
         private void logInButton_Click(object sender, RoutedEventArgs e)
@@ -137,6 +138,7 @@ namespace Client
         public void ScrumMasterWorkspace()
         {
             tabControl1.SelectedIndex = 0;
+            workScrum.Visibility = Visibility.Visible;
             LoadCommonData();
             SetSettings();
             ResetWork();
@@ -693,6 +695,8 @@ namespace Client
                 workLeader.dataGridUserStories1.Items.Refresh();
                 workLeader.dataGridProjects.Items.Refresh();
                 workLeader.dataGridProjects1.Items.Refresh();
+                workScrum.dataGridUserStories.Items.Refresh();
+                workScrum.dataGridProjects.Items.Refresh();
 
                 MessageBox.Show("Feedbak for users stories has been received from a hiring company!");
             }
@@ -745,10 +749,12 @@ namespace Client
                 workDev.dataGridUserStories.Items.Refresh();
                 workLeader.dataGridUserStories.Items.Refresh();
                 workLeader.dataGridUserStories1.Items.Refresh();
+                workScrum.dataGridUserStories.Items.Refresh();
             }
 
             workLeader.dataGridTasks.Items.Refresh();
             workDev.dataGridTasks.Items.Refresh();
+            workScrum.dataGridTasks.Items.Refresh();
             workLeader.dataGridMyTasks.Items.Refresh();
             workDev.dataGridMyTasks.Items.Refresh();
         }

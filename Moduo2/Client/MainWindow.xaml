@@ -39,6 +39,7 @@
                                 <view:CEOWork x:Name="workCeo"/>
                                 <view:DevWork x:Name="workDev"/>
                                 <view:LeaderWork x:Name="workLeader"/>
+                                <view:ScrumWork x:Name="workScrum"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True"  VerticalAlignment="Top">
