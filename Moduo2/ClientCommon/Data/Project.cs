@@ -102,7 +102,7 @@ namespace ClientCommon.Data
 
         public override string ToString()
         {
-            return name + ", " + assignStatus;
+            return Name;
         }
     }
 }

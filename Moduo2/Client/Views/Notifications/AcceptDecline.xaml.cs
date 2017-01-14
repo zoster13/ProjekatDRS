@@ -38,7 +38,7 @@ namespace Client.Views.Notifications
                     {
                         HiringCompany hiringCompany = new HiringCompany();
                         hiringCompany.Name = LocalClientDatabase.Instance.CurrentNotification.HiringCompanyName;
-                        LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+                        //LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
                         LocalClientDatabase.Instance.CurrentNotification.StatusAccept = NotificationAcceptStatus.ACCEPTED;
                         mainWindow.dataGridNotifications.Items.Refresh();
 

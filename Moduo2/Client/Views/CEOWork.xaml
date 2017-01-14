@@ -17,6 +17,7 @@
                                 <Label x:Name="labelEmail" Content="E-mail:" HorizontalAlignment="Left" Height="26" Margin="46,104,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelType" Content="Type:" HorizontalAlignment="Left" Height="26" Margin="46,174,0,0" VerticalAlignment="Top" Width="79"/>
                                 <Label x:Name="labelTeam" Content="Team:" HorizontalAlignment="Left" Height="26" Margin="427,114,0,0" VerticalAlignment="Top" Width="79"/>
+                                <Label x:Name="labelPassword" Content="Password:" HorizontalAlignment="Left" Height="26" Margin="46,135,0,0" VerticalAlignment="Top" Width="79"/>
                                 <TextBox x:Name="textBoxName" HorizontalAlignment="Left" Height="21" Margin="130,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxName_TextChanged"/>
                                 <TextBox x:Name="textBoxEmail" HorizontalAlignment="Left" Height="21" Margin="130,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="153" TextChanged="textBoxEmail_TextChanged"/>
                                 <TextBox x:Name="textBoxSurname" HorizontalAlignment="Left" Height="21" Margin="149,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134" TextChanged="textBoxSurname_TextChanged"/>
@@ -54,18 +55,6 @@
                         </TabItem>
                     </TabControl>
                     <Label x:Name="labelTitle" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="283,32,0,0" VerticalAlignment="Top" Width="157"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Change Employee Type" Height="39" Margin="18,0,-34,0">
-                <Grid Background="#FFE5E5E5">
-                    <Grid x:Name="changeTypeGrid" Background="White" Margin="397,10,10,10">
-                        <Label x:Name="labelTitle1" Content="Change Employee Type" FontSize="16" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="179" Margin="73,10,0,0"/>
-                        <ComboBox x:Name="comboBoxEmployeeType" HorizontalAlignment="Left" Height="24" Margin="102,93,0,0" VerticalAlignment="Top" Width="177"/>
-                        <ComboBox x:Name="comboBoxNewType" HorizontalAlignment="Left" Height="24" Margin="102,149,0,0" VerticalAlignment="Top" Width="177"/>
-                        <Label x:Name="labelNewType" Content="New type:" HorizontalAlignment="Left" Height="26" Margin="21,147,0,0" VerticalAlignment="Top" Width="117"/>
-                        <Label x:Name="labelEmployeeType" Content="Employee:" HorizontalAlignment="Left" Height="26" Margin="21,90,0,0" VerticalAlignment="Top" Width="117"/>
-                        <Button x:Name="buttonApplyTypeChange" Content="Apply " HorizontalAlignment="Left" Height="31" Margin="258,258,0,0" VerticalAlignment="Top" Width="65"/>
-                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Add Teams" Margin="37,0,-41,0" Height="39">
@@ -117,7 +106,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>
                             <DataGridTextColumn Header=" Company Name" Binding="{Binding HiringCompanyName}"/>
-                            <DataGridTextColumn Header="Team" Binding="{Binding TeamName}"/>
+                            <DataGridTextColumn Header="Team" Binding="{Binding Team}"/>
                             <DataGridTextColumn Header="Status" Binding="{Binding AssignStatus}"/>
                         </DataGrid.Columns>
                     </DataGrid>

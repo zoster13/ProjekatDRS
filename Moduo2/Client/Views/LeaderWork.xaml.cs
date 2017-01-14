@@ -100,6 +100,7 @@ namespace Client.Views
                     comboBoxProjects.SelectedItem = null;
                     textBoxUserStoryTitle.Text = "";
                     textBoxUserStoryContent.Text = "";
+                    textBoxUserStoryAccCrit.Text = "";
                     textBoxUserStoryDifficulty.Text = "2";
 
                     if(project.UserStories == null)

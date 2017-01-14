@@ -31,12 +31,13 @@ namespace Client.Views
             //database = new LocalClientDatabase();
             DataContext = LocalClientDatabase.Instance;
 
-            foreach(var type in Enum.GetValues(typeof(EmployeeType)))
+            foreach(EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
-                comboBoxNewType.Items.Add(type);
-                comboBoxNewType.SelectedIndex = 0;
-                comboBoxType.Items.Add(type);
-                comboBoxType.SelectedIndex = 0;
+                if (type != EmployeeType.CEO && type != EmployeeType.TEAMLEADER)
+                {
+                    comboBoxType.Items.Add(type);
+                    comboBoxType.SelectedIndex = 0;
+                }
             }
         }
 

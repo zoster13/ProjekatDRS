@@ -36,5 +36,10 @@ namespace ClientCommon.Data
             get { return this.name; }
             set { this.name = value; }
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

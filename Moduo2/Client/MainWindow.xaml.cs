@@ -345,6 +345,7 @@ namespace Client
             workLeader.comboBoxProjects.SelectedItem = null;
             workLeader.textBoxUserStoryTitle.Text = "";
             workLeader.textBoxUserStoryContent.Text = "";
+            workLeader.textBoxUserStoryAccCrit.Text = "";
             workLeader.textBoxUserStoryDifficulty.Text = "2";
 
             workLeader.textProjectDescription.Text = "";

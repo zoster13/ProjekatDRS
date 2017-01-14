@@ -69,30 +69,7 @@ namespace ClientCommon.Data
 
         public override string ToString()
         {
-            string returnString = name;
-
-            if (scrumMasterEmail == null)
-            {
-                returnString += ", no scrum master";
-            }
-            return returnString;
-
-            //if(!teamLeaderEmail.Equals(string.Empty) && !scrumMasterEmail.Equals(string.Empty))
-            //{
-            //    return Name + ", TL: " + TeamLeaderEmail + ", SM: " + scrumMasterEmail;
-            //}
-            //else if (teamLeaderEmail == null && scrumMaster == null)
-            //{
-            //    return Name + ", no team leader and no scrum master";
-            //}
-            //else if(teamLeader == null && scrumMaster != null)
-            //{
-            //    return Name + ", no team leader , " + scrumMaster.Name + " " + scrumMaster.Surname;
-            //}
-            //else
-            //{
-            //    return Name + ", " + TeamLeader.Name + " " + TeamLeader.Surname + ", no scrum master";
-            //}
+            return Name;
         }
     }
 }
