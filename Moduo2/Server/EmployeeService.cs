@@ -555,10 +555,10 @@ namespace Server
                 Publisher.Instance.ResponseToPartnershipRequestCallback(newHiringCompany);
             }
 
-            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            {
-                proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
-            }
+            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            //{
+            //    proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
+            //}
         }
 
         public void ResponseToProjectRequest(bool accepted, Project project)

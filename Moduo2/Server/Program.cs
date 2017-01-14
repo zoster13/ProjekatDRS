@@ -54,38 +54,40 @@ namespace Server
             
             Console.WriteLine("Press <enter> to stop service...");
 
-            ////DB Test
-            ////Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
-            ////EmployeeServiceDatabase.Instance.AddEmployee(em1);
+            //DB Test
+            Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
+            EmployeeServiceDatabase.Instance.AddEmployee(em1);
 
-            //OutsourcingService os = new OutsourcingService();
-            //os.AskForPartnership("HiringCompany1");
+            Console.ReadKey();
 
-            //Console.ReadKey();
+            OutsourcingService os = new OutsourcingService();
+            os.AskForPartnership("HiringCompany1");
 
-            //Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat5", "bla");
-            //Publisher.Instance.SendNotificationToCEO(notif);
+            Console.ReadKey();
 
-            //Console.ReadKey();
+            Notification notif = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat5", "bla");
+            Publisher.Instance.SendNotificationToCEO(notif);
 
-            //Notification notif1 = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat4", "bla");
-            //Publisher.Instance.SendNotificationToCEO(notif1);
+            Console.ReadKey();
 
-            //Console.ReadKey();
+            Notification notif1 = new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat4", "bla");
+            Publisher.Instance.SendNotificationToCEO(notif1);
 
-            //UserStoryCommon us1 = new UserStoryCommon();
-            //us1.Title = "us1";
-            //us1.Description = "prvi user story";
-            //us1.IsAccepted = true;
-            //UserStoryCommon us2 = new UserStoryCommon();
-            //us2.Title = "us2";
-            //us2.Description = "drugi user story";
-            //us2.IsAccepted = false;
+            Console.ReadKey();
 
-            //List<UserStoryCommon> usl = new List<UserStoryCommon>();
-            //usl.Add(us1);
-            //usl.Add(us2);
-            //Publisher.Instance.ReceiveUserStoriesCallback(usl, "projekat5");
+            UserStoryCommon us1 = new UserStoryCommon();
+            us1.Title = "us1";
+            us1.Description = "prvi user story";
+            us1.IsAccepted = true;
+            UserStoryCommon us2 = new UserStoryCommon();
+            us2.Title = "us2";
+            us2.Description = "drugi user story";
+            us2.IsAccepted = false;
+
+            List<UserStoryCommon> usl = new List<UserStoryCommon>();
+            usl.Add(us1);
+            usl.Add(us2);
+            Publisher.Instance.ReceiveUserStoriesCallback(usl, "projekat5");
 
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");
