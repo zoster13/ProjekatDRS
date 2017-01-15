@@ -31,15 +31,23 @@ namespace HiringCompanyTest.DatabaseAccessTest
         [OneTimeSetUp]
         public void SetupTest()
         {
+            //possiblePartnersAddresses.Add("HiringCompany", "localhost:9998");
+            HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
+            partnerCompanyTest = new PartnerCompany("bluc");
+
+            List<string> partnerCompanies = new List<string>();
+            partnerCompanies.Add(partnerCompanyTest.Name);
+            HiringCompanyDB.Instance.GetPartnerCompaniesNames().Returns(partnerCompanies);
             this.instanceTest = InternalDatabase.Instance();
 
-            HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
+            
             instanceTest.OnlineEmployees = new List<Employee>();
             employeeTest = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTest2 = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTestNull = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
-            partnerCompanyTest = new PartnerCompany(companyName);
+            
 
+            
             //instanceTest.PartnerCompaniesAddresses.Clear();
             //instanceTest.PossiblePartnersAddresses.Add("HiringCompany", "localhost:9998");
             //instanceTest.PossiblePartnersAddresses.Add("DMS", "localhost:9998");
@@ -137,5 +145,7 @@ namespace HiringCompanyTest.DatabaseAccessTest
             instanceTest.CompanyName = companyName;
             Assert.AreEqual(companyName, instanceTest.CompanyName);
         }
+
+        //Dodati i ostale metode
     }
 }

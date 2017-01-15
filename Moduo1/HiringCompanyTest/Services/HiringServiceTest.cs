@@ -29,24 +29,33 @@ namespace HiringCompanyTest.Services
         private UserStory us;
         private UserStory us2;
         private List<UserStory> userStories = new List<UserStory>();
+        private PartnerCompany partnerCompanyTest;
 
         [OneTimeSetUp]
         public void SetupTest()
         {
             hiringServiceTest = new HiringService();
-            AccessDB access = new AccessDB();
+            HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
+
+            partnerCompanyTest = new PartnerCompany("druga");
+
+            List<string> partnerCompanies = new List<string>();
+            partnerCompanies.Add(partnerCompanyTest.Name);
+            HiringCompanyDB.Instance.GetPartnerCompaniesNames().Returns(partnerCompanies);
+            //AccessDB access = new AccessDB();
             InternalDatabase iDB = InternalDatabase.Instance();
-            iDB.PossiblePartnersAddresses.Add("bluc", "localhost:9998");
+            iDB.PossiblePartnersAddresses.Add("pokusaj", "localhost:9998");
             
 
-            HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
+            
             Employee e = new Employee("amisic", "789", EmployeeType.CEO, "Aleksandra", "Misic", "amisic@gmail.com", 9, 10, 17, 30);
             iDB.OnlineEmployees.Add(e);
-            IEmployeeServiceCallback callbackClient = Substitute.For<IEmployeeServiceCallback>();
 
+            IEmployeeServiceCallback callbackClient = Substitute.For<IEmployeeServiceCallback>();
             ICommunicationObject cObject = callbackClient as ICommunicationObject;
             iDB.ConnectionChannelsClients.Add("amisic", callbackClient);
 
+            //userStories
             us = new UserStory("prva", "ndinsj", "nsjdndsijds");
             us2 = new UserStory("druga", "sdnsido", "njdsinsj");
             userStories.Add(us);
@@ -57,6 +66,7 @@ namespace HiringCompanyTest.Services
             userStoriesC.Add(usC);
             userStoriesC.Add(usC2);
 
+            //Project
             p = new Project("pokusaj", "nsjdndskjd", "amisic", "rzekanovic");
             p.UserStories = userStories;
             HiringCompanyDB.Instance.AddNewProject(p);
@@ -64,17 +74,23 @@ namespace HiringCompanyTest.Services
             p2 = new Project("pokusaj2", "nsjdndskjd", "amisic", "rzekanovic");
             HiringCompanyDB.Instance.AddNewProject(p2);
 
+            //ProjectCommon
             pc = new ProjectCommon("pokusaj", "nsjdndskjd", DateTime.Now, DateTime.Now);
             pc2 = new ProjectCommon("pokusaj2", "nsjdndskjd", DateTime.Now, DateTime.Now);
+
+            //HiringCompanyDB mock metode
             HiringCompanyDB.Instance.ResponseForProjectRequestFieldsChange("bluc", pc).Returns(true);
             HiringCompanyDB.Instance.ResponseForProjectRequestFieldsChange("bluc", pc2).Returns(false);
 
             HiringCompanyDB.Instance.SendUserStoriesToHiringCompanyFieldsChange(userStories, p.Name);
             HiringCompanyDB.Instance.SendClosedUserStoryFieldChange(p.Name, "prva").Returns(true);
+
+            //mozda treba za metodu  ResponseForPartnershipRequest
+            HiringCompanyDB.Instance.AddNewPartnerCompany(new PartnerCompany("cekic")).Returns(true); 
         }
 
         [Test]
-        [TestCase(true, "bluc")]
+        [TestCase(true, "pokusaj")]
         public void ResponseForPartnershipRequestTestAccepted(bool accepted, string outsourcingCompName)
         {
             Assert.DoesNotThrow(() =>
