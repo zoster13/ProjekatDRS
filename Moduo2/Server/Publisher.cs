@@ -455,7 +455,24 @@ namespace Server
                 }
             }
         }
-
+        
+        public void NotifySMForUserStoryProgressCallback(string scrumMasterEmail, string userStoryName)
+        {
+            if(employeeChannels.Values.Count > 0)
+            {
+                try
+                {
+                    if (((IClientChannel)employeeChannels[scrumMasterEmail]).State == CommunicationState.Opened)
+                    {
+                        employeeChannels[scrumMasterEmail].NotifySMForUserStoryProgressCallback(scrumMasterEmail, userStoryName);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: {0}", e.Message);
+                }
+            }
+        }
         #endregion ICallbackMethods
     }
 }

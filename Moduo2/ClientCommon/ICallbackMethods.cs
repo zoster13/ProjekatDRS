@@ -61,5 +61,7 @@ namespace ClientCommon
         [OperationContract(IsOneWay = true)]
         void SendProjectToTeamMembers(Project project);
 
+        [OperationContract(IsOneWay = true)]
+        void NotifySMForUserStoryProgressCallback(string scrumMasterEmail, string userStoryName);
     }
 }

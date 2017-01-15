@@ -25,6 +25,7 @@ namespace Server
 
         private Timer lateOnJobTimer = new Timer();
         private Timer passwordExpiredTimer = new Timer();
+        private Timer userstoryCompleted = new Timer();
 
         string _senderEmailAddress = "blok4.moduo2@gmail.com";
         string _senderPassword = "ftnnovisad";
@@ -58,6 +59,10 @@ namespace Server
             passwordExpiredTimer.Elapsed += new ElapsedEventHandler(PasswordExpired);
             passwordExpiredTimer.Interval = 30000;
             //passwordExpiredTimer.Enabled = true;
+
+            userstoryCompleted.Elapsed += new ElapsedEventHandler(UserStoryCompleted);
+            userstoryCompleted.Interval = 30000;
+            userstoryCompleted.Enabled = true;
         }
 
         #region IEmployeeService Methods
@@ -523,6 +528,54 @@ namespace Server
                 }
             }
         }
+
+        public void UserStoryCompleted(object sender, ElapsedEventArgs e)
+        {
+            List<UserStory> allUserStories = EmployeeServiceDatabase.Instance.GetAllUserStories();
+            int numOfClosedTasks = 0;
+
+            foreach (var us in allUserStories)
+            {
+                if (DateTime.Now.AddDays(2) > us.Deadline)
+                {
+                    foreach (var task in us.Tasks)
+                    {
+                        if (task.ProgressStatus == ProgressStatus.COMPLETED)
+                        {
+                            numOfClosedTasks++;
+                        }
+                    }
+
+                    if (numOfClosedTasks < ((us.Tasks.Count * 80) / 100))
+                    {
+                        NotifySMForUserStoryProgress(us.Project.Team.ScrumMasterEmail, us.Title);
+                    }
+                }
+            }
+        }
+
+        public void NotifySMForUserStoryProgress(string scrumMasterEmail, string userStoryName)
+        {
+            //Posalji mu notifikaciju ako je online
+            Employee scrumMaster = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(scrumMasterEmail));
+
+            if(scrumMaster != null)
+            {
+                Publisher.Instance.NotifySMForUserStoryProgressCallback(scrumMasterEmail, userStoryName);
+            }
+            else
+            {
+                //Posalji mail
+                var client = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                    EnableSsl = true
+                };
+                client.Send(_senderEmailAddress, scrumMasterEmail, "Obavjestenje", string.Format("Nije zavrseno 80% zadataka za UserStory [{0}].", userStoryName));
+                Logger.Info(string.Format("Nije zavrseno 80% zadataka za UserStory [{0}].", userStoryName));
+            }
+        }
+
         #endregion Timers
     }
 }

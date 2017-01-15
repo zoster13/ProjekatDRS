@@ -175,5 +175,10 @@ namespace Client
                 mainWindow.SendProjectToTeamMembersResult(project);
             });
         }
+
+        public void NotifySMForUserStoryProgressCallback(string scrumMasterEmail, string userStoryName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

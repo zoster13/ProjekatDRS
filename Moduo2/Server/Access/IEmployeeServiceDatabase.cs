@@ -56,5 +56,6 @@ namespace Server.Access
 
         Project UpdateUserStoriesStatus(List<UserStoryCommon> commUserStories, string projectName);
 
+        List<UserStory> GetAllUserStories();
     }
 }

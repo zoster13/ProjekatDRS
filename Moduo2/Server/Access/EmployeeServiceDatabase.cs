@@ -475,5 +475,23 @@ namespace Server.Access
                 return proj;
             }
         }
+
+        public List<UserStory> GetAllUserStories()
+        {
+            using (var access = new AccessDB())
+            {
+                List<UserStory> userStories =  access.UserStories
+                    .Include("Tasks")
+                    .Include("Project")
+                    .ToList();
+
+                foreach(var us in userStories)
+                {
+                    us.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(us.Project.Name));
+                }
+
+                return userStories;
+            }
+        }
     }
 }
