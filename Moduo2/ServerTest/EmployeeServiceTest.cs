@@ -26,6 +26,8 @@ namespace ServerTest
         Task taskTestNull;
         Task taskTest2;
         Project projectTest;
+        string projectName1;
+        string projectName2;
         List<UserStoryCommon> commonUserStories;
 
 
@@ -50,6 +52,8 @@ namespace ServerTest
             userStoryTest = new UserStory() { Title = "us1" ,Tasks = new List<Task>() {taskTest,taskTest2 } };
 
             projectTest = new Project() { Name = "proj1", Team = teamTest };
+            projectName1 = "proj1";
+            projectName2 = "proj2";
 
             commonUserStories = new List<UserStoryCommon>();
 
@@ -93,122 +97,122 @@ namespace ServerTest
 
             EmployeeServiceDatabase.Instance.GetAllEmployees().Returns(new List<Employee>() { employeeTest, employeeTestSM });
 
-            EmployeeServiceDatabase.Instance.UpdateUserStoriesStatus(commonUserStories, "proj1").Returns(new Project() { Name = "proj1", Team = teamTest });
+            EmployeeServiceDatabase.Instance.UpdateUserStoriesStatus(commonUserStories, projectName1).Returns(projectTest);
         }
 
         //LogIn Tests
         [Test]
         public void LogInTestOk()
         {
-            employeeServiceTest.LogIn("marko@gmail.com", "mare123");
+            Assert.DoesNotThrow(() => employeeServiceTest.LogIn("marko@gmail.com", "mare123"));
         }
 
         [Test]
         public void LogInTestEmployeeAlreadyExist()
         {
-            employeeServiceTest.LogIn("marko@gmail.com", "mare123");
+            Assert.DoesNotThrow(() => employeeServiceTest.LogIn("marko@gmail.com", "mare123"));
         }
 
         [Test]
         public void LogInTestSM()
         {
-            employeeServiceTest.LogIn("ivan@gmail.com", "ivan123");
+            Assert.DoesNotThrow(() => employeeServiceTest.LogIn("ivan@gmail.com", "ivan123"));
         }
 
         [Test]
         public void LogInTestFaultEmail()
         {
-            employeeServiceTest.LogIn("sara@gmail.com", "sara123");
+            Assert.DoesNotThrow(() => employeeServiceTest.LogIn("sara@gmail.com", "sara123"));
         }
 
         [Test]
         public void LogInTestFaultPass()
         {
-            employeeServiceTest.LogIn("marko@gmail.com", "sara123");
+            Assert.DoesNotThrow(() => employeeServiceTest.LogIn("marko@gmail.com", "sara123"));
         }
 
         //LogOut Tests
         [Test]
         public void LogOutTestOk()
         {
-            employeeServiceTest.LogOut(employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.LogOut(employeeTest));
         }
 
         //AddEmployee Tests
         [Test]
         public void AddEmployeeTestOk()
         {
-            employeeServiceTest.AddEmployee(employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddEmployee(employeeTest));
         }
 
         [Test]
         public void AddEmployeeTestOkSM()
         {
-            employeeServiceTest.AddEmployee(employeeTestSM);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddEmployee(employeeTestSM));
         }
         
         [Test]
         public void AddEmployeeTestFault()
         {
-            employeeServiceTest.AddEmployee(new Employee() { Email = "sanja@gmai.com" });
+            Assert.DoesNotThrow(() => employeeServiceTest.AddEmployee(new Employee() { Email = "sanja@gmai.com" }));
         }
 
         //EditEmployee Tests
         [Test]
         public void EditEmployeeTestOk()
         {
-            employeeServiceTest.EditEmployeeData(employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.EditEmployeeData(employeeTest));
         }
 
         [Test]
         public void EditEmployeeTestFault()
         {
-            employeeServiceTest.EditEmployeeData(employeeTestSM);
+            Assert.DoesNotThrow(() => employeeServiceTest.EditEmployeeData(employeeTestSM));
         }
         
         //AddTeam Tests
         [Test]
         public void AddTeamTestOk()
         {
-            employeeServiceTest.AddTeam(teamTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeam(teamTest));
         }
 
         [Test]
         public void AddTeamTestFault()
         {
-            employeeServiceTest.AddTeam(teamTestNull);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeam(teamTestNull));
         }
 
         //AddTeamAndTL Tests
         [Test]
         public void AddTeamAndTLTestOk()
         {
-            employeeServiceTest.AddTeamAndTL(teamTest, employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeamAndTL(teamTest, employeeTest));
         }
 
         [Test]
         public void AddTeamAndTLTestFaultTeamNull()
         {
-            employeeServiceTest.AddTeamAndTL(teamTestNull, employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeamAndTL(teamTestNull, employeeTest));
         }
 
         [Test]
         public void AddTeamAndTLTestFaultEmployeeNull()
         {
-            employeeServiceTest.AddTeamAndTL(teamTest, employeeTestNull);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeamAndTL(teamTest, employeeTestNull));
         }
 
         //AddTeamAndUpdateDeveloperToTL
         [Test]
         public void AddTeamAndUpdateDeveloperToTLTestOk()
         {
-            employeeServiceTest.AddTeamAndUpdateDeveloperToTL(teamTest, employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeamAndUpdateDeveloperToTL(teamTest, employeeTest));
         }
 
         [Test]
         public void AddTeamAndUpdateDeveloperToTLTestFaultTeamNull()
         {
-            employeeServiceTest.AddTeamAndUpdateDeveloperToTL(teamTestNull, employeeTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTeamAndUpdateDeveloperToTL(teamTestNull, employeeTest));
         }
 
         //GetAllOnlineEmployees
@@ -250,114 +254,108 @@ namespace ServerTest
         [Test]
         public void ProjectTeamAssignTestTest()
         {
-            employeeServiceTest.ProjectTeamAssign(new Project() { Name = "proj1", Team = teamTest });
+            Assert.DoesNotThrow(() => employeeServiceTest.ProjectTeamAssign(new Project() { Name = "proj1", Team = teamTest }));
         }
 
         //AddUserStory
         [Test]
         public void AddUserStoryTestOk()
         {
-            employeeServiceTest.AddUserStory(userStoryTest, "proj1");
+            Assert.DoesNotThrow(() => employeeServiceTest.AddUserStory(userStoryTest, projectName1));
         }
 
         [Test]
         public void AddUserStoryTestFault()
         {
-            employeeServiceTest.AddUserStory(userStoryTest, "proj2");
+            Assert.DoesNotThrow(() => employeeServiceTest.AddUserStory(userStoryTest, projectName2));
         }
 
         //AddTask
         [Test]
         public void AddTaskTestOk()
         {
-            employeeServiceTest.AddTask(taskTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTask(taskTest));
         }
 
         [Test]
         public void AddTaskTestFault()
         {
-            employeeServiceTest.AddTask(taskTestNull);
+            Assert.DoesNotThrow(() => employeeServiceTest.AddTask(taskTestNull));
         }
 
         //ReleaseUserStory
         [Test]
         public void ReleaseUserStoryTest()
         {
-            employeeServiceTest.ReleaseUserStory(userStoryTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.ReleaseUserStory(userStoryTest));
         }
 
         //TaskClaimed
         [Test]
         public void TaskClaimedTest()
         {
-            employeeServiceTest.TaskClaimed(taskTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.TaskClaimed(taskTest));
         }
 
         //TaskCompleted
         [Test]
         public void TaskCompletedTest()
         {
-            employeeServiceTest.TaskCompleted(taskTest);
+            Assert.DoesNotThrow(() => employeeServiceTest.TaskCompleted(taskTest));
         }
 
         //SendUserStories
         [Test]
         public void SendUserStoriesTestOk()
         {
-            employeeServiceTest.SendUserStories(commonUserStories, "proj1");
-        }
-
-        [Test]
-        public void SendUserStoriesTestFault()
-        {
-            employeeServiceTest.SendUserStories(commonUserStories, "proj2");
+            Assert.DoesNotThrow(() => employeeServiceTest.SendUserStories(commonUserStories, projectName1));
         }
 
         //ResponseToPartnershipRequest
         [Test]
         public void ResponseToPartnershipRequestTestAccepted()
         {
-            employeeServiceTest.ResponseToPartnershipRequest(true, "hiringCompany1");
+            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToPartnershipRequest(true, "hiringCompany1"));
         }
 
         [Test]
         public void ResponseToPartnershipRequestTestDeclined()
         {
-            employeeServiceTest.ResponseToPartnershipRequest(false, "hiringCompany1");
+            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToPartnershipRequest(false, "hiringCompany1"));
         }
 
         //ResponseToProjectRequest
         [Test]
         public void ResponseToProjectRequestTestAccepted()
         {
-            employeeServiceTest.ResponseToProjectRequest(true, new Project());
+            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToProjectRequest(true, new Project()));
         }
 
         [Test]
         public void ResponseToProjectRequestTestDeclined()
         {
-            employeeServiceTest.ResponseToProjectRequest(false, new Project());
+            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToProjectRequest(false, new Project()));
         }
 
         //GetUserStories
         [Test]
         public void GetUserStoriesTest()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.GetUserStories());
+            Assert.DoesNotThrow(() => Assert.DoesNotThrow(() => employeeServiceTest.GetUserStories()));
         }
 
         //GetAllTasks
         [Test]
         public void GetAllTasksTest()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.GetAllTasks());
+            Assert.DoesNotThrow(() => Assert.DoesNotThrow(() => employeeServiceTest.GetAllTasks()));
         }
 
         //NotifyOnLate
         [Test]
         public void NotifyOnLateTest()
         {
-            employeeServiceTest.NotifyOnLate(null, null);
+            Assert.DoesNotThrow(() => employeeServiceTest.NotifyOnLate(null, null));
         }
     }
 }
