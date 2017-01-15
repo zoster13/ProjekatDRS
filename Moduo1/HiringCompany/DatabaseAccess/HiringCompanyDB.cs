@@ -13,7 +13,7 @@ namespace HiringCompany.DatabaseAccess
     public class HiringCompanyDB : IHiringCompanyDB
     {
         private static IHiringCompanyDB myDB;
-        private InternalDatabase internalDatabase = InternalDatabase.Instance();
+        //private InternalDatabase internalDatabase = InternalDatabase.Instance();
 
         // add lock before every adding, replacing, updating query
         // and add lock for every in-memory list, map..
@@ -332,19 +332,19 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.Name = name != "" ? name : em.Name;
-                    em.Surname = surname != "" ? surname : em.Surname;
-                    em.Email = email != "" ? email : em.Email;
-                    em.Password = password != "" ? password : em.Password;
-                    messageToLog = "updated employee data in OnlineEmployees list.";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.Name = name != "" ? name : em.Name;
+            //        em.Surname = surname != "" ? surname : em.Surname;
+            //        em.Email = email != "" ? email : em.Email;
+            //        em.Password = password != "" ? password : em.Password;
+            //        messageToLog = "updated employee data in OnlineEmployees list.";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
 
             return retVal;
         }
@@ -390,18 +390,20 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.StartHour = beginH;
-                    em.StartMinute = beginM;
-                    em.EndHour = endH;
-                    em.EndMinute = endM;
-                    messageToLog = "updated working hours data in OnlineEmployees list.";
-                }
-            }
+
+
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.StartHour = beginH;
+            //        em.StartMinute = beginM;
+            //        em.EndHour = endH;
+            //        em.EndMinute = endM;
+            //        messageToLog = "updated working hours data in OnlineEmployees list.";
+            //    }
+            //}
             return retVal;
         }
 
@@ -446,16 +448,18 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.Type = type;
-                    messageToLog = "employee type changed in OnlineEmployees list";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
+
+
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.Type = type;
+            //        messageToLog = "employee type changed in OnlineEmployees list";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
             return retVal;
         }
 
@@ -611,6 +615,7 @@ namespace HiringCompany.DatabaseAccess
 
                     messageToLog = "Updated Project.UserStories data in .mdf database.";
                     Program.Logger.Info(messageToLog);
+                    notification = string.Format("{0} User stories for project <{1}>, are waiting to be approved.", tempUserStories.Count, projectName);
                 }
                 if (i > 0)
                 {

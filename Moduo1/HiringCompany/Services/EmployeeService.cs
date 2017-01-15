@@ -42,11 +42,11 @@ namespace HiringCompany.Services
 
             passwordExpired.Elapsed += new ElapsedEventHandler(NotifyPasswordExpired);
             passwordExpired.Interval = 30000; // 30s, ostavila samo za proveru,staviti ovo na neki mnogo veci broj
-            //passwordExpired.Enabled = true;
+           // passwordExpired.Enabled = true;
 
             userStoriesDeadlineWarning.Elapsed += new ElapsedEventHandler(NotifyUserStoriesDeadline);
             userStoriesDeadlineWarning.Interval = 30000; // samo za proveru,treba staviti da se jednom dnevno proverava
-            //userStoriesDeadlineWarning.Enabled = true;
+            userStoriesDeadlineWarning.Enabled = true;
         }
 
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
@@ -97,10 +97,11 @@ namespace HiringCompany.Services
             {
                 DateTime current = DateTime.Now;
 
-                if (((em.DatePasswordChanged.Year == current.Year) && (em.DatePasswordChanged.Month > (current.Month + 5)))
-                    || (((current.Year - em.DatePasswordChanged.Year) == 1)
-                    && (em.DatePasswordChanged.Month < 8 || current.Month > 6 ||
-                    (em.DatePasswordChanged.Month > 7 && current.Month < 7 && (((12 - em.DatePasswordChanged.Month) + current.Month) > 5)))))
+                //if (((em.DatePasswordChanged.Year == current.Year) && (em.DatePasswordChanged.Month > (current.Month + 5)))
+                //    || (((current.Year - em.DatePasswordChanged.Year) == 1)
+                //    && (em.DatePasswordChanged.Month < 8 || current.Month > 6 ||
+                //    (em.DatePasswordChanged.Month > 7 && current.Month < 7 && (((12 - em.DatePasswordChanged.Month) + current.Month) > 5)))))
+                if(em.DatePasswordChanged.AddMonths(6) < current)
                 {
                     using (Notifier notifier = new Notifier())
                     {
@@ -125,8 +126,9 @@ namespace HiringCompany.Services
                 DateTime current = DateTime.Now;
                 if (!p.IsClosed && p.UserStories.Count!=0 && p.IsAcceptedCEO && p.IsAcceptedOutsCompany)
                 {
-                    if (((current.Year == p.Deadline.Year) && (((current.Month == p.Deadline.Month) && ((p.Deadline.Day - current.Day)) < 11) || ((current.Month + 1 == p.Deadline.Month) && (p.Deadline.Day + (31 - current.Day)) < 11)))
-                        || (((current.Year + 1) == p.Deadline.Year) && (current.Month == 12 && p.Deadline.Month == 1) && ((p.Deadline.Day + (31 - current.Day)) < 11)))
+                    if(current.AddDays(10)>p.Deadline)
+                    //if (((current.Year == p.Deadline.Year) && (((current.Month == p.Deadline.Month) && ((p.Deadline.Day - current.Day)) < 11) || ((current.Month + 1 == p.Deadline.Month) && (p.Deadline.Day + (31 - current.Day)) < 11)))
+                    //    || (((current.Year + 1) == p.Deadline.Year) && (current.Month == 12 && p.Deadline.Month == 1) && ((p.Deadline.Day + (31 - current.Day)) < 11)))
                     {
                         List<UserStory> us = p.UserStories.FindAll(u => u.IsClosed == false);
                         if ((p.UserStories.Count / 5) <= us.Count)
@@ -277,6 +279,7 @@ namespace HiringCompany.Services
                                                   username, name, surname, email, password);
             Program.Logger.Info(messageToLog);
             HiringCompanyDB.Instance.EditEmployeeData(username, name, surname, email, password);
+            internalDatabase.EditOnlineEmployeeData(username, name, surname, email, password);
 
             //try
             //{
@@ -348,6 +351,7 @@ namespace HiringCompany.Services
                                                   "int endH={3}, int endM={4}", username, beginH, beginM, endH, endM);
 
             HiringCompanyDB.Instance.EditWorkingHours(username, beginH, beginM, endH, endM);
+            internalDatabase.EditWorkingHoursForOnlineEm(username, beginH, beginM, endH, endM);
             //try
             //{
             //    using (var access = new AccessDB())
@@ -456,6 +460,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
 
             HiringCompanyDB.Instance.EditEmployeeType(username, type);
+            internalDatabase.EditOnlineEmployeeType(username, type);
             //try
             //{
             //    using (var access = new AccessDB())
@@ -521,25 +526,11 @@ namespace HiringCompany.Services
 
                     if (proj != null)
                     {
-                        int i = 0;
                         if (proj.UserStories.Count == userStories.Count)
                         {
-                            for (; i < proj.UserStories.Count; i++)
+                            for (int i=0; i < proj.UserStories.Count; i++)
                             {
-                                // ovde cu staviti log samo za debuging
-                                string dbBeforeChange = string.Format("dbBeforeChange: {0}.{1}.IsApprovedByPo={3}", proj.Name, proj.UserStories[i].Title, proj.UserStories[i].IsApprovedByPO);
-                                string receivedUserStory = string.Format("receivedUserStory: {0}.IsApprovedByPo={0}.{1}", userStories[i].Title, userStories[i].IsApprovedByPO);
-
                                 proj.UserStories[i].IsApprovedByPO = userStories[i].IsApprovedByPO;
-
-                                string dbAfterChange = string.Format("dbAfterChange: {0}.{1}.IsApprovedByPo={3}", proj.Name, proj.UserStories[i].Title, proj.UserStories[i].IsApprovedByPO);
-
-                                messageToLog = dbBeforeChange;
-                                Program.Logger.Info(messageToLog);
-                                messageToLog = receivedUserStory;
-                                Program.Logger.Info(messageToLog);
-                                messageToLog = dbAfterChange;
-                                Program.Logger.Info(messageToLog);
                             }
                         }
                         else
@@ -598,11 +589,10 @@ namespace HiringCompany.Services
 
             try
             {
+                // ovo treba da radimo u bazi 
                 using (var access = new AccessDB())
                 {
-                    // o ovome porazmisliti da li radimo dobro, procitati na linku sve
-                    // https://msdn.microsoft.com/en-us/library/jj574232(v=vs.113).aspx
-
+                    proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
                     proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
                     access.SaveChanges();
 

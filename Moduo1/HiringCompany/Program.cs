@@ -101,12 +101,12 @@ dodati mozda datetime kad posaljes notifikaciju -> client app
             //Console.ReadKey(true);
 
             //HiringService hs = new HiringService();
-            //List<UserStoryCommon> ustories=new List<UserStoryCommon>();
-            //UserStoryCommon us=new UserStoryCommon("proba","hahah","beeee",false);
+            //List<UserStoryCommon> ustories = new List<UserStoryCommon>();
+            //UserStoryCommon us = new UserStoryCommon("proba", "hahah", "beeee", false);
             //UserStoryCommon us1 = new UserStoryCommon("druga", "desc", "gee", false);
             //ustories.Add(us);
             //ustories.Add(us1);
-            //hs.SendUserStoriesToHiringCompany(ustories, "prvi");
+            //hs.SendUserStoriesToHiringCompany(ustories, "proradiiiii");
             //hs.SendClosedUserStory("prvi", "proba");
             //hs.SendClosedUserStory("prvi", "druga");
 
