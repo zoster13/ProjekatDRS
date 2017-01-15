@@ -8,6 +8,7 @@ using EmployeeCommon.Data;
 using NUnit.Framework;
 using HiringCompany;
 using EmployeeCommon;
+using NSubstitute;
 
 namespace HiringCompanyTest.DatabaseAccessTest
 {
@@ -19,20 +20,35 @@ namespace HiringCompanyTest.DatabaseAccessTest
         private Employee employeeTest2;
         private Employee employeeTestNull;
         private string companyName = "HiringCompany";
+        private PartnerCompany partnerCompanyTest;
 
         private Dictionary<string, string> possiblePartnersAddresses = new Dictionary<string, string>();
         private Dictionary<string, string> partnerCompaniesAddresses = new Dictionary<string, string>();
         private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();
         private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
 
+
         [OneTimeSetUp]
         public void SetupTest()
         {
             this.instanceTest = InternalDatabase.Instance();
+
+            HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
             instanceTest.OnlineEmployees = new List<Employee>();
             employeeTest = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTest2 = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTestNull = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
+            partnerCompanyTest = new PartnerCompany(companyName);
+
+            //instanceTest.PartnerCompaniesAddresses.Clear();
+            //instanceTest.PossiblePartnersAddresses.Add("HiringCompany", "localhost:9998");
+            //instanceTest.PossiblePartnersAddresses.Add("DMS", "localhost:9998");
+            //instanceTest.PossiblePartnersAddresses.Remove("HiringService");
+            //instanceTest.PossiblePartnersAddresses.Add("bluc", "localhost:9998");
+
+            //HiringCompanyDB.Instance.AddNewPartnerCompany(Arg.Is<PartnerCompany>(partnerCompanyTest)).Returns(true);
+            //HiringCompanyDB.Instance.AddNewPartnerCompany(Arg.Is<PartnerCompany>(p => p.Name == "HiringCompany")).Returns(true);
+            //HiringCompanyDB.Instance.AddNewPartnerCompany(partnerCompanyTest);
         }
 
         [Test]
