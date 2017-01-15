@@ -45,7 +45,7 @@ namespace Server
             allEmployees = new List<Employee>();
             teamInDB = new Team();
             employeeInDB = new Employee();
-            hiringCompanyAddress = "net.tcp://10.1.212.13:9998/HiringService";
+            hiringCompanyAddress = "net.tcp://10.1.212.113:9998/HiringService";
             binding = new NetTcpBinding();
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
             binding.CloseTimeout = new TimeSpan(1, 0, 0);

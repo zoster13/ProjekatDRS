@@ -1,4 +1,5 @@
-﻿using ClientCommon.Data;
+﻿using ClientCommon;
+using ClientCommon.Data;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace ClientCommonTest.DataTest
             Assert.AreEqual(surname, employeeTest.Surname);
             Assert.AreEqual(email, employeeTest.Email);
             Assert.AreEqual(password, employeeTest.Password);
-            Assert.AreEqual(team, employeeTest.Type);
+            Assert.AreEqual(team, employeeTest.Team);
         }
 
         [Test]
@@ -124,6 +125,24 @@ namespace ClientCommonTest.DataTest
             employeeTest.PasswordTimeStamp = someTime;
 
             Assert.AreEqual(employeeTest.PasswordTimeStamp, someTime);
+        }
+
+        [Test]
+        public void NotificationsTest()
+        {
+            List<Notification> no = new List<Notification>();
+            employeeTest.Notifications = no;
+
+            Assert.AreEqual(employeeTest.Notifications, no);
+        }
+
+        [Test]
+        public void ToStringTest()
+        {
+            employeeTest.Name = "marko";
+            employeeTest.Surname = "markovic";
+
+            Assert.AreEqual(employeeTest.ToString(), "marko markovic");
         }
 
         #endregion Tests

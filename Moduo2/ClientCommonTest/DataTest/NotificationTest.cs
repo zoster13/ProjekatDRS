@@ -36,15 +36,21 @@ namespace ClientCommonTest.DataTest
         }
 
         [Test]
-        public void ConstructorTestWithParameters()
+        public void ConstructorTestWithParametersTypePartnership()
         {
-            Assert.DoesNotThrow(() => new Notification(type, hiringCompanyName, projectName, projectDescription));
+            Notification n1 = new Notification(NotificationType.REQUEST_FOR_PARTNERSHIP, "kompanija", "projekat", "opis");
+        }
 
-            notificationTest = new Notification(type, hiringCompanyName, projectName, projectDescription);
-            Assert.AreEqual(type, notificationTest.Type);
-            Assert.AreEqual(hiringCompanyName, notificationTest.HiringCompanyName);
-            Assert.AreEqual(projectName, notificationTest.ProjectName);
-            Assert.AreEqual(projectDescription, notificationTest.ProjectDescription);
+        [Test]
+        public void ConstructorTestWithParametersTypeProject()
+        {
+            Assert.DoesNotThrow(() => new Notification(NotificationType.PROJECT_REQUEST, "kompanija", "projekat", "opis"));
+        }
+
+        [Test]
+        public void ConstructorTestWithParametersType()
+        {
+            Assert.DoesNotThrow(() => new Notification(NotificationType.NEW_PROJECT_TL, "kompanija", "projekat", "opis"));
         }
 
         [Test]

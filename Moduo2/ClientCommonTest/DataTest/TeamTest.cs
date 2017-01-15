@@ -38,6 +38,22 @@ namespace ClientCommonTest.DataTest
         }
 
         [Test]
+        public void TeamLeaderEmailTest()
+        {
+            teamTest.TeamLeaderEmail = "bla@gmail.com";
+
+            Assert.AreEqual(teamTest.TeamLeaderEmail, "bla@gmail.com");
+        }
+
+        [Test]
+        public void ScrumMasterEmailTest()
+        {
+            teamTest.ScrumMasterEmail = "bla@gmail.com";
+
+            Assert.AreEqual(teamTest.ScrumMasterEmail, "bla@gmail.com");
+        }
+
+        [Test]
         public void IdTest()
         {
             teamTest.Id = id;
@@ -52,5 +68,23 @@ namespace ClientCommonTest.DataTest
 
             Assert.AreEqual(name, teamTest.Name);
         }
+
+        [Test]
+        public void ProjectsTest()
+        {
+            List<Project> projs = new List<Project>();
+            teamTest.Projects = projs;
+
+            Assert.AreEqual(teamTest.Projects, projs);
+        }
+
+        [Test]
+        public void ToStringTest()
+        {
+            teamTest.Name = "tim";
+
+            Assert.AreEqual(teamTest.ToString(), "tim");
+        }
+
     }
 }

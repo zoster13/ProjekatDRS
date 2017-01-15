@@ -54,5 +54,13 @@ namespace ClientCommonTest.DataTest
             Assert.AreEqual(name, hiringCompanyTest.Name);
         }
 
+        [Test]
+        public void ToStringTest()
+        {
+            hiringCompanyTest.Name = "kompanija";
+
+            Assert.AreEqual(hiringCompanyTest.ToString(), "kompanija");
+        }
+
     }
 }
