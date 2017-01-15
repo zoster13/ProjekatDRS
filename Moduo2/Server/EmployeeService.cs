@@ -22,13 +22,20 @@ namespace Server
     {
         #region Fields
         public static readonly log4net.ILog Logger = LogHelper.GetLogger();
-        private readonly string outsourcingCompanyName = "cekic";
+
         private Timer lateOnJobTimer = new Timer();
+        private Timer passwordExpiredTimer = new Timer();
+
+        string _senderEmailAddress = "blok4.moduo2@gmail.com";
+        string _senderPassword = "ftnnovisad";
+
         private NetTcpBinding binding;
         private string hiringCompanyAddress;
         List<Employee> allEmployees;
         private Team teamInDB;
         private Employee employeeInDB;
+
+        private readonly string outsourcingCompanyName = "cekic";
         #endregion Fields
 
         //Constructor
@@ -47,6 +54,10 @@ namespace Server
             lateOnJobTimer.Elapsed += new ElapsedEventHandler(NotifyOnLate);
             lateOnJobTimer.Interval = 15000;
             //lateOnJobTimer.Enabled = true;        
+
+            passwordExpiredTimer.Elapsed += new ElapsedEventHandler(PasswordExpired);
+            passwordExpiredTimer.Interval = 30000;
+            //passwordExpiredTimer.Enabled = true;
         }
 
         #region IEmployeeService Methods
@@ -469,10 +480,6 @@ namespace Server
         /// <param name="e"></param>
         public void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
-            string _senderEmailAddress = "blok4.moduo2@gmail.com";
-            string _senderPassword = "ftnnovisad";
-            Console.WriteLine("alarm...");
-
             allEmployees = GetAllEmployees();
 
             foreach (Employee em in allEmployees)
@@ -498,6 +505,24 @@ namespace Server
             }
         }
 
+        public void PasswordExpired(object sender, ElapsedEventArgs e)
+        {
+            allEmployees = GetAllEmployees();
+
+            foreach (Employee em in allEmployees)
+            {
+                if (em.PasswordTimeStamp.AddMinutes(3) < DateTime.Now)
+                {
+                    var client = new SmtpClient("smtp.gmail.com", 587)
+                    {
+                        Credentials = new NetworkCredential(_senderEmailAddress, _senderPassword),
+                        EnableSsl = true
+                    };
+                    client.Send(_senderEmailAddress, em.Email, "Obavjestenje", "Vasa lozinka je istekla! Morate je promjeniti!");
+                    Logger.Info(string.Format("Employee [{0}] must change password.", em.Name));
+                }
+            }
+        }
         #endregion Timers
     }
 }

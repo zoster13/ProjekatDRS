@@ -37,9 +37,7 @@ namespace HiringCompany.Services
                 notification = "Company <" + outsourcingCompName + "> accepted request for partnership.";
             }
             else
-            {
-                //internalDatabase.ConnectionChannelsCompanies.Remove(outsourcingCompName); //Da li mi igde koristimo ovaj dictionary(s obzirom da pozivom svake metode ka drugom serveru uspostavljamo vezu)
-               
+            {             
                 // namestiti da ne pada ako posalju pogresno ime..
                 notification = "Company <" + outsourcingCompName + "> declined request for partnership.";
             }

@@ -13,26 +13,17 @@ namespace HiringCompany.DatabaseAccess
     public class HiringCompanyDB : IHiringCompanyDB
     {
         private static IHiringCompanyDB myDB;
-        private InternalDatabase internalDatabase = InternalDatabase.Instance();
+        //private InternalDatabase internalDatabase = InternalDatabase.Instance();
 
         // add lock before every adding, replacing, updating query
         // and add lock for every in-memory list, map..
-
-        // problem i sa ovim lockovanjem. ne treba tako da se radi...kada sam guglala,
-        // izbacilo je hiljadu drugih nacina -> nigde nije radjeno sa lock-om. 
-        // https://stackoverflow.com/questions/9415955/c-sharp-working-with-entity-framework-in-a-multi-threaded-server
-        // cak pisu i da ne treba sa tim da se radi. jos nesto, zeka i aleksandra su lockovali samo
-        // na pisanju, ali treba i na citanju. To mi bas nije imalo smisla sto su radili pa sam proverila i treba da se stiti i citanje
-        // ako stitimo citanje, teze je da dodjem do podataka koje treba da vratim :S, vidi dole AllEmployes
 
 
         // lock objects for synchronizing access to ServiceDB.mdf
         private object allEmployees_lock = new object();
         private object projects_lock = new object();
         private object partnerCompanies_lock = new object();
-
-        private object dbAccess_lock = new object(); // verovatno nam ne treba, zato sto svaku tabelu stitimo zasebno tamo gde se koristi
-
+       
         private HiringCompanyDB()
         {
         }
@@ -76,12 +67,6 @@ namespace HiringCompany.DatabaseAccess
             set { partnerCompanies_lock = value; }
         }
 
-        public object DbAccess_lock
-        {
-            get { return dbAccess_lock; }
-            set { dbAccess_lock = value; }
-        }
-
         public List<Employee> AllEmployees()
         {
             using (var access = new AccessDB())
@@ -96,8 +81,7 @@ namespace HiringCompany.DatabaseAccess
                     retVal = employees.ToList();
                 }
 
-                return retVal;
-                // return employees.ToList();
+                return retVal;              
             }
             
         }
@@ -112,8 +96,7 @@ namespace HiringCompany.DatabaseAccess
                 {
                     retVal = access.Companies.ToList();
                 }
-                return retVal;
-                // return access.Companies.ToList();
+                return retVal;               
             }
             
         }
@@ -134,7 +117,6 @@ namespace HiringCompany.DatabaseAccess
                 }
 
                 return retVal;
-                // return projectsForA.ToList();
             }         
         }
 
@@ -153,12 +135,16 @@ namespace HiringCompany.DatabaseAccess
                     retVal = projectsForS.ToList();
                 }
                 return retVal;
-                //return projectsForS.ToList();
             }           
         }
 
         public bool AddNewEmployee(Employee employee)
         {
+            string messageToLog = string.Empty;
+            messageToLog = string.Format("\nMethod: HiringCompanyDB.AddNewEmployee" +
+                                              "Employee:  string username={0}, string password={0}", employee.Username, employee.Password);
+            Program.Logger.Info(messageToLog);
+
             bool retVal = false;
             try
             {
@@ -169,6 +155,8 @@ namespace HiringCompany.DatabaseAccess
                     {
                         access.Employees.Add(employee); // does not exist in db
                         i = access.SaveChanges();
+                        messageToLog = "added new employee in .mdf database.";
+                                        Program.Logger.Info(messageToLog);
                     }
                     if (i > 0)
                     {
@@ -180,14 +168,16 @@ namespace HiringCompany.DatabaseAccess
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage);
+                        Program.Logger.Info(messageToLog);
                     }
                 }
             }
@@ -198,7 +188,7 @@ namespace HiringCompany.DatabaseAccess
         {
             using (var access = new AccessDB())
             {
-                var employee = from em in access.Employees
+                var employee = from em in access.Employees.Include("Notifications") // dodala include 
                                where em.Username.Equals(username)
                                select em;
 
@@ -208,6 +198,7 @@ namespace HiringCompany.DatabaseAccess
 
         public bool AddNewPartnerCompany(PartnerCompany company)
         {
+            string messageToLog = string.Empty;
             bool retVal = false;
             try
             {
@@ -234,14 +225,16 @@ namespace HiringCompany.DatabaseAccess
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
                         eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    Program.Logger.Info(messageToLog);
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
                             ve.PropertyName,
                             eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
                             ve.ErrorMessage);
+                        Program.Logger.Info(messageToLog);
                     }
                 }
             }
@@ -339,19 +332,19 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.Name = name != "" ? name : em.Name;
-                    em.Surname = surname != "" ? surname : em.Surname;
-                    em.Email = email != "" ? email : em.Email;
-                    em.Password = password != "" ? password : em.Password;
-                    messageToLog = "updated employee data in OnlineEmployees list.";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.Name = name != "" ? name : em.Name;
+            //        em.Surname = surname != "" ? surname : em.Surname;
+            //        em.Email = email != "" ? email : em.Email;
+            //        em.Password = password != "" ? password : em.Password;
+            //        messageToLog = "updated employee data in OnlineEmployees list.";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
 
             return retVal;
         }
@@ -397,18 +390,20 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.StartHour = beginH;
-                    em.StartMinute = beginM;
-                    em.EndHour = endH;
-                    em.EndMinute = endM;
-                    messageToLog = "updated working hours data in OnlineEmployees list.";
-                }
-            }
+
+
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.StartHour = beginH;
+            //        em.StartMinute = beginM;
+            //        em.EndHour = endH;
+            //        em.EndMinute = endM;
+            //        messageToLog = "updated working hours data in OnlineEmployees list.";
+            //    }
+            //}
             return retVal;
         }
 
@@ -453,16 +448,18 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.Type = type;
-                    messageToLog = "employee type changed in OnlineEmployees list";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
+
+
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.Type = type;
+            //        messageToLog = "employee type changed in OnlineEmployees list";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
             return retVal;
         }
 
@@ -618,6 +615,7 @@ namespace HiringCompany.DatabaseAccess
 
                     messageToLog = "Updated Project.UserStories data in .mdf database.";
                     Program.Logger.Info(messageToLog);
+                    notification = string.Format("{0} User stories for project <{1}>, are waiting to be approved.", tempUserStories.Count, projectName);
                 }
                 if (i > 0)
                 {
@@ -683,6 +681,33 @@ namespace HiringCompany.DatabaseAccess
             return retVal;
         }
 
+        public bool ClearEmployeeNotifs(string username)
+        {
+            string messageToLog = string.Empty;
+            using (var access = new AccessDB())
+            {
+                bool retVal = false;
+                int i = 0;
+                var e = from ems in access.Employees.Include("Notifications")
+                        where ems.Username.Equals(username)
+                        select ems;
+                if (e != null)
+                {
+                    var em = e.ToList().FirstOrDefault();
+                    em.Notifications.Clear();
+                    i=access.SaveChanges();
+
+                    messageToLog = "Notifications data cleared in .mdf.";
+                    Program.Logger.Info(messageToLog);
+                }
+
+                if (i > 0)
+                {
+                    retVal = true;
+                }
+                return retVal;
+            }
+        }
         public List<Project> ProjectsInDevelopment()
         {
             // get all Projects that are approved by CEO, and not assigned to any Outsorcing Company
@@ -696,6 +721,18 @@ namespace HiringCompany.DatabaseAccess
 
                 return projectsInDev.ToList();
             }           
+        }
+
+        public List<string> GetPartnerCompaniesNames()
+        {
+            using (var access = new AccessDB())
+            {
+
+                var pCompaniesName = from comp in access.Companies
+                                     select comp.Name;
+
+                return pCompaniesName.ToList();
+            }
         }
     }
 }

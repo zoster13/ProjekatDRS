@@ -51,11 +51,14 @@ namespace HiringCompany.DatabaseAccess
             possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // oni ce nam reci podatke
 
             List<string> pCompaniesName = new List<string>();
-            using (var access = new AccessDB())
-            {
-                pCompaniesName = (from comp in access.Companies
-                                  select comp.Name).ToList();
-            }
+
+            pCompaniesName = HiringCompanyDB.Instance.GetPartnerCompaniesNames();
+
+            //using (var access = new AccessDB())
+            //{
+            //    pCompaniesName = (from comp in access.Companies
+            //                      select comp.Name).ToList();
+            //}
 
             foreach (string cName in pCompaniesName)
             {
@@ -139,6 +142,64 @@ namespace HiringCompany.DatabaseAccess
         {
             get { return connectionChannelsCompanies; }
             set { connectionChannelsCompanies = value; }
+        }
+
+        public bool EditOnlineEmployeeData(string username, string name, string surname, string email, string password)
+        {
+            string messageToLog = string.Empty;
+            bool retval = false;
+            lock (OnlineEmployees_lock)
+            {
+                Employee em = OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
+                {
+                    em.Name = name != "" ? name : em.Name;
+                    em.Surname = surname != "" ? surname : em.Surname;
+                    em.Email = email != "" ? email : em.Email;
+                    em.Password = password != "" ? password : em.Password;
+                    messageToLog = "updated employee data in OnlineEmployees list.";
+                    Program.Logger.Info(messageToLog);
+                    retval = true;
+                }            
+            }
+            return retval;
+        }
+        public bool EditWorkingHoursForOnlineEm(string username, int beginH, int beginM, int endH, int endM)
+        {
+            string messageToLog = string.Empty;
+            bool retval = false;
+            lock (OnlineEmployees_lock)
+            {
+                Employee em = OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
+                {
+                    em.StartHour = beginH;
+                    em.StartMinute = beginM;
+                    em.EndHour = endH;
+                    em.EndMinute = endM;
+                    messageToLog = "updated working hours data in OnlineEmployees list.";
+                    retval = true;
+                }
+            }
+            return retval;
+        }
+
+        public bool EditOnlineEmployeeType(string username, EmployeeType type)
+        {
+            string messageToLog = string.Empty;
+            bool retVal = false;
+            lock (OnlineEmployees_lock)
+            {
+                Employee em =OnlineEmployees.Find(e => e.Username.Equals(username));
+                if (em != null)
+                {
+                    em.Type = type;
+                    messageToLog = "employee type changed in OnlineEmployees list";
+                    Program.Logger.Info(messageToLog);
+                    retVal = true;
+                }
+            }
+            return retVal;
         }
     }
 }
