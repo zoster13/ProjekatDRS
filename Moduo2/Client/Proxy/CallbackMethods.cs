@@ -178,7 +178,10 @@ namespace Client
 
         public void NotifySMForUserStoryProgressCallback(string scrumMasterEmail, string userStoryName)
         {
-            throw new NotImplementedException();
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                mainWindow.NotifySMForUserStoryProgressCallbackResult(userStoryName);
+            });
         }
     }
 }

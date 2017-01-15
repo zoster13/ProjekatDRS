@@ -837,5 +837,10 @@ namespace Client
                 logInButton.IsEnabled = true;
             }
         }
+
+        public void NotifySMForUserStoryProgressCallbackResult(string userstroryName)
+        {
+            MessageBox.Show("It is 2 days before deadline for user story " + userstroryName + " \n and less tha 80% of task are completed.");
+        }
     }
 }
