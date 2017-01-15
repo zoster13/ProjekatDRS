@@ -5,13 +5,15 @@ using System.ServiceModel;
 using System.Threading;
 using ICommon;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Client
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
+    
     public class CallbackMethods : ICallbackMethods
     {
-        private MainWindow mainWindow;
+        public MainWindow mainWindow;
 
         public CallbackMethods()
         {
@@ -19,22 +21,40 @@ namespace Client
             {
                 mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
             }
+            else
+            {
+                mainWindow = new MainWindow();
+            }
         }
         
         public void EditEmployeeCallback(Employee employee)
         {
-            App.Current.Dispatcher.Invoke((Action)delegate
+            if (App.Current != null)
+            {
+                App.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    mainWindow.EditEmployeeDataCalbackResult(employee);
+                });
+            }
+            else
             {
                 mainWindow.EditEmployeeDataCalbackResult(employee);
-            });
+            }
         }
 
         public void LogInCallback(Employee employee, bool loggedIn)
         {
-             App.Current.Dispatcher.Invoke((Action)delegate
-             {
-                 mainWindow.LogInCallbackResult(employee, loggedIn);
-             });
+            if (App.Current != null)
+            {
+                App.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    mainWindow.LogInCallbackResult(employee, loggedIn);
+                });
+            }
+            else
+            {
+                mainWindow.EditEmployeeDataCalbackResult(employee);
+            }
         }
 
         public void LogOutCallback(Employee employee)

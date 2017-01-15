@@ -15,10 +15,8 @@ namespace BDD
         private NetTcpBinding binding = new NetTcpBinding();
         private EmployeeProxy proxy;
 
-        private Employee employee;
-
-        [Given(@"I a form for editing data")]
-        public void GivenIAFormForEditingData()
+        [Given(@"I have a form for entering new data")]
+        public void GivenIHaveAFormForEnteringNewData()
         {
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
             binding.CloseTimeout = new TimeSpan(1, 0, 0);
@@ -26,22 +24,24 @@ namespace BDD
             binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
 
             proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
+        }
+        
+        [When(@"I enter data and presss button")]
+        public void WhenIEnterDataAndPresssButton()
+        {
+            //ScenarioContext.Current.Pending();
+        }
+        
+        [Then(@"my data is changed")]
+        public void ThenMyDataIsChanged()
+        {
+            Employee em = new Employee();
+            em.Name = "nenad1";
+            em.Surname = "nenadovic1";
+            em.Email = "nenad@gmail.com1";
+            em.Password = "nenad1231";
 
-            employee = new Employee();
-        }
-        
-        [When(@"I change ""(.*)"", ""(.*)"", ""(.*)"",")]
-        public void WhenIChange(string p0, string p1, string p2)
-        {
-            employee.Name = p0;
-            employee.Surname = p1;
-            employee.Password = p2;
-        }
-        
-        [Then(@"the changes are displayed")]
-        public void ThenTheChangesAreDisplayed()
-        {
-            Assert.DoesNotThrow(() => proxy.EditEmployeeData(employee));
+            Assert.DoesNotThrow(() => proxy.EditEmployeeData(em));
         }
     }
 }

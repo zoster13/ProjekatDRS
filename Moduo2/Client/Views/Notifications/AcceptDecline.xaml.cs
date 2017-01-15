@@ -21,12 +21,16 @@ namespace Client.Views.Notifications
     /// </summary>
     public partial class AcceptDecline : UserControl
     {
-        private MainWindow mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+        private MainWindow mainWindow;
 
         public AcceptDecline()
         {
             InitializeComponent();
-            mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+
+            if (System.Windows.Application.Current != null)
+            {
+                mainWindow = System.Windows.Application.Current.MainWindow as MainWindow;
+            }
         }
 
         private void ButtonAccept_Click(object sender, RoutedEventArgs e)

@@ -736,6 +736,10 @@ namespace Client
             bool flag = true;
             if (ustory != null)
             {
+                if (ustory.Tasks == null)
+                {
+                    ustory.Tasks = new List<Task>();
+                }
                 foreach (var task1 in ustory.Tasks)
                 {
                     if (task1.ProgressStatus != ProgressStatus.COMPLETED)
@@ -747,7 +751,6 @@ namespace Client
 
             if (flag)
             {
-                ustory.ProgressStatus = ProgressStatus.COMPLETED;
 
                 workDev.dataGridUserStories.Items.Refresh();
                 workLeader.dataGridUserStories.Items.Refresh();

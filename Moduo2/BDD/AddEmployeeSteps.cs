@@ -8,7 +8,7 @@ using TechTalk.SpecFlow;
 namespace BDD
 {
     [Binding]
-    public class EditEmployeeDataSteps
+    public class AddEmployeeSteps
     {
         private static string address = "net.tcp://localhost:9999/EmployeeService";
         private EndpointAddress epAddress = new EndpointAddress(new Uri(address));
@@ -17,8 +17,8 @@ namespace BDD
 
         private Employee employee;
 
-        [Given(@"I a form for editing data")]
-        public void GivenIAFormForEditingData()
+        [Given(@"I a form for entering data")]
+        public void GivenIAFormForEnteringData()
         {
             binding.OpenTimeout = new TimeSpan(1, 0, 0);
             binding.CloseTimeout = new TimeSpan(1, 0, 0);
@@ -30,18 +30,19 @@ namespace BDD
             employee = new Employee();
         }
         
-        [When(@"I change ""(.*)"", ""(.*)"", ""(.*)"",")]
-        public void WhenIChange(string p0, string p1, string p2)
+        [When(@"I enter (.*), (.*), (.*), (.*),")]
+        public void WhenIEnter(string p0, string p1, string p2, string p3)
         {
             employee.Name = p0;
             employee.Surname = p1;
-            employee.Password = p2;
+            employee.Email = p2;
+            employee.Password = p3;
         }
         
-        [Then(@"the changes are displayed")]
-        public void ThenTheChangesAreDisplayed()
+        [Then(@"the new employee should be added")]
+        public void ThenTheNewEmployeeShouldBeAdded()
         {
-            Assert.DoesNotThrow(() => proxy.EditEmployeeData(employee));
+            Assert.DoesNotThrow(() => proxy.AddEmployee(employee));
         }
     }
 }

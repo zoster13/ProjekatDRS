@@ -29,7 +29,7 @@ namespace Client.Views
             InitializeComponent();
 
             //database = new LocalClientDatabase();
-            DataContext = LocalClientDatabase.Instance;
+            //DataContext = LocalClientDatabase.Instance;
 
             foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
