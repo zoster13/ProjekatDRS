@@ -182,7 +182,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                Logger.Info("Team cannot be added to database.");
                 Publisher.Instance.TeamAddedCallback(null);
             }
         }
@@ -215,7 +215,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                Logger.Info(string.Format("Team cannot be added to database."));
                 Publisher.Instance.AddTeamAndTLCallback(null, null);
             }
         }
@@ -243,7 +243,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                Logger.Info(string.Format("Team cannot be added to database."));
                 Publisher.Instance.AddTeamAndTLCallback(null, null);
             }
         }
@@ -345,7 +345,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("Task [{0}] isn't added to database.", task.Title));
+                Logger.Info("Task cannot be added to database.");
             }
         }
 
@@ -419,14 +419,15 @@ namespace Server
                 HiringCompany newHiringCompany = new HiringCompany(hiringCompanyName);
 
                 EmployeeServiceDatabase.Instance.AddHiringCompany(newHiringCompany);
-
                 Publisher.Instance.ResponseToPartnershipRequestCallback(newHiringCompany);
+
+                Logger.Info("New partnership company is added.");
             }
 
-            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            //{
-            //    proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
-            //}
+            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            {
+                proxy.ResponseForPartnershipRequest(accepted, outsourcingCompanyName);
+            }
         }
 
         public void ResponseToProjectRequest(bool accepted, Project project)
@@ -441,10 +442,10 @@ namespace Server
             prCommon.Name = project.Name;
             prCommon.IsAcceptedByOutsCompany = accepted;
 
-            //using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
-            //{
-            //    proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
-            //}
+            using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
+            {
+                proxy.ResponseForProjectRequest(outsourcingCompanyName, prCommon);
+            }
         }
 
         public List<UserStory> GetUserStories()
@@ -466,7 +467,7 @@ namespace Server
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void NotifyOnLate(object sender, ElapsedEventArgs e)
+        public void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
             string _senderEmailAddress = "blok4.moduo2@gmail.com";
             string _senderPassword = "ftnnovisad";

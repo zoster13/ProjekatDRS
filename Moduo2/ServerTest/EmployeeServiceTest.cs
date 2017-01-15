@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Server;
 using Server.Access;
 using Server.Database;
+using System;
 using System.Collections.Generic;
 
 namespace ServerTest
@@ -23,6 +24,9 @@ namespace ServerTest
         UserStory userStoryTest;
         Task taskTest;
         Task taskTestNull;
+        Task taskTest2;
+        Project projectTest;
+        List<UserStoryCommon> commonUserStories;
 
 
         [OneTimeSetUp]
@@ -31,14 +35,23 @@ namespace ServerTest
             employeeServiceTest = new EmployeeService();
             EmployeeServiceDatabase.Instance = Substitute.For<IEmployeeServiceDatabase>();
 
-            employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "marko@gmail.com", "mare123", new Team());
-            employeeTestSM = new Employee(EmployeeType.SCRUMMASTER, "Ivan", "Markovic", "ivan@gmail.com", "ivan123", new Team());
-            employeeTestNull = null;
-            teamTest = new Team() { Name = "Team1", TeamLeaderEmail=employeeTest.Email };
+            teamTest = new Team() { Name = "Team1", TeamLeaderEmail = "marko@gmail.com" };
             teamTestNull = null;
-            userStoryTest = new UserStory() { Title = "us1" };
+
+            employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "marko@gmail.com", "mare123", teamTest);
+            employeeTest.WorkingHoursStart = DateTime.Now.AddHours(1);
+            employeeTestSM = new Employee(EmployeeType.SCRUMMASTER, "Ivan", "Markovic", "ivan@gmail.com", "ivan123", teamTest);
+            employeeTestNull = null;
+
             taskTest = new Task() { Title = "task1" };
+            taskTest2 = new Task() { Title = "task2" };
             taskTestNull = null;
+
+            userStoryTest = new UserStory() { Title = "us1" ,Tasks = new List<Task>() {taskTest,taskTest2 } };
+
+            projectTest = new Project() { Name = "proj1", Team = teamTest };
+
+            commonUserStories = new List<UserStoryCommon>();
 
             InternalDatabase.Instance.OnlineEmployees.Add(employeeTest);
             
@@ -67,14 +80,20 @@ namespace ServerTest
             EmployeeServiceDatabase.Instance.AddUserStory(userStoryTest, "proj2").Returns(false);
 
             EmployeeServiceDatabase.Instance.AddTask(Arg.Is<Task>(taskTest)).Returns(true);
-            EmployeeServiceDatabase.Instance.AddTask(Arg.Is<Task>(taskTestNull)).Returns(false);
-
+            EmployeeServiceDatabase.Instance.AddTask(Arg.Is<Task>(taskTest2)).Returns(false);
+            
             EmployeeServiceDatabase.Instance.ReleaseUserStory(Arg.Is<UserStory>(userStoryTest)).Returns(userStoryTest);
+
+            EmployeeServiceDatabase.Instance.TaskClaimed(Arg.Is<Task>(taskTest)).Returns(taskTest);
 
             EmployeeServiceDatabase.Instance.TaskCompleted(Arg.Is<Task>(taskTest)).Returns(new TaskAndUserStoryCompletedFlag() { Task = taskTest, UserStoryCompletedFlag = true });
 
             EmployeeServiceDatabase.Instance.UpdateProjectStatus(Arg.Is<string>("proj1")).Returns(true);
             EmployeeServiceDatabase.Instance.UpdateProjectStatus(Arg.Is<string>("proj2")).Returns(false);
+
+            EmployeeServiceDatabase.Instance.GetAllEmployees().Returns(new List<Employee>() { employeeTest, employeeTestSM });
+
+            EmployeeServiceDatabase.Instance.UpdateUserStoriesStatus(commonUserStories, "proj1").Returns(new Project() { Name = "proj1", Team = teamTest });
         }
 
         //LogIn Tests
@@ -192,12 +211,6 @@ namespace ServerTest
             employeeServiceTest.AddTeamAndUpdateDeveloperToTL(teamTestNull, employeeTest);
         }
 
-        [Test]
-        public void AddTeamAndUpdateDeveloperToTLTestFaultEmployeeNull()
-        {
-            employeeServiceTest.AddTeamAndUpdateDeveloperToTL(teamTest, employeeTestNull);
-        }
-
         //GetAllOnlineEmployees
         [Test]
         public void GetAllOnlineEmployeesTest()
@@ -291,14 +304,60 @@ namespace ServerTest
         [Test]
         public void SendUserStoriesTestOk()
         {
-            employeeServiceTest.SendUserStories(new List<UserStoryCommon>(), "proj1");
+            employeeServiceTest.SendUserStories(commonUserStories, "proj1");
         }
 
         [Test]
         public void SendUserStoriesTestFault()
         {
-            employeeServiceTest.SendUserStories(new List<UserStoryCommon>(), "proj2");
+            employeeServiceTest.SendUserStories(commonUserStories, "proj2");
         }
 
+        //ResponseToPartnershipRequest
+        [Test]
+        public void ResponseToPartnershipRequestTestAccepted()
+        {
+            employeeServiceTest.ResponseToPartnershipRequest(true, "hiringCompany1");
+        }
+
+        [Test]
+        public void ResponseToPartnershipRequestTestDeclined()
+        {
+            employeeServiceTest.ResponseToPartnershipRequest(false, "hiringCompany1");
+        }
+
+        //ResponseToProjectRequest
+        [Test]
+        public void ResponseToProjectRequestTestAccepted()
+        {
+            employeeServiceTest.ResponseToProjectRequest(true, new Project());
+        }
+
+        [Test]
+        public void ResponseToProjectRequestTestDeclined()
+        {
+            employeeServiceTest.ResponseToProjectRequest(false, new Project());
+        }
+
+        //GetUserStories
+        [Test]
+        public void GetUserStoriesTest()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.GetUserStories());
+        }
+
+        //GetAllTasks
+        [Test]
+        public void GetAllTasksTest()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.GetAllTasks());
+        }
+
+        //NotifyOnLate
+        [Test]
+        public void NotifyOnLateTest()
+        {
+            employeeServiceTest.NotifyOnLate(null, null);
+        }
     }
 }

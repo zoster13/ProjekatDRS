@@ -66,6 +66,7 @@
     <Compile Include="Access\EmployeeServiceDatabaseTest.cs" />
     <Compile Include="Database\InternalDatabaseTest.cs" />
     <Compile Include="EmployeeServiceTest.cs" />
+    <Compile Include="OutsourcingServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
