@@ -24,9 +24,6 @@ namespace EmployeeCommon.Data
         private int endHour;
         private int endMinute;
         private List<Notification> notifications;
-        private int datePasswordChangedDay;
-        private int datePasswordChangedMonth;
-        private int datePasswordChangedYear;
         private DateTime datePasswordChanged;
 
         public Employee() 

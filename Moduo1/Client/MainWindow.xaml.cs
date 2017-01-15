@@ -263,13 +263,13 @@ namespace Client
             }
             //p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
 
-            proxy.CreateNewProject(p);
-
             ProjectNameTextBox.Text = "";
             ProjectDescriptionTextBox.Text = "";
             ProjectStartDateTextBox.Text = "";
             ProjectDeadlineTextBox.Text = "";
-            ScrumMasterComboBox.Items.Clear();
+            //ScrumMasterComboBox.Items.Clear();
+
+            proxy.CreateNewProject(p);       
         }
 
         private void ProjectsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -626,7 +626,10 @@ namespace Client
             {
                 if (em.Type == EmployeeType.SM)
                 {
-                    ScrumMasterComboBox.Items.Add(em.Username);                   
+                    if (!ScrumMasterComboBox.Items.Contains(em.Username))
+                    {
+                        ScrumMasterComboBox.Items.Add(em.Username);
+                    }                                     
                 }
             }                  
         }

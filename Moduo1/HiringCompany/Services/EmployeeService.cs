@@ -46,7 +46,7 @@ namespace HiringCompany.Services
 
             userStoriesDeadlineWarning.Elapsed += new ElapsedEventHandler(NotifyUserStoriesDeadline);
             userStoriesDeadlineWarning.Interval = 30000; //samo za proveru,treba staviti da se jednom dnevno proverava
-            userStoriesDeadlineWarning.Enabled = true;
+            //userStoriesDeadlineWarning.Enabled = true;
         }
 
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
@@ -291,60 +291,61 @@ namespace HiringCompany.Services
                                                   " string surname={2}, string email={3}, string password={4}",
                                                   username, name, surname, email, password);
             Program.Logger.Info(messageToLog);
+            HiringCompanyDB.Instance.EditEmployeeData(username, name, surname, email, password);
 
-            try
-            {
-                using (var access = new AccessDB())
-                {
-                    Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
+            //try
+            //{
+            //    using (var access = new AccessDB())
+            //    {
+            //        Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
 
-                    if (em != null)
-                    {
-                        em.Name = name != "" ? name : em.Name;
-                        em.Surname = surname != "" ? surname : em.Surname;
-                        em.Email = email != "" ? email : em.Email;
-                        em.Password = password != "" ? password : em.Password;
-                        if (em.Password == password)
-                        {
-                            em.DatePasswordChanged = DateTime.Now;
-                        }
-                        access.SaveChanges();
-                        messageToLog = "updated employee data in .mdf database.";
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    Program.Logger.Info(messageToLog);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
+            //        if (em != null)
+            //        {
+            //            em.Name = name != "" ? name : em.Name;
+            //            em.Surname = surname != "" ? surname : em.Surname;
+            //            em.Email = email != "" ? email : em.Email;
+            //            em.Password = password != "" ? password : em.Password;
+            //            if (em.Password == password)
+            //            {
+            //                em.DatePasswordChanged = DateTime.Now;
+            //            }
+            //            access.SaveChanges();
+            //            messageToLog = "updated employee data in .mdf database.";
+            //            Program.Logger.Info(messageToLog);
+            //        }
+            //    }
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //        Program.Logger.Info(messageToLog);
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+            //                ve.PropertyName,
+            //                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+            //                ve.ErrorMessage);
+            //            Program.Logger.Info(messageToLog);
+            //        }
+            //    }
+            //}
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.Name = name != "" ? name : em.Name;
-                    em.Surname = surname != "" ? surname : em.Surname;
-                    em.Email = email != "" ? email : em.Email;
-                    em.Password = password != "" ? password : em.Password;
-                    messageToLog = "updated employee data in OnlineEmployees list.";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.Name = name != "" ? name : em.Name;
+            //        em.Surname = surname != "" ? surname : em.Surname;
+            //        em.Email = email != "" ? email : em.Email;
+            //        em.Password = password != "" ? password : em.Password;
+            //        messageToLog = "updated employee data in OnlineEmployees list.";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
 
             using (Notifier notifier = new Notifier())
             {
@@ -361,50 +362,51 @@ namespace HiringCompany.Services
                                               "params: string username={0}, int beginH={1}, int beginM={2}," +
                                                   "int endH={3}, int endM={4}", username, beginH, beginM, endH, endM);
 
-            try
-            {
-                using (var access = new AccessDB())
-                {
-                    Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
-                    if (em != null)
-                    {
-                        em.StartHour = beginH;
-                        em.StartMinute = beginM;
-                        em.EndHour = endH;
-                        em.EndMinute = endM;
-                        access.SaveChanges();
-                        messageToLog = "updated working hours data in .mdf database.";
-                    }
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                    }
-                }
-            }
+            HiringCompanyDB.Instance.EditWorkingHours(username, beginH, beginM, endH, endM);
+            //try
+            //{
+            //    using (var access = new AccessDB())
+            //    {
+            //        Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
+            //        if (em != null)
+            //        {
+            //            em.StartHour = beginH;
+            //            em.StartMinute = beginM;
+            //            em.EndHour = endH;
+            //            em.EndMinute = endM;
+            //            access.SaveChanges();
+            //            messageToLog = "updated working hours data in .mdf database.";
+            //        }
+            //    }
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+            //                ve.PropertyName,
+            //                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+            //                ve.ErrorMessage);
+            //        }
+            //    }
+            //}
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.StartHour = beginH;
-                    em.StartMinute = beginM;
-                    em.EndHour = endH;
-                    em.EndMinute = endM;
-                    messageToLog = "updated working hours data in OnlineEmployees list.";
-                }
-            }
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.StartHour = beginH;
+            //        em.StartMinute = beginM;
+            //        em.EndHour = endH;
+            //        em.EndMinute = endM;
+            //        messageToLog = "updated working hours data in OnlineEmployees list.";
+            //    }
+            //}
 
             using (Notifier notifier = new Notifier())
             {
@@ -467,48 +469,50 @@ namespace HiringCompany.Services
             messageToLog = string.Format("\nMethod: EmployeeService.ChangeEmployeeType(), " +
                                               "params: string username={0}, string EmployeeType={0}", username, type.ToString());
             Program.Logger.Info(messageToLog);
-            try
-            {
-                using (var access = new AccessDB())
-                {
-                    Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
-                    if (em != null)
-                    {
-                        em.Type = type;
-                        access.SaveChanges();
-                        messageToLog = "employee type changed in .mdf database.";
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    Program.Logger.Info(messageToLog);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
 
-            lock (internalDatabase.OnlineEmployees_lock)
-            {
-                Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-                if (em != null)
-                {
-                    em.Type = type;
-                    messageToLog = "employee type changed in OnlineEmployees list";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
+            HiringCompanyDB.Instance.EditEmployeeType(username, type);
+            //try
+            //{
+            //    using (var access = new AccessDB())
+            //    {
+            //        Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
+            //        if (em != null)
+            //        {
+            //            em.Type = type;
+            //            access.SaveChanges();
+            //            messageToLog = "employee type changed in .mdf database.";
+            //            Program.Logger.Info(messageToLog);
+            //        }
+            //    }
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //        Program.Logger.Info(messageToLog);
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+            //                ve.PropertyName,
+            //                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+            //                ve.ErrorMessage);
+            //            Program.Logger.Info(messageToLog);
+            //        }
+            //    }
+            //}
+
+            //lock (internalDatabase.OnlineEmployees_lock)
+            //{
+            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
+            //    if (em != null)
+            //    {
+            //        em.Type = type;
+            //        messageToLog = "employee type changed in OnlineEmployees list";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
 
             using (Notifier notifier = new Notifier())
             {
@@ -670,40 +674,41 @@ namespace HiringCompany.Services
             string messageToLog = string.Empty;
             messageToLog = string.Format("\nMethod: EmployeeService.ProjectApprovedByCeo(), Project.Name={0}", p.Name);
             Program.Logger.Info(messageToLog);
+            HiringCompanyDB.Instance.ProjectApprovedCEOFieldChange(p);
 
-            try
-            {
-                using (var access = new AccessDB())
-                {
-                    var project = from proj in access.Projects
-                                  where proj.Name.Equals(p.Name)
-                                  select proj;
+            //try
+            //{
+            //    using (var access = new AccessDB())
+            //    {
+            //        var project = from proj in access.Projects
+            //                      where proj.Name.Equals(p.Name)
+            //                      select proj;
 
-                    var pr = project.ToList().FirstOrDefault();
-                    pr.IsAcceptedCEO = true;
-                    access.SaveChanges();
+            //        var pr = project.ToList().FirstOrDefault();
+            //        pr.IsAcceptedCEO = true;
+            //        access.SaveChanges();
 
-                    messageToLog = "project propertu IsAcceptedCEO updated in .mdf database.";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    Program.Logger.Info(messageToLog);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
+            //        messageToLog = "project propertu IsAcceptedCEO updated in .mdf database.";
+            //        Program.Logger.Info(messageToLog);
+            //    }
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //        messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //        Program.Logger.Info(messageToLog);
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+            //                ve.PropertyName,
+            //                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+            //                ve.ErrorMessage);
+            //            Program.Logger.Info(messageToLog);
+            //        }
+            //    }
+            //}
 
             string notification = string.Format("Project {0} is approved. Description: {1}", p.Name, p.Description);
             using (Notifier notifier = new Notifier())
@@ -757,16 +762,18 @@ namespace HiringCompany.Services
 
             Program.Logger.Info(messageToLog);
 
-            Project proj = new Project();
-            using (var access = new AccessDB())
-            {
-                proj = access.Projects.SingleOrDefault(project => project.Name.Equals(projectName));
-                proj.IsClosed = true;
-                access.SaveChanges();
+            HiringCompanyDB.Instance.CloseProjectFieldChange(projectName);
 
-                messageToLog = "Updated Project.IsClosed data in .mdf database.";
-                Program.Logger.Info(messageToLog);
-            }
+            //Project proj = new Project();
+            //using (var access = new AccessDB())
+            //{
+            //    proj = access.Projects.SingleOrDefault(project => project.Name.Equals(projectName));
+            //    proj.IsClosed = true;
+            //    access.SaveChanges();
+
+            //    messageToLog = "Updated Project.IsClosed data in .mdf database.";
+            //    Program.Logger.Info(messageToLog);
+            //}
 
             string notification = string.Format("Project <{0}> is closed.", projectName);
 

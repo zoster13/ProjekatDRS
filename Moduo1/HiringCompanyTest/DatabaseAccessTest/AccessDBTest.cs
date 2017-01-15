@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HiringCompany;
+using System.Data.Entity;
 
 namespace HiringCompanyTest.DatabaseAccessTest
 {
@@ -13,11 +14,13 @@ namespace HiringCompanyTest.DatabaseAccessTest
     public class AccessDBTest
     {
         private AccessDB accessDBTest;
+        
 
         [OneTimeSetUp]
         public void SetupTest()
         {
             this.accessDBTest = new AccessDB();
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AccessDB, DBConfiguration>());
         }
 
         [Test]

@@ -13,20 +13,37 @@ namespace HiringCompanyTest.DatabaseAccessTest
     [TestFixture]
     public class HiringCompanyDBTest
     {
+        //private HiringCompanyDB dbTest;
         private IHiringCompanyDB dbInstanceTest;
         private bool result;
+        private Employee em;
+        private Employee em2;
 
         [OneTimeSetUp]
         public void SetupTest()
         {
             dbInstanceTest = Substitute.For<IHiringCompanyDB>();
 
-            dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(e => e.Username == "zklasnic")).Returns(true);
-            dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(e => e.Username != "zklasnic")).Returns(false);
+            em = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zklasnic94@gmail.com", 9, 0, 17, 0);
+            em2 = new Employee("jjovanovic", "112", EmployeeType.HR, "Jovan", "Jovanovic", "jjovanovic@gmail.com", 10, 0, 18, 0);
+            //dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(em)).Returns(true);
+            //dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(em2)).Returns(false);
+
+
+            //HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
+            dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(e => e.Username == "jjovanovic")).Returns(true);
+            dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(e => e.Username != "jjovanovic")).Returns(false);
             dbInstanceTest.AddNewPartnerCompany(Arg.Is<PartnerCompany>(pc => pc.Name == "DMS")).Returns(true);
             dbInstanceTest.AddNewPartnerCompany(Arg.Is<PartnerCompany>(pc => pc.Name != "DMS")).Returns(false);
             dbInstanceTest.AddNewProject(Arg.Is<Project>(p => p.Name == "PrviProjekat")).Returns(true);
             dbInstanceTest.AddNewProject(Arg.Is<Project>(p => p.Name != "PrviProjekat")).Returns(false);
+
+            //dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(e => e.Username == "jjovanovic")).Returns(true);
+            //dbInstanceTest.AddNewEmployee(Arg.Is<Employee>(e => e.Username != "jjovanovic")).Returns(false);
+            //dbInstanceTest.AddNewPartnerCompany(Arg.Is<PartnerCompany>(pc => pc.Name == "DMS")).Returns(true);
+            //dbInstanceTest.AddNewPartnerCompany(Arg.Is<PartnerCompany>(pc => pc.Name != "DMS")).Returns(false);
+            //dbInstanceTest.AddNewProject(Arg.Is<Project>(p => p.Name == "PrviProjekat")).Returns(true);
+            //dbInstanceTest.AddNewProject(Arg.Is<Project>(p => p.Name != "PrviProjekat")).Returns(false);
         }
 
         //[Test]
@@ -65,23 +82,25 @@ namespace HiringCompanyTest.DatabaseAccessTest
         //    Assert.AreEqual(obj, dbInstanceTest.PartnerCompanies_lock);
         //}
 
-        //[Test]
-        //public void AddNewEmployeeTestGood()
-        //{
-        //    Employee employee = new Employee() { Username = "zklasnic" };
-        //    result = dbInstanceTest.AddNewEmployee(employee);
+        [Test]
+        public void AddNewEmployeeTestGood()
+        {
+            Employee employee = new Employee() { Username = "jjovanovic" };
+            result = dbInstanceTest.AddNewEmployee(employee);
+            //result = dbInstanceTest.AddNewEmployee(em);
 
-        //    Assert.IsTrue(result);
-        //}
+            Assert.IsTrue(result);
+        }
 
-        //[Test]
-        //public void AddNewEmployeeTestFault()
-        //{
-        //    Employee employee = new Employee() { Username = "mvujakovic" };
-        //    result = dbInstanceTest.AddNewEmployee(employee);
+        [Test]
+        public void AddNewEmployeeTestFault()
+        {
+            Employee employee = new Employee() { Username = "djovic" };
+            result = dbInstanceTest.AddNewEmployee(employee);
+            //result = dbInstanceTest.AddNewEmployee(em2);
 
-        //    Assert.IsFalse(result);
-        //}
+            Assert.IsFalse(result);
+        }
 
         //[Test]
         //public void AddNewPartnerCompanyTestGood()

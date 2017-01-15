@@ -283,7 +283,7 @@
                                 <TextBox x:Name="ProjectStartDateTextBox" HorizontalAlignment="Left" Height="23" Margin="98,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <TextBox x:Name="ProjectDeadlineTextBox" HorizontalAlignment="Left" Height="23" Margin="98,168,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156"/>
                                 <Button x:Name="CreateProjectButton" Content="Create project" HorizontalAlignment="Left" Margin="169,227,0,0" VerticalAlignment="Top" Width="85" Click="CreateProjectButton_Click" Background="#FFF4F5F7" BorderBrush="#FFABADB3" Foreground="#FF1F3277" FontWeight="Bold" BorderThickness="1" Height="27"/>
-                                <Label x:Name="DateTimeFormatLabel" Content="" HorizontalAlignment="Left" Margin="259,195,0,0" VerticalAlignment="Top" Width="77" Height="35"/>
+                                <Label x:Name="DateTimeFormatLabel" Content="" HorizontalAlignment="Left" Margin="259,128,0,0" VerticalAlignment="Top" Width="114" Height="35"/>
                                 <Grid HorizontalAlignment="Left" Height="410" Margin="392,10,0,0" VerticalAlignment="Top" Width="468" Background="White">
                                     <ComboBox x:Name="WorkPOProjectsComboBox" ItemsSource="{Binding}" DisplayMemberPath="Name" HorizontalAlignment="Left" Margin="23,44,0,0" VerticalAlignment="Top" Width="184" SelectionChanged="ProjectsComboBox_SelectionChanged"/>
                                     <Button x:Name="ApproveUserStoriesButton" Content="Approve User Stories" HorizontalAlignment="Left" Margin="23,376,0,0" VerticalAlignment="Top" Width="184" Height="23" Click="ApproveUserStoriesButton_Click"/>

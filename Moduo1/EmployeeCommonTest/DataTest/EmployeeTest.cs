@@ -24,6 +24,7 @@ namespace EmployeeCommonTest.Data
         private int endHour = 16;
         private int endMinute = 30;
         private List<Notification> notifications = new List<Notification>();
+        private DateTime datePasswordChanged = DateTime.Now;
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -143,6 +144,13 @@ namespace EmployeeCommonTest.Data
         {
             employeeTest.Notifications = notifications;
             Assert.AreEqual(notifications, employeeTest.Notifications);
+        }
+
+        [Test]
+        public void DatePasswordChanged()
+        {
+            employeeTest.DatePasswordChanged = datePasswordChanged;
+            Assert.AreEqual(datePasswordChanged, employeeTest.DatePasswordChanged);
         }
 
         #endregion
