@@ -1,6 +1,10 @@
-﻿using ICommon;
+﻿using ClientCommon.Data;
+using ICommon;
+using NSubstitute;
 using NUnit.Framework;
 using Server;
+using Server.Access;
+using Server.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +22,29 @@ namespace ServerTest
         UserStoryCommon usc1 = new UserStoryCommon() { Title = "usc1" };
         UserStoryCommon usc2 = new UserStoryCommon() { Title = "usc2" };
 
+        string projectName = "proj1";
+
+        Project projectTest;
+        Team teamTest;
+        Employee employeeTestSM;
+
 
         [OneTimeSetUp]
         public void SetupTest()
         {
             outsourcingServiceTest = new OutsourcingService();
+            EmployeeServiceDatabase.Instance = Substitute.For<IEmployeeServiceDatabase>();
+            
+            teamTest = new Team() { Name = "Team1", TeamLeaderEmail = "ivan@gmail.com" };
+
+            employeeTestSM = new Employee(EmployeeType.SCRUMMASTER, "Ivan", "Markovic", "ivan@gmail.com", "ivan123", teamTest);
+            
+            projectTest = new Project() { Name = "proj1", Team = teamTest };
+
             commonUserStories = new List<UserStoryCommon>() { usc1, usc2 };
+            
+            //Mocking
+            EmployeeServiceDatabase.Instance.UpdateUserStoriesStatus(commonUserStories, projectName).Returns(projectTest);
         }
 
         //AskForPartnership
@@ -37,8 +58,19 @@ namespace ServerTest
         [Test]
         public void SendEvaluatedUserstoriesToOutsourcingCompanyTest()
         {
-            outsourcingServiceTest.SendEvaluatedUserstoriesToOutsourcingCompany(commonUserStories, "proj1");
+            InternalDatabase.Instance.OnlineEmployees.Add(employeeTestSM);
+
+            outsourcingServiceTest.SendEvaluatedUserstoriesToOutsourcingCompany(commonUserStories, projectName);
         }
+
+        [Test]
+        public void SendEvaluatedUserstoriesToOutsourcingCompanyTest2()
+        {
+            InternalDatabase.Instance.OnlineEmployees = new List<Employee>();
+
+            outsourcingServiceTest.SendEvaluatedUserstoriesToOutsourcingCompany(commonUserStories, projectName);
+        }
+
 
         //SendProjectToOutsourcingCompany
         [Test]

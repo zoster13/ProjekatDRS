@@ -41,12 +41,19 @@ namespace ServerTest
             teamTestNull = null;
 
             employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "marko@gmail.com", "mare123", teamTest);
-            employeeTest.WorkingHoursStart = DateTime.Now.AddHours(1);
+            employeeTest.WorkingHoursStart = DateTime.Now.AddHours(2);
+            employeeTest.PasswordTimeStamp = DateTime.Now;
+
+            TimeSpan timeSpan20Min = new TimeSpan(0, 20, 0);
+
             employeeTestSM = new Employee(EmployeeType.SCRUMMASTER, "Ivan", "Markovic", "ivan@gmail.com", "ivan123", teamTest);
+            employeeTestSM.PasswordTimeStamp = DateTime.Now - timeSpan20Min;
+            employeeTestSM.WorkingHoursStart = DateTime.Now - timeSpan20Min;
+
             employeeTestNull = null;
 
-            taskTest = new Task() { Title = "task1" };
-            taskTest2 = new Task() { Title = "task2" };
+            taskTest = new Task() { Title = "task1", ProgressStatus=ProgressStatus.COMPLETED };
+            taskTest2 = new Task() { Title = "task2", ProgressStatus = ProgressStatus.STARTED };
             taskTestNull = null;
 
             userStoryTest = new UserStory() { Title = "us1" ,Tasks = new List<Task>() {taskTest,taskTest2 } };
@@ -58,7 +65,7 @@ namespace ServerTest
             commonUserStories = new List<UserStoryCommon>();
 
             InternalDatabase.Instance.OnlineEmployees.Add(employeeTest);
-            
+
             //Mocking
             EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => email == "marko@gmail.com")).Returns(employeeTest);
             EmployeeServiceDatabase.Instance.GetEmployee(Arg.Is<string>(email => email == "ivan@gmail.com")).Returns(employeeTestSM);
@@ -98,6 +105,8 @@ namespace ServerTest
             EmployeeServiceDatabase.Instance.GetAllEmployees().Returns(new List<Employee>() { employeeTest, employeeTestSM });
 
             EmployeeServiceDatabase.Instance.UpdateUserStoriesStatus(commonUserStories, projectName1).Returns(projectTest);
+
+            EmployeeServiceDatabase.Instance.GetAllUserStories().Returns(new List<UserStory>() { userStoryTest });
         }
 
         //LogIn Tests
@@ -311,6 +320,13 @@ namespace ServerTest
             Assert.DoesNotThrow(() => employeeServiceTest.SendUserStories(commonUserStories, projectName1));
         }
 
+        [Test]
+        public void SendUserStoriesTestFault()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.SendUserStories(commonUserStories, projectName2));
+        }
+
+
         //ResponseToPartnershipRequest
         [Test]
         public void ResponseToPartnershipRequestTestAccepted()
@@ -357,5 +373,33 @@ namespace ServerTest
         {
             Assert.DoesNotThrow(() => employeeServiceTest.NotifyOnLate(null, null));
         }
+
+        //PasswordExpired
+        [Test]
+        public void PasswordExpiredTest()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.PasswordExpired(null, null));
+        }
+
+        //UserStoryCompleted
+        [Test]
+        public void UserStoryCompletedTest()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.UserStoryCompleted(null, null));
+        }
+
+        //NotifySMForUserStoryProgress
+        [Test]
+        public void NotifySMForUserStoryProgressTest()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.NotifySMForUserStoryProgress(employeeTestSM.Email, userStoryTest.Title));
+        }
+
+        [Test]
+        public void NotifySMForUserStoryProgressTest2()
+        {
+            Assert.DoesNotThrow(() => employeeServiceTest.NotifySMForUserStoryProgress("sinan@gmail.com", userStoryTest.Title));
+        }
+
     }
 }

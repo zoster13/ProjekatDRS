@@ -285,14 +285,19 @@ namespace Server.Access
             using (var access = new AccessDB())
             {
                 Project proj = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(projectName));
-
+            
                 userStory.Project = proj;
                 access.UserStories.Add(userStory);
                 int i = access.SaveChanges();
 
                 if (i > 0)
+                {
                     return true;
-                return false;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -308,8 +313,14 @@ namespace Server.Access
                 int i = access.SaveChanges();
 
                 if (i > 0)
+                {
                     return true;
-                return false;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
         }
 
@@ -402,8 +413,14 @@ namespace Server.Access
                 int i = access.SaveChanges();
 
                 if (i > 0)
+                {
                     return true;
-                return false;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
         }
 
@@ -480,12 +497,12 @@ namespace Server.Access
         {
             using (var access = new AccessDB())
             {
-                List<UserStory> userStories =  access.UserStories
+                List<UserStory> userStories = access.UserStories
                     .Include("Tasks")
                     .Include("Project")
                     .ToList();
 
-                foreach(var us in userStories)
+                foreach (var us in userStories)
                 {
                     us.Project = access.Projects.Include("Team").FirstOrDefault(p => p.Name.Equals(us.Project.Name));
                 }

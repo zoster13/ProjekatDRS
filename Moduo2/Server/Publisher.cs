@@ -458,7 +458,7 @@ namespace Server
         
         public void NotifySMForUserStoryProgressCallback(string scrumMasterEmail, string userStoryName)
         {
-            if(employeeChannels.Values.Count > 0)
+            if (employeeChannels.Values.Count > 0)
             {
                 try
                 {
@@ -473,6 +473,7 @@ namespace Server
                 }
             }
         }
+
         #endregion ICallbackMethods
     }
 }

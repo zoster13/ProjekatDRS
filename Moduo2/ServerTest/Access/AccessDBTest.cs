@@ -19,6 +19,7 @@ namespace ServerTest.Access
             employeeTest = new Employee(EmployeeType.DEVELOPER, "Marko", "Markovic", "marko@gmail.com", "mare123", new Team());
         }
 
+        /*
         [Test]
         public void EmployeeTest()
         {
@@ -60,5 +61,6 @@ namespace ServerTest.Access
         {
             Assert.DoesNotThrow(() => accessTest.Tasks.FirstOrDefault());
         }
+        */
     }
 }

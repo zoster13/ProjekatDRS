@@ -68,6 +68,7 @@
     <Compile Include="EmployeeServiceTest.cs" />
     <Compile Include="OutsourcingServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServerProxy\ServerProxyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

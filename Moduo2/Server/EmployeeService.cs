@@ -27,12 +27,12 @@ namespace Server
         private Timer passwordExpiredTimer = new Timer();
         private Timer userstoryCompleted = new Timer();
 
-        string _senderEmailAddress = "blok4.moduo2@gmail.com";
-        string _senderPassword = "ftnnovisad";
+        private string _senderEmailAddress = "blok4.moduo2@gmail.com";
+        private string _senderPassword = "ftnnovisad";
 
         private NetTcpBinding binding;
         private string hiringCompanyAddress;
-        List<Employee> allEmployees;
+        private List<Employee> allEmployees;
         private Team teamInDB;
         private Employee employeeInDB;
 
@@ -395,6 +395,8 @@ namespace Server
                 using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
                 {
                     //proxy.SendClosedUserStory(taskInDB.UserStory.Project.Name, taskInDB.UserStory.Title);
+
+                    proxy.SendClosedUserStory(retvalue.Task.UserStory.Project.Name, retvalue.Task.UserStory.Title);
                 }
             }
         }
@@ -407,13 +409,13 @@ namespace Server
             
             bool updated = EmployeeServiceDatabase.Instance.UpdateProjectStatus(projectName);
 
-            if(updated)
+            if (updated)
             {
                 Logger.Info("Project status is updated to STARTED.");
 
                 using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
                 {
-                    //proxy.SendUserStoriesToHiringCompany(userStories, projectName);
+                    proxy.SendUserStoriesToHiringCompany(userStories, projectName);
                 }
             }
             else
@@ -485,15 +487,13 @@ namespace Server
         /// <param name="e"></param>
         public void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
-            allEmployees = GetAllEmployees();
+            allEmployees = EmployeeServiceDatabase.Instance.GetAllEmployees();
 
             foreach (Employee em in allEmployees)
             {
                 if (!InternalDatabase.Instance.OnlineEmployees.Contains(em))
                 {
-                    DateTime current = DateTime.Now;
-                    DateTime workTimeEmployee = em.WorkingHoursStart;
-                    TimeSpan timeDiff = current - workTimeEmployee;
+                    TimeSpan timeDiff = DateTime.Now - em.WorkingHoursStart;
                     TimeSpan allowed = new TimeSpan(0, 15, 0);
 
                     if (timeDiff > allowed)
@@ -559,7 +559,7 @@ namespace Server
             //Posalji mu notifikaciju ako je online
             Employee scrumMaster = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(scrumMasterEmail));
 
-            if(scrumMaster != null)
+            if (scrumMaster != null)
             {
                 Publisher.Instance.NotifySMForUserStoryProgressCallback(scrumMasterEmail, userStoryName);
             }

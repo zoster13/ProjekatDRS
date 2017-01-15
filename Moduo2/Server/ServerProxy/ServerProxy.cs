@@ -18,7 +18,7 @@ namespace Server.ServerProxy
         {
             try
             {
-                //factory.ResponseForPartnershipRequest(accepted, outsourcingCompName);
+                factory.ResponseForPartnershipRequest(accepted, outsourcingCompName);
             }
             catch (Exception e)
             {
@@ -30,7 +30,7 @@ namespace Server.ServerProxy
         {
             try
             {
-                //factory.ResponseForProjectRequest(outsourcingCompanyName, p);
+                factory.ResponseForProjectRequest(outsourcingCompanyName, p);
             }
             catch (Exception e)
             {
@@ -42,7 +42,7 @@ namespace Server.ServerProxy
         {
             try
             {
-                //factory.SendClosedUserStory(projectName, title);
+                factory.SendClosedUserStory(projectName, title);
             }
             catch (Exception e)
             {
@@ -54,7 +54,7 @@ namespace Server.ServerProxy
         {
             try
             {
-                //factory.SendUserStoriesToHiringCompany(userStories, projectName);
+                factory.SendUserStoriesToHiringCompany(userStories, projectName);
             }
             catch (Exception e)
             {
