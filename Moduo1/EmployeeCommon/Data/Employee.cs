@@ -39,7 +39,7 @@ namespace EmployeeCommon.Data
             name = eName;
             surname = eSurname;
             email = eEmail;
-            startHour = eStartHour; // napraviti proveru opsega 0-24h, 0-59min
+            startHour = eStartHour;
             startMinute = eStartMinute;
             endHour = eEndHour;
             endMinute = eEndMinute;
