@@ -116,6 +116,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>ServiceDB.mdf</DependentUpon>
     </Content>
+    <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\ICommon\ICommon.csproj">

@@ -151,9 +151,6 @@ namespace HiringCompany.Services
          mislim da je prvi pristup logicniji..? mozda bi trebali da imamo klasu notification koja sadrzi text, timestamp, i da znamo za koga je?
          ali ne moze da bude samo jedno polje za koga je posto moze biti za vise. onda jedino da klasa employee ima List<Notification>... 
           */
-
-        // probati da izvuces kanal, ako ga ima poslati notifiakciju, ako je nema, sacuvati je u bazi i poslati je kad se korisnik prijavi..
-        // kas se korisniku posalju notifikacije, onda mozemo da ih izbrisemo iz baze?
         public bool SignIn(string username, string password)
         {
             string messageToLog = string.Empty;
