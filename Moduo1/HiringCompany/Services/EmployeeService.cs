@@ -158,73 +158,75 @@ namespace HiringCompany.Services
 
             if (employee != null && password.Equals(employee.Password))
             {
-                IEmployeeServiceCallback callbackClient = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-
-                ICommunicationObject cObject = callbackClient as ICommunicationObject;
-                if (cObject != null)
+                if (OperationContext.Current != null)
                 {
-                    IEmployeeServiceCallback outCallback;
-                    if (!internalDatabase.ConnectionChannelsClients.TryGetValue(username, out outCallback))
+                    IEmployeeServiceCallback callbackClient = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
+
+                    ICommunicationObject cObject = callbackClient as ICommunicationObject;
+                    if (cObject != null)
                     {
-                        internalDatabase.ConnectionChannelsClients.Add(username, callbackClient);
-
-                        lock (internalDatabase.OnlineEmployees_lock)
+                        IEmployeeServiceCallback outCallback;
+                        if (!internalDatabase.ConnectionChannelsClients.TryGetValue(username, out outCallback))
                         {
-                            internalDatabase.OnlineEmployees.Add(employee);
-                        }
+                            internalDatabase.ConnectionChannelsClients.Add(username, callbackClient);
 
-                        messageToLog = "finished successfully.";
-                        Program.Logger.Info(messageToLog);
-                        using (Notifier notifier = new Notifier())
-                        {
-                            notifier.SyncAll();
-                        }
-
-                        Employee toNotifEmployee = new Employee();
-                        toNotifEmployee = HiringCompanyDB.Instance.GetEmployee(username);
-                        //using (var access = new AccessDB())
-                        //{
-                        //    var e = from ems in access.Employees.Include("Notifications")
-                        //            where ems.Username.Equals(username)
-                        //            select ems;
-
-                        //    var em = e.ToList().FirstOrDefault();
-                        //    toNotifEmployee = em;
-                        //}
-
-                        using (Notifier notifier = new Notifier())
-                        {
-                            foreach (var notif in toNotifEmployee.Notifications)
+                            lock (internalDatabase.OnlineEmployees_lock)
                             {
-                                notifier.NotifySpecialClient(username, string.Format("{0}: {1}", notif.Timestamp, notif.Content));
+                                internalDatabase.OnlineEmployees.Add(employee);
                             }
+
+                            messageToLog = "finished successfully.";
+                            Program.Logger.Info(messageToLog);
+                            using (Notifier notifier = new Notifier())
+                            {
+                                notifier.SyncAll();
+                            }
+
+                            Employee toNotifEmployee = new Employee();
+                            toNotifEmployee = HiringCompanyDB.Instance.GetEmployee(username);
+                            //using (var access = new AccessDB())
+                            //{
+                            //    var e = from ems in access.Employees.Include("Notifications")
+                            //            where ems.Username.Equals(username)
+                            //            select ems;
+
+                            //    var em = e.ToList().FirstOrDefault();
+                            //    toNotifEmployee = em;
+                            //}
+
+                            using (Notifier notifier = new Notifier())
+                            {
+                                foreach (var notif in toNotifEmployee.Notifications)
+                                {
+                                    notifier.NotifySpecialClient(username, string.Format("{0}: {1}", notif.Timestamp, notif.Content));
+                                }
+                            }
+
+                            HiringCompanyDB.Instance.ClearEmployeeNotifs(username);
+
+                            //using (var access = new AccessDB())
+                            //{
+                            //    var e = from ems in access.Employees.Include("Notifications")
+                            //            where ems.Username.Equals(username)
+                            //            select ems;
+
+                            //    var em = e.ToList().FirstOrDefault();
+                            //    em.Notifications.Clear(); 
+                            //    access.SaveChanges();
+
+                            //    messageToLog = "Notifications data cleared in .mdf.";
+                            //    Program.Logger.Info(messageToLog);
+
+                            //     access.SaveChanges();
+                            //}
                         }
-
-                        HiringCompanyDB.Instance.ClearEmployeeNotifs(username);
-
-                        //using (var access = new AccessDB())
-                        //{
-                        //    var e = from ems in access.Employees.Include("Notifications")
-                        //            where ems.Username.Equals(username)
-                        //            select ems;
-
-                        //    var em = e.ToList().FirstOrDefault();
-                        //    em.Notifications.Clear(); 
-                        //    access.SaveChanges();
-
-                        //    messageToLog = "Notifications data cleared in .mdf.";
-                        //    Program.Logger.Info(messageToLog);
-
-                        //     access.SaveChanges();
-                        //}
-                    }
-                    else
-                    {
-                        messageToLog = "Channel associated with username already exists.";
-                        Program.Logger.Info(messageToLog);
+                        else
+                        {
+                            messageToLog = "Channel associated with username already exists.";
+                            Program.Logger.Info(messageToLog);
+                        }
                     }
                 }
-
             }
             else
             {

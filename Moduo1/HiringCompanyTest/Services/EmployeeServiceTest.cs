@@ -26,16 +26,21 @@ namespace HiringCompanyTest.Services
 
         bool result;
         private InternalDatabase iDB;
+        private PartnerCompany partnerCompanyTest;
 
         [OneTimeSetUp]
         public void SetupTest()
         {
             employeeServiceTest = new EmployeeService();
             HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
-            iDB = InternalDatabase.Instance();
 
-            
-            //instance = Substitute.For<IHiringCompanyDB>();
+            partnerCompanyTest = new PartnerCompany("prva");
+
+            List<string> partnerCompanies = new List<string>();
+            partnerCompanies.Add(partnerCompanyTest.Name);
+            HiringCompanyDB.Instance.GetPartnerCompaniesNames().Returns(partnerCompanies);
+
+            iDB = InternalDatabase.Instance();
 
             employeeTest = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zklasnic94@gmail.com", 9, 0, 17, 0);
             employeeTestSM = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "zklasnic94@gmail.com", 9, 20, 18, 40);
@@ -55,6 +60,10 @@ namespace HiringCompanyTest.Services
             HiringCompanyDB.Instance.GetEmployee(Arg.Is<string>(username => username == "rzekanovic")).Returns(employeeTestSM);
             HiringCompanyDB.Instance.GetEmployee(Arg.Is<string>(username=>(username != "rzekanovic" && username != "zklasnic"))).Returns(employeeTestNull);
 
+            HiringCompanyDB.Instance.ClearEmployeeNotifs(Arg.Is<string>(username => username == "zklasnic")).Returns(true);
+            HiringCompanyDB.Instance.ClearEmployeeNotifs(Arg.Is<string>(username => username == "rzekanovic")).Returns(true);
+
+
             HiringCompanyDB.Instance.AddNewEmployee(Arg.Is<Employee>(employeeTest)).Returns(true);
             HiringCompanyDB.Instance.AddNewEmployee(Arg.Is<Employee>(employeeTestSM)).Returns(true);
             HiringCompanyDB.Instance.AddNewEmployee(Arg.Is<Employee>(employeeTestNull)).Returns(false);
@@ -62,8 +71,14 @@ namespace HiringCompanyTest.Services
             HiringCompanyDB.Instance.AddNewProject(Arg.Is<Project>(projectTest)).Returns(true);
 
             HiringCompanyDB.Instance.EditEmployeeData("zklasnic", "Zvezdana", "Klasnic", "zklasnic94@gmail.com", "456").Returns(true);
+            //iDB.EditOnlineEmployeeData("zklasnic", "Zvezdana", "Klasnic", "zklasnic94@gmail.com", "456").Returns(true);
+
             HiringCompanyDB.Instance.EditWorkingHours("zklasnic", 10, 20, 17, 30).Returns(true);
+            //iDB.EditWorkingHoursForOnlineEm("zklasnic", 10, 20, 17, 30).Returns(true);
+
             HiringCompanyDB.Instance.EditEmployeeType("zklasnic", EmployeeType.CEO).Returns(true);
+            //iDB.EditOnlineEmployeeType("zklasnic", EmployeeType.CEO).Returns(true);
+
             HiringCompanyDB.Instance.ProjectApprovedCEOFieldChange(projectTest).Returns(true);
             HiringCompanyDB.Instance.CloseProjectFieldChange(projectTest.Name).Returns(true);
         }
@@ -82,19 +97,12 @@ namespace HiringCompanyTest.Services
             Assert.IsFalse(result);
         }
 
-        //[Test] // valjda ne radi zbog IEmployeeServiceCallback callbackClient = OperationContext.Current.GetCallbackChannel<IEmployeeServiceCallback>();
-        //public void SignInTestOk()
-        //{
-        //    result = employeeServiceTest.SignIn("zklasnic", "456");
-        //    Assert.IsTrue(result);
-        //}
-
-        //[Test]
-        //public void SignInTestAlreadyExist()
-        //{
-        //    result = employeeServiceTest.SignIn("zklasnic", "456");
-        //    Assert.IsFalse(result);
-        //}
+        [Test] // videcu da li radi
+        public void SignInTestOk()
+        {
+            result = employeeServiceTest.SignIn("zklasnic", "456");
+            Assert.IsTrue(result);
+        }
 
         [Test]
         public void SignInTestFaultUsername()
@@ -111,13 +119,13 @@ namespace HiringCompanyTest.Services
         }
 
         [Test]
-        public void SignOutTestOk()
+        public void SignOutTestOk() //ako ne radi kako treba,to je jer treba gore u testu da dodam u onlineEmployees onog kojeg hocu da signOut
         {
             Assert.DoesNotThrow(() => { employeeServiceTest.SignOut(employeeTest.Username); });
         }
 
         [Test]
-        public void ChangeEmployeeDataTest()
+        public void ChangeEmployeeDataTest() //trebalo bi da radi
         {
             Assert.DoesNotThrow(() => { employeeServiceTest.ChangeEmployeeData("zklasnic", "Zvezdana", "Klasnic", "zklasnic94@gmail.com", "456"); });
         }

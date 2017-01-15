@@ -19,6 +19,11 @@ namespace Client
     public class ClientCallback : EmployeeCommon.IEmployeeServiceCallback
     {
         private ClientDatabase clientDB = ClientDatabase.Instance();
+        public ClientDatabase ClientDB
+        {
+            get { return clientDB; }
+            set { clientDB = value; }
+        }
 
         public void Notify(string message)
         {

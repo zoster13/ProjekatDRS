@@ -49,6 +49,9 @@ namespace HiringCompany.DatabaseAccess
             // u fajlu cuvati, i onda iscitati na pocetku programa
             possiblePartnersAddresses.Add("cekic", "10.1.212.114:9998");
             possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // oni ce nam reci podatke
+            possiblePartnersAddresses.Add("prva", "10.1.212.114:9998");
+            possiblePartnersAddresses.Add("druga", "10.1.212.114:9998");
+            //possiblePartnersAddresses.Add("pokusaj", "10.1.212.114:9998");
 
             List<string> pCompaniesName = new List<string>();
 
