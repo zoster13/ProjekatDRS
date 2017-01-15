@@ -51,11 +51,14 @@ namespace HiringCompany.DatabaseAccess
             possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // oni ce nam reci podatke
 
             List<string> pCompaniesName = new List<string>();
-            using (var access = new AccessDB())
-            {
-                pCompaniesName = (from comp in access.Companies
-                                  select comp.Name).ToList();
-            }
+
+            pCompaniesName = HiringCompanyDB.Instance.GetPartnerCompaniesNames();
+
+            //using (var access = new AccessDB())
+            //{
+            //    pCompaniesName = (from comp in access.Companies
+            //                      select comp.Name).ToList();
+            //}
 
             foreach (string cName in pCompaniesName)
             {

@@ -28,8 +28,6 @@ namespace HiringCompany.DatabaseAccess
 
         List<Employee> AllEmployees();
 
-        object DbAccess_lock { get; set; }
-
         object AllEmployees_lock { get; set; }
 
         object Projects_lock { get; set; }
@@ -51,5 +49,9 @@ namespace HiringCompany.DatabaseAccess
         bool SendUserStoriesToHiringCompanyFieldsChange(List<UserStory> tempUserStories, string projectName);
 
         bool SendClosedUserStoryFieldChange(string projectName, string title);
+
+        bool ClearEmployeeNotifs(string username);
+
+        List<string> GetPartnerCompaniesNames();
     }
 }
