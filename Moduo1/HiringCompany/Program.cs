@@ -22,8 +22,7 @@ namespace HiringCompany
 
         private static void Main(string[] args)
         {
-            Console.Title = "Hiring Company";
-            // dodati setup deo gde cemo citati sve konfiguracione podatke iz fajla
+            Console.Title = "Hiring Company";   
 
             // set |DataDirectory|
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
