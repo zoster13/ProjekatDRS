@@ -100,13 +100,13 @@ namespace Server
                 }
                 else
                 {
-                    Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
+                    Logger.Warn(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
                     Publisher.Instance.LogInCallback(employee, false);
                 }
             }
             else
             {
-                Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
+                Logger.Warn(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
                 Publisher.Instance.LogInCallback(new Employee(), false);
             }
         }
@@ -154,7 +154,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("Employee [{0}] cannot be added to database.", employee.Name));
+                Logger.Warn(string.Format("Employee [{0}] cannot be added to database.", employee.Name));
             }
         }
 
@@ -186,7 +186,7 @@ namespace Server
             }
             else
             {
-                Logger.Info("Team cannot be added to database.");
+                Logger.Error("Team cannot be added to database.");
                 Publisher.Instance.TeamAddedCallback(null);
             }
         }
@@ -213,13 +213,13 @@ namespace Server
                 }
                 else
                 {
-                    Logger.Info(string.Format("Team [{0}] isn't added to database.", team.Name));
+                    Logger.Error(string.Format("Team [{0}] isn't added to database.", team.Name));
                     Publisher.Instance.AddTeamAndTLCallback(null, null);
                 }
             }
             else
             {
-                Logger.Info(string.Format("Team cannot be added to database."));
+                Logger.Error(string.Format("Team cannot be added to database."));
                 Publisher.Instance.AddTeamAndTLCallback(null, null);
             }
         }
@@ -247,7 +247,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("Team cannot be added to database."));
+                Logger.Error(string.Format("Team cannot be added to database."));
                 Publisher.Instance.AddTeamAndTLCallback(null, null);
             }
         }
@@ -359,7 +359,7 @@ namespace Server
             }
             else
             {
-                Logger.Info(string.Format("UserStory [{0}] isn't added to database.", userStory.Title));
+                Logger.Error(string.Format("UserStory [{0}] isn't added to database.", userStory.Title));
             }
         }
 
@@ -377,7 +377,7 @@ namespace Server
             }
             else
             {
-                Logger.Info("Task cannot be added to database.");
+                Logger.Error("Task cannot be added to database.");
             }
         }
 
@@ -445,7 +445,7 @@ namespace Server
             }
             else
             {
-                Logger.Info("Project status isn't updated to STARTED.");
+                Logger.Warn("Project status isn't updated to STARTED.");
             }
         }
 
@@ -478,6 +478,8 @@ namespace Server
             {
                 project.Team = null;
                 EmployeeServiceDatabase.Instance.AddProject(project);
+
+                Logger.Info("New project is added to system.");
             }
 
             ProjectCommon prCommon = new ProjectCommon();
