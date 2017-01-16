@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +67,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AddNewEmployee.feature</DependentUpon>
     </Compile>
+    <Compile Include="AddNewEmployeeSteps.cs" />
+    <Compile Include="EditEmployeeData.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EditEmployeeData.feature</DependentUpon>
+    </Compile>
+    <Compile Include="EditEmployeeDataSteps.cs" />
+    <Compile Include="LogIn.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogIn.feature</DependentUpon>
+    </Compile>
+    <Compile Include="LogInSteps.cs" />
+    <Compile Include="LogOut.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogOut.feature</DependentUpon>
+    </Compile>
+    <Compile Include="LogOutSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,10 +97,32 @@
       <LastGenOutput>AddNewEmployee.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="EditEmployeeData.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EditEmployeeData.feature.cs</LastGenOutput>
+    </None>
+    <None Include="LogIn.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LogIn.feature.cs</LastGenOutput>
+    </None>
+    <None Include="LogOut.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LogOut.feature.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj">
+      <Project>{65055815-f902-463e-b906-ead7515b6198}</Project>
+      <Name>Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmployeeCommon\EmployeeCommon.csproj">
+      <Project>{f52c7068-8a38-4d65-a13c-4ff1453f6b83}</Project>
+      <Name>EmployeeCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
