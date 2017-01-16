@@ -81,17 +81,17 @@ namespace HiringCompany
 
 
 
-            Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana_lo@hotmail.com", 9, 0, 17, 0);
-            Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zklasnic94@gmail.com", 9, 0, 17, 0);
-            Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "miljana_lo@hotmail.com", 1, 2, 3, 4);
-            Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "zklasnic94@gmail.com", 5, 1, 4, 2);
-            Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "zklasnic94@gmail.com", 1, 5, 4, 3);
+            //Employee em1 = new Employee("mvujakovic", "123", EmployeeType.CEO, "Miljana", "Vujakovic", "miljana_lo@hotmail.com", 9, 0, 17, 0) { DatePasswordChanged = DateTime.Now };
+            //Employee em2 = new Employee("zklasnic", "456", EmployeeType.CEO, "Zvezdana", "Klasnic", "zklasnic94@gmail.com", 9, 0, 17, 0) { DatePasswordChanged = DateTime.Now };
+            //Employee em3 = new Employee("amisic", "789", EmployeeType.PO, "Aleksandra", "Misic", "miljana_lo@hotmail.com", 1, 2, 3, 4) { DatePasswordChanged = DateTime.Now };
+            //Employee em4 = new Employee("rzekanovic", "112", EmployeeType.SM, "Radislav", "Zekanovic", "zklasnic94@gmail.com", 5, 1, 4, 2) { DatePasswordChanged = DateTime.Now };
+            //Employee em5 = new Employee("pperic", "100", EmployeeType.HR, "Pera", "Peric", "zklasnic94@gmail.com", 1, 5, 4, 3) { DatePasswordChanged = DateTime.Now };
 
-            HiringCompanyDB.Instance.AddNewEmployee(em1);
-            HiringCompanyDB.Instance.AddNewEmployee(em2);
-            HiringCompanyDB.Instance.AddNewEmployee(em3);
-            HiringCompanyDB.Instance.AddNewEmployee(em4);
-            HiringCompanyDB.Instance.AddNewEmployee(em5);
+            //HiringCompanyDB.Instance.AddNewEmployee(em1);
+            //HiringCompanyDB.Instance.AddNewEmployee(em2);
+            //HiringCompanyDB.Instance.AddNewEmployee(em3);
+            //HiringCompanyDB.Instance.AddNewEmployee(em4);
+            //HiringCompanyDB.Instance.AddNewEmployee(em5);
 
 
             Console.WriteLine("Press any key to exit...");
