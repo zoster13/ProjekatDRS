@@ -1,5 +1,4 @@
 ﻿Class library project:
-
 	> EmployeeCommon.proj <
 
 	Directories (namespaces):
