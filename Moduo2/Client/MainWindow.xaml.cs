@@ -7,6 +7,7 @@ using System.Windows.Media;
 using ICommon;
 using System.Collections.Generic;
 using System.Linq;
+using Client.Logger;
 
 namespace Client
 {
@@ -15,11 +16,14 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly log4net.ILog Logger = LogHelper.GetLogger();
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = LocalClientDatabase.Instance;
+
+            Logger.Info(string.Format("Client startup."));
 
             workCeo.Visibility = Visibility.Hidden; // kao i svi ostali
             workLeader.Visibility = Visibility.Hidden;
@@ -29,6 +33,7 @@ namespace Client
 
         private void LogInButton_Click(object sender, RoutedEventArgs e)
         {
+            Logger.Info(string.Format("User with email " + emailBox.Text + "is attempting to log in."));
             LocalClientDatabase.Instance.Proxy.LogIn(emailBox.Text, passwordBox.Password);
         }
 
@@ -36,7 +41,9 @@ namespace Client
         {
             if (loggedIn)
             {
-                    lock (LocalClientDatabase.Instance.Locker)
+                Logger.Info(string.Format("User with email " + emailBox.Text + " has succesfully logged in."));
+
+                lock (LocalClientDatabase.Instance.Locker)
                     {
                         LocalClientDatabase.Instance.Employees.Add(employee);
                     }
@@ -78,6 +85,8 @@ namespace Client
             }
             else
             {
+                Logger.Warn(string.Format("User with email " + emailBox.Text + " has failed to logged in."));
+
                 errorLogInBox.Text = "Wrong e-mail or password.";
 
                 logInButton.IsEnabled = false;
@@ -394,6 +403,8 @@ namespace Client
 
         public void LogOutCallbackResult(Employee employee)
         {
+            Logger.Info(string.Format("User with email " + employee.Email + " is logging out."));
+
             foreach (Employee e in LocalClientDatabase.Instance.Employees)
             {
                 if (e.Email.Equals(employee.Email))
@@ -426,10 +437,12 @@ namespace Client
             {
                 LocalClientDatabase.Instance.Teams.Add(team);
                 MessageBox.Show("A new team has been added!\n It can be seen in the Teams pannel.");
+                Logger.Info(string.Format("Team " + team.Name + " has been added."));
             }
             else
             {
                 MessageBox.Show("The team could not be added because of an internal server error.");
+                Logger.Warn(string.Format("Team " + team.Name + " could not be added."));
             }
         }
 
@@ -455,7 +468,9 @@ namespace Client
             SetSettings();
 
             displayName.Text = LocalClientDatabase.Instance.CurrentEmployee.Name + " " + LocalClientDatabase.Instance.CurrentEmployee.Surname;
- 
+
+            Logger.Info(string.Format("User " + LocalClientDatabase.Instance.CurrentEmployee.Email + " is saving changed data."));
+
             LocalClientDatabase.Instance.Proxy.EditEmployeeData(LocalClientDatabase.Instance.CurrentEmployee);
         }
 
@@ -493,7 +508,7 @@ namespace Client
 
                     case NotificationType.NEW_PROJECT_TL:
 
-                        messageBoxCanvas.notificationText.Text = notification.Message;
+                        //messageBoxCanvas.notificationText.Text = notification.Message;
                         break;
                 }
 
@@ -506,7 +521,7 @@ namespace Client
             acceptDeclineCanvas.Visibility = Visibility.Hidden;
             acceptDeclineCanvas.buttonAccept.IsEnabled = false;
             acceptDeclineCanvas.buttonDecline.IsEnabled = false;
-            messageBoxCanvas.Visibility = Visibility.Hidden;
+            //messageBoxCanvas.Visibility = Visibility.Hidden;
         }
 
         public void TypeChangeCallbackResult(Employee employee)
@@ -558,6 +573,7 @@ namespace Client
             if (employee.Email.Equals(LocalClientDatabase.Instance.CurrentEmployee.Email))
             {
                 MessageBox.Show("Your changes have been saved!");
+                Logger.Info(string.Format("User " + LocalClientDatabase.Instance.CurrentEmployee.Email + "; changes succesfully saved."));
                 tabControl1.SelectedIndex = 0;
             }
         }
@@ -567,6 +583,7 @@ namespace Client
             if (employee.Type == EmployeeType.DEVELOPER)
             {
                 LocalClientDatabase.Instance.Developers.Add(employee);
+                Logger.Info(string.Format("New employee added. Email: " + employee.Email));
             }
         }
 
@@ -634,6 +651,8 @@ namespace Client
             LocalClientDatabase.Instance.CurrentEmployee.Notifications.Add(notification);
             LocalClientDatabase.Instance.Notifications.Add(notification);
             CountNewNotifications();
+
+            Logger.Info(string.Format("New notification."));
         }
 
         public void ScrumMasterUpdatedCallbackResult(Team team)
@@ -648,12 +667,16 @@ namespace Client
             }
 
             workCeo.comboBoxTeamScrum.Items.Refresh();
+
+            Logger.Info(string.Format("Scrum master update."));
         }
 
         public void ProjectTeamAssignCallbackResult(Project project)
         {
             LocalClientDatabase.Instance.MyTeamProjects.Add(project);
             MessageBox.Show("CEO has assigned a new project to your team. It can be seen in the Work pannel in Projects.");
+
+            Logger.Info(string.Format("Project name: " + project.Name + " has been assigned to " + project.Team.Name));
         }
 
         public void ReleaseUserStoryCallbackResult(List<Task> tasks)
@@ -667,6 +690,7 @@ namespace Client
                 }
 
                 MessageBox.Show("A user story for project " + tasks[0].UserStory.Project.Name + " has arived.\n You can claim tasks.");
+                Logger.Info(string.Format("New user story."));
             }
         }
 
@@ -702,6 +726,7 @@ namespace Client
                 workScrum.dataGridProjects.Items.Refresh();
 
                 MessageBox.Show("Feedbak for users stories has been received from a hiring company!");
+                Logger.Info(string.Format("Feedback for user stories has arrived."));
             }
         }
 
@@ -719,6 +744,8 @@ namespace Client
 
             workLeader.dataGridTasks.Items.Refresh();
             workDev.dataGridTasks.Items.Refresh();
+
+            Logger.Info(string.Format("Task titled " + task.Title + " has been claimed."));
         }
 
         public void TaskCompletedCallbackResult(Task task)
@@ -749,6 +776,8 @@ namespace Client
                 }
             }
 
+            Logger.Info(string.Format("Task titled " + task.Title + " has been completed."));
+
             if (flag)
             {
 
@@ -768,6 +797,7 @@ namespace Client
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             LocalClientDatabase.Instance.Proxy.LogOut(LocalClientDatabase.Instance.CurrentEmployee);
+            Logger.Info(string.Format("User " + LocalClientDatabase.Instance.CurrentEmployee + " is attempting tolog out."));
         }
 
         private void EmailBox_GotFocus(object sender, RoutedEventArgs e)
@@ -801,17 +831,20 @@ namespace Client
             }
 
             MessageBox.Show("A new team has been added!\n It can be seen in the Teams pannel.");
+            Logger.Info(string.Format("New team added callback."));
         }
 
         public void SendProjectToTeamMembersResult(Project project)
         {
             LocalClientDatabase.Instance.MyTeamProjects.Add(project);
             MessageBox.Show("A new project has started!\n User stories are being prepared.");
+            Logger.Info(string.Format("New project arrived; name: " + project.Name));
         }
 
         public void ResponseToPartnershipRequestCallbackResult(HiringCompany hiringCompany)
         {
             LocalClientDatabase.Instance.HiringCompanies.Add(hiringCompany);
+            Logger.Info(string.Format("New partnership acquired; company name: " + hiringCompany.Name));
         }
 
         private void UsernameBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -841,6 +874,7 @@ namespace Client
         public void NotifySMForUserStoryProgressCallbackResult(string userstroryName)
         {
             MessageBox.Show("It is 2 days before deadline for user story " + userstroryName + " \n and less tha 80% of task are completed.");
+            Logger.Info(string.Format("User story not finished alarm."));
         }
     }
 }

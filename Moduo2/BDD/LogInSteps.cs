@@ -21,7 +21,12 @@ namespace BDD
         [Given(@"I have form to log in")]
         public void GivenIHaveFormToLogIn()
         {
-            ScenarioContext.Current.Pending();
+            binding.OpenTimeout = new TimeSpan(1, 0, 0);
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            proxy = new EmployeeProxy(binding, epAddress, new CallbackMethods());
         }
         
         [When(@"I enter ""(.*)"" and ""(.*)""")]

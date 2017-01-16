@@ -62,7 +62,7 @@ namespace Server
 
             userstoryCompleted.Elapsed += new ElapsedEventHandler(UserStoryCompleted);
             userstoryCompleted.Interval = 30000;
-            userstoryCompleted.Enabled = true;
+            //userstoryCompleted.Enabled = true;
         }
 
         #region IEmployeeService Methods

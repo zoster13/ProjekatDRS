@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="370" d:DesignWidth="750">
     <Grid Background="White">
-        <TabControl >
+        <TabControl Background="#FF0B245B">
             <TabItem Header="All Tasks" Margin="446,1,-450,-1" Height="39">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFC5E4FF">
                     <Grid  Background="White" Margin="10,191,297,10">
                         <Button x:Name="buttonTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonTaskDescription_Click"  />
-                        <TextBox x:Name="textTaskDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="413" />
+                        <TextBox x:Name="textTaskDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="413" />
                     </Grid>
                     <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
                         <DataGrid.Columns>
@@ -32,7 +32,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="My Tasks" Margin="452,1,-456,-1" Height="39">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFC5E4FF">
                     <DataGrid x:Name="dataGridMyTasks" ItemsSource="{Binding MyTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="437">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
@@ -48,12 +48,12 @@
                     </Grid>
                     <Grid  Background="White" Margin="10,191,293,10">
                         <Button x:Name="buttonMyTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonMyTaskDescription_Click" />
-                        <TextBox x:Name="textMyTaskDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="417" />
+                        <TextBox x:Name="textMyTaskDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="417" />
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Prepare User Stories" Height="39" Margin="48,1,-64,-1">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFC5E4FF">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="357*"/>
                         <ColumnDefinition Width="112*"/>
@@ -81,12 +81,12 @@
                     </Grid>
                     <Grid x:Name="gridStartStory" Background="White" Margin="10,191,21,10" Grid.ColumnSpan="2">
                         <Button x:Name="buttonUserStoryDescription" Content="Userstory Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonUserStoryDescription_Click" />
-                        <TextBox x:Name="textUserStoryDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="418" />
+                        <TextBox x:Name="textUserStoryDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="72" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="418" />
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Release User Stories" Height="39" Margin="0,1,-66,-1" HorizontalAlignment="Right" Width="136">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFC5E4FF">
                     <DataGrid x:Name="dataGridUserStories1" ItemsSource="{Binding UserStories, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" Name" Binding="{Binding Title}"/>
@@ -106,7 +106,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Projects" Height="39" Margin="-380,1,380,-1">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFC5E4FF">
                     <DataGrid x:Name="dataGridProjects" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="155" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>
@@ -128,13 +128,13 @@
                         <Button x:Name="buttonUserStoryAdd" Content="Create" IsEnabled="False" HorizontalAlignment="Left" Height="31" Margin="279,258,0,0" VerticalAlignment="Top" Width="65" Click="ButtonUserStoryAdd_Click"/>
                     </Grid>
                     <Grid  Background="White" Margin="10,170,385,10">
-                        <Button x:Name="buttonProjectDescription" Content="Project Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonProjectDescription_Click"/>
-                        <TextBox x:Name="textProjectDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="93" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="325" />
+                        <Button x:Name="buttonProjectDescription" Content="Project Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="23,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonProjectDescription_Click"/>
+                        <TextBox x:Name="textProjectDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="84" Margin="23,45,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" />
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Send User Stories" Margin="-378,1,374,-1" Height="39">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFC5E4FF">
                     <DataGrid x:Name="dataGridProjects1" ItemsSource="{Binding MyTeamProjects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>

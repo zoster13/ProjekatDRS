@@ -53,6 +53,7 @@
     <Compile Include="DataTest\TeamTest.cs" />
     <Compile Include="DataTest\UserStoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempStructureTest\TaskAndUserStoryCompletedFlagTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html data-ng-app="coverageApp">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=1" />
+<title>Summary - Coverage Report</title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="report.css" />
+</head><body data-ng-controller="SummaryViewCtrl"><div class="container"><div class="containerleft">
+<h1>Summary</h1>
+<table class="overview table-fixed">
+<colgroup>
+<col class="column135" />
+<col />
+</colgroup>
+<tbody>
+<tr><th>Generated on:</th><td>1/16/2017 - 12:57:56 AM</td></tr>
+<tr><th>Parser:</th><td>OpenCoverParser</td></tr>
+<tr><th>Assemblies:</th><td>2</td></tr>
+<tr><th>Classes:</th><td>16</td></tr>
+<tr><th>Files:</th><td>16</td></tr>
+<tr><th>Covered lines:</th><td>591</td></tr>
+<tr><th>Uncovered lines:</th><td>2</td></tr>
+<tr><th>Coverable lines:</th><td>593</td></tr>
+<tr><th>Total lines:</th><td>1531</td></tr>
+<tr><th>Line coverage:</th><td>99.6%</td></tr>
+<tr><th>Branch coverage:</th><td>75%</td></tr>
+</tbody>
+</table>
+<h1>Assemblies</h1>
+<div data-ng-if="filteringEnabled" data-reactive-table data-assemblies="assemblies" data-branch-coverage-available="branchCoverageAvailable"></div>
+<div data-ng-if="!filteringEnabled">
+<div class="ng-hide customizebox" data-ng-show="true"><input data-ng-click="enableFiltering()" value="Enable filtering" title="This may take some time since the report contains many classes." type="submit" /></div>
+</div>
+<table data-ng-if="!filteringEnabled" class="overview table-fixed">
+<colgroup>
+<col />
+<col class="column90" />
+<col class="column105" />
+<col class="column100" />
+<col class="column70" />
+<col class="column60" />
+<col class="column112" />
+<col class="column60" />
+<col class="column112" />
+</colgroup>
+<thead><tr><th>Name</th><th class="right">Covered</th><th class="right">Uncovered</th><th class="right">Coverable</th><th class="right">Total</th><th class="center" colspan="2">Line coverage</th><th class="center" colspan="2">Branch coverage</th></tr></thead>
+<tbody>
+<tr><th>ClientCommon</th><th class="right">246</th><th class="right">2</th><th class="right">248</th><th class="right">735</th><th title="LineCoverage" class="right">99.1%</th><th><table class="coverage"><tr><td class="green covered99">&nbsp;</td><td class="red covered1">&nbsp;</td></tr></table></th><th class="right">75%</th><th><table class="coverage"><tr><td class="green covered75">&nbsp;</td><td class="red covered25">&nbsp;</td></tr></table></th></tr>
+<tr><td><a href="ClientCommon_Employee.htm">ClientCommon.Data.Employee</a></td><td class="right">51</td><td class="right">2</td><td class="right">53</td><td class="right">144</td><td title="LineCoverage" class="right">96.2%</td><td><table class="coverage"><tr><td class="green covered96">&nbsp;</td><td class="red covered4">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_HiringCompany.htm">ClientCommon.Data.HiringCompany</a></td><td class="right">15</td><td class="right">0</td><td class="right">15</td><td class="right">45</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_Notification.htm">ClientCommon.Data.Notification</a></td><td class="right">48</td><td class="right">0</td><td class="right">48</td><td class="right">132</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">75%</td><td><table class="coverage"><tr><td class="green covered75">&nbsp;</td><td class="red covered25">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_Project.htm">ClientCommon.Data.Project</a></td><td class="right">36</td><td class="right">0</td><td class="right">36</td><td class="right">108</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_Task.htm">ClientCommon.Data.Task</a></td><td class="right">26</td><td class="right">0</td><td class="right">26</td><td class="right">89</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_Team.htm">ClientCommon.Data.Team</a></td><td class="right">27</td><td class="right">0</td><td class="right">27</td><td class="right">75</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_UserStory.htm">ClientCommon.Data.UserStory</a></td><td class="right">36</td><td class="right">0</td><td class="right">36</td><td class="right">116</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommon_TaskAndUserStoryCompletedFlag.htm">ClientCommon.TempStructure.TaskAndUserStoryCompletedFlag</a></td><td class="right">7</td><td class="right">0</td><td class="right">7</td><td class="right">26</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><th>ClientCommonTest</th><th class="right">345</th><th class="right">0</th><th class="right">345</th><th class="right">796</th><th title="LineCoverage" class="right">100%</th><th><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></th><th class="right"></th><th><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></th></tr>
+<tr><td><a href="ClientCommonTest_EmployeeTest.htm">ClientCommonTest.DataTest.EmployeeTest</a></td><td class="right">74</td><td class="right">0</td><td class="right">74</td><td class="right">150</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_HiringCompanyTest.htm">ClientCommonTest.DataTest.HiringCompanyTest</a></td><td class="right">25</td><td class="right">0</td><td class="right">25</td><td class="right">66</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_NotificationTest.htm">ClientCommonTest.DataTest.NotificationTest</a></td><td class="right">63</td><td class="right">0</td><td class="right">63</td><td class="right">138</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_ProjectTest.htm">ClientCommonTest.DataTest.ProjectTest</a></td><td class="right">44</td><td class="right">0</td><td class="right">44</td><td class="right">107</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_TaskTest.htm">ClientCommonTest.DataTest.TaskTest</a></td><td class="right">36</td><td class="right">0</td><td class="right">36</td><td class="right">87</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_TeamTest.htm">ClientCommonTest.DataTest.TeamTest</a></td><td class="right">38</td><td class="right">0</td><td class="right">38</td><td class="right">90</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_UserStoryTest.htm">ClientCommonTest.DataTest.UserStoryTest</a></td><td class="right">50</td><td class="right">0</td><td class="right">50</td><td class="right">113</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="ClientCommonTest_TaskAndUserStoryCompletedFlagTest.htm">ClientCommonTest.TempStructureTest.TaskAndUserStoryCompletedFlagTest</a></td><td class="right">15</td><td class="right">0</td><td class="right">15</td><td class="right">45</td><td title="LineCoverage" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+</tbody>
+</table>
+<div class="footer">Generated by: ReportGenerator 2.5.1.0<br />1/16/2017 - 12:57:56 AM<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="http://www.palmmedia.de">www.palmmedia.de</a></div></div></div>
+<script type="text/javascript" src="combined.js"></script>
+</body></html>

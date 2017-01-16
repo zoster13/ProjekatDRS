@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="370" d:DesignWidth="750">
     <Grid Background="White">
-        <TabControl >
-            <TabItem Header="Tasks" Margin="166,0,-170,0" Height="39">
-                <Grid Background="#FFE5E5E5">
+        <TabControl Background="#FF0B245B">
+            <TabItem Header="Tasks" Margin="153,0,-157,0" Height="39">
+                <Grid Background="#FFC5E4FF">
                     <Grid  Background="White" Margin="458,10,10,136">
-                        <Button x:Name="buttonTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="10,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonTaskDescription_Click"  />
-                        <TextBox x:Name="textTaskDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="131" Margin="10,36,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="256" />
+                        <Button x:Name="buttonTaskDescription" Content="Task Description" IsEnabled="True" HorizontalAlignment="Left" Height="21" Margin="13,10,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonTaskDescription_Click"  />
+                        <TextBox x:Name="textTaskDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="115" Margin="13,37,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="242" />
                     </Grid>
                     <DataGrid x:Name="dataGridTasks" ItemsSource="{Binding AllTasks, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="303" Margin="10,10,0,0" VerticalAlignment="Top" Width="433">
                         <DataGrid.Columns>
@@ -26,7 +26,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="User Stories" Height="39" Margin="32,0,-48,0">
+            <TabItem Header="User Stories" Height="39" Margin="14,0,-30,0">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="dataGridUserStories" ItemsSource="{Binding UserStories, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="358">
                         <DataGrid.Columns>
@@ -37,14 +37,18 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid  Background="White" Margin="385,10,10,10">
-                        <Label x:Name="labelTitle445" Content="Userstory description" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="95,10,0,0" VerticalAlignment="Top" Width="199"/>
-                        <Button x:Name="buttonUserStoryDescription" Content="Userstory Description" IsEnabled="True" HorizontalAlignment="Left" Height="33" Margin="205,256,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonUserStoryDescription_Click"  />
-                        <TextBox x:Name="textUserStoryDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="184" Margin="10,57,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="325" />
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="9*"/>
+                            <RowDefinition Height="290*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="labelTitle445" Content="Userstory description" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="95,0.706,0,0" VerticalAlignment="Top" Width="199" Grid.Row="1"/>
+                        <Button x:Name="buttonUserStoryDescription" Content="Userstory Description" IsEnabled="True" HorizontalAlignment="Left" Height="33" Margin="205,246.706,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonUserStoryDescription_Click" Grid.Row="1"  />
+                        <TextBox x:Name="textUserStoryDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="184" Margin="10,47.706,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="325" Grid.Row="1" />
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Projects" Height="39" Margin="-116,0,116,0" HorizontalAlignment="Right" Width="72">
-                <Grid Background="#FFE5E5E5">
+            <TabItem Header="Projects" Height="39" Margin="-121,0,121,0">
+                <Grid Background="#FFC5E4FF">
                     <DataGrid x:Name="dataGridProjects" ItemsSource="{Binding AllProjects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="358">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>
@@ -54,7 +58,7 @@
                     <Grid  Background="White" Margin="385,10,10,10">
                         <Label x:Name="labelTitle44" Content="Project description" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="95,10,0,0" VerticalAlignment="Top" Width="199"/>
                         <Button x:Name="buttonProjectDescription" Content="Project Description" IsEnabled="True" HorizontalAlignment="Left" Height="33" Margin="205,256,0,0" VerticalAlignment="Top"  Width="130" Click="ButtonProjectDescription_Click" />
-                        <TextBox x:Name="textProjectDescription" Background="AntiqueWhite" HorizontalAlignment="Left" Height="184" Margin="10,57,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="325" />
+                        <TextBox x:Name="textProjectDescription" Background="#FFC5E4FF" HorizontalAlignment="Left" Height="184" Margin="10,57,0,0" IsHitTestVisible="False" Focusable="False" BorderBrush="Transparent" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="325" />
                     </Grid>
                 </Grid>
             </TabItem>

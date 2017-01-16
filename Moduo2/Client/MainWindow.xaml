@@ -8,13 +8,13 @@
         xmlns:viewNotif="clr-namespace:Client.Views.Notifications"
         mc:Ignorable="d"
         Title="MainWindow" Height="625" Width="870">
-    <Grid>
-        <TabControl x:Name="tabControl" SelectedIndex="0" Background="White" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840">
+    <Grid Background="#FFC5E4FF">
+        <TabControl x:Name="tabControl" SelectedIndex="0" Background="#FF0B245B" HorizontalAlignment="Left" Height="571" Margin="7,2,0,0" VerticalAlignment="Top" Width="840" Foreground="#FF0B536E">
             <TabItem Height="0">
                 <Grid>
-                    <TextBox x:Name="errorLogInBox" IsHitTestVisible="False" Focusable="False" Foreground="Red" Margin="489,322,98,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent"/>
-                    <Label x:Name="emailLabel" Content="E-mail address:" Height="37" Width="137" Margin="251,221,446,303"/>
-                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261"/>
+                    <TextBox x:Name="errorLogInBox" IsHitTestVisible="False" Focusable="False" Foreground="Red" Margin="489,322,98,210" TextWrapping="Wrap" Text="" BorderBrush="Transparent" Background="{x:Null}"/>
+                    <Label x:Name="emailLabel" Content="E-mail address:" Height="37" Width="137" Margin="251,221,446,303" Foreground="#FF87DEFF"/>
+                    <Label x:Name="passwordLabel" Content="Password:" Height="37" Width="137" Margin="251,263,446,261" Foreground="#FF87DEFF"/>
                     <TextBox x:Name="emailBox" HorizontalAlignment="Left" Height="25" Margin="388,221,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" TextChanged="UsernameBox_TextChanged" GotFocus="EmailBox_GotFocus"/>
                     <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="25" Margin="388,263,0,0" VerticalAlignment="Top" Width="163" PasswordChanged="PasswordBox_PasswordChanged" GotFocus="PasswordBox_GotFocus" />
                     <Button x:Name="logInButton" IsEnabled="False" Content="Log In" Height="37" Width="86" Margin="349,316,395,203" Click="LogInButton_Click"/>
@@ -25,8 +25,8 @@
                     <Button x:Name="logOutButton" Content="Log Out" Margin="713,26,58,500" Click="LogOutButton_Click"/>
                     <TabControl x:Name="tabControl1" Margin="21,73,21,20" Focusable="True">
                         <TabItem Header="Home" Margin="-2,10,-21,-10" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,16,0,0" Focusable="True">
-                                <Grid Background="White" Margin="54,33,411,140">
+                            <Grid Background="#FFC5E4FF" Margin="0,16,0,0" Focusable="True">
+                                <Grid Background="#FF032672" Margin="54,33,411,140">
                                     <TextBox x:Name="displayName" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" FontSize="20" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="39" Margin="25,20,0,0" TextWrapping="Wrap" Text="Name..." VerticalAlignment="Top" Width="261" RenderTransformOrigin="0.382,0.292"/>
                                     <TextBox x:Name="displayTeam" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,72,0,0" TextWrapping="Wrap" Text="Team..." VerticalAlignment="Top" Width="140"/>
                                     <TextBox x:Name="displayType" IsHitTestVisible="False" Focusable="False"  IsReadOnly="True" Background="#FFE5E5E5" HorizontalAlignment="Left" Height="24" Margin="25,109,0,0" TextWrapping="Wrap" Text="Position..." VerticalAlignment="Top" Width="140"/>
@@ -35,15 +35,19 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Work" Margin="21,10,-49,-10" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
-                                <view:CEOWork x:Name="workCeo"/>
-                                <view:DevWork x:Name="workDev"/>
-                                <view:LeaderWork x:Name="workLeader"/>
-                                <view:ScrumWork x:Name="workScrum"/>
+                            <Grid Background="AliceBlue" Margin="0,17,0,0" Focusable="True">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="39*"/>
+                                    <ColumnDefinition Width="739*"/>
+                                </Grid.ColumnDefinitions>
+                                <view:CEOWork x:Name="workCeo" Grid.ColumnSpan="2"/>
+                                <view:DevWork x:Name="workDev" Grid.ColumnSpan="2"/>
+                                <view:LeaderWork x:Name="workLeader" Grid.ColumnSpan="2"/>
+                                <view:ScrumWork x:Name="workScrum" Grid.ColumnSpan="2"/>
                             </Grid>
                         </TabItem>
                         <TabItem Header="Employees" Margin="49,10,-72,-10" Height="39" Focusable="True"  VerticalAlignment="Top">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
+                            <Grid Background="#FFC5E4FF" Margin="0,17,0,0" Focusable="True">
                                 <DataGrid x:Name="dataGridEmployees" ItemsSource="{Binding Employees, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
@@ -55,7 +59,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Teams" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="70" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
+                            <Grid Background="#FFC5E4FF" Margin="0,17,0,0" Focusable="True">
                                 <DataGrid x:Name="dataGridTeams" ItemsSource="{Binding Teams, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
@@ -65,7 +69,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Companies" Margin="0,10,-68,-10" HorizontalAlignment="Right" Width="77" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
+                            <Grid Background="#FFC5E4FF" Margin="0,17,0,1" Focusable="True">
                                 <DataGrid x:Name="dataGridHiringCompanies" ItemsSource="{Binding HiringCompanies, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="307" Margin="69,54,0,0" VerticalAlignment="Top" Width="650">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
@@ -74,7 +78,7 @@
                             </Grid>
                         </TabItem>
                         <TabItem Margin="0,10,-240,-10" HorizontalAlignment="Right" Width="58" Height="39" Focusable="True">
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,1" Focusable="True">
+                            <Grid Background="#FFC5E4FF" Margin="0,17,0,1" Focusable="True">
                                 <Grid Background="White" Margin="32,26,31,279">
                                     <Label x:Name="editNameLabel" Content="Name: " HorizontalAlignment="Left" Height="28" Margin="10,16,0,0" VerticalAlignment="Top" Width="92"/>
                                     <Label x:Name="editSurameLabel" Content="Surname: " HorizontalAlignment="Left" Height="28" Margin="10,49,0,0" VerticalAlignment="Top" Width="92"/>
@@ -122,7 +126,7 @@
                                     <TextBox x:Name="textBoxNotifNum"  IsHitTestVisible="False" Focusable="False" Background="Transparent" Text="0" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="Transparent" IsReadOnly="True" Foreground="Black" Height="22" />
                                 </StackPanel>
                             </TabItem.Header>
-                            <Grid Background="#FFE5E5E5" Margin="0,17,0,0" Focusable="True">
+                            <Grid Background="#FFC5E4FF" Margin="0,17,0,0" Focusable="True">
                                 <DataGrid x:Name="dataGridNotifications"  ItemsSource="{Binding Notifications, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="336" Margin="10,10,0,0" VerticalAlignment="Top" Width="363">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Summary" Binding="{Binding Type}"/>
@@ -133,7 +137,6 @@
                                 </DataGrid>
                                 <Grid Margin="416,86,22,117" Background="White">
                                     <viewNotif:AcceptDecline x:Name="acceptDeclineCanvas" Margin="10" Grid.RowSpan="3"/>
-                                    <viewNotif:MessageBoxCustom x:Name="messageBoxCanvas" Margin="10" Grid.RowSpan="3"/>
                                 </Grid>
                                 <Button x:Name="buttonNotifDetail" Content="Details..." HorizontalAlignment="Left" Margin="237,358,0,0" Width="75" Click="ButtonNotifDetail_Click" Height="27" VerticalAlignment="Top"/>
                             </Grid>
@@ -155,6 +158,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label x:Name="label1" Content="Outsourcing Company Client" FontWeight="Bold" FontSize="32" HorizontalAlignment="Left" Height="53" Margin="198,21,0,0" VerticalAlignment="Top" Width="444" Foreground="Black"/>
+        <Label x:Name="label1" Content="Outsourcing Company Client" FontWeight="Bold" FontSize="32" HorizontalAlignment="Left" Height="53" Margin="227,21,0,0" VerticalAlignment="Top" Width="444" Foreground="#FFC5E4FF"/>
     </Grid>
 </Window>

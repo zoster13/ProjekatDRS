@@ -6,10 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="370" d:DesignWidth="750">
     <Grid Background="White">
-        <TabControl >
-            <TabItem Header="Add Employees" Height="39" Margin="0,-1,-16,1">
-                <Grid Background="#FFE5E5E5">
-                    <TabControl x:Name="addEmployeeTabControl" Margin="183,10,204,10">
+        <TabControl Background="#FF0B245B">
+            <TabItem Header="Add Employees" Height="39" Margin="-2,-1,-14,1">
+                <Grid Background="#FFC5E4FF">
+                    <TabControl x:Name="addEmployeeTabControl" Background="#FF0B245B" Margin="183,10,204,10">
                         <TabItem Height="0">
                             <Grid Background="White" Margin="6,13,5,7">
                                 <Label x:Name="labelName" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="46,47,0,0" VerticalAlignment="Top" Width="79"/>
@@ -57,9 +57,9 @@
                     <Label x:Name="labelTitle" Content="Add New Employee" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="283,32,0,0" VerticalAlignment="Top" Width="157"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Add Teams" Margin="37,0,-41,0" Height="39">
-                <Grid Background="#FFE5E5E5">
-                    <TabControl x:Name="tabControlNewTeam" Margin="183,10,204,10">
+            <TabItem Header="Add Teams" Margin="17,0,-21,0" Height="39">
+                <Grid Background="#FFC5E4FF">
+                    <TabControl x:Name="tabControlNewTeam" Background="#FF0B245B" Margin="183,10,204,10">
                         <TabItem Margin="16,5,-390,-6" RenderTransformOrigin="0.5,0.5" Height="0">
                             <Grid Background="White" Margin="6,13,5,7">
                                 <Label x:Name="labelTeamName" Content="Name:" HorizontalAlignment="Left" Height="26" Margin="40,69,0,0" VerticalAlignment="Top" Width="79"/>
@@ -100,8 +100,8 @@
                     <Label x:Name="labelTitleTeam" Content="Add New Team" FontSize="16" HorizontalAlignment="Left" Height="37" Margin="301,46,0,0" VerticalAlignment="Top" Width="157"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabItemProjects" Header="Projects" Margin="44,0,-48,0" Height="39">
-                <Grid Background="#FFE5E5E5">
+            <TabItem x:Name="tabItemProjects" Header="Projects" Margin="24,0,-28,0" Height="39">
+                <Grid Background="#FFC5E4FF">
                     <DataGrid x:Name="dataGridProjects" ItemsSource="{Binding AllProjects, Mode=TwoWay}" SelectionMode="Single"  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" CanUserAddRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" VerticalAlignment="Top" Width="345">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header=" Project Name" Binding="{Binding Name}"/>

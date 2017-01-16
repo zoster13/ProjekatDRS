@@ -15,8 +15,8 @@ namespace BDD
         private NetTcpBinding binding = new NetTcpBinding();
         private EmployeeProxy proxy;
 
-        Project proj;
-        Team team;
+        private Project proj;
+        private Team team;
 
         [Given(@"I have a project and a team")]
         public void GivenIHaveAProjectAndATeam()
@@ -34,7 +34,7 @@ namespace BDD
         {
 
             team = new Team() { Name = "tim", TeamLeaderEmail = "l", ScrumMasterEmail = "s" };
-            proj = new Project() { Name = "projekat", Description = "desc", HiringCompanyName = "kompanija", Team = team};
+            proj = new Project() { Name = "projekat", Description = "desc", HiringCompanyName = "kompanija", Team = team };
         }
         
         [Then(@"the project should be assigned to the team")]

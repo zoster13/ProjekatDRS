@@ -39,6 +39,10 @@
     <Reference Include="ICommon">
       <HintPath>..\..\Common\ICommon\bin\Debug\ICommon.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.6.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.6\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.6.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -66,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logger\LogHelper.cs" />
     <Compile Include="Views\CEOWork.xaml.cs">
       <DependentUpon>CEOWork.xaml</DependentUpon>
     </Compile>
@@ -170,6 +175,7 @@
   <ItemGroup>
     <Resource Include="Images\notification.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
