@@ -27,6 +27,9 @@ namespace HiringCompanyTest.Services
         private bool result;
         private InternalDatabase iDB;
         private PartnerCompany partnerCompanyTest;
+        private List<UserStory> userStoriesForSending;
+        private Project pSend;
+        private Project pSend2;
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -161,6 +164,29 @@ namespace HiringCompanyTest.Services
             HiringCompanyDB.Instance.ProjectsInDevelopment().Returns(projs);
 
             iDB.OnlineEmployees.Add(employeeTest);
+
+            pSend = new Project("ime", "opis", "zklasnic", "zklasnic");
+            UserStory ust = new UserStory("sdsd", "ssf", "ads");
+            UserStory ust2 = new UserStory("msnoidnsd", "ssf", "ads");
+            pSend.UserStories.Add(ust);
+            pSend.UserStories.Add(ust2);
+            pSend.OutsourcingCompany = "radi2";
+
+            UserStory ust3 = new UserStory("sdsd", "ssf", "ads");
+            UserStory ust4 = new UserStory("msnoidnsd", "ssf", "ads");
+            ust3.IsApprovedByPO = true;
+            ust4.IsApprovedByPO = false;
+            userStoriesForSending = new List<UserStory>();
+            userStoriesForSending.Add(ust3);
+            userStoriesForSending.Add(ust4);
+
+            pSend2 = new Project("ime", "opis", "zklasnic", "zklasnic");
+            pSend2.UserStories.Add(ust3);
+            pSend2.UserStories.Add(ust4);
+            pSend2.OutsourcingCompany = "radi2";
+
+            HiringCompanyDB.Instance.AddNewProject(pSend);
+            HiringCompanyDB.Instance.SendApprovedUserStoriesFieldChange(pSend.Name, userStoriesForSending).Returns(pSend2);
         }
 
         [Test]
@@ -276,6 +302,40 @@ namespace HiringCompanyTest.Services
             Assert.DoesNotThrow(() =>
             {
                 employeeServiceTest.SignInPart("rzekanovic", callbackClient, employeeTestSM);
+            });
+        }
+
+        [Test]
+        public void AskForPartnershipTest()
+        {
+            iDB.PossiblePartnersAddresses.Add("radi", "localhpst:9998");
+            Assert.Catch(() =>
+            {
+                employeeServiceTest.AskForPartnership("radi");
+            });
+        }
+
+        [Test]
+        public void SendApprovedUserStoriesTest()
+        {
+            iDB.PartnerCompaniesAddresses.Add("radi2", "localhost:9998");
+            Assert.Catch(() =>
+            {
+                employeeServiceTest.SendApprovedUserStories(pSend.Name, userStoriesForSending);
+            });
+        }
+
+        [Test]
+        public void SendProjectTest()
+        {
+            iDB.PartnerCompaniesAddresses.Add("radi3", "localhost:9998");
+            Project pr = new Project("proj", "nsdjnds", "zklasnic", "zklasnic");
+            pr.StartDate = DateTime.Now;
+            pr.Deadline = DateTime.Now;
+            //mozda ce trebati catch
+            Assert.DoesNotThrow(() =>
+            {
+                employeeServiceTest.SendProject("radi3", pr);
             });
         }
     }
