@@ -1,1 +1,1 @@
-﻿
+﻿Project contains BDD tests for HiringCompany moduo.
