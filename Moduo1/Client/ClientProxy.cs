@@ -47,7 +47,6 @@ namespace Client
             catch (Exception)
             {
 
-
             }
         }
 
@@ -157,7 +156,7 @@ namespace Client
 
             }
         }
-        public void Dispose() // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
+        public void Dispose() 
         {
 
             try
