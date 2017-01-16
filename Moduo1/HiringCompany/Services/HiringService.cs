@@ -27,8 +27,6 @@ namespace HiringCompany.Services
             string notification = string.Empty;
             if (accepted)
             {
-
-                //// bacati exc ako ime ne postoji
                 internalDatabase.PartnerCompaniesAddresses.Add(outsourcingCompName.Trim(), internalDatabase.PossiblePartnersAddresses[outsourcingCompName]);
                 internalDatabase.PossiblePartnersAddresses.Remove(outsourcingCompName.Trim());
 

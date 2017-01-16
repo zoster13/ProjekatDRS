@@ -27,7 +27,6 @@ namespace HiringCompany
             }
             catch (Exception) 
             {
-                // srediti ako nihov server otkaze
                 throw;
             }
         }
@@ -55,13 +54,9 @@ namespace HiringCompany
             }
             catch (Exception) 
             {
-                // srediti ako nihov server otkaze
-                //throw;
             }
         }
 
-
-        // srediti ovde da se izbrise sve iz baze sto treba ako se klijent ugasi neregularno
         public void Dispose()
         {
 

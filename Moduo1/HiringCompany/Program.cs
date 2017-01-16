@@ -15,37 +15,6 @@ using ICommon;
 namespace HiringCompany
 {
 
-    /*
-     * lockere dodati u baziina kanale i ostalo
-i da proverimo za tooltip
-
-lockere za sve dodati u bazi i tu ih i koristiti
-6 meseci provera passworda
-80% user storija
-
-problem sa biranjem skram mastera..ima ih vise istog imena
-
- labelu kod POwork za date time pomeriti da bude u linij sa poljem za datum
-     * 
-     * 
-     * scrum master za projekat - napraviti da se jednom setuje i ne moze da se promeni
-
-cuvati notifikacije u bazi
-
-      lockovanje baze
-
-        mozda bude problema sa datuom ako budemo hteli da ga parsiramo...
-ne znamo da li ce current culture biti ista na drugom kompu, videti sta cete
-dodati mozda datetime kad posaljes notifikaciju -> client app
-
-        tamo za notifikacije namestiti da tooltip traje duze i da je u text blocku mozda, kao u vs notifikacije fazon
-     * 
-     * 
-     * RESITI DA AKO PADNE KLIJENT BUDE DISPOSOVANO SVE NJEGOVO!!!! ako se desi exception na klijentskoj strani 
-     * da server ne padne, tj da uradi sign out tog klijenta
-*/
-
-    // https://msdn.microsoft.com/en-us/library/5hh873ya(v=vs.90).aspx
 
     public class Program
     {
@@ -54,7 +23,7 @@ dodati mozda datetime kad posaljes notifikaciju -> client app
         private static void Main(string[] args)
         {
             Console.Title = "Hiring Company";
-            // mozda ovde da bude setup deo gde cemo citati sve konfiguracione podatke iz fajla
+            // dodati setup deo gde cemo citati sve konfiguracione podatke iz fajla
 
             // set |DataDirectory|
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;

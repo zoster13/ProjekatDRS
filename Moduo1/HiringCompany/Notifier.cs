@@ -162,7 +162,6 @@ namespace HiringCompany
             }
             catch (Exception e)
             {
-                // videti sta je ovde bilo greska
                 Console.WriteLine(e);
 
             }

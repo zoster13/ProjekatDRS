@@ -23,9 +23,8 @@ namespace HiringCompany.DatabaseAccess
         private object channelsClients_lock = new object();
 
         // in-memory data
-        // videti gde cuvati ove podatke, mozda na pocetku setup delu iscitati iz fajla sve, neki fajl ili slicno.. 
-        //mzftn123fakultet@gmail.com
-        //miljanazvezdana123
+        // mail: mzftn123fakultet@gmail.com
+        // pass: miljanazvezdana123
         private string companyName = "HiringCompany";
         private List<Employee> onlineEmployees;
 
@@ -46,7 +45,6 @@ namespace HiringCompany.DatabaseAccess
             connectionChannelsClients = new Dictionary<string, IEmployeeServiceCallback>();
             connectionChannelsCompanies = new Dictionary<string, OutsorcingCompProxy>();     
 
-            // u fajlu cuvati, i onda iscitati na pocetku programa
             possiblePartnersAddresses.Add("cekic", "10.1.212.114:9998");
             possiblePartnersAddresses.Add("bluc", "10.1.212.114:9998"); // oni ce nam reci podatke
             possiblePartnersAddresses.Add("prva", "10.1.212.114:9998");

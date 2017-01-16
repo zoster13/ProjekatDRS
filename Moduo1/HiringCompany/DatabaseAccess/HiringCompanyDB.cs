@@ -14,10 +14,6 @@ namespace HiringCompany.DatabaseAccess
     {
         private static IHiringCompanyDB myDB;
 
-        // add lock before every adding, replacing, updating query
-        // and add lock for every in-memory list, map..
-
-
         // lock objects for synchronizing access to ServiceDB.mdf
         private object allEmployees_lock = new object();
         private object projects_lock = new object();

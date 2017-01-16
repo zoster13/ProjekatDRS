@@ -41,24 +41,20 @@ namespace HiringCompany.Services
             //lateOnJobTimer.Enabled = true;
 
             passwordExpired.Elapsed += new ElapsedEventHandler(NotifyPasswordExpired);
-            passwordExpired.Interval = 30000; // 30s, ostavila samo za proveru,staviti ovo na neki mnogo veci broj
+            passwordExpired.Interval = 30000; // 30s, samo za proveru, staviti ovo na neki mnogo veci broj
            // passwordExpired.Enabled = true;
 
             userStoriesDeadlineWarning.Elapsed += new ElapsedEventHandler(NotifyUserStoriesDeadline);
-            userStoriesDeadlineWarning.Interval = 30000; // samo za proveru,treba staviti da se jednom dnevno proverava
+            userStoriesDeadlineWarning.Interval = 30000; // samo za proveru, treba staviti da se jednom dnevno proverava
             //userStoriesDeadlineWarning.Enabled = true;
         }
 
-        // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
-        // i srediti raspored kad se ovo ukljucuje i iskljucuje i slicno
-        /*ideja: kad se pokrene servis izvuku se sati dolazaka svih klijenata,
-         *  i izracuna se sat najkasnijeg dolaska, i kad prodje taj sat vise nema potrebe da se vrti onaj timer*/
         public void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
             string messageToLog = string.Empty;
             messageToLog = string.Format("\nMethod: EmployeeService.NotifyOnLate()");
 
-            string _senderEmailAddress = "mzftn123fakultet@gmail.com"; // i ovo cuvati u nekom fajlu
+            string _senderEmailAddress = "mzftn123fakultet@gmail.com"; 
             string _senderPassword = "miljanazvezdana123";
             Console.WriteLine("alarm...");
             foreach (Employee em in HiringCompanyDB.Instance.AllEmployees())
