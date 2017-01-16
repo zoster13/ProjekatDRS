@@ -19,7 +19,7 @@ namespace BDD
         private EndpointAddress ea = new EndpointAddress(new Uri(svcAddress));
         private NetTcpBinding binding = new NetTcpBinding();
         private ClientProxy proxy;
-        IEmployeeServiceCallback callback;
+        //IEmployeeServiceCallback callback;
         InstanceContext instanceContext;
 
         private string outsCompanyName;

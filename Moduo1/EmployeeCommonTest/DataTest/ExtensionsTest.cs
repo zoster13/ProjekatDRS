@@ -17,7 +17,7 @@ namespace EmployeeCommonTest.DataTest
         [TestCase(EmployeeType.HR, "Human Resources")]
         [TestCase(EmployeeType.PO, "Product Owner")]
         [TestCase(EmployeeType.SM, "Scrum Master")]
-        public void TypeToStringTestOk(EmployeeType type,string pos)
+        public void TypeToStringTestOk(EmployeeType type, string pos)
         {
             string position = Extensions.TypeToString(type);
             Assert.AreEqual(position, pos);
@@ -28,7 +28,7 @@ namespace EmployeeCommonTest.DataTest
         [TestCase(EmployeeType.HR, "Human Resources")]
         [TestCase(EmployeeType.PO, "Product Owner")]
         [TestCase(EmployeeType.SM, "Scrum Master")]
-        [TestCase(EmployeeType.CEO,"bla")]
+        [TestCase(EmployeeType.CEO, "bla")]
         public void StringToType(EmployeeType type, string pos)
         {
             EmployeeType t = Extensions.StringToType(pos);
