@@ -1,4 +1,26 @@
-This project is the client side of Outsourcing Company package.
-It contains methods for logging in and out, presenting company's employees, teams, partner companies.
-Workspaces differ depending on the type of logged-in employee.
-CEO can add employees and teams, while team leaders can make user stories and tasks which developer can claim.
+Start up project:
+
+	> Client.proj <
+
+	Directories (namespaces):
+	Client
+		- GUI
+		- Log in, log 
+		- Workspaces differ depending on the type of logged-in employee
+		- Presenting company's employees, partner companies		
+		- CEO can add employees and teams, and respond to partnership and project requests, and assign projects to teams
+		- team leader can make user stories, send them for evaluation, make tasks and claim task
+		- developers can also claim tasks 
+		- if you want to run this project you have to change ipadress and port depending on which computer HiringCompany service is running:
+			-change address in ClientDatabase
+	Client.Proxy
+		- enables communication with server of outsourcing company
+		- implements callback methods
+
+Test projects:
+
+	Test/ClientTest
+
+Config files:
+
+	> App.config
