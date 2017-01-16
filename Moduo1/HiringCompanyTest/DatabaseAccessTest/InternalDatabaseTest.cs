@@ -31,7 +31,6 @@ namespace HiringCompanyTest.DatabaseAccessTest
         [OneTimeSetUp]
         public void SetupTest()
         {
-            //possiblePartnersAddresses.Add("HiringCompany", "localhost:9998");
             HiringCompanyDB.Instance = Substitute.For<IHiringCompanyDB>();
             partnerCompanyTest = new PartnerCompany("bluc");
 
@@ -45,18 +44,6 @@ namespace HiringCompanyTest.DatabaseAccessTest
             employeeTest = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTest2 = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTestNull = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
-            
-
-            
-            //instanceTest.PartnerCompaniesAddresses.Clear();
-            //instanceTest.PossiblePartnersAddresses.Add("HiringCompany", "localhost:9998");
-            //instanceTest.PossiblePartnersAddresses.Add("DMS", "localhost:9998");
-            //instanceTest.PossiblePartnersAddresses.Remove("HiringService");
-            //instanceTest.PossiblePartnersAddresses.Add("bluc", "localhost:9998");
-
-            //HiringCompanyDB.Instance.AddNewPartnerCompany(Arg.Is<PartnerCompany>(partnerCompanyTest)).Returns(true);
-            //HiringCompanyDB.Instance.AddNewPartnerCompany(Arg.Is<PartnerCompany>(p => p.Name == "HiringCompany")).Returns(true);
-            //HiringCompanyDB.Instance.AddNewPartnerCompany(partnerCompanyTest);
         }
 
         [Test]

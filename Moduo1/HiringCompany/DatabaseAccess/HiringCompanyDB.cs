@@ -13,7 +13,6 @@ namespace HiringCompany.DatabaseAccess
     public class HiringCompanyDB : IHiringCompanyDB
     {
         private static IHiringCompanyDB myDB;
-        //private InternalDatabase internalDatabase = InternalDatabase.Instance();
 
         // add lock before every adding, replacing, updating query
         // and add lock for every in-memory list, map..
@@ -332,20 +331,6 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-            //lock (internalDatabase.OnlineEmployees_lock)
-            //{
-            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-            //    if (em != null)
-            //    {
-            //        em.Name = name != "" ? name : em.Name;
-            //        em.Surname = surname != "" ? surname : em.Surname;
-            //        em.Email = email != "" ? email : em.Email;
-            //        em.Password = password != "" ? password : em.Password;
-            //        messageToLog = "updated employee data in OnlineEmployees list.";
-            //        Program.Logger.Info(messageToLog);
-            //    }
-            //}
-
             return retVal;
         }
 
@@ -390,20 +375,6 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-
-
-            //lock (internalDatabase.OnlineEmployees_lock)
-            //{
-            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-            //    if (em != null)
-            //    {
-            //        em.StartHour = beginH;
-            //        em.StartMinute = beginM;
-            //        em.EndHour = endH;
-            //        em.EndMinute = endM;
-            //        messageToLog = "updated working hours data in OnlineEmployees list.";
-            //    }
-            //}
             return retVal;
         }
 
@@ -448,18 +419,6 @@ namespace HiringCompany.DatabaseAccess
                 }
             }
 
-
-
-            //lock (internalDatabase.OnlineEmployees_lock)
-            //{
-            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-            //    if (em != null)
-            //    {
-            //        em.Type = type;
-            //        messageToLog = "employee type changed in OnlineEmployees list";
-            //        Program.Logger.Info(messageToLog);
-            //    }
-            //}
             return retVal;
         }
 
@@ -733,6 +692,103 @@ namespace HiringCompany.DatabaseAccess
 
                 return pCompaniesName.ToList();
             }
+        }
+
+        public Project SendApprovedUserStoriesFieldChange(string projectName, List<UserStory> userStories)
+        {
+            string messageToLog = string.Empty;
+            Project proj = new Project();
+            
+            try
+            {
+                using (var access = new AccessDB())
+                {
+                    proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
+
+                    if (proj != null)
+                    {
+                        if (proj.UserStories.Count == userStories.Count)
+                        {
+                            for (int i = 0; i < proj.UserStories.Count; i++)
+                            {
+                                proj.UserStories[i].IsApprovedByPO = userStories[i].IsApprovedByPO;
+                            }
+                        }
+                        else
+                        {
+                            messageToLog = "Unsuccessful idea! :( ";
+                            Program.Logger.Info(messageToLog);
+                        }
+
+                        access.SaveChanges();
+
+                        messageToLog = "changed user stories data in .mdf database.";
+                        Program.Logger.Info(messageToLog);
+                    }
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    Program.Logger.Info(messageToLog);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                        Program.Logger.Info(messageToLog);
+                    }
+                }
+            }
+            return proj;
+        }
+
+        public bool RemoveDeclinedUserStoriesFromDB(string projectName)
+        {
+            string messageToLog = string.Empty;
+            Project proj = new Project();
+            bool retVal = true;
+            try
+            {
+                // ovo treba da radimo u bazi 
+                using (var access = new AccessDB())
+                {
+                    int i = 0;
+                    proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
+                    proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
+                    i = access.SaveChanges();
+
+                    messageToLog = "Removed user stories that were not approved in .mdf database.";
+                    Program.Logger.Info(messageToLog);
+
+                    if (i > 0)
+                    {
+                        retVal = true;
+                    }
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    Program.Logger.Info(messageToLog);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                            ve.PropertyName,
+                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                            ve.ErrorMessage);
+                        Program.Logger.Info(messageToLog);
+                    }
+                }
+            }
+            return retVal;
         }
     }
 }

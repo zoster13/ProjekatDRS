@@ -46,14 +46,14 @@ namespace HiringCompany.Services
 
             userStoriesDeadlineWarning.Elapsed += new ElapsedEventHandler(NotifyUserStoriesDeadline);
             userStoriesDeadlineWarning.Interval = 30000; // samo za proveru,treba staviti da se jednom dnevno proverava
-            userStoriesDeadlineWarning.Enabled = true;
+            //userStoriesDeadlineWarning.Enabled = true;
         }
 
         // slanje maila onima koji nisu online, srediti ovu metodu body i content od maila...
         // i srediti raspored kad se ovo ukljucuje i iskljucuje i slicno
         /*ideja: kad se pokrene servis izvuku se sati dolazaka svih klijenata,
          *  i izracuna se sat najkasnijeg dolaska, i kad prodje taj sat vise nema potrebe da se vrti onaj timer*/
-        private void NotifyOnLate(object sender, ElapsedEventArgs e)
+        public void NotifyOnLate(object sender, ElapsedEventArgs e)
         {
             string messageToLog = string.Empty;
             messageToLog = string.Format("\nMethod: EmployeeService.NotifyOnLate()");
@@ -86,7 +86,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        private void NotifyPasswordExpired(object sender, ElapsedEventArgs e)
+        public void NotifyPasswordExpired(object sender, ElapsedEventArgs e)
         {
             string notification = "Your password has expired, you have to change it.";
             string messageToLog = string.Empty;
@@ -97,10 +97,6 @@ namespace HiringCompany.Services
             {
                 DateTime current = DateTime.Now;
 
-                //if (((em.DatePasswordChanged.Year == current.Year) && (em.DatePasswordChanged.Month > (current.Month + 5)))
-                //    || (((current.Year - em.DatePasswordChanged.Year) == 1)
-                //    && (em.DatePasswordChanged.Month < 8 || current.Month > 6 ||
-                //    (em.DatePasswordChanged.Month > 7 && current.Month < 7 && (((12 - em.DatePasswordChanged.Month) + current.Month) > 5)))))
                 if(em.DatePasswordChanged.AddMonths(6) < current)
                 {
                     using (Notifier notifier = new Notifier())
@@ -114,7 +110,7 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
         }
 
-        private void NotifyUserStoriesDeadline(object sender, ElapsedEventArgs e)
+        public void NotifyUserStoriesDeadline(object sender, ElapsedEventArgs e)
         {
             string notification = string.Empty;
             string messageToLog = string.Empty;
@@ -127,11 +123,9 @@ namespace HiringCompany.Services
                 if (!p.IsClosed && p.UserStories.Count!=0 && p.IsAcceptedCEO && p.IsAcceptedOutsCompany)
                 {
                     if(current.AddDays(10)>p.Deadline)
-                    //if (((current.Year == p.Deadline.Year) && (((current.Month == p.Deadline.Month) && ((p.Deadline.Day - current.Day)) < 11) || ((current.Month + 1 == p.Deadline.Month) && (p.Deadline.Day + (31 - current.Day)) < 11)))
-                    //    || (((current.Year + 1) == p.Deadline.Year) && (current.Month == 12 && p.Deadline.Month == 1) && ((p.Deadline.Day + (31 - current.Day)) < 11)))
                     {
                         List<UserStory> us = p.UserStories.FindAll(u => u.IsClosed == false);
-                        if ((p.UserStories.Count / 5) <= us.Count)
+                        if (((double)p.UserStories.Count / 5) <= us.Count)
                         {
                             using (Notifier notifier = new Notifier())
                             {
@@ -184,15 +178,6 @@ namespace HiringCompany.Services
 
                             Employee toNotifEmployee = new Employee();
                             toNotifEmployee = HiringCompanyDB.Instance.GetEmployee(username);
-                            //using (var access = new AccessDB())
-                            //{
-                            //    var e = from ems in access.Employees.Include("Notifications")
-                            //            where ems.Username.Equals(username)
-                            //            select ems;
-
-                            //    var em = e.ToList().FirstOrDefault();
-                            //    toNotifEmployee = em;
-                            //}
 
                             using (Notifier notifier = new Notifier())
                             {
@@ -203,22 +188,6 @@ namespace HiringCompany.Services
                             }
 
                             HiringCompanyDB.Instance.ClearEmployeeNotifs(username);
-
-                            //using (var access = new AccessDB())
-                            //{
-                            //    var e = from ems in access.Employees.Include("Notifications")
-                            //            where ems.Username.Equals(username)
-                            //            select ems;
-
-                            //    var em = e.ToList().FirstOrDefault();
-                            //    em.Notifications.Clear(); 
-                            //    access.SaveChanges();
-
-                            //    messageToLog = "Notifications data cleared in .mdf.";
-                            //    Program.Logger.Info(messageToLog);
-
-                            //     access.SaveChanges();
-                            //}
                         }
                         else
                         {
@@ -283,60 +252,6 @@ namespace HiringCompany.Services
             HiringCompanyDB.Instance.EditEmployeeData(username, name, surname, email, password);
             internalDatabase.EditOnlineEmployeeData(username, name, surname, email, password);
 
-            //try
-            //{
-            //    using (var access = new AccessDB())
-            //    {
-            //        Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
-
-            //        if (em != null)
-            //        {
-            //            em.Name = name != "" ? name : em.Name;
-            //            em.Surname = surname != "" ? surname : em.Surname;
-            //            em.Email = email != "" ? email : em.Email;
-            //            em.Password = password != "" ? password : em.Password;
-            //            if (em.Password == password)
-            //            {
-            //                em.DatePasswordChanged = DateTime.Now;
-            //            }
-            //            access.SaveChanges();
-            //            messageToLog = "updated employee data in .mdf database.";
-            //            Program.Logger.Info(messageToLog);
-            //        }
-            //    }
-            //}
-            //catch (DbEntityValidationException e)
-            //{
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //        messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //        Program.Logger.Info(messageToLog);
-            //        foreach (var ve in eve.ValidationErrors)
-            //        {
-            //            messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-            //                ve.PropertyName,
-            //                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-            //                ve.ErrorMessage);
-            //            Program.Logger.Info(messageToLog);
-            //        }
-            //    }
-            //}
-
-            //lock (internalDatabase.OnlineEmployees_lock)
-            //{
-            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-            //    if (em != null)
-            //    {
-            //        em.Name = name != "" ? name : em.Name;
-            //        em.Surname = surname != "" ? surname : em.Surname;
-            //        em.Email = email != "" ? email : em.Email;
-            //        em.Password = password != "" ? password : em.Password;
-            //        messageToLog = "updated employee data in OnlineEmployees list.";
-            //        Program.Logger.Info(messageToLog);
-            //    }
-            //}
-
             using (Notifier notifier = new Notifier())
             {
                 notifier.SyncAll();
@@ -354,50 +269,6 @@ namespace HiringCompany.Services
 
             HiringCompanyDB.Instance.EditWorkingHours(username, beginH, beginM, endH, endM);
             internalDatabase.EditWorkingHoursForOnlineEm(username, beginH, beginM, endH, endM);
-            //try
-            //{
-            //    using (var access = new AccessDB())
-            //    {
-            //        Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
-            //        if (em != null)
-            //        {
-            //            em.StartHour = beginH;
-            //            em.StartMinute = beginM;
-            //            em.EndHour = endH;
-            //            em.EndMinute = endM;
-            //            access.SaveChanges();
-            //            messageToLog = "updated working hours data in .mdf database.";
-            //        }
-            //    }
-            //}
-            //catch (DbEntityValidationException e)
-            //{
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //        messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //        foreach (var ve in eve.ValidationErrors)
-            //        {
-            //            messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-            //                ve.PropertyName,
-            //                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-            //                ve.ErrorMessage);
-            //        }
-            //    }
-            //}
-
-            //lock (internalDatabase.OnlineEmployees_lock)
-            //{
-            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-            //    if (em != null)
-            //    {
-            //        em.StartHour = beginH;
-            //        em.StartMinute = beginM;
-            //        em.EndHour = endH;
-            //        em.EndMinute = endM;
-            //        messageToLog = "updated working hours data in OnlineEmployees list.";
-            //    }
-            //}
 
             using (Notifier notifier = new Notifier())
             {
@@ -414,7 +285,6 @@ namespace HiringCompany.Services
             messageToLog = string.Format("\nMethod: EmployeeService.AskForPartnership(), " +
                                               "params: string outsorcingCompanuName={0}", outsorcingCompanyName);
             Program.Logger.Info(messageToLog);
-            //ovde namestiti da iz baze-mape, ili iz nekog konfig fajla iscitamo adresu te kompanije
 
             string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", internalDatabase.PossiblePartnersAddresses[outsorcingCompanyName]);
 
@@ -463,16 +333,49 @@ namespace HiringCompany.Services
 
             HiringCompanyDB.Instance.EditEmployeeType(username, type);
             internalDatabase.EditOnlineEmployeeType(username, type);
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+            Program.Logger.Info(messageToLog);
+        }
+
+        public void SendApprovedUserStories(string projectName, List<UserStory> userStories)
+        {
+            string messageToLog = string.Empty;
+            messageToLog = string.Format("\nMethod: EmployeeService.SendApprovedUserStories(), " +
+                                              "params: string projectName={0};  userStories.Count={1}", projectName, userStories.Count);
+            Program.Logger.Info(messageToLog);
+
+            Project proj=HiringCompanyDB.Instance.SendApprovedUserStoriesFieldChange(projectName, userStories);
+
+            //sklonicemo ove komentare sutra,kad proverimo da li radi u komunikaciji sa drugim serverom
+            //Project proj = new Project();
             //try
             //{
             //    using (var access = new AccessDB())
             //    {
-            //        Employee em = access.Employees.SingleOrDefault(e => e.Username.Equals(username));
-            //        if (em != null)
+            //        proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
+
+            //        if (proj != null)
             //        {
-            //            em.Type = type;
+            //            if (proj.UserStories.Count == userStories.Count)
+            //            {
+            //                for (int i=0; i < proj.UserStories.Count; i++)
+            //                {
+            //                    proj.UserStories[i].IsApprovedByPO = userStories[i].IsApprovedByPO;
+            //                }
+            //            }
+            //            else
+            //            {
+            //                messageToLog = "Unsuccessful idea! :( ";
+            //                Program.Logger.Info(messageToLog);
+            //            }
+
             //            access.SaveChanges();
-            //            messageToLog = "employee type changed in .mdf database.";
+
+            //            messageToLog = "changed user stories data in .mdf database.";
             //            Program.Logger.Info(messageToLog);
             //        }
             //    }
@@ -494,77 +397,6 @@ namespace HiringCompany.Services
             //        }
             //    }
             //}
-
-            //lock (internalDatabase.OnlineEmployees_lock)
-            //{
-            //    Employee em = internalDatabase.OnlineEmployees.Find(e => e.Username.Equals(username));
-            //    if (em != null)
-            //    {
-            //        em.Type = type;
-            //        messageToLog = "employee type changed in OnlineEmployees list";
-            //        Program.Logger.Info(messageToLog);
-            //    }
-            //}
-
-            using (Notifier notifier = new Notifier())
-            {
-                notifier.SyncAll();
-            }
-            Program.Logger.Info(messageToLog);
-        }
-
-        public void SendApprovedUserStories(string projectName, List<UserStory> userStories)
-        {
-            string messageToLog = string.Empty;
-            messageToLog = string.Format("\nMethod: EmployeeService.SendApprovedUserStories(), " +
-                                              "params: string projectName={0};  userStories.Count={1}", projectName, userStories.Count);
-            Program.Logger.Info(messageToLog);
-            Project proj = new Project();
-            try
-            {
-                using (var access = new AccessDB())
-                {
-                    proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
-
-                    if (proj != null)
-                    {
-                        if (proj.UserStories.Count == userStories.Count)
-                        {
-                            for (int i=0; i < proj.UserStories.Count; i++)
-                            {
-                                proj.UserStories[i].IsApprovedByPO = userStories[i].IsApprovedByPO;
-                            }
-                        }
-                        else
-                        {
-                            messageToLog = "Unsuccessful idea! :( ";
-                            Program.Logger.Info(messageToLog);
-                        }
-
-                        access.SaveChanges();
-
-                        messageToLog = "changed user stories data in .mdf database.";
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    Program.Logger.Info(messageToLog);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
 
             string outsorcingSvcEndpoint = string.Format("net.tcp://{0}/OutsourcingService", internalDatabase.PartnerCompaniesAddresses[proj.OutsourcingCompany]);
 
@@ -589,83 +421,19 @@ namespace HiringCompany.Services
                 Program.Logger.Info(messageToLog);
             }
 
-            try
-            {
-                // ovo treba da radimo u bazi 
-                using (var access = new AccessDB())
-                {
-                    proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
-                    proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
-                    access.SaveChanges();
+            HiringCompanyDB.Instance.RemoveDeclinedUserStoriesFromDB(projectName);
 
-                    messageToLog = "Removed user stories that were not approved in .mdf database.";
-                    Program.Logger.Info(messageToLog);
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    messageToLog = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    Program.Logger.Info(messageToLog);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        messageToLog = string.Format("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
-                            ve.PropertyName,
-                            eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
-                            ve.ErrorMessage);
-                        Program.Logger.Info(messageToLog);
-                    }
-                }
-            }
-
-            using (Notifier notifier = new Notifier())
-            {
-                notifier.SyncAll();
-            }
-
-        }
-
-        public void CreateNewProject(Project p)
-        {
-            string messageToLog = string.Empty;
-            messageToLog = string.Format("\nMethod: EmployeeService.CreateNewProject(), Project.Name={0}", p.Name);
-            Program.Logger.Info(messageToLog);
-
-            HiringCompanyDB.Instance.AddNewProject(p); // lockovanje? bolje raditi interno u AddNewProjet metodi, kad smo je vec napravili
-
-            string notification = string.Format("Project <{0}> is waiting for approval. Description: {1}", p.Name, p.Description);
-
-            using (Notifier notifier = new Notifier())
-            {
-                notifier.SyncSpecialClients(EmployeeType.CEO, notification);
-            }
-
-            messageToLog = "finished successfully.";
-            Program.Logger.Info(messageToLog);
-        }
-
-        public void ProjectApprovedByCeo(Project p)
-        {
-            string messageToLog = string.Empty;
-            messageToLog = string.Format("\nMethod: EmployeeService.ProjectApprovedByCeo(), Project.Name={0}", p.Name);
-            Program.Logger.Info(messageToLog);
-            HiringCompanyDB.Instance.ProjectApprovedCEOFieldChange(p);
-
+            //sklonicemo ove komentare sutra,kad proverimo da li radi u komunikaciji sa drugim serverom
             //try
             //{
+            //    // ovo treba da radimo u bazi 
             //    using (var access = new AccessDB())
             //    {
-            //        var project = from proj in access.Projects
-            //                      where proj.Name.Equals(p.Name)
-            //                      select proj;
-
-            //        var pr = project.ToList().FirstOrDefault();
-            //        pr.IsAcceptedCEO = true;
+            //        proj = access.Projects.Include("UserStories").SingleOrDefault(p => p.Name.Equals(projectName));
+            //        proj.UserStories.RemoveAll(us => us.IsApprovedByPO == false);
             //        access.SaveChanges();
 
-            //        messageToLog = "project propertu IsAcceptedCEO updated in .mdf database.";
+            //        messageToLog = "Removed user stories that were not approved in .mdf database.";
             //        Program.Logger.Info(messageToLog);
             //    }
             //}
@@ -686,6 +454,39 @@ namespace HiringCompany.Services
             //        }
             //    }
             //}
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+
+        }
+
+        public void CreateNewProject(Project p)
+        {
+            string messageToLog = string.Empty;
+            messageToLog = string.Format("\nMethod: EmployeeService.CreateNewProject(), Project.Name={0}", p.Name);
+            Program.Logger.Info(messageToLog);
+
+            HiringCompanyDB.Instance.AddNewProject(p);
+
+            string notification = string.Format("Project <{0}> is waiting for approval. Description: {1}", p.Name, p.Description);
+
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncSpecialClients(EmployeeType.CEO, notification);
+            }
+
+            messageToLog = "finished successfully.";
+            Program.Logger.Info(messageToLog);
+        }
+
+        public void ProjectApprovedByCeo(Project p)
+        {
+            string messageToLog = string.Empty;
+            messageToLog = string.Format("\nMethod: EmployeeService.ProjectApprovedByCeo(), Project.Name={0}", p.Name);
+            Program.Logger.Info(messageToLog);
+            HiringCompanyDB.Instance.ProjectApprovedCEOFieldChange(p);
 
             string notification = string.Format("Project {0} is approved. Description: {1}", p.Name, p.Description);
             using (Notifier notifier = new Notifier())
@@ -740,17 +541,6 @@ namespace HiringCompany.Services
             Program.Logger.Info(messageToLog);
 
             HiringCompanyDB.Instance.CloseProjectFieldChange(projectName);
-
-            //Project proj = new Project();
-            //using (var access = new AccessDB())
-            //{
-            //    proj = access.Projects.SingleOrDefault(project => project.Name.Equals(projectName));
-            //    proj.IsClosed = true;
-            //    access.SaveChanges();
-
-            //    messageToLog = "Updated Project.IsClosed data in .mdf database.";
-            //    Program.Logger.Info(messageToLog);
-            //}
 
             string notification = string.Format("Project <{0}> is closed.", projectName);
 

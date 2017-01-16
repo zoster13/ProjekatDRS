@@ -53,5 +53,9 @@ namespace HiringCompany.DatabaseAccess
         bool ClearEmployeeNotifs(string username);
 
         List<string> GetPartnerCompaniesNames();
+
+        Project SendApprovedUserStoriesFieldChange(string projectName, List<UserStory> userStories);
+
+        bool RemoveDeclinedUserStoriesFromDB(string projectName);
     }
 }
