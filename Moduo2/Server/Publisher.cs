@@ -99,6 +99,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -120,6 +121,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
 
@@ -143,6 +145,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -164,6 +167,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -193,6 +197,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -214,6 +219,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -237,6 +243,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -258,6 +265,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -281,6 +289,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -304,6 +313,7 @@ namespace Server
                         catch (Exception e)
                         {
                             Console.WriteLine("Error: {0}", e.Message);
+                            EmployeeService.Logger.Error(e.Message);
                         }
                     }
                 }
@@ -326,6 +336,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -347,6 +358,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -375,6 +387,7 @@ namespace Server
                         catch (Exception e)
                         {
                             Console.WriteLine("Error: {0}", e.Message);
+                            EmployeeService.Logger.Error(e.Message);
                         }
                     }
                     break;
@@ -403,6 +416,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -426,6 +440,7 @@ namespace Server
                     catch (Exception e)
                     {
                         Console.WriteLine("Error: {0}", e.Message);
+                        EmployeeService.Logger.Error(e.Message);
                     }
                 }
             }
@@ -450,6 +465,7 @@ namespace Server
                         catch (Exception e)
                         {
                             Console.WriteLine("Error: {0}", e.Message);
+                            EmployeeService.Logger.Error(e.Message);
                         }
                     }
                 }
@@ -470,6 +486,7 @@ namespace Server
                 catch (Exception e)
                 {
                     Console.WriteLine("Error: {0}", e.Message);
+                    EmployeeService.Logger.Error(e.Message);
                 }
             }
         }
