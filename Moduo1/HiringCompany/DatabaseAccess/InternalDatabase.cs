@@ -33,8 +33,8 @@ namespace HiringCompany.DatabaseAccess
         private Dictionary<string, string> possiblePartnersAddresses;
         private Dictionary<string, string> partnerCompaniesAddresses;
 
-        private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies; //treba zakljucavati
-        private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients; // treba zakljucavati
+        private Dictionary<string, OutsorcingCompProxy> connectionChannelsCompanies;
+        private Dictionary<string, IEmployeeServiceCallback> connectionChannelsClients;
 
         private InternalDatabase()
         {
@@ -56,12 +56,6 @@ namespace HiringCompany.DatabaseAccess
             List<string> pCompaniesName = new List<string>();
 
             pCompaniesName = HiringCompanyDB.Instance.GetPartnerCompaniesNames();
-
-            //using (var access = new AccessDB())
-            //{
-            //    pCompaniesName = (from comp in access.Companies
-            //                      select comp.Name).ToList();
-            //}
 
             foreach (string cName in pCompaniesName)
             {
@@ -115,8 +109,6 @@ namespace HiringCompany.DatabaseAccess
             set { companyName = value; }
         }
 
-        // da li ovde streba da stitim u geteru? msm mozda neka druga nit bas tad dodaje nekog employee u online
-        //ja mislim da ne treba,jer je ovo memorija za jednog klijenta,a ne moze on brzinom svetlosti dodati 2 Employee
         public List<Employee> OnlineEmployees
         {
             get { return onlineEmployees; }
@@ -135,7 +127,6 @@ namespace HiringCompany.DatabaseAccess
             set { partnerCompaniesAddresses = value; }
         }
 
-        // treba lock ovde?
         public Dictionary<string, IEmployeeServiceCallback> ConnectionChannelsClients
         {
             get { return connectionChannelsClients; }
@@ -193,7 +184,7 @@ namespace HiringCompany.DatabaseAccess
             bool retVal = false;
             lock (OnlineEmployees_lock)
             {
-                Employee em =OnlineEmployees.Find(e => e.Username.Equals(username));
+                Employee em = OnlineEmployees.Find(e => e.Username.Equals(username));
                 if (em != null)
                 {
                     em.Type = type;

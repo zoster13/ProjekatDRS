@@ -24,10 +24,9 @@ namespace HiringCompanyTest.Services
 
         private Project projectTest;
 
-        bool result;
+        private bool result;
         private InternalDatabase iDB;
         private PartnerCompany partnerCompanyTest;
-        private DateTime workTimeEmployee;
 
         [OneTimeSetUp]
         public void SetupTest()
@@ -57,6 +56,8 @@ namespace HiringCompanyTest.Services
             employeeTestSM.DatePasswordChanged = DateTime.Now - timeSpan20Min;
             employeeTestSM.StartHour = dt.Hour;
             employeeTestSM.StartMinute = dt.Minute;
+            Notification not = new Notification("11/12/2016", "obavestenje");
+            employeeTestSM.Notifications.Add(not);
 
             employeeTestNull = null;
 
@@ -67,13 +68,13 @@ namespace HiringCompanyTest.Services
             IEmployeeServiceCallback callbackClient = Substitute.For<IEmployeeServiceCallback>();
 
             ICommunicationObject cObject = callbackClient as ICommunicationObject;
-            iDB.ConnectionChannelsClients.Add("zklasnic",callbackClient);
+            iDB.ConnectionChannelsClients.Add("zklasnic", callbackClient);
 
                 
 
             HiringCompanyDB.Instance.GetEmployee(Arg.Is<string>(username => username == "zklasnic")).Returns(employeeTest);
             HiringCompanyDB.Instance.GetEmployee(Arg.Is<string>(username => username == "rzekanovic")).Returns(employeeTestSM);
-            HiringCompanyDB.Instance.GetEmployee(Arg.Is<string>(username=>(username != "rzekanovic" && username != "zklasnic"))).Returns(employeeTestNull);
+            HiringCompanyDB.Instance.GetEmployee(Arg.Is<string>(username => (username != "rzekanovic" && username != "zklasnic"))).Returns(employeeTestNull);
 
             HiringCompanyDB.Instance.ClearEmployeeNotifs(Arg.Is<string>(username => username == "zklasnic")).Returns(true);
             HiringCompanyDB.Instance.ClearEmployeeNotifs(Arg.Is<string>(username => username == "rzekanovic")).Returns(true);
@@ -172,7 +173,7 @@ namespace HiringCompanyTest.Services
         [Test]
         public void AddNewEmployeeTestFault()
         {
-            result= employeeServiceTest.AddNewEmployee(new Employee() { Username = "jjovanovic" });
+            result = employeeServiceTest.AddNewEmployee(new Employee() { Username = "jjovanovic" });
             Assert.IsFalse(result);
         }
 
@@ -264,6 +265,18 @@ namespace HiringCompanyTest.Services
         public void NotifyUserStoriesDeadlineTest()
         {
             Assert.DoesNotThrow(() => employeeServiceTest.NotifyUserStoriesDeadline(null, null));
+        }
+
+        [Test]
+        public void SignInPartTest()
+        {
+            IEmployeeServiceCallback callbackClient = Substitute.For<IEmployeeServiceCallback>();
+
+            ICommunicationObject cObject = callbackClient as ICommunicationObject;
+            Assert.DoesNotThrow(() =>
+            {
+                employeeServiceTest.SignInPart("rzekanovic", callbackClient, employeeTestSM);
+            });
         }
     }
 }

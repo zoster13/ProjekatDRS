@@ -11,13 +11,8 @@ using EmployeeCommon.Data;
 
 namespace HiringCompany
 {
-    // mozda ovo treba kao neki singletone implementirati?
-    // obavezno treba da omogucimo da se notifikacije cuvaju u bazi!!!
-
     public class Notifier : IDisposable
     {
-
-        //private IHiringCompanyDB hiringCompanyDB = HiringCompanyDB.Instance();
         private InternalDatabase internalDatabase = InternalDatabase.Instance();
         private CurrentData cData;
 
@@ -37,7 +32,6 @@ namespace HiringCompany
 
             List<string> channelsForRemove = new List<string>();
 
-            // moramo dodati lockove na connection channels
             foreach (var clientChannel in internalDatabase.ConnectionChannelsClients)
             {
                 ICommunicationObject cObject = clientChannel.Value as ICommunicationObject;
@@ -222,7 +216,7 @@ namespace HiringCompany
                         }
                     }
                     else
-                    { // treba cuvati notifikaciju u bazi
+                    { 
                         if (!notification.Equals(""))
                         {
                             using (var access = new AccessDB())
@@ -270,7 +264,6 @@ namespace HiringCompany
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                // videti sta je ovde bilo greska
             }
 
 
@@ -342,7 +335,6 @@ namespace HiringCompany
             cData.NamesOfCompaniesData = internalDatabase.PossiblePartnersAddresses.Keys.ToList();
         }
 
-        // nemam pojma kako se ovaj notifier ponasa sa visi niti, ali ne znam ni baza kako se ponasa bla bla
         public void Dispose()
         {
         }

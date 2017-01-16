@@ -44,6 +44,9 @@ namespace HiringCompanyTest.DatabaseAccessTest
             employeeTest = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTest2 = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
             employeeTestNull = new Employee("jjovanovic", "123", EmployeeType.CEO, "Jovan", "Jovanovic", "jovan@gmail.com", 10, 20, 17, 30);
+
+            Employee em = new Employee("imedic", "111", EmployeeType.CEO, "Ilija", "Medic", "imedic@gmail.com", 9, 0, 17, 0);
+            instanceTest.OnlineEmployees.Add(em);
         }
 
         [Test]
@@ -133,6 +136,67 @@ namespace HiringCompanyTest.DatabaseAccessTest
             Assert.AreEqual(companyName, instanceTest.CompanyName);
         }
 
-        //Dodati i ostale metode
+        [Test]
+        public void EditOnlineEmployeeDataTestNotFound()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditOnlineEmployeeData("djklasnic", "Djordje", "Klasnic", "djklasnic@gmail.com", "321");
+            });
+        }
+
+        [Test]
+        public void EditOnlineEmployeeDataTestNameEmpty()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditOnlineEmployeeData("imedic", "", "Klasnic", "djklasnic@gmail.com", "321");
+            });
+        }
+
+        [Test]
+        public void EditOnlineEmployeeDataTestSurnameEmpty()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditOnlineEmployeeData("imedic", "Jovan", "", "djklasnic@gmail.com", "321");
+            });
+        }
+
+        [Test]
+        public void EditOnlineEmployeeDataTestEmailEmpty()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditOnlineEmployeeData("imedic", "Jovan", "Jovanovic", "", "321");
+            });
+        }
+
+        [Test]
+        public void EditOnlineEmployeeDataTestPasswordEmpty()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditOnlineEmployeeData("imedic", "Jovan", "Jovanovic", "jjovanovic@gmail.com", "");
+            });
+        }
+
+        [Test]
+        public void EditWorkingHoursForOnlineEmTestNotFound()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditWorkingHoursForOnlineEm("djklasnic", 10, 20, 18, 20);
+            });
+        }
+
+        [Test]
+        public void EditOnlineEmployeeTypeTestNotFound()
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                instanceTest.EditOnlineEmployeeType("djklasnic", EmployeeType.HR);
+            });
+        }
     }
 }

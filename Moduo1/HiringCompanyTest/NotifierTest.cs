@@ -18,7 +18,7 @@ namespace HiringCompanyTest
     public class NotifierTest
     {
         private Notifier notifierTest;
-        private CurrentData cData;
+        //private CurrentData cData;
         private InternalDatabase internalDatabase;
         private PartnerCompany partnerCompanyTest;
 

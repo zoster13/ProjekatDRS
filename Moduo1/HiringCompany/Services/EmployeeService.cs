@@ -97,7 +97,7 @@ namespace HiringCompany.Services
             {
                 DateTime current = DateTime.Now;
 
-                if(em.DatePasswordChanged.AddMonths(6) < current)
+                if (em.DatePasswordChanged.AddMonths(6) < current)
                 {
                     using (Notifier notifier = new Notifier())
                     {
@@ -120,9 +120,9 @@ namespace HiringCompany.Services
             foreach (Project p in HiringCompanyDB.Instance.ProjectsInDevelopment())
             {
                 DateTime current = DateTime.Now;
-                if (!p.IsClosed && p.UserStories.Count!=0 && p.IsAcceptedCEO && p.IsAcceptedOutsCompany)
+                if (!p.IsClosed && p.UserStories.Count != 0 && p.IsAcceptedCEO && p.IsAcceptedOutsCompany)
                 {
-                    if(current.AddDays(10)>p.Deadline)
+                    if (current.AddDays(10) > p.Deadline)
                     {
                         List<UserStory> us = p.UserStories.FindAll(u => u.IsClosed == false);
                         if (((double)p.UserStories.Count / 5) <= us.Count)
@@ -162,32 +162,34 @@ namespace HiringCompany.Services
                         IEmployeeServiceCallback outCallback;
                         if (!internalDatabase.ConnectionChannelsClients.TryGetValue(username, out outCallback))
                         {
-                            internalDatabase.ConnectionChannelsClients.Add(username, callbackClient);
 
-                            lock (internalDatabase.OnlineEmployees_lock)
-                            {
-                                internalDatabase.OnlineEmployees.Add(employee);
-                            }
+                            SignInPart(username, callbackClient, employee);
+                            //    internalDatabase.ConnectionChannelsClients.Add(username, callbackClient);
 
-                            messageToLog = "finished successfully.";
-                            Program.Logger.Info(messageToLog);
-                            using (Notifier notifier = new Notifier())
-                            {
-                                notifier.SyncAll();
-                            }
+                            //    lock (internalDatabase.OnlineEmployees_lock)
+                            //    {
+                            //        internalDatabase.OnlineEmployees.Add(employee);
+                            //    }
 
-                            Employee toNotifEmployee = new Employee();
-                            toNotifEmployee = HiringCompanyDB.Instance.GetEmployee(username);
+                            //    messageToLog = "finished successfully.";
+                            //    Program.Logger.Info(messageToLog);
+                            //    using (Notifier notifier = new Notifier())
+                            //    {
+                            //        notifier.SyncAll();
+                            //    }
 
-                            using (Notifier notifier = new Notifier())
-                            {
-                                foreach (var notif in toNotifEmployee.Notifications)
-                                {
-                                    notifier.NotifySpecialClient(username, string.Format("{0}: {1}", notif.Timestamp, notif.Content));
-                                }
-                            }
+                            //    Employee toNotifEmployee = new Employee();
+                            //    toNotifEmployee = HiringCompanyDB.Instance.GetEmployee(username);
 
-                            HiringCompanyDB.Instance.ClearEmployeeNotifs(username);
+                            //    using (Notifier notifier = new Notifier())
+                            //    {
+                            //        foreach (var notif in toNotifEmployee.Notifications)
+                            //        {
+                            //            notifier.NotifySpecialClient(username, string.Format("{0}: {1}", notif.Timestamp, notif.Content));
+                            //        }
+                            //    }
+
+                            //    HiringCompanyDB.Instance.ClearEmployeeNotifs(username);
                         }
                         else
                         {
@@ -207,6 +209,37 @@ namespace HiringCompany.Services
             messageToLog = "returned true";
             Program.Logger.Info(messageToLog);
             return true;
+        }
+
+        public void SignInPart(string username, IEmployeeServiceCallback callbackClient, Employee employee)
+        {
+            string messageToLog = string.Empty;
+            internalDatabase.ConnectionChannelsClients.Add(username, callbackClient);
+
+            lock (internalDatabase.OnlineEmployees_lock)
+            {
+                internalDatabase.OnlineEmployees.Add(employee);
+            }
+
+            messageToLog = "finished successfully.";
+            Program.Logger.Info(messageToLog);
+            using (Notifier notifier = new Notifier())
+            {
+                notifier.SyncAll();
+            }
+
+            Employee toNotifEmployee = new Employee();
+            toNotifEmployee = HiringCompanyDB.Instance.GetEmployee(username);
+
+            using (Notifier notifier = new Notifier())
+            {
+                foreach (var notif in toNotifEmployee.Notifications)
+                {
+                    notifier.NotifySpecialClient(username, string.Format("{0}: {1}", notif.Timestamp, notif.Content));
+                }
+            }
+
+            HiringCompanyDB.Instance.ClearEmployeeNotifs(username);
         }
 
         public void SignOut(string username)
@@ -348,7 +381,7 @@ namespace HiringCompany.Services
                                               "params: string projectName={0};  userStories.Count={1}", projectName, userStories.Count);
             Program.Logger.Info(messageToLog);
 
-            Project proj=HiringCompanyDB.Instance.SendApprovedUserStoriesFieldChange(projectName, userStories);
+            Project proj = HiringCompanyDB.Instance.SendApprovedUserStoriesFieldChange(projectName, userStories);
 
             //sklonicemo ove komentare sutra,kad proverimo da li radi u komunikaciji sa drugim serverom
             //Project proj = new Project();

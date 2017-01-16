@@ -303,7 +303,7 @@ namespace HiringCompany.DatabaseAccess
                         {
                             em.DatePasswordChanged = DateTime.Now;
                         }
-                        i=access.SaveChanges();
+                        i = access.SaveChanges();
                         messageToLog = "updated employee data in .mdf database.";
                         Program.Logger.Info(messageToLog);
                     }
@@ -437,7 +437,7 @@ namespace HiringCompany.DatabaseAccess
 
                     var pr = project.ToList().FirstOrDefault();
                     pr.IsAcceptedCEO = true;
-                    i=access.SaveChanges();
+                    i = access.SaveChanges();
 
                     messageToLog = "project propertu IsAcceptedCEO updated in .mdf database.";
                     Program.Logger.Info(messageToLog);
@@ -479,7 +479,7 @@ namespace HiringCompany.DatabaseAccess
                 int i = 0;
                 proj = access.Projects.SingleOrDefault(project => project.Name.Equals(projectName));
                 proj.IsClosed = true;
-                i=access.SaveChanges();
+                i = access.SaveChanges();
                 if (i > 0)
                 {
                     retVal = true;
@@ -570,7 +570,7 @@ namespace HiringCompany.DatabaseAccess
                 if (proj != null)
                 {
                     proj.UserStories = tempUserStories;
-                    i=access.SaveChanges();
+                    i = access.SaveChanges();
 
                     messageToLog = "Updated Project.UserStories data in .mdf database.";
                     Program.Logger.Info(messageToLog);
@@ -606,7 +606,7 @@ namespace HiringCompany.DatabaseAccess
                 {
                     UserStory us = proj.UserStories.Find(u => u.Title.Equals(title));
                     us.IsClosed = true;
-                    i=access.SaveChanges();
+                    i = access.SaveChanges();
                     notification = string.Format("User story <{0}> for project <{1}> is closed.", title, projectName);
                     messageToLog = "Updated Project.UserStories data in .mdf database.";
                     Program.Logger.Info(messageToLog);
@@ -654,7 +654,7 @@ namespace HiringCompany.DatabaseAccess
                 {
                     var em = e.ToList().FirstOrDefault();
                     em.Notifications.Clear();
-                    i=access.SaveChanges();
+                    i = access.SaveChanges();
 
                     messageToLog = "Notifications data cleared in .mdf.";
                     Program.Logger.Info(messageToLog);
@@ -754,7 +754,6 @@ namespace HiringCompany.DatabaseAccess
             bool retVal = true;
             try
             {
-                // ovo treba da radimo u bazi 
                 using (var access = new AccessDB())
                 {
                     int i = 0;

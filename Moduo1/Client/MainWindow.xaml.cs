@@ -37,7 +37,6 @@ namespace Client
 
             clientDB.Main = this;
 
-            //ako nesto e bude prikazivalo kako treba,mozda ovde moraju svi dataContexti da se dodaju
             foreach (EmployeeType type in Enum.GetValues(typeof(EmployeeType)))
             {
                 comboBoxNewPositionCEO.Items.Add(Extensions.TypeToString(type));
@@ -76,7 +75,6 @@ namespace Client
         {
             SetUpConnection();
 
-            //if (proxy.InnerChannel.State == CommunicationState.Opened)
             if (proxy.State == CommunicationState.Opened)           
             {
                 bool success = proxy.SignIn(usernameBox.Text.Trim(), passwordBox.Password);
@@ -205,11 +203,6 @@ namespace Client
         private void ApplyTypeChangeButton_Click(object sender, RoutedEventArgs e)
         {
             string usName = ((Employee)dataGridCEO.SelectedItem).Username;
-            //ne vredi da pravimo proveru da ne moze da se menja SM,jer isto tako ne bi trebao da se promeni PO jer je i on vezan za projekat
-            //PO treba da stizu notifikacije o projektu,a SM notifikacija kad bude provera za 80%
-            //svakako ce njihovi username-ovi biti vezani za ona polja u projektu i slace im se notifikacije,
-            //jedino sto nece moci da obrade to sto treba nakon notifikacije.
-            //Ako uvedemo provere,onda ce biti moguca provera samo iz HR i CEO u druge tipove 
             proxy.ChangeEmployeeType(usName, Extensions.StringToType((string)comboBoxNewPositionCEO.SelectedItem));
         }
 
@@ -226,10 +219,7 @@ namespace Client
             {
                 Project proj = (Project)projectsForApprovalDataGrid.SelectedItem;
 
-                //lock (clientDB.ProjectsForApproval_lock)
-                //{
                 proxy.ProjectApprovedByCeo(proj);
-                //}
             }
         }
 
@@ -249,25 +239,21 @@ namespace Client
         {
             Project p = new Project(ProjectNameTextBox.Text.Trim(), ProjectDescriptionTextBox.Text.Trim(), clientDB.Username, (string)ScrumMasterComboBox.SelectedItem);
 
-            // i da bude vizuelni feedback da li je datum validan, npr crvene ivice, ako klijent ne ukuca kako treba
-            //p.StartDate = Convert.ToDateTime(ProjectStartDateTextBox.Text);
             DateTime dateTimeOut;
             if (DateTime.TryParse(ProjectStartDateTextBox.Text, out dateTimeOut))
             {
-                p.StartDate = dateTimeOut; //tako nesto raditi kada se text promeni ili slicno...
+                p.StartDate = dateTimeOut;
             }
 
             if (DateTime.TryParse(ProjectDeadlineTextBox.Text, out dateTimeOut))
             {
-                p.Deadline = dateTimeOut; //tako nesto raditi kada se text promeni ili slicno...
+                p.Deadline = dateTimeOut;
             }
-            //p.Deadline = Convert.ToDateTime(ProjectDeadlineTextBox.Text);
 
             ProjectNameTextBox.Text = "";
             ProjectDescriptionTextBox.Text = "";
             ProjectStartDateTextBox.Text = "";
             ProjectDeadlineTextBox.Text = "";
-            //ScrumMasterComboBox.Items.Clear();
 
             proxy.CreateNewProject(p);       
         }
@@ -286,7 +272,7 @@ namespace Client
                     {
                         Content = us.Title,
                         IsChecked = false,
-                        ToolTip = tTip //srediti vreme trajanja i pokazivanja
+                        ToolTip = tTip
                     };
                     UserStoriesForApprovalListBox.Items.Add(userStory);
                 }
@@ -355,29 +341,17 @@ namespace Client
             passBoxNewPass.IsEnabled = true;
         }
 
-        // visak
+        
         private void PassBoxOldPass_PasswordChanged(object sender, RoutedEventArgs e)
         {
         }
 
         private void PassBoxOldPass_LostFocus(object sender, RoutedEventArgs e)
         {
-            //if (passBoxOldPass.Password != String.Empty)
-            //{
-            //    if (passBoxOldPass.Equals(clientDB.Password))
-            //    {
-            //        //passBoxNewPass.IsEnabled = true;
-            //        warningPasswordLabel.Content = "";
-            //    }
-            //    else
-            //    {
-            //        warningPasswordLabel.Content = "Current password incorrect!";
-            //    }
-            //}
 
         }
 
-        private void passBoxNewPass_GotFocus(object sender, RoutedEventArgs e)
+        private void PassBoxNewPass_GotFocus(object sender, RoutedEventArgs e)
         {
             if (passBoxOldPass.Password != String.Empty)
             {
@@ -510,6 +484,7 @@ namespace Client
                     tabItemCompanies.Visibility = Visibility.Visible;
                     tabItemProjects.Visibility = Visibility.Visible;
                     PO_Work_TabItem.Visibility = Visibility.Hidden;
+                    Projects_TabItem.Focusable = true;
                 }
                 else if (em.Type.Equals(EmployeeType.HR))
                 {
@@ -517,6 +492,7 @@ namespace Client
                     tabItemCompanies.Visibility = Visibility.Hidden;
                     tabItemProjects.Visibility = Visibility.Hidden;
                     PO_Work_TabItem.Visibility = Visibility.Hidden;
+                    Projects_TabItem.Focusable = false;
                 }
                 else if (em.Type.Equals(EmployeeType.PO))
                 {
@@ -524,6 +500,7 @@ namespace Client
                     tabItemCompanies.Visibility = Visibility.Hidden;
                     tabItemProjects.Visibility = Visibility.Hidden;
                     PO_Work_TabItem.Visibility = Visibility.Visible;
+                    Projects_TabItem.Focusable = true;
                 }
                 else
                 {
@@ -531,6 +508,7 @@ namespace Client
                     tabItemCompanies.Visibility = Visibility.Hidden;
                     tabItemProjects.Visibility = Visibility.Hidden;
                     PO_Work_TabItem.Visibility = Visibility.Hidden;
+                    Projects_TabItem.Focusable = true;
                 }
             }
         }

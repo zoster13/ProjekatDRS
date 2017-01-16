@@ -14,7 +14,6 @@ namespace EmployeeCommon.Data
     {
         private int id; // database key
         private string content;
-        private string assignedUser_username; // visak
         private string timestamp;
 
         public Notification()

@@ -2228,3 +2228,168 @@ Method: EmployeeService.SignOut(), params: string username=amisic
 Method: Notifier.SyncAll()
 2017-01-15 09:33:07,196 INFO - finished successfully
 2017-01-15 09:33:07,204 INFO - finished successfully.
+2017-01-16 02:18:43,556 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-16 02:19:07,842 INFO - finished successfully.
+2017-01-16 02:19:11,582 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:19:11,801 INFO - finished successfully
+2017-01-16 02:20:00,308 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:20:10,842 INFO - returned true
+2017-01-16 02:21:12,097 INFO - 
+Method: EmployeeService.SignIn(), params: string username=pperic, string password=pperic
+2017-01-16 02:21:12,113 INFO - finished successfully.
+2017-01-16 02:21:12,116 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:21:12,341 INFO - finished successfully
+2017-01-16 02:21:12,346 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,361 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,366 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,369 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,371 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,374 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,376 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,378 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,381 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,383 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,385 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,387 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=pperic
+2017-01-16 02:21:12,403 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:21:12,404 INFO - returned true
+2017-01-16 02:21:28,610 INFO - 
+Method: EmployeeService.SignOut(), params: string username=pperic
+2017-01-16 02:21:28,611 INFO - finished successfully.
+2017-01-16 02:21:28,612 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:21:28,627 INFO - finished successfully
+2017-01-16 02:21:28,627 INFO - finished successfully.
+2017-01-16 02:21:35,345 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-16 02:21:35,345 INFO - finished successfully.
+2017-01-16 02:21:35,345 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:21:35,352 INFO - finished successfully
+2017-01-16 02:21:35,353 INFO - finished successfully.
+2017-01-16 02:38:06,328 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-16 02:38:06,409 INFO - finished successfully.
+2017-01-16 02:38:06,410 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:38:06,747 INFO - finished successfully
+2017-01-16 02:38:06,752 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:38:06,752 INFO - returned true
+2017-01-16 02:38:33,367 INFO - 
+Method: EmployeeService.SignIn(), params: string username=pperic, string password=pperic
+2017-01-16 02:38:33,369 INFO - finished successfully.
+2017-01-16 02:38:33,370 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:38:33,434 INFO - finished successfully
+2017-01-16 02:38:33,437 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:38:33,438 INFO - returned true
+2017-01-16 02:38:45,963 INFO - 
+Method: EmployeeService.SignOut(), params: string username=pperic
+2017-01-16 02:38:45,963 INFO - finished successfully.
+2017-01-16 02:38:45,964 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:38:45,977 INFO - finished successfully
+2017-01-16 02:38:45,978 INFO - finished successfully.
+2017-01-16 02:38:51,718 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-16 02:38:51,720 INFO - finished successfully.
+2017-01-16 02:38:51,720 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:38:51,733 INFO - finished successfully
+2017-01-16 02:38:51,737 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:38:51,737 INFO - returned true
+2017-01-16 02:38:56,083 INFO - 
+Method: EmployeeService.SignOut(), params: string username=amisic
+2017-01-16 02:38:56,083 INFO - finished successfully.
+2017-01-16 02:38:56,083 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:38:56,099 INFO - finished successfully
+2017-01-16 02:38:56,100 INFO - finished successfully.
+2017-01-16 02:39:01,029 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 02:39:01,033 INFO - finished successfully.
+2017-01-16 02:39:01,033 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:39:01,051 INFO - finished successfully
+2017-01-16 02:39:01,055 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-16 02:39:01,062 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-16 02:39:01,066 INFO - 
+Method: Notifier.SyncSpecialClient() clientUsername=mvujakovic
+2017-01-16 02:39:01,086 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:39:01,086 INFO - returned true
+2017-01-16 02:39:06,390 INFO - 
+Method: EmployeeService.SignOut(), params: string username=mvujakovic
+2017-01-16 02:39:06,391 INFO - finished successfully.
+2017-01-16 02:39:06,391 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:39:06,401 INFO - finished successfully
+2017-01-16 02:39:06,401 INFO - finished successfully.
+2017-01-16 02:39:11,678 INFO - 
+Method: EmployeeService.SignIn(), params: string username=rzekanovic, string password=rzekanovic
+2017-01-16 02:39:11,680 INFO - finished successfully.
+2017-01-16 02:39:11,681 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:39:11,695 INFO - finished successfully
+2017-01-16 02:39:11,699 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:39:11,699 INFO - returned true
+2017-01-16 02:39:31,803 INFO - 
+Method: EmployeeService.SignOut(), params: string username=rzekanovic
+2017-01-16 02:39:31,803 INFO - finished successfully.
+2017-01-16 02:39:31,804 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:39:31,824 INFO - finished successfully
+2017-01-16 02:39:31,824 INFO - finished successfully.
+2017-01-16 02:39:36,305 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-16 02:39:36,305 INFO - finished successfully.
+2017-01-16 02:39:36,306 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:39:36,312 INFO - finished successfully
+2017-01-16 02:39:36,312 INFO - finished successfully.
+2017-01-16 02:46:41,249 INFO - 
+Method: EmployeeService.SignIn(), params: string username=amisic, string password=amisic
+2017-01-16 02:46:41,326 INFO - finished successfully.
+2017-01-16 02:46:41,328 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:46:41,662 INFO - finished successfully
+2017-01-16 02:46:41,667 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:46:41,668 INFO - returned true
+2017-01-16 02:46:52,522 INFO - 
+Method: EmployeeService.SignIn(), params: string username=zklasnic, string password=zklasnic
+2017-01-16 02:46:52,525 INFO - finished successfully.
+2017-01-16 02:46:52,525 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:46:52,580 INFO - finished successfully
+2017-01-16 02:46:52,583 INFO - Notifications data cleared in .mdf.
+2017-01-16 02:46:52,584 INFO - returned true
+2017-01-16 02:48:19,449 INFO - 
+Method: EmployeeService.SignOut(), params: string username=zklasnic
+2017-01-16 02:48:19,450 INFO - finished successfully.
+2017-01-16 02:48:19,450 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:48:19,463 INFO - finished successfully
+2017-01-16 02:48:19,463 INFO - finished successfully.
+2017-01-16 02:48:23,606 INFO - 
+Method: EmployeeService.SignOut(), params: string username=amisic
+2017-01-16 02:48:23,607 INFO - finished successfully.
+2017-01-16 02:48:23,607 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 02:48:23,615 INFO - finished successfully
+2017-01-16 02:48:23,615 INFO - finished successfully.
