@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
 using Client;
-using NUnit.Core;
+using EmployeeCommon;
+using NUnit.Framework;
 using TechTalk.SpecFlow;
 
 namespace BDD
@@ -22,7 +23,14 @@ namespace BDD
         [Given(@"I have form to log in")]
         public void GivenIHaveFormToLogIn()
         {
-            ScenarioContext.Current.Pending();
+            binding.CloseTimeout = new TimeSpan(1, 0, 0);
+            binding.SendTimeout = new TimeSpan(1, 0, 0);
+            binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+
+            IEmployeeServiceCallback callback = new ClientCallback();
+            InstanceContext instanceContext = new InstanceContext(callback);
+            proxy = new ClientProxy(instanceContext, binding, ea);
+
         }
 
         [When(@"I enter valid ""(.*)"" and ""(.*)""")]
@@ -42,15 +50,14 @@ namespace BDD
         [Then(@"I should be logged in successfully")]
         public void ThenIShouldBeLoggedInSuccessfully()
         {
-            result = proxy.SignIn(username, password);
-            NUnitFramework.Assert.AreEqual(true, result);
+            Assert.DoesNotThrow(() => proxy.SignIn(username, password));
         }
 
         [Then(@"I should be warned")]
         public void ThenIShouldBeWarned()
         {
             result = proxy.SignIn(username, password);
-            NUnitFramework.Assert.AreEqual(false, result);
+            Assert.AreEqual(false, result);
         }
     }
 }

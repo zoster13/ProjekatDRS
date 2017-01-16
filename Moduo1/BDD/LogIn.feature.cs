@@ -65,12 +65,12 @@ namespace BDD
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Valid LogIn")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
+        [NUnit.Framework.CategoryAttribute("bdd")]
         [NUnit.Framework.TestCaseAttribute("\"mvujakovic\"", "\"123\"", new string[0])]
         public virtual void ValidLogIn(string username, string password, string[] exampleTags)
         {
             string[] @__tags = new string[] {
-                    "mytag"};
+                    "bdd"};
             if ((exampleTags != null))
             {
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));

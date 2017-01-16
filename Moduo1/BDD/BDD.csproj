@@ -68,6 +68,30 @@
       <DependentUpon>AddNewEmployee.feature</DependentUpon>
     </Compile>
     <Compile Include="AddNewEmployeeSteps.cs" />
+    <Compile Include="AddPartnershipCompany.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AddPartnershipCompany.feature</DependentUpon>
+    </Compile>
+    <Compile Include="AddPartnershipCompanySteps.cs" />
+    <Compile Include="ApproveNewProject.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApproveNewProject.feature</DependentUpon>
+    </Compile>
+    <Compile Include="ApproveNewProjectSteps.cs" />
+    <Compile Include="CloseProject.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CloseProject.feature</DependentUpon>
+    </Compile>
+    <Compile Include="CloseProjectSteps.cs" />
+    <Compile Include="CreateNewProject.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateNewProject.feature</DependentUpon>
+    </Compile>
+    <Compile Include="CreateNewProjectSteps.cs" />
     <Compile Include="EditEmployeeData.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,6 +111,12 @@
     </Compile>
     <Compile Include="LogOutSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetWorkingHours.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SetWorkingHours.feature</DependentUpon>
+    </Compile>
+    <Compile Include="SetWorkingHoursSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
@@ -96,7 +126,23 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>AddNewEmployee.feature.cs</LastGenOutput>
     </None>
+    <None Include="AddPartnershipCompany.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AddPartnershipCompany.feature.cs</LastGenOutput>
+    </None>
     <None Include="App.config" />
+    <None Include="ApproveNewProject.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ApproveNewProject.feature.cs</LastGenOutput>
+    </None>
+    <None Include="CloseProject.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CloseProject.feature.cs</LastGenOutput>
+    </None>
+    <None Include="CreateNewProject.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CreateNewProject.feature.cs</LastGenOutput>
+    </None>
     <None Include="EditEmployeeData.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EditEmployeeData.feature.cs</LastGenOutput>
@@ -110,11 +156,19 @@
       <LastGenOutput>LogOut.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="SetWorkingHours.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SetWorkingHours.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\ICommon\ICommon.csproj">
+      <Project>{32fb816c-6a52-4ec3-a6ef-d577e56a9e2c}</Project>
+      <Name>ICommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Client\Client.csproj">
       <Project>{65055815-f902-463e-b906-ead7515b6198}</Project>
       <Name>Client</Name>
@@ -122,6 +176,10 @@
     <ProjectReference Include="..\EmployeeCommon\EmployeeCommon.csproj">
       <Project>{f52c7068-8a38-4d65-a13c-4ff1453f6b83}</Project>
       <Name>EmployeeCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HiringCompany\HiringCompany.csproj">
+      <Project>{47576da7-9609-4044-be29-a09c8465e9c5}</Project>
+      <Name>HiringCompany</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

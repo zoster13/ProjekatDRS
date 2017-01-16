@@ -18,21 +18,21 @@ namespace BDD
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("LogOut")]
-    public partial class LogOutFeature
+    [NUnit.Framework.DescriptionAttribute("AddPartnershipCompany")]
+    public partial class AddPartnershipCompanyFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "LogOut.feature"
+#line 1 "AddPartnershipCompany.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "LogOut", "\tIn order to finish my work correctly\r\n\tAs an Employee\r\n\tI want to be able to Log" +
-                    " out", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "AddPartnershipCompany", "\tIn order to get Projects developed\r\n\tAs a CEO\r\n\tI want to be able to contract pa" +
+                    "rtnership with Outsorcing Companies", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -64,29 +64,21 @@ namespace BDD
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void FeatureBackground()
-        {
-#line 6
-#line 7
- testRunner.Given("I am logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-        }
-        
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("LogOut")]
+        [NUnit.Framework.DescriptionAttribute("Add partnership company")]
         [NUnit.Framework.CategoryAttribute("bdd")]
-        public virtual void LogOut()
+        public virtual void AddPartnershipCompany()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("LogOut", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add partnership company", new string[] {
                         "bdd"});
-#line 10
-this.ScenarioSetup(scenarioInfo);
 #line 6
-this.FeatureBackground();
-#line 11
- testRunner.When("I press x button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
- testRunner.Then("I should be successfully logged out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+this.ScenarioSetup(scenarioInfo);
+#line 7
+ testRunner.Given("I have form for choosing company that request will be sent to", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.When("I press button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Then("the outsorcing company should be contacted with request", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

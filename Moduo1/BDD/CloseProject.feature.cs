@@ -18,21 +18,21 @@ namespace BDD
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("LogOut")]
-    public partial class LogOutFeature
+    [NUnit.Framework.DescriptionAttribute("CloseProject")]
+    public partial class CloseProjectFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "LogOut.feature"
+#line 1 "CloseProject.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "LogOut", "\tIn order to finish my work correctly\r\n\tAs an Employee\r\n\tI want to be able to Log" +
-                    " out", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "CloseProject", "\tIn order to help tracking company progress\r\n\tAs a PO\r\n\tI want to be able to clos" +
+                    "e project if all user stories are finished", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -67,26 +67,30 @@ namespace BDD
         public virtual void FeatureBackground()
         {
 #line 6
-#line 7
- testRunner.Given("I am logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ #line 7
+ testRunner.Given("I am logged in as a PO", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("LogOut")]
+        [NUnit.Framework.DescriptionAttribute("Close project")]
         [NUnit.Framework.CategoryAttribute("bdd")]
-        public virtual void LogOut()
+        public virtual void CloseProject()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("LogOut", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Close project", new string[] {
                         "bdd"});
 #line 10
 this.ScenarioSetup(scenarioInfo);
 #line 6
-this.FeatureBackground();
+ this.FeatureBackground();
 #line 11
- testRunner.When("I press x button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I have a form for choosing project for closing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
- testRunner.Then("I should be successfully logged out", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I have select it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 13
+ testRunner.When("I press close button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("the project should be changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

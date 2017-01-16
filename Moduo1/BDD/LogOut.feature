@@ -6,6 +6,7 @@
 Background: 
 	Given I am logged in
 
+@bdd
 Scenario: LogOut
 	When I press x button
 	Then I should be successfully logged out

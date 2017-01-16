@@ -66,12 +66,12 @@ namespace BDD
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Edit employee data")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
+        [NUnit.Framework.CategoryAttribute("bdd")]
         [NUnit.Framework.TestCaseAttribute("\"Pera\"", "\"Peric\"", "\"100\"", new string[0])]
         public virtual void EditEmployeeData(string name, string surname, string password, string[] exampleTags)
         {
             string[] @__tags = new string[] {
-                    "mytag"};
+                    "bdd"};
             if ((exampleTags != null))
             {
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));

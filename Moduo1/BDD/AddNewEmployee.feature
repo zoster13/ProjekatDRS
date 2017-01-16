@@ -5,7 +5,8 @@
 
 	Background: 
 	Given I am logged in as a CEO or HR
-
+	
+	@bdd
 	Scenario Outline: Add New Employee
 		Given I have a form for filling up employee data
 		When I enter <name>, <surname>, <email>, <password>,

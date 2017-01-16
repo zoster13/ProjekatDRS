@@ -74,19 +74,26 @@ namespace BDD
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Add New Employee")]
+        [NUnit.Framework.CategoryAttribute("bdd")]
         [NUnit.Framework.TestCaseAttribute("\"Milica\"", "\"Milic\"", "\"mica@gmail.com\"", "\"micka11\"", new string[0])]
         public virtual void AddNewEmployee(string name, string surname, string email, string password, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add New Employee", exampleTags);
-#line 9
+            string[] @__tags = new string[] {
+                    "bdd"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add New Employee", @__tags);
+#line 10
  this.ScenarioSetup(scenarioInfo);
 #line 6
  this.FeatureBackground();
-#line 10
-  testRunner.Given("I have a form for filling up employee data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
-  testRunner.When(string.Format("I enter {0}, {1}, {2}, {3},", name, surname, email, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.Given("I have a form for filling up employee data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 12
+  testRunner.When(string.Format("I enter {0}, {1}, {2}, {3},", name, surname, email, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
   testRunner.Then("the new employee should be added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

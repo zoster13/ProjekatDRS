@@ -3,7 +3,7 @@
 	As an employee
 	I want to be able to log in
 
-@mytag
+	@bdd
 Scenario Outline: Valid LogIn
 	Given I have form to log in
 	When I enter valid <username> and <password>

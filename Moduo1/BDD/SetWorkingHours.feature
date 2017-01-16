@@ -3,7 +3,7 @@
 	As an Employee
 	I want to be able to change my working hours on daily basis
 
-@mytag
+@bdd
 Scenario: Changing working hours
 	Given I have form for re-enter my data
 	And I am Logged in

@@ -3,7 +3,7 @@
 	As an Employee
 	I want to be given a form for entering and saving data
 
-@mytag
+	@bdd
 Scenario Outline: Edit employee data
 	Given I a form for editing data
 	When I change <name>, <surname>, <password>,

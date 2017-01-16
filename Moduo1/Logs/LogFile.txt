@@ -2393,3 +2393,83 @@ Method: EmployeeService.SignOut(), params: string username=amisic
 Method: Notifier.SyncAll()
 2017-01-16 02:48:23,615 INFO - finished successfully
 2017-01-16 02:48:23,615 INFO - finished successfully.
+2017-01-16 10:21:15,571 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 10:25:31,301 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 10:26:33,468 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 10:28:46,327 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 10:30:09,698 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 10:31:01,454 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 10:36:22,755 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 10:36:22,966 INFO - finished successfully.
+2017-01-16 10:36:22,969 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 10:36:36,960 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 10:36:37,255 INFO - Channel associated with username already exists.
+2017-01-16 10:36:37,258 INFO - returned true
+2017-01-16 10:36:37,372 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 10:36:37,392 INFO - SyncData() failed for client mvujakovic: because clientChannel was in Closed state.
+2017-01-16 10:36:37,395 INFO - removed channel with key mvujakovic
+2017-01-16 10:36:37,396 INFO - finished successfully
+2017-01-16 10:36:37,398 INFO - returned.
+2017-01-16 11:17:15,809 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 11:17:16,047 INFO - finished successfully.
+2017-01-16 11:17:16,049 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 11:17:16,390 INFO - 
+Method: EmployeeService.AskForPartnership(), params: string outsorcingCompanuName=cekic
+2017-01-16 11:17:26,395 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 11:17:26,447 INFO - Channel associated with username already exists.
+2017-01-16 11:17:26,452 INFO - returned true
+2017-01-16 11:17:26,466 INFO - 
+Method: EmployeeService.ProjectApprovedByCeo(), Project.Name=testbdd
+2017-01-16 11:17:26,494 INFO - 
+Method: EmployeeService.SignIn(), params: string username=rzekanovic, string password=rzekanovic
+2017-01-16 11:17:26,499 INFO - finished successfully.
+2017-01-16 11:17:26,502 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 11:17:26,511 INFO - SyncData() failed for client mvujakovic: because clientChannel was in Closed state.
+2017-01-16 11:17:26,534 INFO - 
+Method: EmployeeService.CreateNewProject(), Project.Name=testbdd
+2017-01-16 11:17:26,624 INFO - 
+Method: EmployeeService.ChangeEmployeeData(), params: string username=, string name=Pera, string surname=Peric, string email=, string password=100
+2017-01-16 11:17:26,631 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 11:17:26,639 INFO - SyncData() failed for client mvujakovic: because clientChannel was in Closed state.
+2017-01-16 11:17:26,641 INFO - SyncData() failed for client rzekanovic: because clientChannel was in Closed state.
+2017-01-16 11:17:26,641 INFO - removed channel with key mvujakovic
+2017-01-16 11:17:26,642 INFO - removed channel with key rzekanovic
+2017-01-16 11:17:26,643 INFO - finished successfully
+2017-01-16 11:17:26,651 INFO - 
+Method: EmployeeService.ChangeEmployeeData(), params: string username=, string name=Pera, string surname=Peric, string email=, string password=100
+2017-01-16 11:17:26,673 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 11:17:26,682 INFO - finished successfully.
+2017-01-16 11:17:26,682 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 11:17:26,708 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 11:17:26,711 INFO - Channel associated with username already exists.
+2017-01-16 11:17:26,711 INFO - returned true
+2017-01-16 11:17:26,714 INFO - 
+Method: EmployeeService.SignOut(), params: string username=mvujakovic
+2017-01-16 11:17:26,715 INFO - finished successfully.
+2017-01-16 11:17:26,715 INFO - 
+Method: Notifier.SyncAll()
+2017-01-16 11:17:26,721 INFO - finished successfully
+2017-01-16 11:17:26,722 INFO - finished successfully.
+2017-01-16 11:17:26,736 INFO - 
+Method: EmployeeService.SignIn(), params: string username=mvujakovic, string password=mvujakovic
+2017-01-16 11:17:26,739 INFO - finished successfully.
+2017-01-16 11:17:26,740 INFO - 
+Method: Notifier.SyncAll()

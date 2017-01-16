@@ -66,11 +66,11 @@ namespace BDD
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Changing working hours")]
-        [NUnit.Framework.CategoryAttribute("mytag")]
+        [NUnit.Framework.CategoryAttribute("bdd")]
         public virtual void ChangingWorkingHours()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Changing working hours", new string[] {
-                        "mytag"});
+                        "bdd"});
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
