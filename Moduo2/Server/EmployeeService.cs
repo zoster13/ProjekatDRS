@@ -74,39 +74,41 @@ namespace Server
         /// <param name="password"></param>
         public void LogIn(string email, string password)
         {
-            Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
-            
-                if (employee != null)
-                {
-                    if (password.Equals(employee.Password))
-                    {
-                        if (!InternalDatabase.Instance.OnlineEmployees.Contains(employee))
-                        {
-                            lock (InternalDatabase.Instance.LockerOnlineEmployees)
-                            {
-                                InternalDatabase.Instance.OnlineEmployees.Add(employee);
-                                Logger.Info(string.Format("Employee [{0}] is loged in.", email));
-                            }
+            Logger.Info(string.Format("User [{0}] is trying to log in.", email));
 
-                            Publisher.Instance.LogInCallback(employee, true);
-                        }
-                        else
+            Employee employee = EmployeeServiceDatabase.Instance.GetEmployee(email);
+
+            if (employee != null)
+            {
+                if (password.Equals(employee.Password))
+                {
+                    if (!InternalDatabase.Instance.OnlineEmployees.Contains(employee))
+                    {
+                        lock (InternalDatabase.Instance.LockerOnlineEmployees)
                         {
-                            Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
-                            Publisher.Instance.LogInCallback(employee, false);
+                            InternalDatabase.Instance.OnlineEmployees.Add(employee);
+                            Logger.Info(string.Format("Employee [{0}] is loged in.", email));
                         }
+
+                        Publisher.Instance.LogInCallback(employee, true);
                     }
                     else
                     {
-                        Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
+                        Logger.Info(string.Format("Employee [{0}] is already loged in.", email));
                         Publisher.Instance.LogInCallback(employee, false);
                     }
                 }
                 else
                 {
-                    Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
-                    Publisher.Instance.LogInCallback(new Employee(), false);
+                    Logger.Info(string.Format("Employee [{0}] isn't loged in. Incorrect password.", email));
+                    Publisher.Instance.LogInCallback(employee, false);
                 }
+            }
+            else
+            {
+                Logger.Info(string.Format("Employee [{0}] isn't loged in. There is no Employee in database with this credentials.", email));
+                Publisher.Instance.LogInCallback(new Employee(), false);
+            }
         }
 
         /// <summary>
@@ -116,25 +118,11 @@ namespace Server
         public void LogOut(Employee employee)
         {
             Employee loggedInEmployee = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(employee.Email));
-            
+
             lock (InternalDatabase.Instance.LockerOnlineEmployees)
             {
                 InternalDatabase.Instance.OnlineEmployees.Remove(loggedInEmployee);
             }
-            
-            //DODATI AZURIRANJE NOTIFIKACIJA
-            /*
-            using (var access = new AccessDB())
-            {
-                employeeInDB = EmployeeServiceDatabase.Instance.GetEmployee(employee.Email);
-                List<Notification> notificationsInDB = access.Notifications.Where(n => n.Emoloyee == employeeInDB).ToList();
-                
-                foreach(Notification notif in employee.Notifications)
-                {
-                    
-                }
-            }
-            */
 
             Logger.Info(string.Format("Employee [{0}] is loged out.", employee.Email));
             Publisher.Instance.LogOutCallback(employee);
@@ -270,7 +258,28 @@ namespace Server
         /// <returns></returns>
         public List<Employee> GetAllOnlineEmployees()
         {
+            Logger.Info("Mehod GetAllOnlineEmployees() is called.");
             return InternalDatabase.Instance.OnlineEmployees;
+        }
+
+        /// <summary>
+        /// Vracanje liste svih korisnickih prica
+        /// </summary>
+        /// <returns></returns>
+        public List<UserStory> GetUserStories()
+        {
+            Logger.Info("Mehod GetUserStories() is called.");
+            return EmployeeServiceDatabase.Instance.GetUserStories();
+        }
+
+        /// <summary>
+        /// Vracanje liste svih zadataka
+        /// </summary>
+        /// <returns></returns>
+        public List<Task> GetAllTasks()
+        {
+            Logger.Info("Mehod GetAllTasks() is called.");
+            return EmployeeServiceDatabase.Instance.GetAllTasks();
         }
 
         /// <summary>
@@ -279,6 +288,7 @@ namespace Server
         /// <returns></returns>
         public List<Employee> GetAllEmployees()
         {
+            Logger.Info("Mehod GetAllEmployees() is called.");
             return EmployeeServiceDatabase.Instance.GetAllEmployees();
         }
 
@@ -288,6 +298,7 @@ namespace Server
         /// <returns></returns>
         public List<Team> GetAllTeams()
         {
+            Logger.Info("Mehod GetAllTeams() is called.");
             return EmployeeServiceDatabase.Instance.GetAllTeams();
         }
 
@@ -297,6 +308,7 @@ namespace Server
         /// <returns></returns>
         public List<HiringCompany> GetAllHiringCompanies()
         {
+            Logger.Info("Mehod GetAllHiringCompanies() is called.");
             return EmployeeServiceDatabase.Instance.GetAllHiringCompanies();
         }
 
@@ -306,6 +318,7 @@ namespace Server
         /// <returns></returns>
         public List<Project> GetAllProjects()
         {
+            Logger.Info("Mehod GetAllProjects() is called.");
             return EmployeeServiceDatabase.Instance.GetAllProjects();
         }
 
@@ -317,12 +330,15 @@ namespace Server
         {
             project.Team = EmployeeServiceDatabase.Instance.UpdateProjectsTeam(project.Name, project.Team.Name);
             project.AssignStatus = AssignStatus.ASSIGNED;
-            
+
+            Logger.Info(string.Format("Project [{0}] is assigned to Team [{1}]", project.Name, project.Team.Name));
+
             //Obavjesti TL ako je online
             Employee teamLeader = InternalDatabase.Instance.OnlineEmployees.FirstOrDefault(e => e.Email.Equals(project.Team.TeamLeaderEmail));
 
             if (teamLeader != null)
             {
+                Logger.Info(string.Format("Team leader is informed"));
                 project.Team.Projects = new List<Project>();
                 Publisher.Instance.ProjectTeamAssignCallback(project);
             }
@@ -365,16 +381,22 @@ namespace Server
             }
         }
 
-
+        /// <summary>
+        /// Otpustanje zavrene korisnicke price
+        /// </summary>
+        /// <param name="userStory"></param>
         public void ReleaseUserStory(UserStory userStory)
         {
-            // user story je sada kreirana potpuno zajedno sa taskovima i treba da se posalje svim clanovima tima 
-            // kako bi oni mogli da preuzimaju taskove
-
             userStory = EmployeeServiceDatabase.Instance.ReleaseUserStory(userStory);
+            Logger.Info(string.Format("User story [{0}] is released.", userStory.Title));
+
             Publisher.Instance.ReleaseUserStoryCallback(userStory.Tasks);
         }
 
+        /// <summary>
+        /// Prihvatanje taskova
+        /// </summary>
+        /// <param name="task"></param>
         public void TaskClaimed(Task task)
         {
             task = EmployeeServiceDatabase.Instance.TaskClaimed(task);
@@ -383,9 +405,13 @@ namespace Server
             Publisher.Instance.TaskClaimedCallback(task);
         }
 
+        /// <summary>
+        /// Zavrsavanje taskova
+        /// </summary>
+        /// <param name="task"></param>
         public void TaskCompleted(Task task)
         {
-            TaskAndUserStoryCompletedFlag retvalue = EmployeeServiceDatabase.Instance.TaskCompleted(task); 
+            TaskAndUserStoryCompletedFlag retvalue = EmployeeServiceDatabase.Instance.TaskCompleted(task);
 
             Logger.Info(string.Format("Task [{0}] is completed.", retvalue.Task.Title));
             Publisher.Instance.TaskCompletedCallback(retvalue.Task);
@@ -394,19 +420,18 @@ namespace Server
             {
                 using (var proxy = new ServerProxy.ServerProxy(binding, hiringCompanyAddress))
                 {
-                    //proxy.SendClosedUserStory(taskInDB.UserStory.Project.Name, taskInDB.UserStory.Title);
-
                     proxy.SendClosedUserStory(retvalue.Task.UserStory.Project.Name, retvalue.Task.UserStory.Title);
                 }
             }
         }
 
+        /// <summary>
+        /// Slanje korisnickikh prica
+        /// </summary>
+        /// <param name="userStories"></param>
+        /// <param name="projectName"></param>
         public void SendUserStories(List<UserStoryCommon> userStories, string projectName)
         {
-            // salje listu user storija za projekat
-            // u nasu bazu abdejtuje status za projekat status pending
-            // ne treba callback
-            
             bool updated = EmployeeServiceDatabase.Instance.UpdateProjectStatus(projectName);
 
             if (updated)
@@ -423,11 +448,10 @@ namespace Server
                 Logger.Info("Project status isn't updated to STARTED.");
             }
         }
-        
+
         #endregion IEmployeeService Methods
 
 
-        
         #region Responses to Hiring company
 
         public void ResponseToPartnershipRequest(bool accepted, string hiringCompanyName)
@@ -466,17 +490,7 @@ namespace Server
             }
         }
 
-        public List<UserStory> GetUserStories()
-        {
-            return EmployeeServiceDatabase.Instance.GetUserStories();
-        }
-
-        public List<Task> GetAllTasks()
-        {
-            return EmployeeServiceDatabase.Instance.GetAllTasks();
-        }
-        #endregion
-
+        #endregion Responses to Hiring company
 
         #region Timers
 
@@ -510,6 +524,11 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Provjera da li password istekao
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void PasswordExpired(object sender, ElapsedEventArgs e)
         {
             allEmployees = GetAllEmployees();
@@ -529,6 +548,11 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Provjera da li je US zavrsen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void UserStoryCompleted(object sender, ElapsedEventArgs e)
         {
             List<UserStory> allUserStories = EmployeeServiceDatabase.Instance.GetAllUserStories();
@@ -548,6 +572,7 @@ namespace Server
 
                     if (numOfClosedTasks < ((us.Tasks.Count * 80) / 100))
                     {
+                        Logger.Info(string.Format("Isn't finished 80% taks for user story [{0}] 2 days before deadline.", us.Title));
                         NotifySMForUserStoryProgress(us.Project.Team.ScrumMasterEmail, us.Title);
                     }
                 }

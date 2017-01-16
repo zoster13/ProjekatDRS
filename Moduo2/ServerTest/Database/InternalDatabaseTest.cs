@@ -31,7 +31,7 @@ namespace ServerTest.Database
         [Test]
         public void OnlineEmployeesTest()
         {
-            Assert.DoesNotThrow(() =>  instanceTest.OnlineEmployees.Add(employeeTest));
+            Assert.DoesNotThrow(() => instanceTest.OnlineEmployees.Add(employeeTest));
             Assert.DoesNotThrow(() => instanceTest.OnlineEmployees.FirstOrDefault());
         }
 

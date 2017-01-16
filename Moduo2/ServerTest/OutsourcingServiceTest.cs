@@ -16,17 +16,17 @@ namespace ServerTest
     [TestFixture]
     public class OutsourcingServiceTest
     {
-        OutsourcingService outsourcingServiceTest;
+        private OutsourcingService outsourcingServiceTest;
 
-        List<UserStoryCommon> commonUserStories;
-        UserStoryCommon usc1 = new UserStoryCommon() { Title = "usc1" };
-        UserStoryCommon usc2 = new UserStoryCommon() { Title = "usc2" };
+        private List<UserStoryCommon> commonUserStories;
+        private UserStoryCommon usc1 = new UserStoryCommon() { Title = "usc1" };
+        private UserStoryCommon usc2 = new UserStoryCommon() { Title = "usc2" };
 
-        string projectName = "proj1";
+        private string projectName = "proj1";
 
-        Project projectTest;
-        Team teamTest;
-        Employee employeeTestSM;
+        private Project projectTest;
+        private Team teamTest;
+        private Employee employeeTestSM;
 
 
         [OneTimeSetUp]

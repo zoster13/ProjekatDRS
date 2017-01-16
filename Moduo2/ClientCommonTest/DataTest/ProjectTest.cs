@@ -90,7 +90,7 @@ namespace ClientCommonTest.DataTest
         [Test]
         public void TeamTeam()
         {
-            Team team =  new Team();
+            Team team = new Team();
             projectTest.Team = team;
 
             Assert.AreEqual(projectTest.Team, team);

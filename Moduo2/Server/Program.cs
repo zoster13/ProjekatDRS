@@ -5,8 +5,6 @@ using System.Data.Entity;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using ICommon;
-using ClientCommon.Data;
-using System.Collections.Generic;
 
 namespace Server
 {
@@ -54,6 +52,8 @@ namespace Server
             
             Console.WriteLine("Press <enter> to stop service...");
 
+            //TESTIRANJE
+            /*
             //DB Test
             Employee em1 = new Employee(EmployeeType.CEO, "marko", "markovic", "marko@gmail.com", "mare123", null);
             EmployeeServiceDatabase.Instance.AddEmployee(em1);
@@ -88,7 +88,8 @@ namespace Server
             usl.Add(us1);
             usl.Add(us2);
             Publisher.Instance.ReceiveUserStoriesCallback(usl, "projekat5");
-
+            */
+            
             Console.ReadKey();
             Console.WriteLine("Press <enter> to exit!");
         }

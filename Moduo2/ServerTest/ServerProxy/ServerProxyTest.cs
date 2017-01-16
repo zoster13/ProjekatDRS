@@ -18,7 +18,7 @@ namespace ServerTest.ServerProxy
         }
 
         [Test]
-        [TestCase(true,"vega it")]
+        [TestCase(true, "vega it")]
         [TestCase(true, "dms")]
         [TestCase(false, "rt-rk")]
 

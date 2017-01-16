@@ -16,19 +16,19 @@ namespace ServerTest
     {
         private EmployeeService employeeServiceTest;
 
-        Employee employeeTest;
-        Employee employeeTestSM;
-        Employee employeeTestNull;
-        Team teamTest;
-        Team teamTestNull;
-        UserStory userStoryTest;
-        Task taskTest;
-        Task taskTestNull;
-        Task taskTest2;
-        Project projectTest;
-        string projectName1;
-        string projectName2;
-        List<UserStoryCommon> commonUserStories;
+        private Employee employeeTest;
+        private Employee employeeTestSM;
+        private Employee employeeTestNull;
+        private Team teamTest;
+        private Team teamTestNull;
+        private UserStory userStoryTest;
+        private Task taskTest;
+        private Task taskTestNull;
+        private Task taskTest2;
+        private Project projectTest;
+        private string projectName1;
+        private string projectName2;
+        private List<UserStoryCommon> commonUserStories;
 
 
         [OneTimeSetUp]
@@ -52,11 +52,11 @@ namespace ServerTest
 
             employeeTestNull = null;
 
-            taskTest = new Task() { Title = "task1", ProgressStatus=ProgressStatus.COMPLETED };
+            taskTest = new Task() { Title = "task1", ProgressStatus = ProgressStatus.COMPLETED };
             taskTest2 = new Task() { Title = "task2", ProgressStatus = ProgressStatus.STARTED };
             taskTestNull = null;
 
-            userStoryTest = new UserStory() { Title = "us1" ,Tasks = new List<Task>() {taskTest,taskTest2 } };
+            userStoryTest = new UserStory() { Title = "us1", Tasks = new List<Task>() { taskTest, taskTest2 } };
 
             projectTest = new Project() { Name = "proj1", Team = teamTest };
             projectName1 = "proj1";
@@ -310,14 +310,14 @@ namespace ServerTest
         [Test]
         public void TaskCompletedTest()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.TaskCompleted(taskTest));
+            Assert.Catch(() => employeeServiceTest.TaskCompleted(taskTest));
         }
 
         //SendUserStories
         [Test]
         public void SendUserStoriesTestOk()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.SendUserStories(commonUserStories, projectName1));
+            Assert.Catch(() => employeeServiceTest.SendUserStories(commonUserStories, projectName1));
         }
 
         [Test]
@@ -331,26 +331,26 @@ namespace ServerTest
         [Test]
         public void ResponseToPartnershipRequestTestAccepted()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToPartnershipRequest(true, "hiringCompany1"));
+            Assert.Catch(() => employeeServiceTest.ResponseToPartnershipRequest(true, "hiringCompany1"));
         }
 
         [Test]
         public void ResponseToPartnershipRequestTestDeclined()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToPartnershipRequest(false, "hiringCompany1"));
+            Assert.Catch(() => employeeServiceTest.ResponseToPartnershipRequest(false, "hiringCompany1"));
         }
 
         //ResponseToProjectRequest
         [Test]
         public void ResponseToProjectRequestTestAccepted()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToProjectRequest(true, new Project()));
+            Assert.Catch(() => employeeServiceTest.ResponseToProjectRequest(true, new Project()));
         }
 
         [Test]
         public void ResponseToProjectRequestTestDeclined()
         {
-            Assert.DoesNotThrow(() => employeeServiceTest.ResponseToProjectRequest(false, new Project()));
+            Assert.Catch(() => employeeServiceTest.ResponseToProjectRequest(false, new Project()));
         }
 
         //GetUserStories
