@@ -21,10 +21,6 @@ namespace Client
             {
                 mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
             }
-            else
-            {
-                mainWindow = new MainWindow();
-            }
         }
         
         public void EditEmployeeCallback(Employee employee)

@@ -36,6 +36,7 @@ namespace BDD
             employee.Name = p0;
             employee.Surname = p1;
             employee.Password = p2;
+            employee.Email = "nenad@gmail.com";
         }
         
         [Then(@"the changes are displayed")]
